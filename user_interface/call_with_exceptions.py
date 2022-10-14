@@ -1,7 +1,10 @@
 from tkinter import *
 import os
+import logging
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse, Say
+from twilio.base.exceptions import TwilioRestException
+
 
 class MyFirstGUI:
     def __init__(self, master):
@@ -44,22 +47,28 @@ class MyFirstGUI:
         self.call_button.pack()
 
     def call_emergency(self):
-        account_sid = os.environ['TWILIO_ACCOUNT_SID']
-        auth_token = os.environ['TWILIO_AUTH_TOKEN']
+        account_sid = os.environ["TWILIO_ACCOUNT_SID"]
+        auth_token = os.environ["TWILIO_AUTH_TOKEN"]
         resonse = VoiceResponse()
         address = self.address_textbox.get("1.0", "end-1c")
         message = self.message_textbox.get("1.0", "end-1c")
         to_phone_number = self.contact_textbox.get("1.0", "end-1c")
         loop = int(self.loop.get())
-        resonse.say("Message: " + message + " Address: " + address, voice=self.voice.get(), loop=loop)
+        resonse.say("Message: " + message + " Address: " +
+                    address, voice=self.voice.get(), loop=loop)
         print(resonse)
-        # client = Client(account_sid, auth_token)
-        # call = client.calls.create(
-        #     twiml=resonse,
-        #     to=to_phone_number,
-        #     from_='+18647138522'
-        # )
-        # print(call.sid)
+        client = Client(account_sid, auth_token)
+        try:
+            call = client.calls.create(
+                twiml=resonse,
+                to=to_phone_number,
+                from_='+18647138522'
+            )
+        except TwilioRestException as e:
+            logging.error("Twilio Call: ERROR - {}".format(str(e)))
+        else:
+            logging.info("Twilio Call: Call ID: %s", call.sid)
+        print(call.sid)
 
 
 if __name__ == "__main__":
