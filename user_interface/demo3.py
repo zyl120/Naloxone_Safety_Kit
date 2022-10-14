@@ -53,13 +53,13 @@ class MyFirstGUI:
         loop = int(self.loop.get())
         resonse.say("Message: " + message + " Address: " + address, voice=self.voice.get(), loop=loop)
         print(resonse)
-        client = Client(account_sid, auth_token)
-        call = client.calls.create(
-            twiml=resonse,
-            to=to_phone_number,
-            from_='+18647138522'
-        )
-        print(call.sid)
+        # client = Client(account_sid, auth_token)
+        # call = client.calls.create(
+        #     twiml=resonse,
+        #     to=to_phone_number,
+        #     from_='+18647138522'
+        # )
+        # print(call.sid)
 
 
 if __name__ == "__main__":
