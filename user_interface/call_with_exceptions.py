@@ -13,10 +13,10 @@ def phone_call(address, message, to_phone_number, loop, voice):
     auth_token = os.environ["TWILIO_AUTH_TOKEN"]
 
     # create the response
-    resonse = VoiceResponse()
-    resonse.say("Message: " + message + " Address: " +
-                address, voice=voice, loop=loop)
-    print(resonse)
+    response = VoiceResponse()
+    response.say("Message: " + message + " Address: " +
+                 address, voice=voice, loop=loop)
+    logging.info("resonse: " + response)
 
     # create client
     client = Client(account_sid, auth_token)
@@ -24,7 +24,7 @@ def phone_call(address, message, to_phone_number, loop, voice):
     # try to place the phone call
     try:
         call = client.calls.create(
-            twiml=resonse,
+            twiml=response,
             to=to_phone_number,
             from_='+18647138522'
         )
