@@ -1,3 +1,4 @@
+# This is the python code for phone calls with exceptions
 from tkinter import *
 import os
 import logging
@@ -7,13 +8,20 @@ from twilio.base.exceptions import TwilioRestException
 
 
 def phone_call(address, message, to_phone_number, loop, voice):
+    # read account_sid and auth_token from environment variables
     account_sid = os.environ["TWILIO_ACCOUNT_SID"]
     auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+
+    # create the response
     resonse = VoiceResponse()
     resonse.say("Message: " + message + " Address: " +
                 address, voice=voice, loop=loop)
     print(resonse)
+
+    # create client
     client = Client(account_sid, auth_token)
+
+    # try to place the phone call
     try:
         call = client.calls.create(
             twiml=resonse,
@@ -21,9 +29,11 @@ def phone_call(address, message, to_phone_number, loop, voice):
             from_='+18647138522'
         )
     except TwilioRestException as e:
+        # if not successful, return False
         logging.error("Twilio Call: ERROR - {}".format(str(e)))
         return False
     else:
+        # if successful, return True
         print(call.sid)
         logging.info("Twilio Call: Call ID: %s", call.sid)
         return True

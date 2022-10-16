@@ -1,3 +1,5 @@
+# This is the file for reed sensor reading
+
 import RPi.GPIO as GPIO
 
 
