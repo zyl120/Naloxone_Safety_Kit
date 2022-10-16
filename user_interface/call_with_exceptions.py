@@ -22,9 +22,11 @@ def phone_call(address, message, to_phone_number, loop, voice):
         )
     except TwilioRestException as e:
         logging.error("Twilio Call: ERROR - {}".format(str(e)))
+        return False
     else:
+        print(call.sid)
         logging.info("Twilio Call: Call ID: %s", call.sid)
-    print(call.sid)
+        return True
 
 
 class phone_call_ui:
