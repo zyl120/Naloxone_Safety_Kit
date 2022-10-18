@@ -12,9 +12,9 @@ import logging
 import sys
 reedPin = 17
 address = "115 Hoy Rd, Ithaca, NY 14850"
-message = "Naloxone safety kit is opened."
+message = "safety kit is opened."
 phone = "+15189615258"
-loop = 0
+loop = 10
 voice = "woman"
 
 
@@ -45,8 +45,8 @@ if __name__ == "__main__":
                          str(closed_door_prob * 100) + "%")
             if (closed_door_prob < 0.2):
                 logging.info("attempt to call emergency")
-                #call_success = phone_call(address, message, phone, loop, voice)
-                call_success = False
+                call_success = phone_call(address, message, phone, loop, voice)
+                #call_success = False
                 if call_success:
                     logging.info("phone call placed successfully")
                 else:

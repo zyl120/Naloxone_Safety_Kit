@@ -16,7 +16,7 @@ def phone_call(address, message, to_phone_number, loop, voice):
     response = VoiceResponse()
     response.say("Message: " + message + " Address: " +
                  address, voice=voice, loop=loop)
-    logging.info("resonse: " + response)
+    logging.info("resonse: " + str(response))
 
     # create client
     client = Client(account_sid, auth_token)
