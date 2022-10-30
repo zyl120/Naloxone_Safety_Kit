@@ -20,7 +20,8 @@ def phone_call(address, message, to_phone_number, loop, voice):
 
     # create client
     client = Client(account_sid, auth_token)
-
+    print(response)
+    return
     # try to place the phone call
     try:
         call = client.calls.create(
