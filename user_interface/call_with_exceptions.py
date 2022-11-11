@@ -7,6 +7,17 @@ from twilio.twiml.voice_response import VoiceResponse, Say
 from twilio.base.exceptions import TwilioRestException
 
 
+def ping():
+    hostname = "api.twilio.com"  # example
+    response = os.system("ping -c 1 " + hostname)
+
+    # and then check the response...
+    if response == 0:
+        print(hostname, 'is up!')
+    else:
+        print(hostname, 'is down!')
+
+
 def phone_call(address, message, to_phone_number, loop, voice):
     # read account_sid and auth_token from environment variables
     account_sid = os.environ["TWILIO_ACCOUNT_SID"]
