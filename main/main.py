@@ -2,17 +2,59 @@
 # safety kit.
 
 import os
+import sys
 from time import sleep
-import psutil
 from multiprocessing import shared_memory
-import numpy as np
 import RPi.GPIO as GPIO
 import Adafruit_DHT as dht
+from twilio.rest import Client
+from twilio.twiml.voice_response import VoiceResponse
+from twilio.base.exceptions import TwilioRestException
+import logging
+import random
+import signal
 
 DOOR_PIN = 17
 DHT_PIN = 27
+NUM_CHILD_PROCESSES = 3
+main_pid = 0
+gpio_pid = 0
+call_pid = 0
+network_pid = 0
+shm_block = 0
 
-def phone_call(address, message, to_phone_number, loop, voice):
+
+def parent_signal_handler(signum, frame):
+    print("INFO: {} received sig {}.".format(os.getpid(), signum))
+    if (signum == signal.SIGINT):
+        os.kill(gpio_pid, signal.SIGINT)
+        os.waitpid(gpio_pid, 0)
+
+        os.kill(call_pid, signal.SIGINT)
+        os.waitpid(call_pid, 0)
+
+        os.kill(network_pid, signal.SIGINT)
+        os.waitpid(network_pid, 0)
+        print("INFO: other processes terminated")
+
+        # close and unlike the shared memory
+        shm_block.close()
+        shm_block.unlink()
+        print("INFO: shared memory destroyed")
+
+        print("INFO: main process {} exited.".format(os.getpid()))
+        sys.exit(0)
+
+
+def child_signal_handler(signum, frame):
+    print("INFO: {} received sig {}.".format(os.getpid(), signum))
+    if (signum == signal.SIGINT):
+        shm_block.close()
+        print("INFO: child process {} exited.".format(os.getpid()))
+        sys.exit(0)
+
+
+def make_phone_call(address, message, to_phone_number, loop, voice):
     # read account_sid and auth_token from environment variables
     account_sid = os.environ["TWILIO_ACCOUNT_SID"]
     auth_token = os.environ["TWILIO_AUTH_TOKEN"]
@@ -26,7 +68,7 @@ def phone_call(address, message, to_phone_number, loop, voice):
     # create client
     client = Client(account_sid, auth_token)
     print(response)
-    return
+
     # try to place the phone call
     try:
         call = client.calls.create(
@@ -44,17 +86,16 @@ def phone_call(address, message, to_phone_number, loop, voice):
         logging.info("Twilio Call: Call ID: %s", call.sid)
         return True
 
-def door_switch(shm_d):
-    while True:
-        switch_status = read_door_switch()
-        if(not shm_d.buf[4]):
-            shm_d.buf[4] = True
-            shm_d.buf[5] = switch_status
-            shm_d.buf[4] = False
-        sleep(1)
+
+def read_door_switch():
+    if GPIO.input(DOOR_PIN):
+        return True
+    else:
+        return False
+
 
 def ping():
-    hostname = "https://api.twilio.com"  # ping twilio directly
+    hostname = "www.twilio.com"  # ping twilio directly
     response = os.system("ping -c 1 " + hostname)
 
     # and then check the response...
@@ -65,26 +106,19 @@ def ping():
         #print(hostname, 'is down!')
         return False
 
-def server_connection(shm_c):
-    while True:
-        server_status = ping()
-        if(not shm_c.buf[8]):
-            shm_c.buf[8] = True # critical section for server status
-            shm_c.buf[9] = server_status
-            shm_c.buf[8] = False # critical section ends for server status
-        sleep(3600)
 
 # Read from the DHT22 temperature sensor connected to GPIO27.
 def read_temperature_sensor():
     #humidity, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
     #temperature = 20
-    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
     temperature = random.choice(list1)
     return temperature
 
+
 def calculate_pwm(temperature):
     #print("control pwm")
-    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
     pwm = random.choice(list1)
     return pwm
 
@@ -94,93 +128,108 @@ def control_fan(pwm):
     #print("controling fan pwm")
 
 
-def temperature_fan(shm_b):
+def gpio_manager():
+    GPIO.setup(DOOR_PIN, GPIO.IN)
+    buffer = shm_block.buf
     while True:
-        temperature = read_temperature_sensor()
-        pwm = calculate_pwm(temperature)
-        control_fan(pwm)
-        if(not shm_b.buf[0]):
-            shm_b.buf[0] = True # critical section for temperature and pwm
-            shm_b.buf[2] = temperature
-            if(temperature >= 40):
-                shm_b.buf[1] = True
+        if not buffer[0]:
+            temp = read_temperature_sensor()
+            pwm = calculate_pwm(temp)
+            buffer[0] = True
+            buffer[2] = temp
+            if (temp >= 40):
+                buffer[1] = True
             else:
-                shm_b.buf[1] = False
-            shm_b.buf[3] = pwm
-            shm_b.buf[0] = False # critical section for temperature and pwm
-        sleep(2)
+                buffer[1] = False
+            buffer[3] = pwm
+            control_fan(pwm)
+            buffer[0] = False
+        if not buffer[4]:
+            buffer[4] = True
+            buffer[5] = GPIO.input(DOOR_PIN)
+            buffer[4] = False
 
-def fork_temperature(shm):
+
+def fork_gpio():
     pid = os.fork()
-    if pid > 0:
-        # this is the parent process
-        print("temperature pid=" + str(pid))
+    if (pid > 0):
+        print("INFO: gpio_pid={}".format(pid))
     else:
-        # this is the child process
-        print("child pid=" + str(pid))
-        shm_b = shared_memory.SharedMemory(
-            shm.name)  # open the shared memory block
-        temperature_fan(shm_b)
+        gpio_pid = os.getpid()
+        signal.signal(signal.SIGINT, child_signal_handler)
+        gpio_manager()
     return pid
 
 
-def fork_server_connection(shm):
+def call_manager():
+    buffer = shm_block.buf
+    while True:
+        sleep(1)
+
+
+def fork_call():
     pid = os.fork()
-    if pid > 0:
-        # this is the parent process
-        print("server pid=" + str(pid))
+    if (pid > 0):
+        print("INFO: call_pid={}".format(pid))
     else:
-        # this is the child process
-        print("child pid=" + str(pid))
-        shm_c = shared_memory.SharedMemory(shm.name)
-        server_connection(shm_c)
+        call_pid = os.getpid()
+        signal.signal(signal.SIGINT, child_signal_handler)
+        call_manager()
     return pid
 
-def fork_door_switch(shm):
+
+def network_manager():
+    buffer = shm_block.buf
+    while True:
+        server_status = ping()
+        if (not buffer[8]):
+            buffer[8] = True  # critical section for server status
+            buffer[9] = server_status
+            buffer[8] = False  # critical section ends for server status
+        sleep(3600)
+
+
+def fork_network():
     pid = os.fork()
-    if pid > 0:
-        # this is the parent process
-        print("door switch pid=" + str(pid))
+    if (pid > 0):
+        print("INFO: network_pid={}".format(pid))
     else:
-        # this is the child process
-        print("child pid=" + str(pid))
-        shm_d = shared_memory.SharedMemory(shm.name)
-        door_switch(shm_d)
+        network_pid = os.getpid()
+        signal.signal(signal.SIGINT, child_signal_handler)
+        network_manager()
     return pid
 
-def shared_memory_print(shm):
-    buffer = shm.buf
+
+def print_shared_memory():
+    buffer = shm_block.buf
     for i in range(12):
         print(buffer[i], end=" ")
     print("")
 
-def process_monitoring(temperature_fan_pid, server_connection_pid, door_switch_pid):
-    _, temperature_fan_exit_status = os.waitpid(
-                    temperature_fan_pid, os.WNOHANG)
-    #print("temp process died? " + str(temperature_fan_exit_status))
-    if (temperature_fan_exit_status != 0):
-        print("fork temperature fan process")
-        temperature_fan_pid = fork_temperature(shm_a)
 
-    _, server_connection_exit_status = os.waitpid(
-                    server_connection_pid, os.WNOHANG)
-    #print("server process died? " +
-    #                  str(server_connection_exit_status))
-    if (server_connection_exit_status != 0):
-        print("fork server connection process")
-        server_connection_pid = fork_server_connection(shm_a)
-
-    _, door_switch_exit_status = os.waitpid(
-                    door_switch_pid, os.WNOHANG)
-    #print("server process died? " + str(door_switch_exit_status))
-    if (door_switch_exit_status != 0):
-        print("fork door switch process")
-        door_switch_pid = fork_door_switch(shm_a)
+def process_monitoring():
+    pid, status = os.waitpid(-1, os.WNOHANG)
+    if (status != 0):
+        print("ERROR: {} crashed, fork...".format(pid))
+        if (pid == gpio_pid):
+            gpio_pid = fork_gpio()
+        elif (pid == call_pid):
+            call_pid = fork_call()
+        elif (pid == network_pid):
+            network_pid = fork_network()
 
 
 if __name__ == "__main__":
-    shm_a = shared_memory.SharedMemory(create=True, size=12)
-    buffer = shm_a.buf
+    GPIO.setmode(GPIO.BCM)
+    main_pid = os.getpid()
+    print("INFO: main_pid={}".format(os.getpid()))
+    shm_block = shared_memory.SharedMemory(create=True, size=12)
+    gpio_pid = fork_gpio()
+    call_pid = fork_call()
+    network_pid = fork_network()
+    signal.signal(signal.SIGINT, parent_signal_handler)
+
+    buffer = shm_block.buf
     buffer[0] = False
     buffer[1] = False
     buffer[2] = 20
@@ -190,12 +239,7 @@ if __name__ == "__main__":
 
     buffer[8] = False
     buffer[9] = False
-    temperature_fan_pid = fork_temperature(shm_a)
-    if (temperature_fan_pid > 0):
-        # parent process
-        server_connection_pid = fork_server_connection(shm_a)
-        if (server_connection_pid > 0):
-            door_switch_pid = fork_door_switch(shm_a)
-            while True:
-                process_monitoring(temperature_fan_pid, server_connection_pid, door_switch_pid)
-                shared_memory_print(shm_a)
+    while True:
+        print_shared_memory()
+        process_monitoring()
+        sleep(2)
