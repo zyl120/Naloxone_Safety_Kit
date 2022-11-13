@@ -15,7 +15,8 @@ def read_temperature_sensor():
 
 def calculate_pwm(temperature):
     #print("control pwm")
-    pwm = 0
+    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+    pwm = random.choice(list1)
     return pwm
 
 
@@ -36,8 +37,9 @@ def temperature_fan(shm_b):
                 shm_b.buf[1] = True
             else:
                 shm_b.buf[1] = False
+            shm_b.buf[3] = pwm
             shm_b.buf[0] = False # critical section for temperature and pwm
-        sleep(5)
+        sleep(2)
 
 if __name__ == '__main__':
     print("testing temperature and fan functions")
