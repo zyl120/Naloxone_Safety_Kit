@@ -44,6 +44,8 @@ def parent_signal_handler(signum, frame):
 
         print("INFO: main process {} exited.".format(os.getpid()))
         sys.exit(0)
+    elif(signum == signal.SIGUSR1):
+        shm_block.buf[5] = True
 
 
 def child_signal_handler(signum, frame):
@@ -54,10 +56,18 @@ def child_signal_handler(signum, frame):
         sys.exit(0)
 
 
-def make_phone_call(address, message, to_phone_number, loop, voice):
+def make_phone_call():
     # read account_sid and auth_token from environment variables
-    account_sid = os.environ["TWILIO_ACCOUNT_SID"]
-    auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+    file = open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "rt")
+    account_sid = file.readline()
+    auth_token = file.readline()
+    address = file.readline()
+    message = file.readline()
+    from_phone_number = file.readline()
+    to_phone_number = file.readline()
+    loop = file.readline()
+    voice = file.readline()
+    file.close()
 
     # create the response
     response = VoiceResponse()
@@ -74,7 +84,7 @@ def make_phone_call(address, message, to_phone_number, loop, voice):
         call = client.calls.create(
             twiml=response,
             to=to_phone_number,
-            from_='+18647138522'
+            from_=from_phone_number
         )
     except TwilioRestException as e:
         # if not successful, return False
@@ -146,8 +156,9 @@ def gpio_manager():
             buffer[0] = False
         if not buffer[4]:
             buffer[4] = True
-            buffer[5] = GPIO.input(DOOR_PIN)
+            #buffer[5] = GPIO.input(DOOR_PIN)
             buffer[4] = False
+        sleep(1)
 
 
 def fork_gpio():
@@ -164,6 +175,13 @@ def fork_gpio():
 def call_manager():
     buffer = shm_block.buf
     while True:
+        if (buffer[5] and not buffer[6]):
+            buffer[6] = True
+            print("INFO: phone placed")
+            result = make_phone_call()
+            buffer[7] = result
+            buffer[6] = False
+            sleep(10000)
         sleep(1)
 
 
@@ -229,6 +247,7 @@ if __name__ == "__main__":
     call_pid = fork_call()
     network_pid = fork_network()
     signal.signal(signal.SIGINT, parent_signal_handler)
+    signal.signal(signal.SIGUSR1, parent_signal_handler)
 
     buffer = shm_block.buf
     buffer[0] = False
