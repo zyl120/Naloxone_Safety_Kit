@@ -243,4 +243,4 @@ if __name__ == "__main__":
     while True:
         print_shared_memory()
         process_monitor()
-        sleep(2)
+        sleep(1)
