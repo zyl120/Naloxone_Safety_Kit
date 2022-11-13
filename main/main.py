@@ -207,9 +207,10 @@ def print_shared_memory():
     print("")
 
 
-def process_monitoring():
-    pid, status = os.waitpid(-1, os.WNOHANG)
-    if (status != 0):
+def process_monitor():
+    pid, status = os.waitpid(0, os.WNOHANG)
+    global gpio_pid, call_pid, network_pid
+    if (pid != 0):
         print("ERROR: {} crashed, fork...".format(pid))
         if (pid == gpio_pid):
             gpio_pid = fork_gpio()
@@ -241,5 +242,5 @@ if __name__ == "__main__":
     buffer[9] = False
     while True:
         print_shared_memory()
-        process_monitoring()
+        process_monitor()
         sleep(2)
