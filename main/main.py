@@ -13,14 +13,17 @@ from twilio.base.exceptions import TwilioRestException
 import logging
 import random
 import signal
+import tkinter as tk
+
 
 DOOR_PIN = 17
 DHT_PIN = 27
-NUM_CHILD_PROCESSES = 3
+NUM_CHILD_PROCESSES = 4
 main_pid = 0
 gpio_pid = 0
 call_pid = 0
 network_pid = 0
+gui_pid = 0
 shm_block = 0
 
 
@@ -35,6 +38,9 @@ def parent_signal_handler(signum, frame):
 
         os.kill(network_pid, signal.SIGINT)
         os.waitpid(network_pid, 0)
+
+        os.kill(gui_pid, signal.SIGINT)
+        os.waitpid(gui_pid, 0)
         print("INFO: other processes terminated")
 
         # close and unlike the shared memory
@@ -44,7 +50,7 @@ def parent_signal_handler(signum, frame):
 
         print("INFO: main process {} exited.".format(os.getpid()))
         sys.exit(0)
-    elif(signum == signal.SIGUSR1):
+    elif (signum == signal.SIGUSR1):
         shm_block.buf[5] = True
 
 
@@ -54,6 +60,56 @@ def child_signal_handler(signum, frame):
         shm_block.close()
         print("INFO: child process {} exited.".format(os.getpid()))
         sys.exit(0)
+
+
+def change_led(window, canvas, temperature_led, network_led, pwm_text, buffer):
+    canvas.itemconfig(pwm_text, text="PWM: {}".format(buffer[3]))
+    if (buffer[2] < 20):
+        canvas.itemconfig(temperature_led, fill="blue")
+    elif (buffer[2] > 20 and buffer[2] < 25):
+        canvas.itemconfig(temperature_led, fill="green")
+    elif (buffer[2] >= 25 and buffer[2] <= 40):
+        canvas.itemconfig(temperature_led, fill="yellow")
+    elif (buffer[2] > 40):
+        canvas.itemconfig(temperature_led, fill="red")
+    if (buffer[9]):
+        canvas.itemconfig(network_led, fill="green")
+    elif (not buffer[9]):
+        canvas.itemconfig(network_led, fill="red")
+
+    window.after(1000, change_led, window, canvas,
+                 temperature_led, network_led, pwm_text, buffer)
+
+
+def graphical_user_interface():
+    buffer = shm_block.buf
+    window = tk.Tk()
+    window.title("Internet-based Naloxone Safety Kit")
+    # Create 200x300 Canvas widget
+    canvas = tk.Canvas(window, width=200, height=300, bg="black")
+    canvas.pack()
+
+    temperature_label = canvas.create_text(
+        100, 40, text="TEMPERATURE", fill="white")
+    temperature_led = canvas.create_oval(
+        75, 50, 125, 100)  # Create a circle on the Canvas
+    network_label = canvas.create_text(100, 140, text="NETWORK", fill="white")
+    network_led = canvas.create_oval(75, 150, 125, 200)
+    pwm_text = canvas.create_text(
+        100, 210, text="PWM: {}".format(buffer[3]), fill="white")
+    change_led(window, canvas, temperature_led, network_led, pwm_text, buffer)
+    window.mainloop()
+
+
+def fork_gui():
+    pid = os.fork()
+    if (pid > 0):
+        print("INFO: gui_pid={}".format(pid))
+    else:
+        gui_pid = os.getpid()
+        signal.signal(signal.SIGINT, child_signal_handler)
+        graphical_user_interface()
+    return pid
 
 
 def make_phone_call():
@@ -97,13 +153,6 @@ def make_phone_call():
         return True
 
 
-def read_door_switch():
-    if GPIO.input(DOOR_PIN):
-        return True
-    else:
-        return False
-
-
 def ping():
     hostname = "www.twilio.com"  # ping twilio directly
     response = os.system("ping -c 1 " + hostname)
@@ -138,6 +187,13 @@ def control_fan(pwm):
     #print("controling fan pwm")
 
 
+def read_door_switch():
+    if GPIO.input(DOOR_PIN):
+        return True
+    else:
+        return False
+
+
 def gpio_manager():
     GPIO.setup(DOOR_PIN, GPIO.IN)
     buffer = shm_block.buf
@@ -156,7 +212,7 @@ def gpio_manager():
             buffer[0] = False
         if not buffer[4]:
             buffer[4] = True
-            #buffer[5] = GPIO.input(DOOR_PIN)
+            buffer[5] = read_door_switch()
             buffer[4] = False
         sleep(1)
 
@@ -227,7 +283,7 @@ def print_shared_memory():
 
 def process_monitor():
     pid, status = os.waitpid(0, os.WNOHANG)
-    global gpio_pid, call_pid, network_pid
+    global gpio_pid, call_pid, network_pid, gui_pid
     if (pid != 0):
         print("ERROR: {} crashed, fork...".format(pid))
         if (pid == gpio_pid):
@@ -236,6 +292,8 @@ def process_monitor():
             call_pid = fork_call()
         elif (pid == network_pid):
             network_pid = fork_network()
+        elif (pid == gui_pid):
+            gui_pid = fork_gui()
 
 
 if __name__ == "__main__":
@@ -246,6 +304,7 @@ if __name__ == "__main__":
     gpio_pid = fork_gpio()
     call_pid = fork_call()
     network_pid = fork_network()
+    gui_pid = fork_gui()
     signal.signal(signal.SIGINT, parent_signal_handler)
     signal.signal(signal.SIGUSR1, parent_signal_handler)
 
