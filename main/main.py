@@ -363,7 +363,7 @@ def network_manager():
             buffer[8] = True  # critical section for server status
             buffer[9] = server_status
             buffer[8] = False  # critical section ends for server status
-        sleep(3600)
+        sleep(600) # check for network connection every 10 minutes.
 
 
 def fork_network():
