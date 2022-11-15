@@ -411,15 +411,18 @@ if __name__ == "__main__":
     signal.signal(signal.SIGUSR1, parent_signal_handler)
 
     buffer = shm_block.buf
-    buffer[0] = False
-    buffer[1] = False
-    buffer[2] = 20
-
-    buffer[4] = False
-    buffer[5] = False
-
-    buffer[8] = False
-    buffer[9] = False
+    buffer[0] = False  # temperature mutex
+    buffer[1] = False  # temperature above threshold
+    buffer[2] = 20  # temperature reading
+    buffer[3] = 0  # fan PWM
+    buffer[4] = False  # door switch mutex
+    buffer[5] = False  # door switch triggered
+    buffer[6] = False  # phone status mutex
+    buffer[7] = False  # phone placed?
+    buffer[8] = False  # server status mutex
+    buffer[9] = False  # server connection okay?
+    buffer[10] = False  # audio synthesis mutex
+    buffer[11] = False  # audio synthesis requested?
     while True:
         print_shared_memory()
         process_monitor()
