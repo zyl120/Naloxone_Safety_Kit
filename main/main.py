@@ -14,6 +14,10 @@ import logging
 import random
 import signal
 import tkinter as tk
+from tkinter import ttk
+
+
+import sv_ttk
 
 
 DOOR_PIN = 17
@@ -60,6 +64,103 @@ def child_signal_handler(signum, frame):
         shm_block.close()
         print("INFO: child process {} exited.".format(os.getpid()))
         sys.exit(0)
+
+
+def write_twilio_file(sid, token, from_, to, address, message):
+    if (len(sid) == 0 or len(token) == 0 or len(from_) == 0 or len(to) == 0 or len(address) == 0 or len(message) == 0):
+        print("ERROR: empty field(s) detected.")
+        return False
+    print(sid, token, from_, to, address, message)
+    with open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "w") as file:
+        file.write("{}\n{}\n{}\n{}\n{}\n{}\n0\nwoman".format(
+            sid, token, address, message, from_, to))
+        file.close()
+    return True
+
+
+def save_and_exit(sid, token, from_, to, address, message, window):
+    result = write_twilio_file(sid, token, from_, to, address, message)
+    if (result):
+        window.destroy()
+
+
+def enter_info():
+    window = tk.Tk()
+    sv_ttk.set_theme("dark")
+    window.geometry("800x240")
+    window.title("Internet-based Naloxone Safety Kit OOBE")
+    sid = tk.StringVar()
+    token = tk.StringVar()
+    from_ = tk.StringVar()
+    to = tk.StringVar()
+    address = tk.StringVar()
+    message = tk.StringVar()
+    for i in range(6):
+        window.rowconfigure(i, weight=1)
+    for i in range(4):
+        window.columnconfigure(i, weight=1)
+
+    account_sid_label = ttk.Label(
+        window, text="Twilio Account SID").grid(row=0, column=0, pady=2, padx=2)
+    account_sid_entry = ttk.Entry(
+        window, width=25, textvariable=sid).grid(row=0, column=1, pady=2, padx=2)
+
+    account_token_label = ttk.Label(
+        window, text="Twilio Account Token").grid(row=1, column=0, pady=2, padx=2)
+    account_token_entry = ttk.Entry(
+        window, width=25, show="*", textvariable=token).grid(row=1, column=1, pady=2, padx=2)
+
+    from_phone_label = ttk.Label(
+        window, text="From Phone Number").grid(row=2, column=0, pady=2, padx=2)
+    from_phone_entry = ttk.Entry(
+        window, width=25, textvariable=from_).grid(row=2, column=1, pady=2, padx=2)
+
+    to_phone_label = ttk.Label(
+        window, text="To Phone Number").grid(row=3, column=0, pady=2, padx=2)
+    to_phone_entry = ttk.Entry(
+        window, width=25, textvariable=to).grid(row=3, column=1, pady=2, padx=2)
+
+    address_label = ttk.Label(window, text="Address").grid(
+        row=4, column=0, pady=2, padx=2)
+    address_entry = ttk.Entry(
+        window, width=25, textvariable=address).grid(row=4, column=1, pady=2, padx=2)
+
+    message_label = ttk.Label(window, text="Message").grid(
+        row=5, column=0, pady=2, padx=2)
+    message_textbox = ttk.Entry(
+        window, width=25, textvariable=message).grid(row=5, column=1, pady=2, padx=2)
+
+    save_changes_button = ttk.Button(window, text="Save Changes", command=lambda: write_twilio_file(sid.get(
+    ), token.get(), from_.get(), to.get(), address.get(), message.get())).grid(row=5, column=2, pady=2, padx=2)
+    save_changes_and_exit_button = ttk.Button(window, text="Save Changes and Exit", command=lambda: save_and_exit(sid.get(
+    ), token.get(), from_.get(), to.get(), address.get(), message.get(), window)).grid(row=5, column=3, pady=2, padx=2)
+
+    window.mainloop()
+
+
+def oobe():
+    try:
+        file = open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "r")
+    except OSError:
+        print("Missing file, enter OOBE")
+        enter_info()
+        sys.exit(0)
+    with file:
+        lines = file.read().splitlines()
+        print("read {} lines".format(len(lines)))
+        if (len(lines) != 8):
+            enter_info()
+        else:
+            for line in lines:
+                print(line)
+
+
+def fork_oobe():
+    pid = os.fork()
+    if (pid > 0):
+        os.waitpid(pid, 0)
+    else:
+        oobe()
 
 
 def change_led(window, canvas, temperature_led, network_led, pwm_text, buffer):
@@ -300,6 +401,7 @@ if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
     main_pid = os.getpid()
     print("INFO: main_pid={}".format(os.getpid()))
+    fork_oobe()
     shm_block = shared_memory.SharedMemory(create=True, size=12)
     gpio_pid = fork_gpio()
     call_pid = fork_call()
