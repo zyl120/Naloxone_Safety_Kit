@@ -5,6 +5,7 @@ import os
 import sys
 from time import sleep
 from multiprocessing import shared_memory
+import subprocess
 import RPi.GPIO as GPIO
 import Adafruit_DHT as dht
 from twilio.rest import Client
@@ -85,6 +86,7 @@ def save_and_exit(sid, token, from_, to, address, message, window):
 
 
 def enter_info():
+    touch_keyboard = subprocess.Popen(['matchbox-keyboard'])
     window = tk.Tk()
     sv_ttk.set_theme("dark")
     window.geometry("800x240")
@@ -95,45 +97,45 @@ def enter_info():
     to = tk.StringVar()
     address = tk.StringVar()
     message = tk.StringVar()
-    for i in range(6):
+    for i in range(4):
         window.rowconfigure(i, weight=1)
     for i in range(4):
         window.columnconfigure(i, weight=1)
 
     account_sid_label = ttk.Label(
-        window, text="Twilio Account SID").grid(row=0, column=0, pady=2, padx=2)
+        window, text="SID").grid(row=0, column=0)
     account_sid_entry = ttk.Entry(
-        window, width=25, textvariable=sid).grid(row=0, column=1, pady=2, padx=2)
+        window, textvariable=sid).grid(row=0, column=1)
 
     account_token_label = ttk.Label(
-        window, text="Twilio Account Token").grid(row=1, column=0, pady=2, padx=2)
+        window, text="Token").grid(row=0, column=2)
     account_token_entry = ttk.Entry(
-        window, width=25, show="*", textvariable=token).grid(row=1, column=1, pady=2, padx=2)
+        window, show="*", textvariable=token).grid(row=0, column=3)
 
     from_phone_label = ttk.Label(
-        window, text="From Phone Number").grid(row=2, column=0, pady=2, padx=2)
+        window, text="From").grid(row=1, column=0)
     from_phone_entry = ttk.Entry(
-        window, width=25, textvariable=from_).grid(row=2, column=1, pady=2, padx=2)
+        window, textvariable=from_).grid(row=1, column=1)
 
     to_phone_label = ttk.Label(
-        window, text="To Phone Number").grid(row=3, column=0, pady=2, padx=2)
+        window, text="To").grid(row=1, column=2)
     to_phone_entry = ttk.Entry(
-        window, width=25, textvariable=to).grid(row=3, column=1, pady=2, padx=2)
+        window, textvariable=to).grid(row=1, column=3)
 
-    address_label = ttk.Label(window, text="Address").grid(
-        row=4, column=0, pady=2, padx=2)
+    address_label = ttk.Label(window, text="Addr").grid(
+        row=2, column=0)
     address_entry = ttk.Entry(
-        window, width=25, textvariable=address).grid(row=4, column=1, pady=2, padx=2)
+        window, textvariable=address).grid(row=2, column=1)
 
-    message_label = ttk.Label(window, text="Message").grid(
-        row=5, column=0, pady=2, padx=2)
+    message_label = ttk.Label(window, text="Msg").grid(
+        row=2, column=2)
     message_textbox = ttk.Entry(
-        window, width=25, textvariable=message).grid(row=5, column=1, pady=2, padx=2)
+        window, textvariable=message).grid(row=2, column=3)
 
     save_changes_button = ttk.Button(window, text="Save Changes", command=lambda: write_twilio_file(sid.get(
-    ), token.get(), from_.get(), to.get(), address.get(), message.get())).grid(row=5, column=2, pady=2, padx=2)
-    save_changes_and_exit_button = ttk.Button(window, text="Save Changes and Exit", command=lambda: save_and_exit(sid.get(
-    ), token.get(), from_.get(), to.get(), address.get(), message.get(), window)).grid(row=5, column=3, pady=2, padx=2)
+    ), token.get(), from_.get(), to.get(), address.get(), message.get())).grid(row=3, column=0, columnspan=2)
+    save_changes_and_exit_button = ttk.Button(window, text="Save & Exit", command=lambda: save_and_exit(sid.get(
+    ), token.get(), from_.get(), to.get(), address.get(), message.get(), window)).grid(row=3, column=2, columnspan=2)
 
     window.mainloop()
 
