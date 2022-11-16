@@ -16,6 +16,9 @@ import random
 import signal
 import tkinter as tk
 from tkinter import ttk
+import tkinter.font as font
+from tkcalendar import Calendar
+import datetime
 
 
 import sv_ttk
@@ -85,7 +88,7 @@ def save_and_exit(sid, token, from_, to, address, message, window):
         window.destroy()
 
 
-def enter_info():
+def enter_info_window():
     touch_keyboard = subprocess.Popen(['matchbox-keyboard'])
     window = tk.Tk()
     sv_ttk.set_theme("dark")
@@ -145,13 +148,13 @@ def oobe():
         file = open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "r")
     except OSError:
         print("Missing file, enter OOBE")
-        enter_info()
+        enter_info_window()
         sys.exit(0)
     with file:
         lines = file.read().splitlines()
         print("read {} lines".format(len(lines)))
         if (len(lines) != 8):
-            enter_info()
+            enter_info_window()
         else:
             for line in lines:
                 print(line)
@@ -184,7 +187,7 @@ def change_led(window, canvas, temperature_led, network_led, pwm_text, buffer):
                  temperature_led, network_led, pwm_text, buffer)
 
 
-def graphical_user_interface():
+def door_closed_window():
     buffer = shm_block.buf
     window = tk.Tk()
     window.title("Internet-based Naloxone Safety Kit")
@@ -202,6 +205,58 @@ def graphical_user_interface():
         100, 210, text="PWM: {}".format(buffer[3]), fill="white")
     change_led(window, canvas, temperature_led, network_led, pwm_text, buffer)
     window.mainloop()
+
+
+def mute_alarm():
+    buffer = shm_block.buf
+    while True:
+        if (not buffer[10]):
+            buffer[10] = True
+            buffer[11] = False  # reset the synthesis request
+            buffer[10] = False
+            break
+
+
+def date_selector(date):
+    print(date)
+
+
+def door_open_window():
+    buffer = shm_block.buf
+    window = tk.Tk()
+    sv_ttk.set_theme("dark")
+    s = ttk.Style()
+    s.configure('.', font=('Helvetica', 20))
+    window.title("Emergency: Touch Enabled")
+    window.geometry("800x240")
+    for i in range(2):
+        window.columnconfigure(i, weight=1, uniform="a")
+    for i in range(3):
+        window.rowconfigure(i, weight=1, uniform="a")
+
+    today = datetime.date.today()
+    year = today.year
+    month = today.month
+    day = today.day
+
+    mute_alarm_button = ttk.Button(window, text="1. Mute Alarm", command=lambda: mute_alarm()).grid(
+        row=0, column=0, sticky="nesw")
+    set_naloxone_expire_date_button = ttk.Button(
+        window, text="2. Set Expiry Date", command=lambda: date_selector(cal.get_date())).grid(row=1, column=0, sticky="nesw")
+    cal = Calendar(window, font="11", selectmode="day", background="black", disabledbackground="black", bordercolor="black",
+                   headersbackground="black", normalbackground="black", foreground="white",
+                   normalforeground="white", headersforeground="white",
+                   cursor="hand1", year=year, month=month, day=day)
+    cal.grid(row=0, column=1, rowspan=3, sticky="nesw")
+    reset_button = ttk.Button(window, text="3. Reset").grid(
+        row=2, column=0, sticky="nesw")
+
+    window.mainloop()
+
+
+def graphical_user_interface():
+    buffer = shm_block.buf
+    door_open_window()
 
 
 def fork_gui():
@@ -363,7 +418,7 @@ def network_manager():
             buffer[8] = True  # critical section for server status
             buffer[9] = server_status
             buffer[8] = False  # critical section ends for server status
-        sleep(600) # check for network connection every 10 minutes.
+        sleep(600)  # check for network connection every 10 minutes.
 
 
 def fork_network():
