@@ -19,8 +19,6 @@ from tkinter import ttk
 import tkinter.font as font
 from tkcalendar import Calendar
 import datetime
-
-
 import sv_ttk
 
 
@@ -31,12 +29,14 @@ main_pid = 0
 gpio_pid = 0
 call_pid = 0
 network_pid = 0
+alarm_pid = 0
 gui_pid = 0
 shm_block = 0
 
 
 def parent_signal_handler(signum, frame):
     print("INFO: {} received sig {}.".format(os.getpid(), signum))
+    # Used as a single handler to close all child processes.
     if (signum == signal.SIGINT):
         os.kill(gpio_pid, signal.SIGINT)
         os.waitpid(gpio_pid, 0)
@@ -46,6 +46,9 @@ def parent_signal_handler(signum, frame):
 
         os.kill(network_pid, signal.SIGINT)
         os.waitpid(network_pid, 0)
+
+        os.kill(alarm_pid, signal.SIGINT)
+        os.waitpid(alarm_pid, 0)
 
         os.kill(gui_pid, signal.SIGINT)
         os.waitpid(gui_pid, 0)
@@ -59,10 +62,11 @@ def parent_signal_handler(signum, frame):
         print("INFO: main process {} exited.".format(os.getpid()))
         sys.exit(0)
     elif (signum == signal.SIGUSR1):
-        shm_block.buf[5] = True
+        shm_block.buf[5] = True  # write buffer[5]
 
 
 def child_signal_handler(signum, frame):
+    # close child processes
     print("INFO: {} received sig {}.".format(os.getpid(), signum))
     if (signum == signal.SIGINT):
         shm_block.close()
@@ -71,6 +75,7 @@ def child_signal_handler(signum, frame):
 
 
 def write_twilio_file(sid, token, from_, to, address, message):
+    # write the twilio config file to the hard drive
     if (len(sid) == 0 or len(token) == 0 or len(from_) == 0 or len(to) == 0 or len(address) == 0 or len(message) == 0):
         print("ERROR: empty field(s) detected.")
         return False
@@ -144,6 +149,7 @@ def enter_info_window():
 
 
 def oobe():
+    # the process to first read the twilio config file
     try:
         file = open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "r")
     except OSError:
@@ -169,7 +175,14 @@ def fork_oobe():
 
 
 def change_led(window, canvas, temperature_led, network_led, pwm_text, buffer):
+    if (buffer[5]):
+        # destroy this window when the door is opened.
+        window.destroy()
+        return
+
+    # read buffer[3]
     canvas.itemconfig(pwm_text, text="PWM: {}".format(buffer[3]))
+    # read buffer[2]
     if (buffer[2] < 20):
         canvas.itemconfig(temperature_led, fill="blue")
     elif (buffer[2] > 20 and buffer[2] < 25):
@@ -201,6 +214,7 @@ def door_closed_window():
         75, 50, 125, 100)  # Create a circle on the Canvas
     network_label = canvas.create_text(100, 140, text="NETWORK", fill="white")
     network_led = canvas.create_oval(75, 150, 125, 200)
+    # read buffer[3]
     pwm_text = canvas.create_text(
         100, 210, text="PWM: {}".format(buffer[3]), fill="white")
     change_led(window, canvas, temperature_led, network_led, pwm_text, buffer)
@@ -248,7 +262,7 @@ def door_open_window():
                    normalforeground="white", headersforeground="white",
                    cursor="hand1", year=year, month=month, day=day)
     cal.grid(row=0, column=1, rowspan=3, sticky="nesw")
-    reset_button = ttk.Button(window, text="3. Reset").grid(
+    reset_button = ttk.Button(window, text="3. Close Door & Reset").grid(
         row=2, column=0, sticky="nesw")
 
     window.mainloop()
@@ -256,7 +270,11 @@ def door_open_window():
 
 def graphical_user_interface():
     buffer = shm_block.buf
-    door_open_window()
+    while (True):
+        if (not buffer[5]):
+            door_close_window()
+        else:
+            door_open_window()
 
 
 def fork_gui():
@@ -360,17 +378,20 @@ def gpio_manager():
             temp = read_temperature_sensor()
             pwm = calculate_pwm(temp)
             buffer[0] = True
-            buffer[2] = temp
+            buffer[2] = temp  # write to buffer[2]
+            # write to buffer[1]
             if (temp >= 40):
                 buffer[1] = True
             else:
                 buffer[1] = False
+            # write buffer[3]
             buffer[3] = pwm
             control_fan(pwm)
             buffer[0] = False
         if not buffer[4]:
+            # write buffer[4]
             buffer[4] = True
-            buffer[5] = read_door_switch()
+            buffer[5] = read_door_switch()  # write buffer[5]
             buffer[4] = False
         sleep(1)
 
@@ -389,7 +410,7 @@ def fork_gpio():
 def call_manager():
     buffer = shm_block.buf
     while True:
-        if (buffer[5] and not buffer[6]):
+        if (buffer[5] and not buffer[6]):  # read buffer[5]
             buffer[6] = True
             print("INFO: phone placed")
             result = make_phone_call()
@@ -432,9 +453,29 @@ def fork_network():
     return pid
 
 
+def alarm_manager():
+    buffer = shm_block.buf
+    while (True):
+        if (buffer[11]):
+            # if we need a alarm, do now
+            print("INFO: alarm played")
+            # synthesize the alarm
+
+
+def fork_alarm():
+    pid = os.fork()
+    if (pid > 0):
+        print("INFO: alarm_synthesizer={}".format(pid))
+    else:
+        alarm_pid = os.getpid()
+        signal.signal(signal.SIGINT, child_signal_handler)
+        alarm_manager()
+    return pid
+
+
 def print_shared_memory():
     buffer = shm_block.buf
-    for i in range(12):
+    for i in range(14):
         print(buffer[i], end=" ")
     print("")
 
@@ -450,6 +491,8 @@ def process_monitor():
             call_pid = fork_call()
         elif (pid == network_pid):
             network_pid = fork_network()
+        elif (pid == alarm_pid):
+            alarm_pid = fork_alarm()
         elif (pid == gui_pid):
             gui_pid = fork_gui()
 
@@ -459,27 +502,45 @@ if __name__ == "__main__":
     main_pid = os.getpid()
     print("INFO: main_pid={}".format(os.getpid()))
     fork_oobe()
-    shm_block = shared_memory.SharedMemory(create=True, size=12)
+    shm_block = shared_memory.SharedMemory(create=True, size=14)
     gpio_pid = fork_gpio()
     call_pid = fork_call()
     network_pid = fork_network()
+    alarm_pid = fork_alarm()
     gui_pid = fork_gui()
     signal.signal(signal.SIGINT, parent_signal_handler)
     signal.signal(signal.SIGUSR1, parent_signal_handler)
 
     buffer = shm_block.buf
+    # can only be written by GPIO process
+    # read by all other processes
     buffer[0] = False  # temperature mutex
     buffer[1] = False  # temperature above threshold
     buffer[2] = 20  # temperature reading
     buffer[3] = 0  # fan PWM
     buffer[4] = False  # door switch mutex
     buffer[5] = False  # door switch triggered
-    buffer[6] = False  # phone status mutex
-    buffer[7] = False  # phone placed?
+
+    # can only be written by GPIO process
+    # read by GUI and call processes
+    buffer[6] = False  # phone request mutex
+    buffer[7] = False  # phone request?
+
+    # can only be written by network process
+    # read by GUI and GPIO process
     buffer[8] = False  # server status mutex
     buffer[9] = False  # server connection okay?
+
+    # can be written by GPIO process
+    # read by audio synthesis process
     buffer[10] = False  # audio synthesis mutex
     buffer[11] = False  # audio synthesis requested?
+
+    # can be written by GUI process
+    # read by audio synthesis process to mute the alarm
+    buffer[12] = False  # mute request mutex
+    buffer[13] = False  # mute request?
+
     while True:
         print_shared_memory()
         process_monitor()
