@@ -207,12 +207,12 @@ def information_strip(window):
     canvas = tk.Canvas(window, width=800, height=50, bg="black")
     temperature_led = canvas.create_oval(5, 5, 45, 45)
     temperature_label = canvas.create_text(
-        125, 30, text="Temperature", fill="white", font=("Helvetica", "20"))
+        120, 30, text="Temperature", fill="white", font=("Helvetica", "18"))
     date_time_label = canvas.create_text(
-        400, 30, text=date_time_string, fill="white", font=("Helvetica", "20"))
+        400, 30, text=date_time_string, fill="white", font=("Helvetica", "18"))
     network_led = canvas.create_oval(755, 5, 795, 45)
     network_label = canvas.create_text(
-        710, 30, text="Server", fill="white", font=("Helvetica", "20"))
+        715, 30, text="Server", fill="white", font=("Helvetica", "18"))
 
     return canvas, temperature_led, temperature_label, date_time_label, network_led, network_label
 
@@ -242,17 +242,19 @@ def update_information_strip(window, buffer, canvas, text, warning_level, temper
 def warning_strip(window, text, warning_level):
     canvas = tk.Canvas(window, width=800, height=50, bg="black")
     info_text = canvas.create_text(
-        400, 30, text=text, fill="white", font=("Helvetica", "20"))
+        400, 30, text=text, fill="white", font=("Helvetica", "18"))
     if (warning_level == 0):
+        canvas.configure(bg="black")
         info_text = canvas.create_text(
-            400, 30, text=text, fill="white", font=("Helvetica", "20"))
+            400, 30, text=text, fill="white", font=("Helvetica", "18"))
     elif (warning_level == 1):
+        canvas.configure(bg="black")
         info_text = canvas.create_text(
-            400, 30, text=text, fill="red", font=("Helvetica", "20"))
+            400, 30, text=text, fill="red", font=("Helvetica", "18"))
     elif (warning_level == 2):
-        canvas.configure(bg='red')
+        canvas.configure(bg="red")
         info_text = canvas.create_text(
-            400, 30, text=text, fill="white", font=("Helvetica", "20"))
+            400, 30, text=text, fill="white", font=("Helvetica", "18"))
     return canvas, info_text
 
 
@@ -275,7 +277,7 @@ def door_closed_window():
     window = tk.Tk()
     window.geometry("800x480")
     window.title("Internet-based Naloxone Safety Kit")
-    text = "Help"
+    text = "DO NOT USE NALOXONE, CALL +11234567890 FOR REPLACEMENT"
     warning_level = 2
     canvas1, temperature_led, temperature_label, date_time_label, network_led, network_label = information_strip(
         window)
@@ -288,9 +290,9 @@ def door_closed_window():
     update_warning_strip(window, canvas2, text,
                          warning_level, info_text)
 
-    img= Image.open(path)
+    img= Image.open(r"image.png")
     img=ImageTk.PhotoImage(img)
-    label= Label(win, image= img)
+    label= ttk.Label(window, image= img)
     label.pack()
 
     window.mainloop()
