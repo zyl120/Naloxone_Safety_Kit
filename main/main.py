@@ -6,8 +6,8 @@ import sys
 from time import sleep
 from multiprocessing import shared_memory
 import subprocess
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+#import RPi.GPIO as GPIO
+#import Adafruit_DHT as dht
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.base.exceptions import TwilioRestException
@@ -575,7 +575,7 @@ def process_monitor():
 
 
 if __name__ == "__main__":
-    GPIO.setmode(GPIO.BCM)
+    #GPIO.setmode(GPIO.BCM)
     main_pid = os.getpid()
     print("INFO: main_pid={}".format(os.getpid()))
     fork_oobe()
