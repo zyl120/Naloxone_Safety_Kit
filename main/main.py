@@ -20,6 +20,7 @@ import tkinter.font as font
 from tkcalendar import Calendar
 import datetime
 import sv_ttk
+from PIL import ImageTk, Image
 
 
 DOOR_PIN = 17
@@ -200,24 +201,98 @@ def change_led(window, canvas, temperature_led, network_led, pwm_text, buffer):
                  temperature_led, network_led, pwm_text, buffer)
 
 
+def information_strip(window):
+    now = datetime.datetime.now()
+    date_time_string = now.strftime("%b %d %-I:%M %p")
+    canvas = tk.Canvas(window, width=800, height=50, bg="black")
+    temperature_led = canvas.create_oval(5, 5, 45, 45)
+    temperature_label = canvas.create_text(
+        125, 30, text="Temperature", fill="white", font=("Helvetica", "20"))
+    date_time_label = canvas.create_text(
+        400, 30, text=date_time_string, fill="white", font=("Helvetica", "20"))
+    network_led = canvas.create_oval(755, 5, 795, 45)
+    network_label = canvas.create_text(
+        710, 30, text="Server", fill="white", font=("Helvetica", "20"))
+
+    return canvas, temperature_led, temperature_label, date_time_label, network_led, network_label
+
+
+def update_information_strip(window, buffer, canvas, text, warning_level, temperature_led, temperature_label, date_time_label, network_led):
+    if (buffer[2] < 20):
+        canvas.itemconfig(temperature_led, fill="blue")
+    elif (buffer[2] > 20 and buffer[2] < 25):
+        canvas.itemconfig(temperature_led, fill="green")
+    elif (buffer[2] >= 25 and buffer[2] <= 40):
+        canvas.itemconfig(temperature_led, fill="yellow")
+    elif (buffer[2] > 40):
+        canvas.itemconfig(temperature_led, fill="red")
+    if (buffer[9]):
+        canvas.itemconfig(network_led, fill="green")
+    elif (not buffer[9]):
+        canvas.itemconfig(network_led, fill="red")
+    now = datetime.datetime.now()
+    date_time_string = now.strftime("%b %d %-I:%M %p")
+    # canvas.itemconfig(temperature_label,
+    #                  text="Temperature: {}C".format(buffer[2]))
+    canvas.itemconfig(date_time_label, text=date_time_string)
+    window.after(1000, update_information_strip, window, buffer, canvas,
+                 text, warning_level, temperature_led, temperature_label, date_time_label, network_led)
+
+
+def warning_strip(window, text, warning_level):
+    canvas = tk.Canvas(window, width=800, height=50, bg="black")
+    info_text = canvas.create_text(
+        400, 30, text=text, fill="white", font=("Helvetica", "20"))
+    if (warning_level == 0):
+        info_text = canvas.create_text(
+            400, 30, text=text, fill="white", font=("Helvetica", "20"))
+    elif (warning_level == 1):
+        info_text = canvas.create_text(
+            400, 30, text=text, fill="red", font=("Helvetica", "20"))
+    elif (warning_level == 2):
+        canvas.configure(bg='red')
+        info_text = canvas.create_text(
+            400, 30, text=text, fill="white", font=("Helvetica", "20"))
+    return canvas, info_text
+
+
+def update_warning_strip(window, canvas, text, warning_level, info_text):
+    if (warning_level == 0):
+        canvas.config(bg="black")
+        canvas.itemconfig(info_text, fill="white", text=text)
+    elif (warning_level == 1):
+        canvas.config(bg="black")
+        canvas.itemconfig(info_text, fill="red", text=text)
+    elif (warning_level == 2):
+        canvas.config(bg="red")
+        canvas.itemconfig(info_text, fill="white", text=text)
+    window.after(1000, update_warning_strip, window, canvas,
+                 text, warning_level, info_text)
+
+
 def door_closed_window():
     buffer = shm_block.buf
     window = tk.Tk()
+    window.geometry("800x480")
     window.title("Internet-based Naloxone Safety Kit")
-    # Create 200x300 Canvas widget
-    canvas = tk.Canvas(window, width=200, height=300, bg="black")
-    canvas.pack()
+    text = "Help"
+    warning_level = 2
+    canvas1, temperature_led, temperature_label, date_time_label, network_led, network_label = information_strip(
+        window)
+    canvas1.pack()
+    update_information_strip(window, buffer, canvas1, text, warning_level, temperature_led,
+                             temperature_label, date_time_label, network_led)
+    canvas2, info_text = warning_strip(
+        window, text, warning_level)
+    canvas2.pack()
+    update_warning_strip(window, canvas2, text,
+                         warning_level, info_text)
 
-    temperature_label = canvas.create_text(
-        100, 40, text="TEMPERATURE", fill="white")
-    temperature_led = canvas.create_oval(
-        75, 50, 125, 100)  # Create a circle on the Canvas
-    network_label = canvas.create_text(100, 140, text="NETWORK", fill="white")
-    network_led = canvas.create_oval(75, 150, 125, 200)
-    # read buffer[3]
-    pwm_text = canvas.create_text(
-        100, 210, text="PWM: {}".format(buffer[3]), fill="white")
-    change_led(window, canvas, temperature_led, network_led, pwm_text, buffer)
+    img= Image.open(path)
+    img=ImageTk.PhotoImage(img)
+    label= Label(win, image= img)
+    label.pack()
+
     window.mainloop()
 
 
@@ -272,7 +347,7 @@ def graphical_user_interface():
     buffer = shm_block.buf
     while (True):
         if (not buffer[5]):
-            door_close_window()
+            door_closed_window()
         else:
             door_open_window()
 
@@ -482,7 +557,7 @@ def print_shared_memory():
 
 def process_monitor():
     pid, status = os.waitpid(0, os.WNOHANG)
-    global gpio_pid, call_pid, network_pid, gui_pid
+    global gpio_pid, call_pid, network_pid, alarm_pid, gui_pid
     if (pid != 0):
         print("ERROR: {} crashed, fork...".format(pid))
         if (pid == gpio_pid):
