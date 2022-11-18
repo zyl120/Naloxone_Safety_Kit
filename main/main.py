@@ -206,8 +206,6 @@ def create_information_strip(window):
     return canvas, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, date_time_label
 
 
-
-
 def update_information_strip(window, buffer, canvas, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label):
     if (buffer[2] < 20):
         canvas.itemconfig(temperature_led, fill="blue")
@@ -221,27 +219,30 @@ def update_information_strip(window, buffer, canvas, temperature_led, temperatur
         canvas.itemconfig(network_led, fill="green")
     elif (not buffer[9]):
         canvas.itemconfig(network_led, fill="red")
-    if(buffer[15] or buffer[16]):
+    if (buffer[15] or buffer[16]):
         canvas.itemconfig(naloxone_led, fill="red")
     else:
         canvas.itemconfig(naloxone_led, fill="green")
-    if(buffer[5]):
+    if (buffer[5]):
         canvas.itemconfig(door_led, fill="red")
     else:
         canvas.itemconfig(door_led, fill="green")
     now = datetime.datetime.now()
     date_time_string = now.strftime("%b %d %-I:%M %p")
     canvas.itemconfig(date_time_label, text=date_time_string)
-    window.after(1000, update_information_strip, window, buffer, canvas, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
+    window.after(1000, update_information_strip, window, buffer, canvas, temperature_led, temperature_label,
+                 network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
+
 
 def w_strip_status_code_to_string(status_code):
-    if(status_code == 0):
+    if (status_code == 0):
         return "Naloxone Safety Kit"
-    elif(status_code == 1):
+    elif (status_code == 1):
         return "Naloxone Expired"
-    elif(status_code == 2):
+    elif (status_code == 2):
         return "Naloxone Overheat"
     return "invalid code"
+
 
 def create_warning_strip(window, buffer):
     canvas = tk.Canvas(window, width=800, height=50, bg="black")
@@ -323,7 +324,8 @@ def door_closed_window():
     w_strip, info_text = create_warning_strip(
         window, buffer)
     w_strip.pack(side=tk.BOTTOM)
-    update_information_strip(window, buffer, i_strip, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
+    update_information_strip(window, buffer, i_strip, temperature_led, temperature_label, network_led,
+                             network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
     update_warning_strip(window, w_strip, info_text, buffer)
     wait_for_door_open(window, buffer)
     window.mainloop()
@@ -379,7 +381,8 @@ def door_open_window():
     cal.grid(row=1, column=1, rowspan=3, sticky="nesw")
     reset_button = ttk.Button(window, text="Close Door & Reset", command=lambda: exit_door_open_window(window, buffer)).grid(
         row=3, column=0, padx=10, pady=10, sticky="nesw")
-    update_information_strip(window, buffer, info_strip, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
+    update_information_strip(window, buffer, info_strip, temperature_led, temperature_label, network_led,
+                             network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
     update_warning_strip(window, w_strip, info_text, buffer)
     window.mainloop()
 
@@ -602,7 +605,7 @@ def naloxone_manager():
             buffer[14] = True
             buffer[16] = True
             buffer[14] = False
-            while(buffer[17]):
+            while (buffer[17]):
                 continue
             buffer[17] = True
             buffer[18] = 2
@@ -710,4 +713,3 @@ if __name__ == "__main__":
         print_shared_memory()
         process_monitor()
         sleep(0.5)
-        
