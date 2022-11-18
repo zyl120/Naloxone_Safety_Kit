@@ -31,6 +31,7 @@ gpio_pid = 0
 call_pid = 0
 network_pid = 0
 alarm_pid = 0
+naloxone_pid = 0
 gui_pid = 0
 shm_block = 0
 
@@ -50,6 +51,9 @@ def parent_signal_handler(signum, frame):
 
         os.kill(alarm_pid, signal.SIGINT)
         os.waitpid(alarm_pid, 0)
+
+        os.kill(naloxone_pid, signal.SIGINT)
+        os.waitpid(naloxone_pid, 0)
 
         os.kill(gui_pid, signal.SIGINT)
         os.waitpid(gui_pid, 0)
@@ -179,75 +183,105 @@ def fork_oobe():
 def create_information_strip(window):
     now = datetime.datetime.now()
     date_time_string = now.strftime("%b %d %-I:%M %p")
-    canvas = tk.Canvas(window, width=800, height=50, bg="black")
-    temperature_led = canvas.create_oval(5, 5, 45, 45)
+    canvas = tk.Canvas(window, width=800, height=25, bg="black")
+    temperature_led = canvas.create_polygon(0, 0, 150, 0, 150, 25, 0, 25)
     temperature_label = canvas.create_text(
-        120, 30, text="Temperature", fill="white", font=("Helvetica", "18"))
-    date_time_label = canvas.create_text(
-        400, 30, text=date_time_string, fill="white", font=("Helvetica", "18"))
-    network_led = canvas.create_oval(755, 5, 795, 45)
+        75, 15, text="Temperature", fill="white", font=("Helvetica", "15"))
+
+    network_led = canvas.create_polygon(150, 0, 300, 0, 300, 25, 150, 25)
     network_label = canvas.create_text(
-        715, 30, text="Server", fill="white", font=("Helvetica", "18"))
+        225, 15, text="Server", fill="white", font=("Helvetica", "15"))
 
-    return canvas, temperature_led, temperature_label, date_time_label, network_led, network_label
+    naloxone_led = canvas.create_polygon(300, 0, 450, 0, 450, 25, 300, 25)
+    naloxone_label = canvas.create_text(
+        375, 15, text="Naloxone", fill="white", font=("Helvetica", "15"))
+
+    door_led = canvas.create_polygon(450, 0, 600, 0, 600, 25, 450, 25)
+    door_label = canvas.create_text(
+        525, 15, text="Door", fill="white", font=("Helvetica", "15"))
+
+    date_time_label = canvas.create_text(
+        720, 15, text=date_time_string, fill="white", font=("Helvetica", "15"))
+
+    return canvas, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, date_time_label
 
 
-def update_information_strip(window, buffer, canvas, temperature_led, temperature_label, date_time_label, network_led):
+
+
+def update_information_strip(window, buffer, canvas, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label):
     if (buffer[2] < 20):
         canvas.itemconfig(temperature_led, fill="blue")
     elif (buffer[2] > 20 and buffer[2] < 25):
         canvas.itemconfig(temperature_led, fill="green")
     elif (buffer[2] >= 25 and buffer[2] <= 40):
-        canvas.itemconfig(temperature_led, fill="yellow")
+        canvas.itemconfig(temperature_led, fill="green")
     elif (buffer[2] > 40):
         canvas.itemconfig(temperature_led, fill="red")
     if (buffer[9]):
         canvas.itemconfig(network_led, fill="green")
     elif (not buffer[9]):
         canvas.itemconfig(network_led, fill="red")
+    if(buffer[15] or buffer[16]):
+        canvas.itemconfig(naloxone_led, fill="red")
+    else:
+        canvas.itemconfig(naloxone_led, fill="green")
+    if(buffer[5]):
+        canvas.itemconfig(door_led, fill="red")
+    else:
+        canvas.itemconfig(door_led, fill="green")
     now = datetime.datetime.now()
     date_time_string = now.strftime("%b %d %-I:%M %p")
     canvas.itemconfig(date_time_label, text=date_time_string)
-    window.after(1000, update_information_strip, window, buffer, canvas,
-                 temperature_led, temperature_label, date_time_label, network_led)
+    window.after(1000, update_information_strip, window, buffer, canvas, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
 
+def w_strip_status_code_to_string(status_code):
+    if(status_code == 0):
+        return "Naloxone Safety Kit"
+    elif(status_code == 1):
+        return "Naloxone Expired"
+    elif(status_code == 2):
+        return "Naloxone Overheat"
+    return "invalid code"
 
-def create_warning_strip(window, text, warning_level):
+def create_warning_strip(window, buffer):
     canvas = tk.Canvas(window, width=800, height=50, bg="black")
+    text_to_display = w_strip_status_code_to_string(buffer[19])
     info_text = canvas.create_text(
-        400, 30, text=text, fill="white", font=("Helvetica", "18"))
-    if (warning_level == 0):
+        400, 30, text=text_to_display, fill="white", font=("Helvetica", "18"))
+    if (buffer[18] == 0):
         canvas.configure(bg="black")
         info_text = canvas.create_text(
-            400, 30, text=text, fill="white", font=("Helvetica", "18"))
-    elif (warning_level == 1):
+            400, 30, text=text_to_display, fill="white", font=("Helvetica", "18"))
+    elif (buffer[18] == 1):
         canvas.configure(bg="black")
         info_text = canvas.create_text(
-            400, 30, text=text, fill="red", font=("Helvetica", "18"))
-    elif (warning_level == 2):
+            400, 30, text=text_to_display, fill="red", font=("Helvetica", "18"))
+    elif (buffer[18] == 2):
         canvas.configure(bg="red")
         info_text = canvas.create_text(
-            400, 30, text=text, fill="white", font=("Helvetica", "18"))
+            400, 30, text=text_to_display, fill="white", font=("Helvetica", "18"))
     return canvas, info_text
 
 
-def update_warning_strip(window, canvas, text, warning_level, info_text):
-    if (warning_level == 0):
+def update_warning_strip(window, canvas, info_text, buffer):
+    text_to_display = w_strip_status_code_to_string(buffer[19])
+    if (buffer[18] == 0):
         canvas.config(bg="black")
-        canvas.itemconfig(info_text, fill="white", text=text)
-    elif (warning_level == 1):
+        canvas.itemconfig(info_text, fill="white", text=text_to_display)
+    elif (buffer[18] == 1):
         canvas.config(bg="black")
-        canvas.itemconfig(info_text, fill="red", text=text)
-    elif (warning_level == 2):
+        canvas.itemconfig(info_text, fill="red", text=text_to_display)
+    elif (buffer[18] == 2):
         canvas.config(bg="red")
-        canvas.itemconfig(info_text, fill="white", text=text)
+        canvas.itemconfig(info_text, fill="white", text=text_to_display)
     window.after(1000, update_warning_strip, window, canvas,
-                 text, warning_level, info_text)
+                 info_text, buffer)
 
 
 def wait_for_door_open(window, buffer):
     if (buffer[5]):
-        window.quit()
+        shm_block.close()
+        # window.quit()
         window.destroy()
     else:
         window.after(1000, wait_for_door_open, window, buffer)
@@ -266,6 +300,7 @@ def exit_door_open_window(window, buffer):
         button.pack()
         popup.mainloop()
     else:
+        shm_block.close()
         window.destroy()
 
 
@@ -277,21 +312,19 @@ def door_closed_window():
     window.title("Internet-based Naloxone Safety Kit")
     text = "DO NOT USE NALOXONE, CALL +11234567890 FOR REPLACEMENT"
     warning_level = 2
-    info_strip, temperature_led, temperature_label, date_time_label, network_led, network_label = create_information_strip(
+    i_strip, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, date_time_label = create_information_strip(
         window)
-    info_strip.pack()
-    w_strip, info_text = create_warning_strip(
-        window, text, warning_level)
-    w_strip.pack()
-    update_information_strip(window, buffer, info_strip, temperature_led,
-                             temperature_label, date_time_label, network_led)
-    update_warning_strip(window, w_strip, text,
-                         warning_level, info_text)
+    i_strip.pack(side=tk.TOP)
 
     img = Image.open(r"image.png")
     img = ImageTk.PhotoImage(img)
     label = ttk.Label(window, image=img)
     label.pack()
+    w_strip, info_text = create_warning_strip(
+        window, buffer)
+    w_strip.pack(side=tk.BOTTOM)
+    update_information_strip(window, buffer, i_strip, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
+    update_warning_strip(window, w_strip, info_text, buffer)
     wait_for_door_open(window, buffer)
     window.mainloop()
 
@@ -320,7 +353,7 @@ def door_open_window():
     window.geometry("800x480")
     for i in range(2):
         window.columnconfigure(i, weight=1, uniform="a")
-    for i in range(2, 5):
+    for i in range(1, 4):
         window.rowconfigure(i, weight=1, uniform="a")
 
     today = datetime.date.today()
@@ -328,26 +361,26 @@ def door_open_window():
     month = today.month
     day = today.day
 
-    info_strip, temperature_led, temperature_label, date_time_label, network_led, network_label = create_information_strip(
+    info_strip, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, date_time_label = create_information_strip(
         window)
     info_strip.grid(row=0, column=0, columnspan=2)
 
-    w_strip, info_text = create_warning_strip(window, "COUNTDOWN", 2)
-    w_strip.grid(row=1, column=0, columnspan=2)
+    w_strip, info_text = create_warning_strip(window, buffer)
+    w_strip.grid(row=4, column=0, columnspan=2)
 
     mute_alarm_button = ttk.Button(window, text="Mute Alarm", command=lambda: mute_alarm()).grid(
-        row=2, column=0, padx=10, pady=10, sticky="nesw")
+        row=1, column=0, padx=10, pady=10, sticky="nesw")
     set_naloxone_expire_date_button = ttk.Button(
-        window, text="Set Expiry Date", command=lambda: date_selector(cal.get_date())).grid(row=3, column=0, padx=10, pady=10, sticky="nesw")
+        window, text="Set Expiry Date", command=lambda: date_selector(cal.get_date())).grid(row=2, column=0, padx=10, pady=10, sticky="nesw")
     cal = Calendar(window, font="11", selectmode="day", background="black", disabledbackground="black", bordercolor="black",
                    headersbackground="black", normalbackground="black", foreground="white",
                    normalforeground="white", headersforeground="white",
                    cursor="hand1", year=year, month=month, day=day)
-    cal.grid(row=2, column=1, rowspan=3, sticky="nesw")
+    cal.grid(row=1, column=1, rowspan=3, sticky="nesw")
     reset_button = ttk.Button(window, text="Close Door & Reset", command=lambda: exit_door_open_window(window, buffer)).grid(
-        row=4, column=0, padx=10, pady=10, sticky="nesw")
-    update_information_strip(window, buffer, info_strip, temperature_led,
-                             temperature_label, date_time_label, network_led)
+        row=3, column=0, padx=10, pady=10, sticky="nesw")
+    update_information_strip(window, buffer, info_strip, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
+    update_warning_strip(window, w_strip, info_text, buffer)
     window.mainloop()
 
 
@@ -430,7 +463,7 @@ def ping():
 def read_temperature_sensor():
     #humidity, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
     #temperature = 20
-    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
+    list1 = [5, 10, 15, 20, 25, 30, 35, 40]
     temperature = random.choice(list1)
     return temperature
 
@@ -540,11 +573,12 @@ def fork_network():
 
 def alarm_manager():
     buffer = shm_block.buf
-    while (True):
-        if (buffer[11]):
-            # if we need a alarm, do now
-            print("INFO: alarm played")
-            # synthesize the alarm
+    sleep(100000)
+    # while (True):
+    #     if (buffer[11]):
+    #         # if we need a alarm, do now
+    #         print("INFO: alarm played")
+    #         # synthesize the alarm
 
 
 def fork_alarm():
@@ -558,16 +592,46 @@ def fork_alarm():
     return pid
 
 
+def naloxone_manager():
+    buffer = shm_block.buf
+    while True:
+        if (buffer[2] > 40):
+            # overheat case
+            while (buffer[14]):
+                continue
+            buffer[14] = True
+            buffer[16] = True
+            buffer[14] = False
+            while(buffer[17]):
+                continue
+            buffer[17] = True
+            buffer[18] = 2
+            buffer[19] = 2
+            buffer[17] = False
+    sleep(100000)
+
+
+def fork_naloxone():
+    pid = os.fork()
+    if (pid > 0):
+        print("INFO: naloxone_manager={}".format(pid))
+    else:
+        naloxone_pid = os.getpid()
+        signal.signal(signal.SIGINT, child_signal_handler)
+        naloxone_manager()
+    return pid
+
+
 def print_shared_memory():
     buffer = shm_block.buf
-    for i in range(14):
-        print(buffer[i], end=" ")
+    for i in range(20):
+        print(str(buffer[i]), end=" ")
     print("")
 
 
 def process_monitor():
     pid, status = os.waitpid(0, os.WNOHANG)
-    global gpio_pid, call_pid, network_pid, alarm_pid, gui_pid
+    global gpio_pid, call_pid, network_pid, alarm_pid, naloxone_pid, gui_pid
     if (pid != 0):
         print("ERROR: {} crashed, fork...".format(pid))
         if (pid == gpio_pid):
@@ -578,6 +642,8 @@ def process_monitor():
             network_pid = fork_network()
         elif (pid == alarm_pid):
             alarm_pid = fork_alarm()
+        elif (pid == naloxone_pid):
+            naloxone_pid = fork_naloxone()
         elif (pid == gui_pid):
             gui_pid = fork_gui()
 
@@ -587,14 +653,7 @@ if __name__ == "__main__":
     main_pid = os.getpid()
     print("INFO: main_pid={}".format(os.getpid()))
     fork_oobe()
-    shm_block = shared_memory.SharedMemory(create=True, size=14)
-    gpio_pid = fork_gpio()
-    call_pid = fork_call()
-    network_pid = fork_network()
-    alarm_pid = fork_alarm()
-    gui_pid = fork_gui()
-    signal.signal(signal.SIGINT, parent_signal_handler)
-    signal.signal(signal.SIGUSR1, parent_signal_handler)
+    shm_block = shared_memory.SharedMemory(create=True, size=20)
 
     buffer = shm_block.buf
     # can only be written by GPIO process
@@ -626,7 +685,29 @@ if __name__ == "__main__":
     buffer[12] = False  # mute request mutex
     buffer[13] = False  # mute request?
 
+    # can be written by naloxone process
+    # can be read by GUI
+    buffer[14] = False  # naloxone status locked?
+    buffer[15] = False  # naloxone expired?
+    buffer[16] = False  # naloxone overheat?
+
+    # can be written by any process
+    # can be read by GUI
+    buffer[17] = False  # warning info locked?
+    buffer[18] = 0  # warning level
+    buffer[19] = 0  # warning information
+
+    gpio_pid = fork_gpio()
+    call_pid = fork_call()
+    network_pid = fork_network()
+    alarm_pid = fork_alarm()
+    naloxone_pid = fork_naloxone()
+    gui_pid = fork_gui()
+    signal.signal(signal.SIGINT, parent_signal_handler)
+    signal.signal(signal.SIGUSR1, parent_signal_handler)
+
     while True:
-        #print_shared_memory()
+        print_shared_memory()
         process_monitor()
-        #sleep(1)
+        sleep(0.5)
+        
