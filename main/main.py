@@ -6,8 +6,8 @@ import sys
 from time import sleep
 from multiprocessing import shared_memory
 import subprocess
-#import RPi.GPIO as GPIO
-#import Adafruit_DHT as dht
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.base.exceptions import TwilioRestException
@@ -91,6 +91,7 @@ def write_twilio_file(sid, token, from_, to, address, message):
 def save_and_exit(sid, token, from_, to, address, message, window):
     result = write_twilio_file(sid, token, from_, to, address, message)
     if (result):
+        # window.quit()
         window.destroy()
 
 
@@ -156,7 +157,6 @@ def oobe():
     except OSError:
         print("Missing file, enter OOBE")
         enter_info_window()
-        sys.exit(0)
     with file:
         lines = file.read().splitlines()
         print("read {} lines".format(len(lines)))
@@ -165,6 +165,7 @@ def oobe():
         else:
             for line in lines:
                 print(line)
+    sys.exit(0)
 
 
 def fork_oobe():
@@ -175,33 +176,7 @@ def fork_oobe():
         oobe()
 
 
-def change_led(window, canvas, temperature_led, network_led, pwm_text, buffer):
-    if (buffer[5]):
-        # destroy this window when the door is opened.
-        window.destroy()
-        return
-
-    # read buffer[3]
-    canvas.itemconfig(pwm_text, text="PWM: {}".format(buffer[3]))
-    # read buffer[2]
-    if (buffer[2] < 20):
-        canvas.itemconfig(temperature_led, fill="blue")
-    elif (buffer[2] > 20 and buffer[2] < 25):
-        canvas.itemconfig(temperature_led, fill="green")
-    elif (buffer[2] >= 25 and buffer[2] <= 40):
-        canvas.itemconfig(temperature_led, fill="yellow")
-    elif (buffer[2] > 40):
-        canvas.itemconfig(temperature_led, fill="red")
-    if (buffer[9]):
-        canvas.itemconfig(network_led, fill="green")
-    elif (not buffer[9]):
-        canvas.itemconfig(network_led, fill="red")
-
-    window.after(1000, change_led, window, canvas,
-                 temperature_led, network_led, pwm_text, buffer)
-
-
-def information_strip(window):
+def create_information_strip(window):
     now = datetime.datetime.now()
     date_time_string = now.strftime("%b %d %-I:%M %p")
     canvas = tk.Canvas(window, width=800, height=50, bg="black")
@@ -217,7 +192,7 @@ def information_strip(window):
     return canvas, temperature_led, temperature_label, date_time_label, network_led, network_label
 
 
-def update_information_strip(window, buffer, canvas, text, warning_level, temperature_led, temperature_label, date_time_label, network_led):
+def update_information_strip(window, buffer, canvas, temperature_led, temperature_label, date_time_label, network_led):
     if (buffer[2] < 20):
         canvas.itemconfig(temperature_led, fill="blue")
     elif (buffer[2] > 20 and buffer[2] < 25):
@@ -232,14 +207,12 @@ def update_information_strip(window, buffer, canvas, text, warning_level, temper
         canvas.itemconfig(network_led, fill="red")
     now = datetime.datetime.now()
     date_time_string = now.strftime("%b %d %-I:%M %p")
-    # canvas.itemconfig(temperature_label,
-    #                  text="Temperature: {}C".format(buffer[2]))
     canvas.itemconfig(date_time_label, text=date_time_string)
     window.after(1000, update_information_strip, window, buffer, canvas,
-                 text, warning_level, temperature_led, temperature_label, date_time_label, network_led)
+                 temperature_led, temperature_label, date_time_label, network_led)
 
 
-def warning_strip(window, text, warning_level):
+def create_warning_strip(window, text, warning_level):
     canvas = tk.Canvas(window, width=800, height=50, bg="black")
     info_text = canvas.create_text(
         400, 30, text=text, fill="white", font=("Helvetica", "18"))
@@ -272,29 +245,54 @@ def update_warning_strip(window, canvas, text, warning_level, info_text):
                  text, warning_level, info_text)
 
 
+def wait_for_door_open(window, buffer):
+    if (buffer[5]):
+        window.quit()
+        window.destroy()
+    else:
+        window.after(1000, wait_for_door_open, window, buffer)
+
+
+def exit_door_open_window(window, buffer):
+    if (buffer[5]):
+        popup = tk.Toplevel()
+        popup.geometry("240x240")
+        s = ttk.Style()
+        s.configure('.', font=('Helvetica', 20))
+        popup.wm_title("Door Error!!!")
+        label = ttk.Label(popup, text="Close the door first")
+        label.pack()
+        button = ttk.Button(popup, text="OK", command=lambda: popup.destroy())
+        button.pack()
+        popup.mainloop()
+    else:
+        window.destroy()
+
+
 def door_closed_window():
     buffer = shm_block.buf
     window = tk.Tk()
+    sv_ttk.set_theme("dark")
     window.geometry("800x480")
     window.title("Internet-based Naloxone Safety Kit")
     text = "DO NOT USE NALOXONE, CALL +11234567890 FOR REPLACEMENT"
     warning_level = 2
-    canvas1, temperature_led, temperature_label, date_time_label, network_led, network_label = information_strip(
+    info_strip, temperature_led, temperature_label, date_time_label, network_led, network_label = create_information_strip(
         window)
-    canvas1.pack()
-    update_information_strip(window, buffer, canvas1, text, warning_level, temperature_led,
-                             temperature_label, date_time_label, network_led)
-    canvas2, info_text = warning_strip(
+    info_strip.pack()
+    w_strip, info_text = create_warning_strip(
         window, text, warning_level)
-    canvas2.pack()
-    update_warning_strip(window, canvas2, text,
+    w_strip.pack()
+    update_information_strip(window, buffer, info_strip, temperature_led,
+                             temperature_label, date_time_label, network_led)
+    update_warning_strip(window, w_strip, text,
                          warning_level, info_text)
 
-    img= Image.open(r"image.png")
-    img=ImageTk.PhotoImage(img)
-    label= ttk.Label(window, image= img)
+    img = Image.open(r"image.png")
+    img = ImageTk.PhotoImage(img)
+    label = ttk.Label(window, image=img)
     label.pack()
-
+    wait_for_door_open(window, buffer)
     window.mainloop()
 
 
@@ -319,10 +317,10 @@ def door_open_window():
     s = ttk.Style()
     s.configure('.', font=('Helvetica', 20))
     window.title("Emergency: Touch Enabled")
-    window.geometry("800x240")
+    window.geometry("800x480")
     for i in range(2):
         window.columnconfigure(i, weight=1, uniform="a")
-    for i in range(3):
+    for i in range(2, 5):
         window.rowconfigure(i, weight=1, uniform="a")
 
     today = datetime.date.today()
@@ -330,28 +328,37 @@ def door_open_window():
     month = today.month
     day = today.day
 
-    mute_alarm_button = ttk.Button(window, text="1. Mute Alarm", command=lambda: mute_alarm()).grid(
-        row=0, column=0, sticky="nesw")
+    info_strip, temperature_led, temperature_label, date_time_label, network_led, network_label = create_information_strip(
+        window)
+    info_strip.grid(row=0, column=0, columnspan=2)
+
+    w_strip, info_text = create_warning_strip(window, "COUNTDOWN", 2)
+    w_strip.grid(row=1, column=0, columnspan=2)
+
+    mute_alarm_button = ttk.Button(window, text="Mute Alarm", command=lambda: mute_alarm()).grid(
+        row=2, column=0, padx=10, pady=10, sticky="nesw")
     set_naloxone_expire_date_button = ttk.Button(
-        window, text="2. Set Expiry Date", command=lambda: date_selector(cal.get_date())).grid(row=1, column=0, sticky="nesw")
+        window, text="Set Expiry Date", command=lambda: date_selector(cal.get_date())).grid(row=3, column=0, padx=10, pady=10, sticky="nesw")
     cal = Calendar(window, font="11", selectmode="day", background="black", disabledbackground="black", bordercolor="black",
                    headersbackground="black", normalbackground="black", foreground="white",
                    normalforeground="white", headersforeground="white",
                    cursor="hand1", year=year, month=month, day=day)
-    cal.grid(row=0, column=1, rowspan=3, sticky="nesw")
-    reset_button = ttk.Button(window, text="3. Close Door & Reset").grid(
-        row=2, column=0, sticky="nesw")
-
+    cal.grid(row=2, column=1, rowspan=3, sticky="nesw")
+    reset_button = ttk.Button(window, text="Close Door & Reset", command=lambda: exit_door_open_window(window, buffer)).grid(
+        row=4, column=0, padx=10, pady=10, sticky="nesw")
+    update_information_strip(window, buffer, info_strip, temperature_led,
+                             temperature_label, date_time_label, network_led)
     window.mainloop()
 
 
 def graphical_user_interface():
     buffer = shm_block.buf
-    while (True):
-        if (not buffer[5]):
-            door_closed_window()
-        else:
-            door_open_window()
+    # door_closed_window()
+
+    if (not buffer[5]):
+        door_closed_window()
+    else:
+        door_open_window()
 
 
 def fork_gui():
@@ -470,7 +477,7 @@ def gpio_manager():
             buffer[4] = True
             buffer[5] = read_door_switch()  # write buffer[5]
             buffer[4] = False
-        sleep(1)
+        sleep(0.1)
 
 
 def fork_gpio():
@@ -490,7 +497,8 @@ def call_manager():
         if (buffer[5] and not buffer[6]):  # read buffer[5]
             buffer[6] = True
             print("INFO: phone placed")
-            result = make_phone_call()
+            #result = make_phone_call()
+            result = True
             buffer[7] = result
             buffer[6] = False
             sleep(10000)
@@ -575,7 +583,7 @@ def process_monitor():
 
 
 if __name__ == "__main__":
-    #GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BCM)
     main_pid = os.getpid()
     print("INFO: main_pid={}".format(os.getpid()))
     fork_oobe()
@@ -619,6 +627,6 @@ if __name__ == "__main__":
     buffer[13] = False  # mute request?
 
     while True:
-        print_shared_memory()
+        #print_shared_memory()
         process_monitor()
-        sleep(1)
+        #sleep(1)
