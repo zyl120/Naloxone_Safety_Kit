@@ -4,7 +4,7 @@
 import os
 import sys
 from time import sleep
-from multiprocessing import shared_memory, Process, Array
+from multiprocessing import Array
 import subprocess
 import RPi.GPIO as GPIO
 import Adafruit_DHT as dht
@@ -171,44 +171,50 @@ def fork_oobe():
         oobe()
 
 
-def create_information_strip(window):
+def create_information_strip(window, shared_array):
     now = datetime.datetime.now()
     date_time_string = now.strftime("%b %d %-I:%M %p")
     canvas = tk.Canvas(window, width=800, height=25, bg="black")
-    temperature_led = canvas.create_polygon(0, 0, 150, 0, 150, 25, 0, 25)
+    temperature_led = canvas.create_polygon(0, 0, 120, 0, 120, 25, 0, 25)
     temperature_label = canvas.create_text(
-        75, 15, text="Temperature", fill="white", font=("Helvetica", "15"))
+        60, 15, text="Temperature", fill="white", font=("Helvetica", "14"))
 
-    network_led = canvas.create_polygon(150, 0, 300, 0, 300, 25, 150, 25)
+    network_led = canvas.create_polygon(120, 0, 240, 0, 240, 25, 120, 25)
     network_label = canvas.create_text(
-        225, 15, text="Server", fill="white", font=("Helvetica", "15"))
+        180, 15, text="Server", fill="white", font=("Helvetica", "14"))
 
-    naloxone_led = canvas.create_polygon(300, 0, 450, 0, 450, 25, 300, 25)
+    naloxone_led = canvas.create_polygon(240, 0, 360, 0, 360, 25, 240, 25)
     naloxone_label = canvas.create_text(
-        375, 15, text="Naloxone", fill="white", font=("Helvetica", "15"))
+        300, 15, text="Naloxone", fill="white", font=("Helvetica", "14"))
 
-    door_led = canvas.create_polygon(450, 0, 600, 0, 600, 25, 450, 25)
+    door_led = canvas.create_polygon(360, 0, 480, 0, 480, 25, 360, 25)
     door_label = canvas.create_text(
-        525, 15, text="Door", fill="white", font=("Helvetica", "15"))
+        420, 15, text="Door", fill="white", font=("Helvetica", "14"))
+
+    phone_led = canvas.create_polygon(480, 0, 600, 0, 600, 25, 480, 25)
+    phone_label = canvas.create_text(
+        540, 15, text="Phone", fill="white", font=("Helvetica", "14"))
 
     date_time_label = canvas.create_text(
-        720, 15, text=date_time_string, fill="white", font=("Helvetica", "15"))
+        720, 15, text=date_time_string, fill="white", font=("Helvetica", "14"))
 
-    return canvas, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, date_time_label
+    return canvas, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, phone_led, phone_label, date_time_label
 
 
-def update_information_strip(window, shared_array, canvas, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label):
+def update_information_strip(window, shared_array, canvas, temperature_led, temperature_label, network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, phone_led, phone_label,  date_time_label):
     temperature = 20
     server = True
     naloxone_expired = False
     naloxone_overheat = False
     door = True
+    phone = 2
     with shared_array.get_lock():
         temperature = shared_array[1]
         server = shared_array[6]
         naloxone_expired = shared_array[9]
         naloxone_overheat = shared_array[10]
         door = shared_array[3]
+        phone = shared_array[5]
 
     if (temperature < 20):
         canvas.itemconfig(temperature_led, fill="blue")
@@ -230,11 +236,18 @@ def update_information_strip(window, shared_array, canvas, temperature_led, temp
         canvas.itemconfig(door_led, fill="red")
     else:
         canvas.itemconfig(door_led, fill="green")
+    if (phone == 0):
+        canvas.itemconfig(phone_led, fill="red")
+    elif (phone == 1):
+        canvas.itemconfig(phone_led, fill="green")
+    elif (phone == 2):
+        canvas.itemconfig(phone_label, fill="black")
+        canvas.itemconfig(phone_led, fill="black")
     now = datetime.datetime.now()
     date_time_string = now.strftime("%b %d %-I:%M %p")
     canvas.itemconfig(date_time_label, text=date_time_string)
     window.after(1000, update_information_strip, window, shared_array, canvas, temperature_led, temperature_label,
-                 network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
+                 network_led, network_label, naloxone_led, naloxone_label, door_led, door_label, phone_led, phone_label, date_time_label)
 
 
 def w_strip_status_code_to_string(status_code):
@@ -244,11 +257,40 @@ def w_strip_status_code_to_string(status_code):
         return "Naloxone Expired"
     elif (status_code == 2):
         return "Naloxone Overheat"
+    elif (status_code == 100):
+        return "Placing Phone Call Now!!!"
+    elif (status_code == 101):
+        return "Countdown: 1 Second"
+    elif (status_code == 102):
+        return "Countdown: 2 Seconds"
+    elif (status_code == 103):
+        return "Countdown: 3 Seconds"
+    elif (status_code == 104):
+        return "Countdown: 4 Seconds"
+    elif (status_code == 105):
+        return "Countdown: 5 Seconds"
+    elif (status_code == 106):
+        return "Countdown: 6 Seconds"
+    elif (status_code == 107):
+        return "Countdown: 7 Seconds"
+    elif (status_code == 108):
+        return "Countdown: 8 Seconds"
+    elif (status_code == 109):
+        return "Countdown: 9 Seconds"
+    elif (status_code == 110):
+        return "Countdown: 10 Seconds"
     return "invalid code"
+
+
+def details_click():
+    print("details")
 
 
 def create_warning_strip(window, shared_array):
     canvas = tk.Canvas(window, width=800, height=50, bg="black")
+    s = ttk.Style()
+    s.configure("s2.TButton", font=('Helvetica', 12))
+    info_bg = canvas.create_polygon(0, 0, 800, 0, 800, 50, 0, 50)
     warning_level = 0
     warning_code = 0
     with shared_array.get_lock():
@@ -256,23 +298,26 @@ def create_warning_strip(window, shared_array):
         warning_code = shared_array[12]
     text_to_display = w_strip_status_code_to_string(warning_code)
     info_text = canvas.create_text(
-        400, 30, text=text_to_display, fill="white", font=("Helvetica", "18"))
+        400, 30, text=text_to_display, fill="white", font=("Helvetica", "20"))
     if (warning_level == 0):
-        canvas.configure(bg="black")
+        info_bg = canvas.create_polygon(
+            0, 0, 800, 0, 800, 50, 0, 50, fill="black")
         info_text = canvas.create_text(
-            400, 30, text=text_to_display, fill="white", font=("Helvetica", "18"))
+            400, 30, text=text_to_display, fill="white", font=("Helvetica", "20"))
     elif (warning_level == 1):
-        canvas.configure(bg="black")
+        info_bg = canvas.create_polygon(
+            0, 0, 800, 0, 800, 50, 0, 50, fill="black")
         info_text = canvas.create_text(
-            400, 30, text=text_to_display, fill="red", font=("Helvetica", "18"))
+            400, 30, text=text_to_display, fill="red", font=("Helvetica", "20"))
     elif (warning_level == 2):
-        canvas.configure(bg="red")
+        info_bg = canvas.create_polygon(
+            0, 0, 800, 0, 800, 50, 0, 50, fill="red")
         info_text = canvas.create_text(
-            400, 30, text=text_to_display, fill="white", font=("Helvetica", "18"))
-    return canvas, info_text
+            400, 30, text=text_to_display, fill="white", font=("Helvetica", "20"))
+    return canvas, info_text, info_bg
 
 
-def update_warning_strip(window, canvas, info_text, shared_array):
+def update_warning_strip(window, canvas, info_text, info_bg, shared_array):
     warning_level = 0
     warning_code = 0
     with shared_array.get_lock():
@@ -280,16 +325,18 @@ def update_warning_strip(window, canvas, info_text, shared_array):
         warning_code = shared_array[12]
     text_to_display = w_strip_status_code_to_string(warning_code)
     if (warning_level == 0):
-        canvas.config(bg="black")
         canvas.itemconfig(info_text, fill="white", text=text_to_display)
+        canvas.itemconfig(info_bg, fill="black")
     elif (warning_level == 1):
-        canvas.config(bg="black")
         canvas.itemconfig(info_text, fill="red", text=text_to_display)
+        canvas.itemconfig(info_bg, fill="black")
     elif (warning_level == 2):
-        canvas.config(bg="red")
         canvas.itemconfig(info_text, fill="white", text=text_to_display)
-    window.after(1000, update_warning_strip, window, canvas,
-                 info_text, shared_array)
+        canvas.itemconfig(info_bg, fill="red")
+    canvas.tag_raise(info_bg)
+    canvas.tag_raise(info_text)
+    window.after(100, update_warning_strip, window, canvas,
+                 info_text, info_bg, shared_array)
 
 
 def wait_for_door_open(window, shared_array):
@@ -318,6 +365,13 @@ def exit_door_open_window(window, shared_array):
         button.pack()
         popup.mainloop()
     else:
+        with shared_array.get_lock():
+            shared_array[4] = False
+            shared_array[5] = 2
+            shared_array[7] = False
+            shared_array[8] = False
+            shared_array[11] = 0
+            shared_array[12] = 0
         window.destroy()
 
 
@@ -326,20 +380,20 @@ def door_closed_window(shared_array):
     sv_ttk.set_theme("dark")
     window.geometry("800x480")
     window.title("Internet-based Naloxone Safety Kit")
-    i_strip, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, date_time_label = create_information_strip(
-        window)
+    i_strip, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, phone_led, phone_label, date_time_label = create_information_strip(
+        window, shared_array)
     i_strip.pack(side=tk.TOP)
 
     img = Image.open(r"image.png")
     img = ImageTk.PhotoImage(img)
     label = ttk.Label(window, image=img)
     label.pack()
-    w_strip, info_text = create_warning_strip(
+    w_strip, info_text, info_bg = create_warning_strip(
         window, shared_array)
     w_strip.pack(side=tk.BOTTOM)
     update_information_strip(window, shared_array, i_strip, temperature_led, temperature_label, network_led,
-                             network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
-    update_warning_strip(window, w_strip, info_text, shared_array)
+                             network_label, naloxone_led, naloxone_label, door_led, door_label, phone_led, phone_label, date_time_label)
+    update_warning_strip(window, w_strip, info_text, info_bg, shared_array)
     wait_for_door_open(window, shared_array)
     window.mainloop()
 
@@ -357,7 +411,7 @@ def door_open_window(shared_array):
     window = tk.Tk()
     sv_ttk.set_theme("dark")
     s = ttk.Style()
-    s.configure('.', font=('Helvetica', 20))
+    s.configure("s1.TButton", font=('Helvetica', 24))
     window.title("Emergency: Touch Enabled")
     window.geometry("800x480")
     for i in range(2):
@@ -370,39 +424,91 @@ def door_open_window(shared_array):
     month = today.month
     day = today.day
 
-    info_strip, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, date_time_label = create_information_strip(
-        window)
+    info_strip, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, phone_led, phone_label, date_time_label = create_information_strip(
+        window, shared_array)
     info_strip.grid(row=0, column=0, columnspan=2)
 
-    w_strip, info_text = create_warning_strip(window, shared_array)
+    w_strip, info_text, info_bg = create_warning_strip(window, shared_array)
     w_strip.grid(row=4, column=0, columnspan=2)
 
-    mute_alarm_button = ttk.Button(window, text="Mute Alarm", command=lambda: mute_alarm(shared_array)).grid(
+    mute_alarm_button = ttk.Button(window, text="Mute Alarm", style="s1.TButton", command=lambda: mute_alarm(shared_array)).grid(
         row=1, column=0, padx=10, pady=10, sticky="nesw")
     set_naloxone_expire_date_button = ttk.Button(
-        window, text="Set Expiry Date", command=lambda: date_selector(cal.get_date())).grid(row=2, column=0, padx=10, pady=10, sticky="nesw")
+        window, text="Set Expiry Date", style="s1.TButton", command=lambda: date_selector(cal.get_date())).grid(row=2, column=0, padx=10, pady=10, sticky="nesw")
     cal = Calendar(window, font="11", selectmode="day", background="black", disabledbackground="black", bordercolor="black",
                    headersbackground="black", normalbackground="black", foreground="white",
                    normalforeground="white", headersforeground="white",
                    cursor="hand1", year=year, month=month, day=day)
     cal.grid(row=1, column=1, rowspan=3, sticky="nesw")
-    reset_button = ttk.Button(window, text="Close Door & Reset", command=lambda: exit_door_open_window(window, shared_array)).grid(
+    reset_button = ttk.Button(window, text="Close Door & Reset", style="s1.TButton", command=lambda: exit_door_open_window(window, shared_array)).grid(
         row=3, column=0, padx=10, pady=10, sticky="nesw")
     update_information_strip(window, shared_array, info_strip, temperature_led, temperature_label, network_led,
-                             network_label, naloxone_led, naloxone_label, door_led, door_label, date_time_label)
-    update_warning_strip(window, w_strip, info_text, shared_array)
+                             network_label, naloxone_led, naloxone_label, door_led, door_label, phone_led, phone_label, date_time_label)
+    update_warning_strip(window, w_strip, info_text, info_bg, shared_array)
+    window.mainloop()
+
+
+def update_countdown_window(window, shared_array, status_code):
+    with shared_array.get_lock():
+        shared_array[11] = 2
+        shared_array[12] = status_code
+        if (status_code == 100):
+            shared_array[4] = True
+            shared_array[8] = False
+    if (status_code == 100):
+        window.destroy()
+    else:
+        window.after(1000, update_countdown_window,
+                     window, shared_array, status_code-1)
+
+
+def count_down_window(shared_array):
+    window = tk.Tk()
+    sv_ttk.set_theme("dark")
+    s = ttk.Style()
+    s.configure("s1.TButton", font=('Helvetica', 24))
+    window.title("Select an option")
+    window.geometry("800x480")
+    for i in range(2):
+        window.columnconfigure(i, weight=1, uniform="a")
+    for i in range(1, 3):
+        window.rowconfigure(i, weight=1, uniform="a")
+
+    info_strip, temperature_led, temperature_label, naloxone_led, naloxone_label, network_led, network_label, door_led, door_label, phone_led, phone_label, date_time_label = create_information_strip(
+        window, shared_array)
+    info_strip.grid(row=0, column=0, columnspan=2)
+
+    w_strip, info_text, info_bg = create_warning_strip(window, shared_array)
+    w_strip.grid(row=4, column=0, columnspan=2)
+
+    stop_countdown_button = ttk.Button(window, style="s1.TButton", text="Stop\nCountdown").grid(
+        row=1, column=0, padx=10, pady=10, sticky="nesw")
+    help_button = ttk.Button(window, style="s1.TButton", text="Help").grid(
+        row=1, column=1, padx=10, pady=10, sticky="nesw")
+    set_expiry_date_button = ttk.Button(window, style="s1.TButton", text="Set\nExpiry Date").grid(
+        row=2, column=0, padx=10, pady=10, sticky="nesw")
+
+    update_countdown_window(window, shared_array, 110)
+
+    update_information_strip(window, shared_array, info_strip, temperature_led, temperature_label, network_led,
+                             network_label, naloxone_led, naloxone_label, door_led, door_label, phone_led, phone_label, date_time_label)
+    update_warning_strip(window, w_strip, info_text, info_bg, shared_array)
     window.mainloop()
 
 
 def gui_manager(shared_array):
     door_opened = 0
+    status_code = 0
     while True:
         with shared_array.get_lock():
             door_opened = shared_array[3]
+            status_code = shared_array[12]
         if (not door_opened):
             door_closed_window(shared_array)
+            # door_closed_window(shared_array)
+        elif (status_code != 100):
+            count_down_window(shared_array)
         else:
-            print("door open")
             door_open_window(shared_array)
 
 
@@ -502,7 +608,6 @@ def read_door_switch():
 def gpio_manager(shared_array):
     GPIO.setup(DOOR_PIN, GPIO.IN)
     while True:
-        print("gpio go")
         temp = read_temperature_sensor()
         pwm = calculate_pwm(temp)
         control_fan(pwm)
@@ -528,14 +633,25 @@ def fork_gpio(shared_array):
 
 
 def call_manager(shared_array):
+    call_attempt = 0
+    call_result = False
     while True:
         with shared_array.get_lock():
-            print("call manager get lock")
-            if (shared_array[4] and not shared_array[8]):
-                print("INFO: phone placed")
-                result = make_phone_call()
+            call_result = shared_array[5]
+            if (shared_array[4] and call_result != 1 and not shared_array[8] and call_attempt <= 3):
+                call_attempt += 1
+                print("INFO: phone call attempt {}".format(call_attempt))
+                #result = make_phone_call()
+                result = True
                 shared_array[5] = result
-        sleep(10000)
+                if (result):
+                    shared_array[4] = False
+                    call_attempt = 0
+            elif (shared_array[4] and call_result == 0 and not shared_array[8] and call_attempt > 3):
+                shared_array[4] = False
+                shared_array[7] = True
+                call_attempt = 0
+        sleep(1)
 
 
 def fork_call(shared_array):
@@ -569,12 +685,15 @@ def fork_network(shared_array):
 
 
 def alarm_manager(shared_array):
-    sleep(100000)
-    # while (True):
-    #     if (buffer[11]):
-    #         # if we need a alarm, do now
-    #         print("INFO: alarm played")
-    #         # synthesize the alarm
+    alarm_needed = False
+    mute = False
+    while True:
+        with shared_array.get_lock():
+            alarm_needed = shared_array[7]
+            mute = shared_array[8]
+        if (alarm_needed and not mute):
+            print("synthesizing")
+            sleep(10)
 
 
 def fork_alarm(shared_array):
@@ -593,8 +712,8 @@ def naloxone_manager(shared_array):
         with shared_array.get_lock():
             if (shared_array[0]):
                 shared_array[10] = True
-                shared_array[11] = 2
-                shared_array[12] = 2
+                shared_array[11] = max(2, shared_array[11])
+                shared_array[12] = max(2, shared_array[12])
         sleep(10)
 
 
@@ -643,7 +762,7 @@ if __name__ == "__main__":
     # fork_oobe()
     fork_oobe()
 
-    shared_array = Array("i", (0, 20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0))
     # gpio_process = Process(target=gpio_manager, args=(shared_array,))
     # gpio_process.start()
 
