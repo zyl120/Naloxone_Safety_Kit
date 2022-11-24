@@ -104,3 +104,7 @@ def fork_oobe():
         os.waitpid(pid, 0)
     else:
         oobe_manager()
+
+
+if __name__ == "__main__":
+    enter_info_window()

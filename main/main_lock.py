@@ -11,7 +11,7 @@ from call import fork_call
 from naloxone import fork_naloxone
 from gpio import fork_gpio
 from alarm import fork_alarm
-from oobe import fork_oobe
+from oobe_qt import fork_oobe
 from gui import fork_gui
 
 
