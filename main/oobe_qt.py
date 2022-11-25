@@ -6,13 +6,14 @@ import os
 import sys
 import configparser
 import subprocess
+import qdarktheme
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
     naloxone_expiration_date = QtCore.QDate.currentDate()
     active_hour_start = QtCore.QTime(8, 0, 0)
     active_hour_end = QtCore.QTime(18, 0, 0)
-    print(naloxone_expiration_date)
+    #print(naloxone_expiration_date)
     #touch_keyboard = subprocess.Popen(['matchbox-keyboard'])
 
     def __init__(self):
@@ -138,6 +139,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
 def enter_info_window():
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyleSheet(qdarktheme.load_stylesheet())
     application = ApplicationWindow()
     application.show()
     sys.exit(app.exec_())

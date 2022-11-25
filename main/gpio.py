@@ -4,6 +4,7 @@ from time import sleep
 import signal
 import os
 import sys
+import random
 
 
 DOOR_PIN = 17
@@ -22,15 +23,15 @@ def gpio_signal_handler(signum, frame):
 def read_temperature_sensor():
     #humidity, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
     #temperature = 20
-    #list1 = [5, 10, 15, 20, 25, 30, 35, 40]
-    temperature = 20
+    list1 = [5, 10, 15, 20, 25, 30, 35, 40]
+    temperature = random.choice(list1)
     return temperature
 
 
 def calculate_pwm(temperature):
     #print("control pwm")
-    #list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
-    pwm = 50
+    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
+    pwm = random.choice(list1)
     return pwm
 
 

@@ -5,6 +5,7 @@ from time import sleep
 import os
 import sys
 import signal
+import configparser
 
 
 def call_signal_handler(signum, frame):
@@ -17,16 +18,28 @@ def call_signal_handler(signum, frame):
 
 def make_phone_call():
     # read account_sid and auth_token from environment variables
-    file = open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "rt")
-    account_sid = file.readline()
-    auth_token = file.readline()
-    address = file.readline()
-    message = file.readline()
-    from_phone_number = file.readline()
-    to_phone_number = file.readline()
-    loop = file.readline()
-    voice = file.readline()
-    file.close()
+    # file = open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "rt")
+    # account_sid = file.readline()
+    # auth_token = file.readline()
+    # address = file.readline()
+    # message = file.readline()
+    # from_phone_number = file.readline()
+    # to_phone_number = file.readline()
+    # loop = file.readline()
+    # voice = file.readline()
+    # file.close()
+
+    config = configparser.ConfigParser()
+    config.read("safety_kit.conf")
+    account_sid = config["twilio"]["twilio_sid"]
+    auth_token = config["twilio"]["twilio_token"]
+    address = config["emergency_info"]["emergency_address"]
+    message = config["emergency_info"]["emergency_message"]
+    from_phone_number = config["twilio"]["twilio_phone_number"]
+    to_phone_number = config["emergency_info"]["emergency_phone_number"]
+    loop = "0"
+    voice = "woman"
+
 
     # create the response
     response = VoiceResponse()

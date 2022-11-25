@@ -12,7 +12,7 @@ from naloxone import fork_naloxone
 from gpio import fork_gpio
 from alarm import fork_alarm
 from oobe_qt import fork_oobe
-from gui import fork_gui
+from gui_qt import fork_gui
 
 
 main_pid = 0
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     fork_oobe()
 
-    shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0))
+    shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2000, 1, 20, 0, 0))
 
     gpio_pid = fork_gpio(shared_array)
     call_pid = fork_call(shared_array)

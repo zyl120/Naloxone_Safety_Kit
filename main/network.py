@@ -2,6 +2,7 @@ import os
 import sys
 from time import sleep
 import signal
+from PyQt5 import QtCore
 
 
 def network_signal_handler(signum, frame):
@@ -28,8 +29,11 @@ def ping():
 def network_manager(shared_array):
     while True:
         server_status = ping()
+        currentTime = QtCore.QTime().currentTime()
         with shared_array.get_lock():
             shared_array[6] = server_status
+            shared_array[16] = currentTime.hour()
+            shared_array[17] = currentTime.minute()
         sleep(600)  # check for network connection every 10 minutes.
 
 
