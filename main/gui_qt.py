@@ -6,9 +6,6 @@ import configparser
 import subprocess
 import signal
 from ui_door_close_window import Ui_door_close_main_window
-# from ui_calendar_picker import Ui_Dialog
-# from ui_time_picker import Ui_activeHoursPicker
-#from qt_material import apply_stylesheet
 import qdarktheme
 from time import sleep
 
@@ -55,21 +52,19 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.shared_array = shared_array
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
-        # self.ui.naloxoneExpirationDateSettingsLineEdit.setText(
-        #    self.naloxone_expiration_date.toString())
-        #self.ui.startHourLabel.setText(self.active_hour_start.toString("h:mm AP"))
-        #self.ui.endHourLabel.setText(self.active_hour_end.toString("h:mm AP"))
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.settingsPushButton.clicked.connect(self.goto_settings)
         self.ui.dashboardPushButton.clicked.connect(self.goto_dashboard)
         self.ui.unlockSettingsPushButton.clicked.connect(
             self.lock_unlock_settings)
-
-        # self.ui.naloxoneExpirationDatePickerPushButton.clicked.connect(
-        #     self.date_picker)
-        # self.ui.activeHoursPushButton.clicked.connect(self.time_picker)
         self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
+        # self.ui.saveToFilePushButton.setEnabled(False)
+        # self.ui.settingsTab.setCurrentIndex(0)
+        # self.
+        self.load_settings()
+        self.goto_dashboard()
+        self.goto_door_open()
 
         self.time_updater_thread = QtCore.QThread()
         self.time_worker = Worker(self.update_time)
@@ -82,6 +77,36 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui_worker.moveToThread(self.ui_updater_thread)
         self.ui_updater_thread.started.connect(self.ui_worker.run)
         self.ui_updater_thread.start()
+
+    def load_settings(self):
+        config = configparser.ConfigParser()
+        config.read("safety_kit.conf")
+        self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
+        self.ui.twilioTokenLineEdit.setText(config["twilio"]["twilio_token"])
+        self.ui.twilioPhoneNumberLineEdit.setText(
+            config["twilio"]["twilio_phone_number"])
+        self.ui.emergencyPhoneNumberLineEdit.setText(
+            config["emergency_info"]["emergency_phone_number"])
+        self.ui.emergencyAddressLineEdit.setText(
+            config["emergency_info"]["emergency_address"])
+        self.ui.emergencyMessageLineEdit.setText(
+            config["emergency_info"]["emergency_message"])
+        self.naloxone_expiration_date = QtCore.QDate.fromString(
+            config["naloxone_info"]["naloxone_expiration_date"])
+        self.ui.calendarWidget.setSelectedDate(self.naloxone_expiration_date)
+        self.ui.temperatureSpinBox.setValue(
+            int(config["naloxone_info"]["absolute_maximum_temperature"]))
+        self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
+        self.ui.adminPhoneNumberLineEdit.setText(
+            config["admin"]["admin_phone_number"])
+        self.ui.enableSMSCheckBox.setChecked(
+            config["admin"]["enable_sms"] == "True")
+        self.active_hour_start = QtCore.QTime.fromString(config["power_management"]["active_hours_start_at"],"hh:mm")
+        self.ui.startTimeEdit.setTime(self.active_hour_start)
+        self.active_hour_end = QtCore.QTime.fromString(config["power_management"]["active_hours_end_at"],"hh:mm")
+        self.ui.endTimeEdit.setTime(self.active_hour_end)
+        self.ui.enablePowerSavingCheckBox.setChecked(
+            config["power_management"]["enable_power_saving"] == "True")
 
     def check_passcode(self):
         config = configparser.ConfigParser()
@@ -100,11 +125,26 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         passcode_check_result = self.check_passcode()
         if (passcode_check_result):
             self.ui.unlockSettingsPushButton.setText("Lock Settings")
-            self.ui.settingsTab.setEnabled(True)
+            self.load_settings()
+            self.ui.saveToFilePushButton.setEnabled(True)
+            self.ui.settingsTab.setCurrentIndex(1)
+            self.ui.settingsTab.setTabEnabled(0, True)
+            self.ui.settingsTab.setTabEnabled(1, True)
+            self.ui.settingsTab.setTabEnabled(2, True)
+            self.ui.settingsTab.setTabEnabled(3, True)
+            self.ui.settingsTab.setTabEnabled(4, True)
+            self.ui.settingsTab.setTabEnabled(5, True)
+            self.ui.securityLabel.setText(
+                "Settings are unlocked.\nClick \"Lock Settings\" to lock.")
             self.goto_settings()
         else:
             self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-            self.ui.settingsTab.setEnabled(False)
+            self.ui.settingsTab.setTabEnabled(0, True)
+            self.ui.settingsTab.setTabEnabled(1, False)
+            self.ui.settingsTab.setTabEnabled(2, False)
+            self.ui.settingsTab.setTabEnabled(3, False)
+            self.ui.settingsTab.setTabEnabled(4, False)
+            self.ui.settingsTab.setTabEnabled(5, False)
 
     def lock_unlock_settings(self):
         if (self.ui.unlockSettingsPushButton.text() == "Unlock Settings"):
@@ -114,10 +154,23 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.goto_passcode()
         elif (self.ui.unlockSettingsPushButton.text() == "Lock Settings"):
             self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-            self.ui.settingsTab.setEnabled(False)
+            self.ui.securityLabel.setText(
+                "Settings are locked.\nClick \"Unlock Settings\" to unlock.")
+            self.ui.saveToFilePushButton.setEnabled(False)
+            self.ui.settingsTab.setCurrentIndex(0)
+            self.ui.settingsTab.setTabEnabled(0, True)
+            self.ui.settingsTab.setTabEnabled(1, False)
+            self.ui.settingsTab.setTabEnabled(2, False)
+            self.ui.settingsTab.setTabEnabled(3, False)
+            self.ui.settingsTab.setTabEnabled(4, False)
+            self.ui.settingsTab.setTabEnabled(5, False)
+
+    def goto_door_open(self):
+        self.ui.stackedWidget.setCurrentIndex(3)
 
     def goto_passcode(self):
         self.ui.passcodeEnterLineEdit.clear()
+        self.ui.passcodeEnterLabel.setText("Enter Passcode")
         self.ui.stackedWidget.setCurrentIndex(2)
 
     def goto_settings(self):
@@ -125,7 +178,16 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def goto_dashboard(self):
         self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-        self.ui.settingsTab.setEnabled(False)
+        self.ui.securityLabel.setText(
+            "Settings are locked.\nClick \"Unlock Settings\" to unlock.")
+        self.ui.saveToFilePushButton.setEnabled(False)
+        self.ui.settingsTab.setCurrentIndex(0)
+        self.ui.settingsTab.setTabEnabled(0, True)
+        self.ui.settingsTab.setTabEnabled(1, False)
+        self.ui.settingsTab.setTabEnabled(2, False)
+        self.ui.settingsTab.setTabEnabled(3, False)
+        self.ui.settingsTab.setTabEnabled(4, False)
+        self.ui.settingsTab.setTabEnabled(5, False)
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def exit_program(self):
@@ -186,7 +248,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             if (server == 0):
                 self.ui.serverStatusLineEdit.setText("Down")
             else:
-                self.ui.serverStatusLineEdit.setText("Connected")
+                self.ui.serverStatusLineEdit.setText("OK")
             if (door == 0):
                 self.ui.doorClosedLineEdit.setText("Closed")
             else:
@@ -201,77 +263,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.ui.naloxoneStatusLineEdit.setText("OK")
             sleep(1)
 
-    # def date_picker(self):
-    #     print("INFO: date picker go")
-    #     date_picker_dialog = QtWidgets.QDialog()
-    #     date_picker_dialog.ui = Ui_Dialog()
-    #     date_picker_dialog.ui.setupUi(date_picker_dialog)
-    #     date_picker_dialog.ui.calendarWidget.setSelectedDate(
-    #         self.naloxone_expiration_date)
-    #     date_picker_dialog.ui.buttonBox.accepted.connect(lambda: self.get_date(
-    #         date_picker_dialog.ui.calendarWidget.selectedDate()))
-    #     date_picker_dialog.exec_()
-
-    # def get_date(self, selectedDate):
-    #     self.naloxone_expiration_date = selectedDate
-    #     self.ui.naloxoneExpirationDateSettingsLineEdit.setText(
-    #         self.naloxone_expiration_date.toString())
-    #     print(selectedDate.toString())
-
-    # def military_clock_to_12_clock(self, military_clock):
-    #     print(military_clock.toString())
-    #     hour, apm = military_clock.toString("h AP").split()
-    #     print(hour, apm)
-    #     if (apm == "AM"):
-    #         apm = 0
-    #     else:
-    #         apm = 1
-    #     return int(hour), apm
-
-    # def time_picker(self):
-    #     print("INFO: time picker go")
-    #     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
-    #     time_picker_dialog = QtWidgets.QDialog()
-    #     QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
-    #     time_picker_dialog.ui = Ui_activeHoursPicker()
-    #     time_picker_dialog.ui.setupUi(time_picker_dialog)
-
-    #     time_picker_dialog.ui.startTimeEdit.setTime(self.active_hour_start)
-    #     time_picker_dialog.ui.endTimeEdit.setTime(self.active_hour_end)
-
-    #     time_picker_dialog.ui.activeHoursPickerButtonBox.accepted.connect(lambda: self.get_time(time_picker_dialog.ui.startTimeEdit.time(), time_picker_dialog.ui.endTimeEdit.time()))
-    #     time_picker_dialog.exec_()
-
-    # def get_time(self, start_time, end_time):
-    #     print(start_time.toString("h:mm AP"))
-    #     print(end_time.toString("h:mm AP"))
-    #     #print("INFO: get time" + str(startHour) +
-    #     #      str(startAPM) + str(endHour) + str(endAPM))
-    #     # start_hour_calculate = 0
-    #     # if (startHour == 12 and startAPM == 0):
-    #     #     start_hour_calculate = 0
-    #     # elif (startHour == 12 and startAPM == 1):
-    #     #     start_hour_calculate = 12
-    #     # else:
-    #     #     start_hour_calculate = startHour + startAPM * 12
-
-    #     # end_hour_calculate = 0
-    #     # if (endHour == 12 and endAPM == 0):
-    #     #     end_hour_calculate = 0
-    #     # elif (endHour == 12 and endAPM == 1):
-    #     #     end_hour_calculate = 12
-    #     # else:
-    #     #     end_hour_calculate = endHour + endAPM * 12
-
-    #     self.active_hour_start = start_time
-    #     self.actibe_hour_end = end_time
-
-    #     #self.active_hour_start.setHMS(start_hour_calculate, 0,0)
-    #     #self.active_hour_end.setHMS(end_hour_calculate, 0, 0)
-    #     self.ui.startHourLabel.setText(self.active_hour_start.toString("h:mm AP"))
-    #     self.ui.endHourLabel.setText(self.active_hour_end.toString("h:mm AP"))
-
     def save_config_file(self):
+        self.naloxone_expiration_date = self.ui.calendarWidget.selectedDate()
+        self.active_hour_start = self.ui.startTimeEdit.time()
+        self.active_hour_end = self.ui.endTimeEdit.time()
         config = configparser.ConfigParser()
         config["twilio"] = {
             "twilio_sid": self.ui.twilioSIDLineEdit.text(),
@@ -294,8 +289,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         config["power_management"] = {
             "enable_power_saving": self.ui.enablePowerSavingCheckBox.isChecked(),
-            "active_hours_start_at": self.active_hour_start.toString("hh"),
-            "active_hours_end_at": self.active_hour_end.toString("hh")
+            "active_hours_start_at": self.active_hour_start.toString("hh:mm"),
+            "active_hours_end_at": self.active_hour_end.toString("hh:mm")
         }
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
