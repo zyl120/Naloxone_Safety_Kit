@@ -103,6 +103,6 @@ if __name__ == "__main__":
     signal.signal(signal.SIGUSR1, parent_signal_handler)
 
     while True:
-        print_shared_memory(shared_array)
+        #print_shared_memory(shared_array)
         process_monitor(shared_array)
         sleep(1)

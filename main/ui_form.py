@@ -211,7 +211,7 @@ class Ui_Widget(object):
         self.activeHoursLabel.setBuddy(self.activeHoursPushButton)
 
         self.retranslateUi(Widget)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Widget)
         Widget.setTabOrder(self.tabWidget, self.twilioSIDLineEdit)
         Widget.setTabOrder(self.twilioSIDLineEdit, self.twilioTokenLineEdit)
