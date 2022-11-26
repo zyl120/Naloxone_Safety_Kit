@@ -6,7 +6,6 @@ import configparser
 import subprocess
 import signal
 from ui_door_close_window import Ui_door_close_main_window
-import qdarktheme
 from time import sleep
 
 
@@ -46,7 +45,7 @@ class Worker(QtCore.QObject):
 class ApplicationWindow(QtWidgets.QMainWindow):
     def __init__(self, shared_array):
         super(ApplicationWindow, self).__init__()
-        self.naloxone_expiration_date = QtCore.QDate.currentDate()
+        #self.naloxone_expiration_date = QtCore.QDate.currentDate()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.shared_array = shared_array
@@ -64,13 +63,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # self.
         self.load_settings()
         self.goto_dashboard()
-        self.goto_door_open()
-
-        self.time_updater_thread = QtCore.QThread()
-        self.time_worker = Worker(self.update_time)
-        self.time_worker.moveToThread(self.time_updater_thread)
-        self.time_updater_thread.started.connect(self.time_worker.run)
-        self.time_updater_thread.start()
+        #self.goto_door_open()
 
         self.ui_updater_thread = QtCore.QThread()
         self.ui_worker = Worker(self.update_ui)
@@ -91,9 +84,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             config["emergency_info"]["emergency_address"])
         self.ui.emergencyMessageLineEdit.setText(
             config["emergency_info"]["emergency_message"])
-        self.naloxone_expiration_date = QtCore.QDate.fromString(
+        naloxone_expiration_date = QtCore.QDate.fromString(
             config["naloxone_info"]["naloxone_expiration_date"])
-        self.ui.calendarWidget.setSelectedDate(self.naloxone_expiration_date)
+        self.ui.calendarWidget.setSelectedDate(naloxone_expiration_date)
         self.ui.temperatureSpinBox.setValue(
             int(config["naloxone_info"]["absolute_maximum_temperature"]))
         self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
@@ -101,9 +94,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             config["admin"]["admin_phone_number"])
         self.ui.enableSMSCheckBox.setChecked(
             config["admin"]["enable_sms"] == "True")
-        self.active_hour_start = QtCore.QTime.fromString(config["power_management"]["active_hours_start_at"],"hh:mm")
+        self.active_hour_start = QtCore.QTime.fromString(
+            config["power_management"]["active_hours_start_at"], "hh:mm")
         self.ui.startTimeEdit.setTime(self.active_hour_start)
-        self.active_hour_end = QtCore.QTime.fromString(config["power_management"]["active_hours_end_at"],"hh:mm")
+        self.active_hour_end = QtCore.QTime.fromString(
+            config["power_management"]["active_hours_end_at"], "hh:mm")
         self.ui.endTimeEdit.setTime(self.active_hour_end)
         self.ui.enablePowerSavingCheckBox.setChecked(
             config["power_management"]["enable_power_saving"] == "True")
@@ -111,12 +106,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def check_passcode(self):
         config = configparser.ConfigParser()
         config.read("safety_kit.conf")
-        print("passcode" + self.ui.passcodeEnterLineEdit.text())
+        #print("passcode" + self.ui.passcodeEnterLineEdit.text())
         if (self.ui.passcodeEnterLineEdit.text() == config["admin"]["passcode"]):
-            print("good passcode")
+            #print("good passcode")
             return True
         else:
-            print("bad passcode")
+            #print("bad passcode")
             self.ui.passcodeEnterLabel.setText("Try Again")
             self.ui.passcodeEnterLineEdit.clear()
             return False
@@ -126,7 +121,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (passcode_check_result):
             self.ui.unlockSettingsPushButton.setText("Lock Settings")
             self.load_settings()
-            self.ui.saveToFilePushButton.setEnabled(True)
+            # self.ui.saveToFilePushButton.setEnabled(True)
             self.ui.settingsTab.setCurrentIndex(1)
             self.ui.settingsTab.setTabEnabled(0, True)
             self.ui.settingsTab.setTabEnabled(1, True)
@@ -142,7 +137,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.settingsTab.setTabEnabled(0, True)
             self.ui.settingsTab.setTabEnabled(1, False)
             self.ui.settingsTab.setTabEnabled(2, False)
-            self.ui.settingsTab.setTabEnabled(3, False)
+            self.ui.settingsTab.setTabEnabled(3, True)
             self.ui.settingsTab.setTabEnabled(4, False)
             self.ui.settingsTab.setTabEnabled(5, False)
 
@@ -155,13 +150,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         elif (self.ui.unlockSettingsPushButton.text() == "Lock Settings"):
             self.ui.unlockSettingsPushButton.setText("Unlock Settings")
             self.ui.securityLabel.setText(
-                "Settings are locked.\nClick \"Unlock Settings\" to unlock.")
-            self.ui.saveToFilePushButton.setEnabled(False)
+                "Other settings are locked.\nClick \"Unlock Settings\" to unlock.")
+            # self.ui.saveToFilePushButton.setEnabled(False)
             self.ui.settingsTab.setCurrentIndex(0)
             self.ui.settingsTab.setTabEnabled(0, True)
             self.ui.settingsTab.setTabEnabled(1, False)
             self.ui.settingsTab.setTabEnabled(2, False)
-            self.ui.settingsTab.setTabEnabled(3, False)
+            self.ui.settingsTab.setTabEnabled(3, True)
             self.ui.settingsTab.setTabEnabled(4, False)
             self.ui.settingsTab.setTabEnabled(5, False)
 
@@ -179,13 +174,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def goto_dashboard(self):
         self.ui.unlockSettingsPushButton.setText("Unlock Settings")
         self.ui.securityLabel.setText(
-            "Settings are locked.\nClick \"Unlock Settings\" to unlock.")
-        self.ui.saveToFilePushButton.setEnabled(False)
+            "Other settings are locked.\nClick \"Unlock Settings\" to unlock.")
+        # self.ui.saveToFilePushButton.setEnabled(False)
         self.ui.settingsTab.setCurrentIndex(0)
         self.ui.settingsTab.setTabEnabled(0, True)
         self.ui.settingsTab.setTabEnabled(1, False)
         self.ui.settingsTab.setTabEnabled(2, False)
-        self.ui.settingsTab.setTabEnabled(3, False)
+        self.ui.settingsTab.setTabEnabled(3, True)
         self.ui.settingsTab.setTabEnabled(4, False)
         self.ui.settingsTab.setTabEnabled(5, False)
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -193,12 +188,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def exit_program(self):
         os.kill(0, signal.SIGINT)  # kill all processes
         self.close()
-
-    def update_time(self):
-        while True:
-            self.ui.currentTimeLineEdit.setText(
-                QtCore.QTime().currentTime().toString("h:mm AP"))
-            sleep(1)
 
     def toggle_door_arm(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
@@ -237,34 +226,43 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 day = self.shared_array[15]
                 hour = self.shared_array[16]
                 minute = self.shared_array[17]
+            self.ui.currentTimeLineEdit.setText(
+                QtCore.QTime().currentTime().toString("h:mm AP"))
+            iconString = str()
             naloxone_expiration_date = QtCore.QDate(year, month, day)
             server_check_time = QtCore.QTime(hour, minute)
             self.ui.naloxoneExpirationDateLineEdit.setText(
                 naloxone_expiration_date.toString("MMM dd, yy"))
             self.ui.serverCheckLineEdit.setText(
                 server_check_time.toString("h:mm AP"))
-            self.ui.temperatureLineEdit.setText(str(temperature) + " C")
+            self.ui.temperatureLineEdit.setText(
+                str(temperature) + "℃/"+str(int(temperature * 1.8 + 32)) + "℉")
             self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
             if (server == 0):
                 self.ui.serverStatusLineEdit.setText("Down")
+                iconString += "📶"
             else:
                 self.ui.serverStatusLineEdit.setText("OK")
             if (door == 0):
                 self.ui.doorClosedLineEdit.setText("Closed")
             else:
                 self.ui.doorClosedLineEdit.setText("Open")
+                iconString += "🚪"
             if (armed == 0):
                 self.ui.doorArmedLineEdit.setText("Armed")
             else:
                 self.ui.doorArmedLineEdit.setText("Disarmed")
+                iconString += "⏸️"
             if (naloxone_expired or naloxone_overheat):
                 self.ui.naloxoneStatusLineEdit.setText("Destroyed")
+                iconString += "💊"
             else:
                 self.ui.naloxoneStatusLineEdit.setText("OK")
+            self.ui.iconLabel.setText(iconString)
             sleep(1)
 
     def save_config_file(self):
-        self.naloxone_expiration_date = self.ui.calendarWidget.selectedDate()
+        #self.naloxone_expiration_date = self.ui.calendarWidget.selectedDate()
         self.active_hour_start = self.ui.startTimeEdit.time()
         self.active_hour_end = self.ui.endTimeEdit.time()
         config = configparser.ConfigParser()
@@ -279,7 +277,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "emergency_message": self.ui.emergencyMessageLineEdit.text()
         }
         config["naloxone_info"] = {
-            "naloxone_expiration_date": self.naloxone_expiration_date.toString(),
+            "naloxone_expiration_date": self.ui.calendarWidget.selectedDate().toString(),
             "absolute_maximum_temperature": self.ui.temperatureSpinBox.text()
         }
         config["admin"] = {
@@ -297,22 +295,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         print("INFO: save config file")
 
 
-def door_closed_window(shared_array):
+def gui_manager(shared_array):
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
     QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow(shared_array)
     application.show()
     sys.exit(app.exec_())
-
-
-def gui_manager(shared_array):
-    while True:
-        with shared_array.get_lock():
-            door_opened = shared_array[3]
-            status_code = shared_array[12]
-        if (not door_opened):
-            door_closed_window(shared_array)
 
 
 def fork_gui(shared_array):
@@ -324,7 +313,3 @@ def fork_gui(shared_array):
         signal.signal(signal.SIGINT, gui_signal_handler)
         gui_manager(shared_array)
     return pid
-
-
-if __name__ == "__main__":
-    door_closed_window(1)

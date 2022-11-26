@@ -11,7 +11,6 @@ from call import fork_call
 from naloxone import fork_naloxone
 from gpio import fork_gpio
 from alarm import fork_alarm
-from oobe_qt import fork_oobe
 from gui_qt import fork_gui
 
 
@@ -61,7 +60,7 @@ def child_signal_handler(signum, frame):
 
 def print_shared_memory(shared_array):
     with shared_array.get_lock():
-        for i in range(13):
+        for i in range(19):
             print(shared_array[i], end=" ")
         print("")
 
@@ -88,11 +87,7 @@ def process_monitor(shared_array):
 if __name__ == "__main__":
     main_pid = os.getpid()
     print("INFO: main_pid={}".format(os.getpid()))
-
-    fork_oobe()
-
-    shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2000, 1, 20, 0, 0))
-
+    shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2000, 1, 20, 0, 0, 40))
     gpio_pid = fork_gpio(shared_array)
     call_pid = fork_call(shared_array)
     network_pid = fork_network(shared_array)

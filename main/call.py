@@ -17,18 +17,6 @@ def call_signal_handler(signum, frame):
 
 
 def make_phone_call():
-    # read account_sid and auth_token from environment variables
-    # file = open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "rt")
-    # account_sid = file.readline()
-    # auth_token = file.readline()
-    # address = file.readline()
-    # message = file.readline()
-    # from_phone_number = file.readline()
-    # to_phone_number = file.readline()
-    # loop = file.readline()
-    # voice = file.readline()
-    # file.close()
-
     config = configparser.ConfigParser()
     config.read("safety_kit.conf")
     account_sid = config["twilio"]["twilio_sid"]

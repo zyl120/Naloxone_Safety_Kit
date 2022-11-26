@@ -57,11 +57,12 @@ def gpio_manager(shared_array):
         door_status = read_door_switch()
         with shared_array.get_lock():
             shared_array[1] = temp
-            if (temp >= 40):
-                shared_array[0] = 1
+            if (temp > shared_array[18]):
+                # once destroyed by overheat, never change it back.
+                shared_array[0] = True
             shared_array[2] = pwm
             shared_array[3] = door_status
-        sleep(1)
+        sleep(3)
 
 
 def fork_gpio(shared_array):
