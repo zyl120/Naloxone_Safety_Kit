@@ -94,10 +94,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.unlockSettingsPushButton.clicked.connect(
             self.lock_unlock_settings)
         self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
+        self.ui.replaceNaloxonePushButton.clicked.connect(
+            self.replace_naloxone)
         self.load_settings()
         self.lock_settings()
-        # self.goto_dashboard()
-        # self.goto_door_open()
+        self.goto_home()
         # self.update_door.connect()
 
         self.get_shared_array_worker = Worker(self.shared_array)
@@ -144,9 +145,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             config["power_management"]["enable_power_saving"] == "True")
 
     def lock_settings(self):
-        self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-        self.ui.securityLabel.setText(
-            "Other settings are locked.\nClick \"Unlock Settings\" to unlock.")
+        self.ui.unlockSettingsPushButton.setText("Unlock Other Settings")
         self.ui.settingsTab.setCurrentIndex(0)
         self.ui.settingsTab.setTabEnabled(0, True)
         self.ui.settingsTab.setTabEnabled(1, True)
@@ -156,7 +155,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabEnabled(5, False)
 
     def unlock_settings(self):
-        self.ui.unlockSettingsPushButton.setText("Lock Settings")
+        self.ui.unlockSettingsPushButton.setText("Lock Other Settings")
         self.load_settings()
         # self.ui.saveToFilePushButton.setEnabled(True)
         self.ui.settingsTab.setCurrentIndex(0)
@@ -166,8 +165,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabEnabled(3, True)
         self.ui.settingsTab.setTabEnabled(4, True)
         self.ui.settingsTab.setTabEnabled(5, True)
-        self.ui.securityLabel.setText(
-            "Settings are unlocked.\nClick \"Lock Settings\" to lock.")
 
     def check_passcode(self):
         config = configparser.ConfigParser()
@@ -188,12 +185,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.lock_settings()
 
     def lock_unlock_settings(self):
-        if (self.ui.unlockSettingsPushButton.text() == "Unlock Settings"):
+        if (self.ui.unlockSettingsPushButton.text() == "Unlock Other Settings"):
             self.ui.passcodeEnterPushButton.clicked.connect(
                 self.check_passcode_unlock_settings)
             print("slot changed")
             self.goto_passcode()
-        elif (self.ui.unlockSettingsPushButton.text() == "Lock Settings"):
+        elif (self.ui.unlockSettingsPushButton.text() == "Lock Other Settings"):
             self.lock_settings()
 
     def goto_door_open(self):
@@ -206,18 +203,59 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def goto_settings(self):
         self.ui.stackedWidget.setCurrentIndex(2)
+        self.ui.settingsPushButton.setStyleSheet(
+            "background: white;color:rgb(70, 70, 70);")
+        self.ui.dashboardPushButton.setStyleSheet(
+            "color: white; background-color: rgb(70, 70, 70); ")
+        self.ui.homePushButton.setStyleSheet(
+            "color: white; background-color: rgb(70, 70, 70); ")
 
     def goto_dashboard(self):
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(1)
+        self.ui.dashboardPushButton.setStyleSheet(
+            "background: white;color:rgb(70, 70, 70);")
+        self.ui.settingsPushButton.setStyleSheet(
+            "color: white; background-color: rgb(70, 70, 70); ")
+        self.ui.homePushButton.setStyleSheet(
+            "color: white; background-color: rgb(70, 70, 70); ")
 
     def goto_home(self):
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(0)
+        self.ui.homePushButton.setStyleSheet(
+            "background: white;color:rgb(70, 70, 70);")
+        self.ui.dashboardPushButton.setStyleSheet(
+            "color: white; background-color: rgb(70, 70, 70); ")
+        self.ui.settingsPushButton.setStyleSheet(
+            "color: white; background-color: rgb(70, 70, 70); ")
 
     def exit_program(self):
         os.kill(0, signal.SIGINT)  # kill all processes
         self.close()
+
+    def replace_naloxone(self):
+        if (self.ui.replaceNaloxonePushButton.text() == "Replace Naloxone"):
+            with self.shared_array.get_lock():
+                self.shared_array[8] = 1
+            self.ui.replaceNaloxonePushButton.setText("Finish Replacement")
+            self.ui.saveToFilePushButton.setEnabled(False)
+            self.ui.replaceNaloxonGuidedLabel1.setText(
+                "1. Select the new expiration date and max temperature for the Naloxone.")
+            self.ui.saveToFilePushButton.setText(
+                "2. Close the door and Click \"Finish Replacement\" to finish up.")
+            self.goto_settings()
+            self.ui.settingsTab.setCurrentIndex(1)
+        else:
+            self.save_config_file()
+            self.ui.replaceNaloxonePushButton.setText("Replace Naloxone")
+            self.ui.replaceNaloxonGuidedLabel1.setText(
+                "Select the new expiration date and max temperature for the Naloxone.")
+            self.ui.saveToFilePushButton.setText("Save Settings")
+            self.ui.saveToFilePushButton.setEnabled(True)
+            self.goto_home()
+            with self.shared_array.get_lock():
+                self.shared_array[8] = 0
 
     def toggle_door_arm(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
