@@ -30,22 +30,57 @@ def handleVisibleChanged():
                 return
 
 
-class Worker(QtCore.QObject):
-    def __init__(self, function):
-        super(Worker, self).__init__()
-        self.function = function
+class Worker(QtCore.QThread):
+    update_door = QtCore.pyqtSignal(bool, bool)
+    update_temperature = QtCore.pyqtSignal(int, int)
+    update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
+    update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
+    update_time = QtCore.pyqtSignal(QtCore.QTime)
 
-    # @pyqtSlot()
+    def __init__(self, shared_array):
+        super(Worker, self).__init__()
+        self.shared_array = shared_array
+
     def run(self):
-        print("thread go")
-        #self.ui.currentTimeLineEdit.setText(QtCore.QTime().currentTime().toString("h:mm:ss AP"))
-        self.function()
+        door = False
+        disarmed = False
+        temperature = 0
+        pwm = 0
+        naloxone_expired = False
+        naloxone_overheat = False
+        year = 2000
+        month = 1
+        day = 20
+        server = False
+        hour = 0
+        minute = 0
+        while True:
+            with self.shared_array.get_lock():
+                door = self.shared_array[3]
+                disarmed = self.shared_array[8]
+                temperature = self.shared_array[1]
+                pwm = self.shared_array[2]
+                naloxone_expired = self.shared_array[9]
+                naloxone_overheat = self.shared_array[10]
+                year = self.shared_array[13]
+                month = self.shared_array[14]
+                day = self.shared_array[15]
+                server = self.shared_array[6]
+                hour = self.shared_array[16]
+                minute = self.shared_array[17]
+            self.update_door.emit(door, not disarmed)
+            self.update_temperature.emit(temperature, pwm)
+            self.update_server.emit(server, QtCore.QTime(hour, minute))
+            self.update_naloxone.emit(
+                not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
+            self.update_time.emit(QtCore.QTime().currentTime())
+            sleep(1)
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
+    #update_door = QtCore.pyqtSignal(bool, bool)
     def __init__(self, shared_array):
         super(ApplicationWindow, self).__init__()
-        #self.naloxone_expiration_date = QtCore.QDate.currentDate()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.shared_array = shared_array
@@ -53,23 +88,28 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
+        self.ui.homePushButton.clicked.connect(self.goto_home)
         self.ui.settingsPushButton.clicked.connect(self.goto_settings)
         self.ui.dashboardPushButton.clicked.connect(self.goto_dashboard)
         self.ui.unlockSettingsPushButton.clicked.connect(
             self.lock_unlock_settings)
         self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
-        # self.ui.saveToFilePushButton.setEnabled(False)
-        # self.ui.settingsTab.setCurrentIndex(0)
-        # self.
         self.load_settings()
-        self.goto_dashboard()
-        #self.goto_door_open()
+        self.lock_settings()
+        # self.goto_dashboard()
+        # self.goto_door_open()
+        # self.update_door.connect()
 
-        self.ui_updater_thread = QtCore.QThread()
-        self.ui_worker = Worker(self.update_ui)
-        self.ui_worker.moveToThread(self.ui_updater_thread)
-        self.ui_updater_thread.started.connect(self.ui_worker.run)
-        self.ui_updater_thread.start()
+        self.get_shared_array_worker = Worker(self.shared_array)
+        self.get_shared_array_worker.update_door.connect(self.update_door_ui)
+        self.get_shared_array_worker.update_temperature.connect(
+            self.update_temperature_ui)
+        self.get_shared_array_worker.update_server.connect(
+            self.update_server_ui)
+        self.get_shared_array_worker.update_naloxone.connect(
+            self.update_naloxone_ui)
+        self.get_shared_array_worker.update_time.connect(self.update_time_ui)
+        self.get_shared_array_worker.start()
 
     def load_settings(self):
         config = configparser.ConfigParser()
@@ -87,8 +127,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         naloxone_expiration_date = QtCore.QDate.fromString(
             config["naloxone_info"]["naloxone_expiration_date"])
         self.ui.calendarWidget.setSelectedDate(naloxone_expiration_date)
-        self.ui.temperatureSpinBox.setValue(
-            int(config["naloxone_info"]["absolute_maximum_temperature"]))
+        self.ui.absoluteMaximumTemperatureLineEdit.setText(
+            config["naloxone_info"]["absolute_maximum_temperature"])
         self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
         self.ui.adminPhoneNumberLineEdit.setText(
             config["admin"]["admin_phone_number"])
@@ -103,15 +143,38 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.enablePowerSavingCheckBox.setChecked(
             config["power_management"]["enable_power_saving"] == "True")
 
+    def lock_settings(self):
+        self.ui.unlockSettingsPushButton.setText("Unlock Settings")
+        self.ui.securityLabel.setText(
+            "Other settings are locked.\nClick \"Unlock Settings\" to unlock.")
+        self.ui.settingsTab.setCurrentIndex(0)
+        self.ui.settingsTab.setTabEnabled(0, True)
+        self.ui.settingsTab.setTabEnabled(1, True)
+        self.ui.settingsTab.setTabEnabled(2, False)
+        self.ui.settingsTab.setTabEnabled(3, False)
+        self.ui.settingsTab.setTabEnabled(4, False)
+        self.ui.settingsTab.setTabEnabled(5, False)
+
+    def unlock_settings(self):
+        self.ui.unlockSettingsPushButton.setText("Lock Settings")
+        self.load_settings()
+        # self.ui.saveToFilePushButton.setEnabled(True)
+        self.ui.settingsTab.setCurrentIndex(0)
+        self.ui.settingsTab.setTabEnabled(0, True)
+        self.ui.settingsTab.setTabEnabled(1, True)
+        self.ui.settingsTab.setTabEnabled(2, True)
+        self.ui.settingsTab.setTabEnabled(3, True)
+        self.ui.settingsTab.setTabEnabled(4, True)
+        self.ui.settingsTab.setTabEnabled(5, True)
+        self.ui.securityLabel.setText(
+            "Settings are unlocked.\nClick \"Lock Settings\" to lock.")
+
     def check_passcode(self):
         config = configparser.ConfigParser()
         config.read("safety_kit.conf")
-        #print("passcode" + self.ui.passcodeEnterLineEdit.text())
         if (self.ui.passcodeEnterLineEdit.text() == config["admin"]["passcode"]):
-            #print("good passcode")
             return True
         else:
-            #print("bad passcode")
             self.ui.passcodeEnterLabel.setText("Try Again")
             self.ui.passcodeEnterLineEdit.clear()
             return False
@@ -119,27 +182,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def check_passcode_unlock_settings(self):
         passcode_check_result = self.check_passcode()
         if (passcode_check_result):
-            self.ui.unlockSettingsPushButton.setText("Lock Settings")
-            self.load_settings()
-            # self.ui.saveToFilePushButton.setEnabled(True)
-            self.ui.settingsTab.setCurrentIndex(1)
-            self.ui.settingsTab.setTabEnabled(0, True)
-            self.ui.settingsTab.setTabEnabled(1, True)
-            self.ui.settingsTab.setTabEnabled(2, True)
-            self.ui.settingsTab.setTabEnabled(3, True)
-            self.ui.settingsTab.setTabEnabled(4, True)
-            self.ui.settingsTab.setTabEnabled(5, True)
-            self.ui.securityLabel.setText(
-                "Settings are unlocked.\nClick \"Lock Settings\" to lock.")
+            self.unlock_settings()
             self.goto_settings()
         else:
-            self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-            self.ui.settingsTab.setTabEnabled(0, True)
-            self.ui.settingsTab.setTabEnabled(1, False)
-            self.ui.settingsTab.setTabEnabled(2, False)
-            self.ui.settingsTab.setTabEnabled(3, True)
-            self.ui.settingsTab.setTabEnabled(4, False)
-            self.ui.settingsTab.setTabEnabled(5, False)
+            self.lock_settings()
 
     def lock_unlock_settings(self):
         if (self.ui.unlockSettingsPushButton.text() == "Unlock Settings"):
@@ -148,41 +194,25 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             print("slot changed")
             self.goto_passcode()
         elif (self.ui.unlockSettingsPushButton.text() == "Lock Settings"):
-            self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-            self.ui.securityLabel.setText(
-                "Other settings are locked.\nClick \"Unlock Settings\" to unlock.")
-            # self.ui.saveToFilePushButton.setEnabled(False)
-            self.ui.settingsTab.setCurrentIndex(0)
-            self.ui.settingsTab.setTabEnabled(0, True)
-            self.ui.settingsTab.setTabEnabled(1, False)
-            self.ui.settingsTab.setTabEnabled(2, False)
-            self.ui.settingsTab.setTabEnabled(3, True)
-            self.ui.settingsTab.setTabEnabled(4, False)
-            self.ui.settingsTab.setTabEnabled(5, False)
+            self.lock_settings()
 
     def goto_door_open(self):
-        self.ui.stackedWidget.setCurrentIndex(3)
+        self.ui.stackedWidget.setCurrentIndex(4)
 
     def goto_passcode(self):
         self.ui.passcodeEnterLineEdit.clear()
         self.ui.passcodeEnterLabel.setText("Enter Passcode")
-        self.ui.stackedWidget.setCurrentIndex(2)
+        self.ui.stackedWidget.setCurrentIndex(3)
 
     def goto_settings(self):
-        self.ui.stackedWidget.setCurrentIndex(1)
+        self.ui.stackedWidget.setCurrentIndex(2)
 
     def goto_dashboard(self):
-        self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-        self.ui.securityLabel.setText(
-            "Other settings are locked.\nClick \"Unlock Settings\" to unlock.")
-        # self.ui.saveToFilePushButton.setEnabled(False)
-        self.ui.settingsTab.setCurrentIndex(0)
-        self.ui.settingsTab.setTabEnabled(0, True)
-        self.ui.settingsTab.setTabEnabled(1, False)
-        self.ui.settingsTab.setTabEnabled(2, False)
-        self.ui.settingsTab.setTabEnabled(3, True)
-        self.ui.settingsTab.setTabEnabled(4, False)
-        self.ui.settingsTab.setTabEnabled(5, False)
+        self.lock_settings()
+        self.ui.stackedWidget.setCurrentIndex(1)
+
+    def goto_home(self):
+        self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def exit_program(self):
@@ -199,67 +229,58 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             with self.shared_array.get_lock():
                 self.shared_array[8] = 0
 
-    def update_ui(self):
-        temperature = 0
-        pwm = 0
-        server = 0
-        naloxone_expired = 0
-        naloxone_expired = 0
-        door = 0
-        phone = 0
-        armed = 0
-        year = 2000
-        month = 1
-        day = 20
-        while True:
-            with self.shared_array.get_lock():
-                temperature = self.shared_array[1]
-                pwm = self.shared_array[2]
-                server = self.shared_array[6]
-                armed = self.shared_array[8]
-                naloxone_expired = self.shared_array[9]
-                naloxone_overheat = self.shared_array[10]
-                door = self.shared_array[3]
-                phone = self.shared_array[5]
-                year = self.shared_array[13]
-                month = self.shared_array[14]
-                day = self.shared_array[15]
-                hour = self.shared_array[16]
-                minute = self.shared_array[17]
-            self.ui.currentTimeLineEdit.setText(
-                QtCore.QTime().currentTime().toString("h:mm AP"))
-            iconString = str()
-            naloxone_expiration_date = QtCore.QDate(year, month, day)
-            server_check_time = QtCore.QTime(hour, minute)
-            self.ui.naloxoneExpirationDateLineEdit.setText(
-                naloxone_expiration_date.toString("MMM dd, yy"))
-            self.ui.serverCheckLineEdit.setText(
-                server_check_time.toString("h:mm AP"))
-            self.ui.temperatureLineEdit.setText(
-                str(temperature) + "℃/"+str(int(temperature * 1.8 + 32)) + "℉")
-            self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
-            if (server == 0):
-                self.ui.serverStatusLineEdit.setText("Down")
-                iconString += "📶"
-            else:
-                self.ui.serverStatusLineEdit.setText("OK")
-            if (door == 0):
-                self.ui.doorClosedLineEdit.setText("Closed")
-            else:
-                self.ui.doorClosedLineEdit.setText("Open")
-                iconString += "🚪"
-            if (armed == 0):
-                self.ui.doorArmedLineEdit.setText("Armed")
-            else:
-                self.ui.doorArmedLineEdit.setText("Disarmed")
-                iconString += "⏸️"
-            if (naloxone_expired or naloxone_overheat):
-                self.ui.naloxoneStatusLineEdit.setText("Destroyed")
-                iconString += "💊"
-            else:
-                self.ui.naloxoneStatusLineEdit.setText("OK")
-            self.ui.iconLabel.setText(iconString)
-            sleep(1)
+    @QtCore.pyqtSlot(bool, bool)
+    def update_door_ui(self, door, armed):
+        if (not door):
+            self.ui.doorClosedLineEdit.setText("Closed")
+        else:
+            self.ui.doorClosedLineEdit.setText("Open")
+        if (armed):
+            self.ui.doorArmedLineEdit.setText("Armed")
+        else:
+            self.ui.doorArmedLineEdit.setText("Disarmed")
+        if (not door and armed):
+            self.ui.doorStatusBarFrame.setStyleSheet(
+                ".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        else:
+            self.ui.doorStatusBarFrame.setStyleSheet(
+                ".QFrame{border-radius: 5px;background-color:rgba(255, 0, 102,50);border-color:rgb(255, 0, 102);border-width: 0.5px;border-style: solid;}")
+
+    @QtCore.pyqtSlot(bool, QtCore.QDate)
+    def update_naloxone_ui(self, naloxone_good, naloxone_expiration_date):
+        self.ui.naloxoneExpirationDateLineEdit.setText(
+            naloxone_expiration_date.toString("MMM dd, yy"))
+        if (naloxone_good):
+            self.ui.naloxoneStatusLineEdit.setText("OK")
+            self.ui.naloxoneStatusBarFrame.setStyleSheet(
+                ".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        else:
+            self.ui.naloxoneStatusLineEdit.setText("Destroyed")
+            self.ui.naloxoneStatusBarFrame.setStyleSheet(
+                ".QFrame{border-radius: 5px;background-color:rgba(255, 0, 102,50);border-color:rgb(255, 0, 102);border-width: 0.5px;border-style: solid;}")
+
+    @QtCore.pyqtSlot(bool, QtCore.QTime)
+    def update_server_ui(self, server, server_check_time):
+        self.ui.serverCheckLineEdit.setText(
+            server_check_time.toString("h:mm AP"))
+        if (server):
+            self.ui.serverStatusLineEdit.setText("OK")
+            self.ui.serverStatusBarFrame.setStyleSheet(
+                ".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        else:
+            self.ui.serverStatusLineEdit.setText("Down")
+            self.ui.serverStatusBarFrame.setStyleSheet(
+                ".QFrame{border-radius: 5px;background-color:rgba(255, 0, 102,50);border-color:rgb(255, 0, 102);border-width: 0.5px;border-style: solid;}")
+
+    @QtCore.pyqtSlot(int, int)
+    def update_temperature_ui(self, temperature, pwm):
+        self.ui.temperatureLineEdit.setText(
+            str(temperature) + "℃/"+str(int(temperature * 1.8 + 32)) + "℉")
+        self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
+
+    @QtCore.pyqtSlot(QtCore.QTime)
+    def update_time_ui(self, current_time):
+        self.ui.currentTimeLineEdit.setText(current_time.toString("h:mm AP"))
 
     def save_config_file(self):
         #self.naloxone_expiration_date = self.ui.calendarWidget.selectedDate()
@@ -278,7 +299,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         config["naloxone_info"] = {
             "naloxone_expiration_date": self.ui.calendarWidget.selectedDate().toString(),
-            "absolute_maximum_temperature": self.ui.temperatureSpinBox.text()
+            "absolute_maximum_temperature": self.ui.absoluteMaximumTemperatureLineEdit.text()
         }
         config["admin"] = {
             "passcode": self.ui.passcodeLineEdit.text(),
