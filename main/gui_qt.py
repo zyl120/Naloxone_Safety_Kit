@@ -32,7 +32,7 @@ def handleVisibleChanged():
 
 class Worker(QtCore.QThread):
     update_door = QtCore.pyqtSignal(bool, bool)
-    update_temperature = QtCore.pyqtSignal(int, int)
+    update_temperature = QtCore.pyqtSignal(int, int, bool)
     update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
     update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
     update_time = QtCore.pyqtSignal(QtCore.QTime)
@@ -42,6 +42,7 @@ class Worker(QtCore.QThread):
         self.shared_array = shared_array
 
     def run(self):
+        over_temperature = False
         door = False
         disarmed = False
         temperature = 0
@@ -56,6 +57,7 @@ class Worker(QtCore.QThread):
         minute = 0
         while True:
             with self.shared_array.get_lock():
+                over_temperature = self.shared_array[0]
                 door = self.shared_array[3]
                 disarmed = self.shared_array[8]
                 temperature = self.shared_array[1]
@@ -69,7 +71,7 @@ class Worker(QtCore.QThread):
                 hour = self.shared_array[16]
                 minute = self.shared_array[17]
             self.update_door.emit(door, not disarmed)
-            self.update_temperature.emit(temperature, pwm)
+            self.update_temperature.emit(temperature, pwm, over_temperature)
             self.update_server.emit(server, QtCore.QTime(hour, minute))
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
@@ -78,7 +80,6 @@ class Worker(QtCore.QThread):
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
-    #update_door = QtCore.pyqtSignal(bool, bool)
     def __init__(self, shared_array):
         super(ApplicationWindow, self).__init__()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
@@ -86,6 +87,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.shared_array = shared_array
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
+        temperatureLimit = QtGui.QIntValidator()
+        temperatureLimit.setRange(0, 99)
+        self.ui.absoluteMaximumTemperatureLineEdit.setValidator(temperatureLimit)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.homePushButton.clicked.connect(self.goto_home)
@@ -99,7 +103,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.load_settings()
         self.lock_settings()
         self.goto_home()
-        # self.update_door.connect()
 
         self.get_shared_array_worker = Worker(self.shared_array)
         self.get_shared_array_worker.update_door.connect(self.update_door_ui)
@@ -188,7 +191,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.ui.unlockSettingsPushButton.text() == "Unlock Other Settings"):
             self.ui.passcodeEnterPushButton.clicked.connect(
                 self.check_passcode_unlock_settings)
-            print("slot changed")
             self.goto_passcode()
         elif (self.ui.unlockSettingsPushButton.text() == "Lock Other Settings"):
             self.lock_settings()
@@ -204,31 +206,31 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def goto_settings(self):
         self.ui.stackedWidget.setCurrentIndex(2)
         self.ui.settingsPushButton.setStyleSheet(
-            "background: white;color:rgb(70, 70, 70);")
+            "color: rgb(50,50,50); background-color: white; border-radius:3px;border-color: white;border-width: 1px;border-style: solid;")
         self.ui.dashboardPushButton.setStyleSheet(
-            "color: white; background-color: rgb(70, 70, 70); ")
+            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.ui.homePushButton.setStyleSheet(
-            "color: white; background-color: rgb(70, 70, 70); ")
+            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
 
     def goto_dashboard(self):
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(1)
         self.ui.dashboardPushButton.setStyleSheet(
-            "background: white;color:rgb(70, 70, 70);")
+            "color: rgb(50,50,50); background-color: white; border-radius:3px;border-color: white;border-width: 1px;border-style: solid;")
         self.ui.settingsPushButton.setStyleSheet(
-            "color: white; background-color: rgb(70, 70, 70); ")
+            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.ui.homePushButton.setStyleSheet(
-            "color: white; background-color: rgb(70, 70, 70); ")
+            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
 
     def goto_home(self):
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.homePushButton.setStyleSheet(
-            "background: white;color:rgb(70, 70, 70);")
+            "color: rgb(50,50,50); background-color: white; border-radius:3px;border-color: white;border-width: 1px;border-style: solid;")
         self.ui.dashboardPushButton.setStyleSheet(
-            "color: white; background-color: rgb(70, 70, 70); ")
+            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.ui.settingsPushButton.setStyleSheet(
-            "color: white; background-color: rgb(70, 70, 70); ")
+            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
 
     def exit_program(self):
         os.kill(0, signal.SIGINT)  # kill all processes
@@ -240,17 +242,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.shared_array[8] = 1
             self.ui.replaceNaloxonePushButton.setText("Finish Replacement")
             self.ui.saveToFilePushButton.setEnabled(False)
-            self.ui.replaceNaloxonGuidedLabel1.setText(
-                "1. Select the new expiration date and max temperature for the Naloxone.")
             self.ui.saveToFilePushButton.setText(
-                "2. Close the door and Click \"Finish Replacement\" to finish up.")
+                "Close the door and Click \"Finish Replacement\" to finish up.")
             self.goto_settings()
             self.ui.settingsTab.setCurrentIndex(1)
         else:
             self.save_config_file()
             self.ui.replaceNaloxonePushButton.setText("Replace Naloxone")
-            self.ui.replaceNaloxonGuidedLabel1.setText(
-                "Select the new expiration date and max temperature for the Naloxone.")
             self.ui.saveToFilePushButton.setText("Save Settings")
             self.ui.saveToFilePushButton.setEnabled(True)
             self.goto_home()
@@ -279,10 +277,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.doorArmedLineEdit.setText("Disarmed")
         if (not door and armed):
             self.ui.doorStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+                ".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         else:
             self.ui.doorStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:rgba(255, 0, 102,50);border-color:rgb(255, 0, 102);border-width: 0.5px;border-style: solid;}")
+                ".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
 
     @QtCore.pyqtSlot(bool, QtCore.QDate)
     def update_naloxone_ui(self, naloxone_good, naloxone_expiration_date):
@@ -291,11 +289,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (naloxone_good):
             self.ui.naloxoneStatusLineEdit.setText("OK")
             self.ui.naloxoneStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+                ".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         else:
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
             self.ui.naloxoneStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:rgba(255, 0, 102,50);border-color:rgb(255, 0, 102);border-width: 0.5px;border-style: solid;}")
+                ".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
 
     @QtCore.pyqtSlot(bool, QtCore.QTime)
     def update_server_ui(self, server, server_check_time):
@@ -304,17 +302,21 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (server):
             self.ui.serverStatusLineEdit.setText("OK")
             self.ui.serverStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+                ".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         else:
             self.ui.serverStatusLineEdit.setText("Down")
             self.ui.serverStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:rgba(255, 0, 102,50);border-color:rgb(255, 0, 102);border-width: 0.5px;border-style: solid;}")
+                ".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
 
-    @QtCore.pyqtSlot(int, int)
-    def update_temperature_ui(self, temperature, pwm):
+    @QtCore.pyqtSlot(int, int, bool)
+    def update_temperature_ui(self, temperature, pwm, over_temperature):
         self.ui.temperatureLineEdit.setText(
             str(temperature) + "℃/"+str(int(temperature * 1.8 + 32)) + "℉")
         self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
+        if(not over_temperature):
+            self.ui.thermalStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
+        else:
+            self.ui.thermalStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
 
     @QtCore.pyqtSlot(QtCore.QTime)
     def update_time_ui(self, current_time):

@@ -28,8 +28,9 @@ def naloxone_manager(shared_array):
             shared_array[15] = expiration_date.day()
             shared_array[18] = max_temp
             today = QtCore.QDate.currentDate()
-            if(old_expiration_date < expiration_date and today < expiration_date):
+            if(old_expiration_date != expiration_date and today < expiration_date):
                 # when placed new naloxone, clear error flags
+                shared_array[0] = False
                 shared_array[9] = False
                 shared_array[10] = False
                 continue

@@ -20,7 +20,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(13)
         door_close_main_window.setFont(font)
         door_close_main_window.setAutoFillBackground(False)
-        door_close_main_window.setStyleSheet("background-color: rgba(10,10,10,0)")
+        door_close_main_window.setStyleSheet("background-color:rgba(0,0,0,0)")
         self.centralwidget = QtWidgets.QWidget(door_close_main_window)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget_4 = QtWidgets.QWidget(self.centralwidget)
@@ -43,8 +43,9 @@ class Ui_door_close_main_window(object):
         self.homePushButton.setMaximumSize(QtCore.QSize(140, 30))
         font = QtGui.QFont()
         font.setPointSize(16)
+        font.setBold(False)
         self.homePushButton.setFont(font)
-        self.homePushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.homePushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.homePushButton.setObjectName("homePushButton")
         self.statusBarHLayout.addWidget(self.homePushButton)
@@ -55,7 +56,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.dashboardPushButton.setFont(font)
-        self.dashboardPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.dashboardPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.dashboardPushButton.setObjectName("dashboardPushButton")
         self.statusBarHLayout.addWidget(self.dashboardPushButton)
@@ -67,7 +68,8 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.settingsPushButton.setFont(font)
         self.settingsPushButton.setAutoFillBackground(False)
-        self.settingsPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;")
+        self.settingsPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.settingsPushButton.setObjectName("settingsPushButton")
         self.statusBarHLayout.addWidget(self.settingsPushButton)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -76,8 +78,9 @@ class Ui_door_close_main_window(object):
         self.replaceNaloxonePushButton.setMinimumSize(QtCore.QSize(250, 30))
         font = QtGui.QFont()
         font.setPointSize(16)
+        font.setBold(False)
         self.replaceNaloxonePushButton.setFont(font)
-        self.replaceNaloxonePushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.replaceNaloxonePushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.replaceNaloxonePushButton.setObjectName("replaceNaloxonePushButton")
         self.statusBarHLayout.addWidget(self.replaceNaloxonePushButton)
@@ -99,7 +102,7 @@ class Ui_door_close_main_window(object):
         self.doorStatusBarFrame.setGeometry(QtCore.QRect(400, 270, 180, 60))
         self.doorStatusBarFrame.setMinimumSize(QtCore.QSize(180, 60))
         self.doorStatusBarFrame.setMaximumSize(QtCore.QSize(180, 60))
-        self.doorStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        self.doorStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         self.doorStatusBarFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.doorStatusBarFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.doorStatusBarFrame.setObjectName("doorStatusBarFrame")
@@ -129,7 +132,7 @@ class Ui_door_close_main_window(object):
         self.thermalStatusBarFrame.setGeometry(QtCore.QRect(600, 270, 180, 60))
         self.thermalStatusBarFrame.setMinimumSize(QtCore.QSize(180, 60))
         self.thermalStatusBarFrame.setMaximumSize(QtCore.QSize(180, 60))
-        self.thermalStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        self.thermalStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         self.thermalStatusBarFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.thermalStatusBarFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.thermalStatusBarFrame.setObjectName("thermalStatusBarFrame")
@@ -159,7 +162,7 @@ class Ui_door_close_main_window(object):
         self.serverStatusBarFrame.setGeometry(QtCore.QRect(400, 350, 180, 60))
         self.serverStatusBarFrame.setMinimumSize(QtCore.QSize(180, 60))
         self.serverStatusBarFrame.setMaximumSize(QtCore.QSize(180, 60))
-        self.serverStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        self.serverStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         self.serverStatusBarFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.serverStatusBarFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.serverStatusBarFrame.setObjectName("serverStatusBarFrame")
@@ -189,7 +192,7 @@ class Ui_door_close_main_window(object):
         self.naloxoneStatusBarFrame.setGeometry(QtCore.QRect(600, 350, 180, 60))
         self.naloxoneStatusBarFrame.setMinimumSize(QtCore.QSize(180, 60))
         self.naloxoneStatusBarFrame.setMaximumSize(QtCore.QSize(180, 60))
-        self.naloxoneStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        self.naloxoneStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         self.naloxoneStatusBarFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.naloxoneStatusBarFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.naloxoneStatusBarFrame.setObjectName("naloxoneStatusBarFrame")
@@ -224,7 +227,7 @@ class Ui_door_close_main_window(object):
         self.dashboardPage.setObjectName("dashboardPage")
         self.doorFrame = QtWidgets.QFrame(self.dashboardPage)
         self.doorFrame.setGeometry(QtCore.QRect(0, 10, 380, 190))
-        self.doorFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(0, 102, 204,75);border-color:rgb(0, 102, 204);border-width: 0.5px;border-style: solid;}")
+        self.doorFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#2672EC;border-color:#2672EC;border-width: 0.5px;border-style: solid;}")
         self.doorFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.doorFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.doorFrame.setLineWidth(3)
@@ -247,7 +250,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(30)
         font.setBold(True)
         self.doorLabel.setFont(font)
-        self.doorLabel.setStyleSheet("color:rgb(0, 102, 204);")
+        self.doorLabel.setStyleSheet("color:white")
         self.doorLabel.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.doorLabel.setObjectName("doorLabel")
         self.verticalLayout_12.addWidget(self.doorLabel)
@@ -258,7 +261,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.doorClosedLineEdit.setFont(font)
-        self.doorClosedLineEdit.setStyleSheet("color:rgb(0, 102, 204);")
+        self.doorClosedLineEdit.setStyleSheet("color:white")
         self.doorClosedLineEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.doorClosedLineEdit.setObjectName("doorClosedLineEdit")
         self.horizontalLayout_6.addWidget(self.doorClosedLineEdit)
@@ -267,14 +270,14 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.doorArmedLineEdit.setFont(font)
-        self.doorArmedLineEdit.setStyleSheet("color:rgb(0, 102, 204);")
+        self.doorArmedLineEdit.setStyleSheet("color:white")
         self.doorArmedLineEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.doorArmedLineEdit.setObjectName("doorArmedLineEdit")
         self.horizontalLayout_6.addWidget(self.doorArmedLineEdit)
         self.verticalLayout_12.addLayout(self.horizontalLayout_6)
         self.serverFrame = QtWidgets.QFrame(self.dashboardPage)
         self.serverFrame.setGeometry(QtCore.QRect(400, 10, 380, 190))
-        self.serverFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(51, 204, 102,50);border-color:rgb(51, 204, 50);border-width: 0.5px;border-style: solid;}")
+        self.serverFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
         self.serverFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.serverFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.serverFrame.setLineWidth(3)
@@ -296,7 +299,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(30)
         font.setBold(True)
         self.serverLabel.setFont(font)
-        self.serverLabel.setStyleSheet("color:rgb(51, 204, 102)")
+        self.serverLabel.setStyleSheet("color:white")
         self.serverLabel.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.serverLabel.setObjectName("serverLabel")
         self.verticalLayout_10.addWidget(self.serverLabel)
@@ -318,7 +321,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(25)
         font.setBold(True)
         self.serverStatusLineEdit.setFont(font)
-        self.serverStatusLineEdit.setStyleSheet("color:rgb(51, 204, 102)")
+        self.serverStatusLineEdit.setStyleSheet("color:white")
         self.serverStatusLineEdit.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.serverStatusLineEdit.setObjectName("serverStatusLineEdit")
         self.verticalLayout_5.addWidget(self.serverStatusLineEdit)
@@ -340,7 +343,7 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         font.setUnderline(False)
         self.serverCheckLineEdit.setFont(font)
-        self.serverCheckLineEdit.setStyleSheet("color:rgb(51, 204, 102)")
+        self.serverCheckLineEdit.setStyleSheet("color:white")
         self.serverCheckLineEdit.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.serverCheckLineEdit.setObjectName("serverCheckLineEdit")
         self.verticalLayout_7.addWidget(self.serverCheckLineEdit)
@@ -348,7 +351,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_10.addLayout(self.horizontalLayout_3)
         self.thermalFrame = QtWidgets.QFrame(self.dashboardPage)
         self.thermalFrame.setGeometry(QtCore.QRect(0, 220, 380, 190))
-        self.thermalFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:rgba(255, 204, 0,50);border-color:rgb(255, 204, 0);border-width: 0.5px;border-style: solid;}")
+        self.thermalFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:#D24726;border-color:#D24726;border-width: 0.5px;border-style: solid;}")
         self.thermalFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.thermalFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.thermalFrame.setLineWidth(3)
@@ -370,7 +373,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(30)
         font.setBold(True)
         self.thermalLabel.setFont(font)
-        self.thermalLabel.setStyleSheet("color: rgb(255, 204, 0);")
+        self.thermalLabel.setStyleSheet("color: white")
         self.thermalLabel.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.thermalLabel.setObjectName("thermalLabel")
         self.thermalVLayout.addWidget(self.thermalLabel)
@@ -396,7 +399,7 @@ class Ui_door_close_main_window(object):
         font.setStrikeOut(False)
         font.setKerning(True)
         self.temperatureLineEdit.setFont(font)
-        self.temperatureLineEdit.setStyleSheet("color: rgb(255, 204, 0);")
+        self.temperatureLineEdit.setStyleSheet("color: white")
         self.temperatureLineEdit.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.temperatureLineEdit.setObjectName("temperatureLineEdit")
         self.verticalLayout_3.addWidget(self.temperatureLineEdit)
@@ -418,7 +421,7 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         font.setUnderline(False)
         self.fanSpeedLineEdit.setFont(font)
-        self.fanSpeedLineEdit.setStyleSheet("color: rgb(255, 204, 0);")
+        self.fanSpeedLineEdit.setStyleSheet("color: white")
         self.fanSpeedLineEdit.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.fanSpeedLineEdit.setObjectName("fanSpeedLineEdit")
         self.verticalLayout_4.addWidget(self.fanSpeedLineEdit)
@@ -426,7 +429,7 @@ class Ui_door_close_main_window(object):
         self.thermalVLayout.addLayout(self.horizontalLayout_2)
         self.naloxoneFrame = QtWidgets.QFrame(self.dashboardPage)
         self.naloxoneFrame.setGeometry(QtCore.QRect(400, 220, 380, 190))
-        self.naloxoneFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(255, 0, 102,50);border-color:rgb(255, 0, 102);border-width: 0.5px;border-style: solid;}")
+        self.naloxoneFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#8C0095;border-color:#8C0095;border-width: 0.5px;border-style: solid;}")
         self.naloxoneFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.naloxoneFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.naloxoneFrame.setLineWidth(3)
@@ -448,7 +451,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(30)
         font.setBold(True)
         self.naloxoneLabel.setFont(font)
-        self.naloxoneLabel.setStyleSheet("color:rgb(255, 0, 102)")
+        self.naloxoneLabel.setStyleSheet("color:white")
         self.naloxoneLabel.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.naloxoneLabel.setObjectName("naloxoneLabel")
         self.verticalLayout_11.addWidget(self.naloxoneLabel)
@@ -470,7 +473,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(25)
         font.setBold(True)
         self.naloxoneStatusLineEdit.setFont(font)
-        self.naloxoneStatusLineEdit.setStyleSheet("color:rgb(255, 0, 102)")
+        self.naloxoneStatusLineEdit.setStyleSheet("color:white")
         self.naloxoneStatusLineEdit.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.naloxoneStatusLineEdit.setObjectName("naloxoneStatusLineEdit")
         self.verticalLayout_8.addWidget(self.naloxoneStatusLineEdit)
@@ -492,7 +495,7 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         font.setUnderline(False)
         self.naloxoneExpirationDateLineEdit.setFont(font)
-        self.naloxoneExpirationDateLineEdit.setStyleSheet("color:rgb(255, 0, 102)")
+        self.naloxoneExpirationDateLineEdit.setStyleSheet("color:white")
         self.naloxoneExpirationDateLineEdit.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.naloxoneExpirationDateLineEdit.setObjectName("naloxoneExpirationDateLineEdit")
         self.verticalLayout_9.addWidget(self.naloxoneExpirationDateLineEdit)
@@ -513,15 +516,15 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         self.settingsTab.setFont(font)
         self.settingsTab.setStyleSheet("QTabWidget::pane{\n"
-"border: 1px solid rgb(70, 70, 70);\n"
+"border: 1px solid rgb(50,50,50);\n"
 "border-radius:3px\n"
 "}\n"
 "QTabBar::tab:selected {\n"
 "background: white;\n"
-"color:rgb(70, 70, 70);\n"
+"color:rgb(50,50,50);\n"
 "}\n"
 "QTabBar::tab:!selected {\n"
-"background: rgb(70, 70, 70);\n"
+"background: rgb(50,50,50);\n"
 "color: white;\n"
 "}\n"
 "\n"
@@ -562,12 +565,14 @@ class Ui_door_close_main_window(object):
         spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_25.addItem(spacerItem12)
         self.unlockSettingsPushButton = QtWidgets.QPushButton(self.verticalLayoutWidget_7)
-        self.unlockSettingsPushButton.setMinimumSize(QtCore.QSize(140, 30))
+        self.unlockSettingsPushButton.setMinimumSize(QtCore.QSize(220, 30))
         self.unlockSettingsPushButton.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setPointSize(16)
+        font.setBold(False)
         self.unlockSettingsPushButton.setFont(font)
-        self.unlockSettingsPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;")
+        self.unlockSettingsPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.unlockSettingsPushButton.setObjectName("unlockSettingsPushButton")
         self.horizontalLayout_25.addWidget(self.unlockSettingsPushButton)
         spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -622,7 +627,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         self.calendarWidget.setFont(font)
-        self.calendarWidget.setStyleSheet("color:rgb(0, 255, 0);background-color:black")
+        self.calendarWidget.setStyleSheet("color:rgb(188,188,188);background-color:black")
         self.calendarWidget.setGridVisible(True)
         self.calendarWidget.setObjectName("calendarWidget")
         self.horizontalLayout_23.addWidget(self.calendarWidget)
@@ -636,7 +641,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.absoluteMaximumTemperatureLineEdit.setFont(font)
-        self.absoluteMaximumTemperatureLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;")
+        self.absoluteMaximumTemperatureLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.absoluteMaximumTemperatureLineEdit.setObjectName("absoluteMaximumTemperatureLineEdit")
         self.horizontalLayout_24.addWidget(self.absoluteMaximumTemperatureLineEdit)
         self.naloxoneInfoFormLayout.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_24)
@@ -679,7 +685,9 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.twilioSIDLineEdit.setFont(font)
-        self.twilioSIDLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\\n")
+        self.twilioSIDLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"\n"
+"")
         self.twilioSIDLineEdit.setObjectName("twilioSIDLineEdit")
         self.horizontalLayout_8.addWidget(self.twilioSIDLineEdit)
         self.twilioFormLayout.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_8)
@@ -700,7 +708,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.twilioTokenLineEdit.setFont(font)
-        self.twilioTokenLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\\n")
+        self.twilioTokenLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.twilioTokenLineEdit.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
         self.twilioTokenLineEdit.setObjectName("twilioTokenLineEdit")
         self.horizontalLayout_14.addWidget(self.twilioTokenLineEdit)
@@ -722,7 +731,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.twilioPhoneNumberLineEdit.setFont(font)
-        self.twilioPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\\n")
+        self.twilioPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.twilioPhoneNumberLineEdit.setObjectName("twilioPhoneNumberLineEdit")
         self.horizontalLayout_15.addWidget(self.twilioPhoneNumberLineEdit)
         self.twilioFormLayout.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_15)
@@ -766,7 +776,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.emergencyPhoneNumberLineEdit.setFont(font)
-        self.emergencyPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\\n")
+        self.emergencyPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.emergencyPhoneNumberLineEdit.setObjectName("emergencyPhoneNumberLineEdit")
         self.horizontalLayout_16.addWidget(self.emergencyPhoneNumberLineEdit)
         self.emergencyInfoFormLayout.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_16)
@@ -787,7 +798,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.emergencyAddressLineEdit.setFont(font)
-        self.emergencyAddressLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\\n")
+        self.emergencyAddressLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.emergencyAddressLineEdit.setObjectName("emergencyAddressLineEdit")
         self.horizontalLayout_17.addWidget(self.emergencyAddressLineEdit)
         self.emergencyInfoFormLayout.setLayout(1, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_17)
@@ -800,7 +812,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.emergencyMessageLineEdit.setFont(font)
-        self.emergencyMessageLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\\n")
+        self.emergencyMessageLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.emergencyMessageLineEdit.setObjectName("emergencyMessageLineEdit")
         self.horizontalLayout_18.addWidget(self.emergencyMessageLineEdit)
         self.emergencyInfoFormLayout.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_18)
@@ -857,12 +870,11 @@ class Ui_door_close_main_window(object):
         spacerItem25 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem25)
         self.startTimeEdit = QtWidgets.QTimeEdit(self.verticalLayoutWidget_13)
-        self.startTimeEdit.setMinimumSize(QtCore.QSize(150, 50))
+        self.startTimeEdit.setMinimumSize(QtCore.QSize(140, 30))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.startTimeEdit.setFont(font)
-        self.startTimeEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style:solid\n"
-"\n"
+        self.startTimeEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.startTimeEdit.setObjectName("startTimeEdit")
         self.horizontalLayout_4.addWidget(self.startTimeEdit)
@@ -877,11 +889,11 @@ class Ui_door_close_main_window(object):
         self.activeHoursColon.setObjectName("activeHoursColon")
         self.horizontalLayout_4.addWidget(self.activeHoursColon)
         self.endTimeEdit = QtWidgets.QTimeEdit(self.verticalLayoutWidget_13)
-        self.endTimeEdit.setMinimumSize(QtCore.QSize(150, 50))
+        self.endTimeEdit.setMinimumSize(QtCore.QSize(140, 30))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.endTimeEdit.setFont(font)
-        self.endTimeEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.endTimeEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.endTimeEdit.setObjectName("endTimeEdit")
         self.horizontalLayout_4.addWidget(self.endTimeEdit)
@@ -894,9 +906,9 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         self.enablePowerSavingCheckBox.setFont(font)
         self.enablePowerSavingCheckBox.setStyleSheet("QCheckBox::indicator{\n"
-"border-color:rgb(80,80,80);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}\n"
+"border-color:rgb(50,50,50);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}\n"
 "QCheckBox::indicator:unchecked{\n"
-"background-color : rgb(70,70,70);}\n"
+"background-color : rgb(50,50,50);}\n"
 "QCheckBox::indicator:checked{\n"
 "background-color : white;}\n"
 "QCheckBox{\n"
@@ -956,7 +968,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.passcodeLineEdit.setFont(font)
-        self.passcodeLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.passcodeLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.passcodeLineEdit.setText("")
         self.passcodeLineEdit.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
@@ -979,7 +991,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.adminPhoneNumberLineEdit.setFont(font)
-        self.adminPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.adminPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.adminPhoneNumberLineEdit.setObjectName("adminPhoneNumberLineEdit")
         self.horizontalLayout_20.addWidget(self.adminPhoneNumberLineEdit)
@@ -999,9 +1011,9 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         self.enableSMSCheckBox.setFont(font)
         self.enableSMSCheckBox.setStyleSheet("QCheckBox::indicator{\n"
-"border-color:rgb(80,80,80);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}\n"
+"border-color:rgb(50,50,50);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}\n"
 "QCheckBox::indicator:unchecked{\n"
-"background-color : rgb(70,70,70);}\n"
+"background-color : rgb(50,50,50);}\n"
 "QCheckBox::indicator:checked{\n"
 "background-color : white;}\n"
 "QCheckBox{\n"
@@ -1024,7 +1036,9 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.disarmPushButton.setFont(font)
-        self.disarmPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.disarmPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"\n"
+"\n"
 "")
         self.disarmPushButton.setObjectName("disarmPushButton")
         self.horizontalLayout_32.addWidget(self.disarmPushButton)
@@ -1048,7 +1062,7 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.exitPushButton.setFont(font)
         self.exitPushButton.setAutoFillBackground(False)
-        self.exitPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.exitPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.exitPushButton.setObjectName("exitPushButton")
         self.horizontalLayout_30.addWidget(self.exitPushButton)
@@ -1071,8 +1085,10 @@ class Ui_door_close_main_window(object):
         self.saveToFilePushButton.setMinimumSize(QtCore.QSize(250, 30))
         font = QtGui.QFont()
         font.setPointSize(16)
+        font.setBold(False)
         self.saveToFilePushButton.setFont(font)
-        self.saveToFilePushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;")
+        self.saveToFilePushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.saveToFilePushButton.setObjectName("saveToFilePushButton")
         self.horizontalLayout_12.addWidget(self.saveToFilePushButton)
         self.mainVerticalLayout.addLayout(self.horizontalLayout_12)
@@ -1104,7 +1120,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.passcodeEnterLineEdit.setFont(font)
-        self.passcodeEnterLineEdit.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;")
+        self.passcodeEnterLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.passcodeEnterLineEdit.setText("")
         self.passcodeEnterLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.passcodeEnterLineEdit.setAlignment(QtCore.Qt.AlignCenter)
@@ -1116,7 +1133,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.passcodeEnterPushButton.setFont(font)
-        self.passcodeEnterPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;")
+        self.passcodeEnterPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+"")
         self.passcodeEnterPushButton.setObjectName("passcodeEnterPushButton")
         self.horizontalLayout.addWidget(self.passcodeEnterPushButton)
         spacerItem36 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -1131,7 +1149,7 @@ class Ui_door_close_main_window(object):
         self.doorOpenPage.setObjectName("doorOpenPage")
         self.doorOpenFrame = QtWidgets.QFrame(self.doorOpenPage)
         self.doorOpenFrame.setGeometry(QtCore.QRect(0, 10, 381, 190))
-        self.doorOpenFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:rgba(0, 102, 204,75);border-color:rgb(0, 102, 204);border-width: 0.5px;border-style: solid;}")
+        self.doorOpenFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#2672EC;border-color:#2672EC;border-width: 0.5px;border-style: solid;}")
         self.doorOpenFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.doorOpenFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.doorOpenFrame.setLineWidth(3)
@@ -1154,7 +1172,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(30)
         font.setBold(True)
         self.doorLabel_2.setFont(font)
-        self.doorLabel_2.setStyleSheet("color:rgb(0, 102, 204)")
+        self.doorLabel_2.setStyleSheet("color:white")
         self.doorLabel_2.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.doorLabel_2.setObjectName("doorLabel_2")
         self.verticalLayout_13.addWidget(self.doorLabel_2)
@@ -1167,7 +1185,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.doorOpenLabel.setFont(font)
-        self.doorOpenLabel.setStyleSheet("color:rgb(0, 102, 204)")
+        self.doorOpenLabel.setStyleSheet("color:white")
         self.doorOpenLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.doorOpenLabel.setObjectName("doorOpenLabel")
         self.verticalLayout_17.addWidget(self.doorOpenLabel)
@@ -1179,9 +1197,9 @@ class Ui_door_close_main_window(object):
         self.doorOpenResetPushButton.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setPointSize(16)
-        font.setBold(False)
+        font.setBold(True)
         self.doorOpenResetPushButton.setFont(font)
-        self.doorOpenResetPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.doorOpenResetPushButton.setStyleSheet("color: white; background-color: #2672EC; border-radius:3px;border-color:white;border-width: 2px;border-style: solid;\n"
 "")
         self.doorOpenResetPushButton.setObjectName("doorOpenResetPushButton")
         self.verticalLayout_18.addWidget(self.doorOpenResetPushButton)
@@ -1189,7 +1207,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_13.addLayout(self.horizontalLayout_9)
         self.alarmFrame = QtWidgets.QFrame(self.doorOpenPage)
         self.alarmFrame.setGeometry(QtCore.QRect(0, 220, 381, 190))
-        self.alarmFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:rgba(255, 204, 0,50);border-color:rgb(255, 204, 0);border-width: 0.5px;border-style: solid;}")
+        self.alarmFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:#D24726;border-color:#D24726;border-width: 0.5px;border-style: solid;}")
         self.alarmFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.alarmFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.alarmFrame.setLineWidth(3)
@@ -1212,7 +1230,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(30)
         font.setBold(True)
         self.doorLabel_4.setFont(font)
-        self.doorLabel_4.setStyleSheet("color:rgb(255, 204, 0)")
+        self.doorLabel_4.setStyleSheet("color:white")
         self.doorLabel_4.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.doorLabel_4.setObjectName("doorLabel_4")
         self.verticalLayout_16.addWidget(self.doorLabel_4)
@@ -1233,7 +1251,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(25)
         font.setBold(True)
         self.alarmStatusLabel.setFont(font)
-        self.alarmStatusLabel.setStyleSheet("color:rgb(255, 204, 0)")
+        self.alarmStatusLabel.setStyleSheet("color:white")
         self.alarmStatusLabel.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.alarmStatusLabel.setObjectName("alarmStatusLabel")
         self.verticalLayout_25.addWidget(self.alarmStatusLabel)
@@ -1245,8 +1263,9 @@ class Ui_door_close_main_window(object):
         self.alarmMutePushButton.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setPointSize(16)
+        font.setBold(True)
         self.alarmMutePushButton.setFont(font)
-        self.alarmMutePushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.alarmMutePushButton.setStyleSheet("color: white; background-color:#D24726; border-radius:3px;border-color:white;border-width: 2px;border-style: solid;\n"
 "")
         self.alarmMutePushButton.setObjectName("alarmMutePushButton")
         self.verticalLayout_26.addWidget(self.alarmMutePushButton)
@@ -1254,7 +1273,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_16.addLayout(self.horizontalLayout_11)
         self.emergencyCallFrame = QtWidgets.QFrame(self.doorOpenPage)
         self.emergencyCallFrame.setGeometry(QtCore.QRect(400, 10, 381, 401))
-        self.emergencyCallFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:rgba(255, 0, 0,50);border-color:rgb(255, 0, 0);border-width: 0.5px;border-style: solid;}")
+        self.emergencyCallFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
         self.emergencyCallFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.emergencyCallFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.emergencyCallFrame.setLineWidth(3)
@@ -1277,7 +1296,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(30)
         font.setBold(True)
         self.doorLabel_3.setFont(font)
-        self.doorLabel_3.setStyleSheet("color:red")
+        self.doorLabel_3.setStyleSheet("color:white")
         self.doorLabel_3.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.doorLabel_3.setObjectName("doorLabel_3")
         self.verticalLayout_14.addWidget(self.doorLabel_3)
@@ -1298,7 +1317,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(25)
         font.setBold(True)
         self.emergencyCallStatusLabel.setFont(font)
-        self.emergencyCallStatusLabel.setStyleSheet("color:red")
+        self.emergencyCallStatusLabel.setStyleSheet("color:white")
         self.emergencyCallStatusLabel.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.emergencyCallStatusLabel.setObjectName("emergencyCallStatusLabel")
         self.verticalLayout_23.addWidget(self.emergencyCallStatusLabel)
@@ -1320,7 +1339,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(25)
         font.setBold(True)
         self.emergencyCallCountdownLabel.setFont(font)
-        self.emergencyCallCountdownLabel.setStyleSheet("color:red")
+        self.emergencyCallCountdownLabel.setStyleSheet("color:white")
         self.emergencyCallCountdownLabel.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.emergencyCallCountdownLabel.setObjectName("emergencyCallCountdownLabel")
         self.verticalLayout_15.addWidget(self.emergencyCallCountdownLabel)
@@ -1340,7 +1359,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(25)
         font.setBold(True)
         self.emergencyCallLastCallLabel.setFont(font)
-        self.emergencyCallLastCallLabel.setStyleSheet("color:red")
+        self.emergencyCallLastCallLabel.setStyleSheet("color:white")
         self.emergencyCallLastCallLabel.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.emergencyCallLastCallLabel.setObjectName("emergencyCallLastCallLabel")
         self.verticalLayout_27.addWidget(self.emergencyCallLastCallLabel)
@@ -1353,7 +1372,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.stopCountdownPushButton.setFont(font)
-        self.stopCountdownPushButton.setStyleSheet("color: white; background-color: rgb(70, 70, 70); border-radius:3px;border-color:rgb(80, 80, 80);border-width: 0.5px;border-style: solid;\n"
+        self.stopCountdownPushButton.setStyleSheet("color: white; background-color: #AC193D; border-radius:3px;border-color:white;border-width: 2px;border-style: solid;\n"
 "")
         self.stopCountdownPushButton.setObjectName("stopCountdownPushButton")
         self.verticalLayout_14.addWidget(self.stopCountdownPushButton)
@@ -1363,12 +1382,13 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.call911NowPushButton.setFont(font)
-        self.call911NowPushButton.setStyleSheet("color: white; background-color: red; border-radius:3px;border-color:white;border-width: 0.5px;border-style: solid;\n"
+        self.call911NowPushButton.setStyleSheet("color: white; background-color: red; border-radius:3px;border-color:white;border-width: 2px;border-style: solid;\n"
 "")
         self.call911NowPushButton.setObjectName("call911NowPushButton")
         self.verticalLayout_14.addWidget(self.call911NowPushButton)
         self.stackedWidget.addWidget(self.doorOpenPage)
         door_close_main_window.setCentralWidget(self.centralwidget)
+        self.absoluteMaximumTemperatureLabel.setBuddy(self.absoluteMaximumTemperatureLineEdit)
         self.naloxoneExpirationDateSettingsLabel.setBuddy(self.calendarWidget)
         self.twilioSIDLabel.setBuddy(self.twilioSIDLineEdit)
         self.twilioTokenLabel.setBuddy(self.twilioTokenLineEdit)
@@ -1381,6 +1401,8 @@ class Ui_door_close_main_window(object):
         self.passcodeLabel.setBuddy(self.passcodeLineEdit)
         self.adminPhoneNumberLabel.setBuddy(self.adminPhoneNumberLineEdit)
         self.enableSMSLabel.setBuddy(self.enableSMSCheckBox)
+        self.closeSoftwareLabel.setBuddy(self.exitPushButton)
+        self.label_2.setBuddy(self.disarmPushButton)
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
@@ -1426,10 +1448,10 @@ class Ui_door_close_main_window(object):
         self.naloxoneExpirationDateLineEdit.setText(_translate("door_close_main_window", "N/A"))
         self.settingsTab.setWhatsThis(_translate("door_close_main_window", "<html><head/><body><p><br/></p></body></html>"))
         self.label_10.setText(_translate("door_close_main_window", "<html><head/><body><p>Select &quot;Naloxone&quot; tab to set new expiration date.</p></body></html>"))
-        self.unlockSettingsPushButton.setText(_translate("door_close_main_window", "Unlock Settings"))
+        self.unlockSettingsPushButton.setText(_translate("door_close_main_window", "Unlock Other Settings"))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.securityPage), _translate("door_close_main_window", "Security"))
         self.replaceNaloxonGuidedLabel1.setText(_translate("door_close_main_window", "Select the new expiration date and max temperature for the Naloxone."))
-        self.absoluteMaximumTemperatureLabel.setText(_translate("door_close_main_window", "Max &Temperature"))
+        self.absoluteMaximumTemperatureLabel.setText(_translate("door_close_main_window", "Max &Temperature [℃]"))
         self.naloxoneExpirationDateSettingsLabel.setText(_translate("door_close_main_window", "Naloxone\n"
 "&Expiration Date"))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.naloxone_info), _translate("door_close_main_window", "Naloxone"))
@@ -1458,9 +1480,9 @@ class Ui_door_close_main_window(object):
         self.enableSMSCheckBox.setText(_translate("door_close_main_window", "Send text message to admin\n"
 "when door is opened or Naloxone is destroyed"))
         self.disarmPushButton.setText(_translate("door_close_main_window", "Disarm"))
-        self.closeSoftwareLabel.setText(_translate("door_close_main_window", "Exit Software"))
+        self.closeSoftwareLabel.setText(_translate("door_close_main_window", "&Exit Software"))
         self.exitPushButton.setText(_translate("door_close_main_window", "Exit"))
-        self.label_2.setText(_translate("door_close_main_window", "Toggle Door Switch"))
+        self.label_2.setText(_translate("door_close_main_window", "&Toggle Door Switch"))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.admin), _translate("door_close_main_window", "Admin"))
         self.saveToFilePushButton.setText(_translate("door_close_main_window", "Save Settings"))
         self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
