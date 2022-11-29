@@ -87,7 +87,7 @@ def process_monitor(shared_array):
 if __name__ == "__main__":
     main_pid = os.getpid()
     print("INFO: main_pid={}".format(os.getpid()))
-    shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2000, 1, 20, 0, 0, 40))
+    shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2000, 1, 20, 0, 0, 40, 0))
     gpio_pid = fork_gpio(shared_array)
     call_pid = fork_call(shared_array)
     network_pid = fork_network(shared_array)

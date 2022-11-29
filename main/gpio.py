@@ -5,6 +5,7 @@ import signal
 import os
 import sys
 import random
+from gpiozero import CPUTemperature
 
 
 DOOR_PIN = 17
@@ -21,11 +22,18 @@ def gpio_signal_handler(signum, frame):
 
 # Read from the DHT22 temperature sensor connected to GPIO27.
 def read_temperature_sensor():
-    #humidity, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+    humidity, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
     #temperature = 20
-    list1 = [5, 10, 15, 20, 25, 30, 35, 40]
-    temperature = random.choice(list1)
-    return temperature
+    #list1 = [5, 10, 15, 20, 25, 30, 35, 40]
+    #temperature = random.choice(list1)
+    print(temperature)
+    return int(temperature * 1.8 + 32)
+
+
+def get_cpu_temperature():
+    cpu = CPUTemperature()
+    print(cpu.temperature)
+    return int(cpu.temperature * 1.8 + 32)
 
 
 def calculate_pwm(temperature):
@@ -53,6 +61,7 @@ def gpio_manager(shared_array):
     while True:
         temp = read_temperature_sensor()
         pwm = calculate_pwm(temp)
+        cpu_temp = get_cpu_temperature()
         control_fan(pwm)
         door_status = read_door_switch()
         with shared_array.get_lock():
@@ -62,6 +71,7 @@ def gpio_manager(shared_array):
                 shared_array[0] = True
             shared_array[2] = pwm
             shared_array[3] = door_status
+            shared_array[19] = cpu_temp
         sleep(3)
 
 

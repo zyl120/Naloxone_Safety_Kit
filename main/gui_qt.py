@@ -32,7 +32,7 @@ def handleVisibleChanged():
 
 class Worker(QtCore.QThread):
     update_door = QtCore.pyqtSignal(bool, bool)
-    update_temperature = QtCore.pyqtSignal(int, int, bool)
+    update_temperature = QtCore.pyqtSignal(int, int, int, bool)
     update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
     update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
     update_time = QtCore.pyqtSignal(QtCore.QTime)
@@ -55,6 +55,7 @@ class Worker(QtCore.QThread):
         server = False
         hour = 0
         minute = 0
+        cpu_temperature = 0
         while True:
             with self.shared_array.get_lock():
                 over_temperature = self.shared_array[0]
@@ -70,8 +71,9 @@ class Worker(QtCore.QThread):
                 server = self.shared_array[6]
                 hour = self.shared_array[16]
                 minute = self.shared_array[17]
+                cpu_temperature = self.shared_array[19]
             self.update_door.emit(door, not disarmed)
-            self.update_temperature.emit(temperature, pwm, over_temperature)
+            self.update_temperature.emit(temperature, cpu_temperature, pwm, over_temperature)
             self.update_server.emit(server, QtCore.QTime(hour, minute))
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
@@ -87,9 +89,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.shared_array = shared_array
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
-        temperatureLimit = QtGui.QIntValidator()
-        temperatureLimit.setRange(0, 99)
-        self.ui.absoluteMaximumTemperatureLineEdit.setValidator(temperatureLimit)
+        # temperatureLimit = QtGui.QIntValidator()
+        # temperatureLimit.setRange(0, 99)
+        # self.ui.absoluteMaximumTemperatureLineEdit.setValidator(temperatureLimit)
+        self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.homePushButton.clicked.connect(self.goto_home)
@@ -100,9 +103,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
         self.ui.replaceNaloxonePushButton.clicked.connect(
             self.replace_naloxone)
+        self.ui.temperatureSlider.valueChanged.connect(
+            self.update_current_max_temperature)
         self.load_settings()
         self.lock_settings()
-        self.goto_home()
+        self.goto_door_open()
 
         self.get_shared_array_worker = Worker(self.shared_array)
         self.get_shared_array_worker.update_door.connect(self.update_door_ui)
@@ -130,9 +135,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             config["emergency_info"]["emergency_message"])
         naloxone_expiration_date = QtCore.QDate.fromString(
             config["naloxone_info"]["naloxone_expiration_date"])
-        self.ui.calendarWidget.setSelectedDate(naloxone_expiration_date)
-        self.ui.absoluteMaximumTemperatureLineEdit.setText(
-            config["naloxone_info"]["absolute_maximum_temperature"])
+        self.ui.naloxoneExpirationDateEdit.setDate(naloxone_expiration_date)
+        self.ui.temperatureSlider.setValue(
+            int(config["naloxone_info"]["absolute_maximum_temperature"]))
+        # self.ui.absoluteMaximumTemperatureLineEdit.setText(
+        #     config["naloxone_info"]["absolute_maximum_temperature"])
         self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
         self.ui.adminPhoneNumberLineEdit.setText(
             config["admin"]["admin_phone_number"])
@@ -206,7 +213,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def goto_settings(self):
         self.ui.stackedWidget.setCurrentIndex(2)
         self.ui.settingsPushButton.setStyleSheet(
-            "color: rgb(50,50,50); background-color: white; border-radius:3px;border-color: white;border-width: 1px;border-style: solid;")
+            "color: white; background-color: rgb(90,90,90); border-radius:3px;border-color: rgb(90,90,90);border-width: 1px;border-style: solid;")
         self.ui.dashboardPushButton.setStyleSheet(
             "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.ui.homePushButton.setStyleSheet(
@@ -216,7 +223,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(1)
         self.ui.dashboardPushButton.setStyleSheet(
-            "color: rgb(50,50,50); background-color: white; border-radius:3px;border-color: white;border-width: 1px;border-style: solid;")
+            "color: white; background-color: rgb(90,90,90); border-radius:3px;border-color: rgb(90,90,90);border-width: 1px;border-style: solid;")
         self.ui.settingsPushButton.setStyleSheet(
             "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.ui.homePushButton.setStyleSheet(
@@ -226,7 +233,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.homePushButton.setStyleSheet(
-            "color: rgb(50,50,50); background-color: white; border-radius:3px;border-color: white;border-width: 1px;border-style: solid;")
+            "color: white; background-color: rgb(90,90,90); border-radius:3px;border-color: rgb(90,90,90);border-width: 1px;border-style: solid;")
         self.ui.dashboardPushButton.setStyleSheet(
             "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.ui.settingsPushButton.setStyleSheet(
@@ -276,11 +283,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         else:
             self.ui.doorArmedLineEdit.setText("Disarmed")
         if (not door and armed):
-            self.ui.doorStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
+            self.ui.doorStatusBox.setStyleSheet(
+                "color:#008A00")
         else:
-            self.ui.doorStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
+            self.ui.doorStatusBox.setStyleSheet(
+                "color:#AC193D")
 
     @QtCore.pyqtSlot(bool, QtCore.QDate)
     def update_naloxone_ui(self, naloxone_good, naloxone_expiration_date):
@@ -288,12 +295,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             naloxone_expiration_date.toString("MMM dd, yy"))
         if (naloxone_good):
             self.ui.naloxoneStatusLineEdit.setText("OK")
-            self.ui.naloxoneStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
+            self.ui.naloxoneStatusBox.setStyleSheet(
+                "color:#008A00")
         else:
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
-            self.ui.naloxoneStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
+            self.ui.naloxoneStatusBox.setStyleSheet(
+                "color:#AC193D")
 
     @QtCore.pyqtSlot(bool, QtCore.QTime)
     def update_server_ui(self, server, server_check_time):
@@ -301,26 +308,33 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             server_check_time.toString("h:mm AP"))
         if (server):
             self.ui.serverStatusLineEdit.setText("OK")
-            self.ui.serverStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
+            self.ui.serverStatusBox.setStyleSheet(
+                "color:#008A00")
         else:
             self.ui.serverStatusLineEdit.setText("Down")
-            self.ui.serverStatusBarFrame.setStyleSheet(
-                ".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
+            self.ui.serverStatusBox.setStyleSheet(
+                "color:#AC193D")
 
-    @QtCore.pyqtSlot(int, int, bool)
-    def update_temperature_ui(self, temperature, pwm, over_temperature):
+    @QtCore.pyqtSlot(int, int, int, bool)
+    def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
         self.ui.temperatureLineEdit.setText(
-            str(temperature) + "℃/"+str(int(temperature * 1.8 + 32)) + "℉")
+            str(temperature) + "℉")
+        self.ui.cpuTemperatureLineEdit.setText(str(cpu_temperature) + "℉")
         self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
-        if(not over_temperature):
-            self.ui.thermalStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#008A00;border-color:#008A00;border-width: 0.5px;border-style: solid;}")
+        if (not over_temperature):
+            self.ui.thermalStatusBox.setStyleSheet(
+                "color:#008A00")
         else:
-            self.ui.thermalStatusBarFrame.setStyleSheet(".QFrame{border-radius: 5px; background-color:#AC193D;border-color:#AC193D;border-width: 0.5px;border-style: solid;}")
+            self.ui.thermalStatusBox.setStyleSheet(
+                "color:#AC193D")
 
     @QtCore.pyqtSlot(QtCore.QTime)
     def update_time_ui(self, current_time):
         self.ui.currentTimeLineEdit.setText(current_time.toString("h:mm AP"))
+
+    @QtCore.pyqtSlot(int)
+    def update_current_max_temperature(self, value):
+        self.ui.CurrentTemperatureLabel.setText(str(value)+"℉")
 
     def save_config_file(self):
         #self.naloxone_expiration_date = self.ui.calendarWidget.selectedDate()
@@ -338,8 +352,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "emergency_message": self.ui.emergencyMessageLineEdit.text()
         }
         config["naloxone_info"] = {
-            "naloxone_expiration_date": self.ui.calendarWidget.selectedDate().toString(),
-            "absolute_maximum_temperature": self.ui.absoluteMaximumTemperatureLineEdit.text()
+            "naloxone_expiration_date": self.ui.naloxoneExpirationDateEdit.date().toString(),
+            "absolute_maximum_temperature": self.ui.temperatureSlider.value()
         }
         config["admin"] = {
             "passcode": self.ui.passcodeLineEdit.text(),
