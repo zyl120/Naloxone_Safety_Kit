@@ -22,6 +22,7 @@ def alarm_manager(shared_array):
         if (alarm_needed and not mute):
             print("synthesizing")
             sleep(10)
+        sleep(2)
 
 
 def fork_alarm(shared_array):
@@ -30,6 +31,8 @@ def fork_alarm(shared_array):
         print("INFO: alarm_synthesizer={}".format(pid))
     else:
         alarm_pid = os.getpid()
+        os.sched_setaffinity(alarm_pid, {alarm_pid % os.cpu_count()})
+        print("alarm" + str(alarm_pid) + str(alarm_pid % os.cpu_count()))
         signal.signal(signal.SIGINT, alarm_signal_handler)
         alarm_manager(shared_array)
     return pid

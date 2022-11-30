@@ -80,6 +80,9 @@ def fork_gpio(shared_array):
     if (pid > 0):
         print("INFO: gpio_pid={}".format(pid))
     else:
+        gpio_pid = os.getpid()
+        os.sched_setaffinity(gpio_pid, {gpio_pid % os.cpu_count()})
+        print("gpio" + str(gpio_pid) + str(gpio_pid % os.cpu_count()))
         signal.signal(signal.SIGINT, gpio_signal_handler)
         gpio_manager(shared_array)
     return pid

@@ -31,8 +31,8 @@ def make_phone_call():
 
     # create the response
     response = VoiceResponse()
-    response.say("Message: " + message + " Address: " +
-                 address, voice=voice, loop=loop)
+    response.say("Message: " + message + ". Address: " +
+                 address + ".", voice=voice, loop=loop)
     print("INFO: resonse: " + str(response))
 
     # create client
@@ -53,7 +53,7 @@ def make_phone_call():
     else:
         # if successful, return True
         print(call.sid)
-        print("ERROR: Twilio Call: Call ID: %s", call.sid)
+        print("INFO: Twilio Call: Call ID: %s", call.sid)
         return True
 
 
@@ -84,6 +84,9 @@ def fork_call(shared_array):
     if (pid > 0):
         print("INFO: call_pid={}".format(pid))
     else:
+        call_pid = os.getpid()
+        os.sched_setaffinity(call_pid, {call_pid % os.cpu_count()})
+        print("call:" + str(call_pid) + str(call_pid % os.cpu_count()))
         signal.signal(signal.SIGINT, call_signal_handler)
         call_manager(shared_array)
     return pid

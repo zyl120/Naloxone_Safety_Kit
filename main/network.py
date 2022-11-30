@@ -42,6 +42,9 @@ def fork_network(shared_array):
     if (pid > 0):
         print("INFO: network_pid={}".format(pid))
     else:
+        network_pid = os.getpid()
+        os.sched_setaffinity(network_pid, {network_pid % os.cpu_count()})
+        print("network" + str(network_pid) + str(network_pid % os.cpu_count()))
         signal.signal(signal.SIGINT, network_signal_handler)
         network_manager(shared_array)
     return pid

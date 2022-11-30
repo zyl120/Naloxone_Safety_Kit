@@ -53,6 +53,9 @@ def fork_naloxone(shared_array):
     if (pid > 0):
         print("INFO: naloxone_manager={}".format(pid))
     else:
+        naloxone_pid = os.getpid()
+        os.sched_setaffinity(naloxone_pid, {naloxone_pid % os.cpu_count()})
+        print("naloxone" + str(naloxone_pid) + str(naloxone_pid % os.cpu_count()))
         signal.signal(signal.SIGINT, naloxone_signal_handler)
         naloxone_manager(shared_array)
     return pid

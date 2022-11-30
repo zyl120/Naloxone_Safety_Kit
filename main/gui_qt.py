@@ -1,5 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from ui_form import Ui_Widget
+from twilio.rest import Client
+from twilio.twiml.voice_response import VoiceResponse
+from twilio.base.exceptions import TwilioRestException
 import os
 import sys
 import configparser
@@ -30,7 +32,16 @@ def handleVisibleChanged():
                 return
 
 
-class Worker(QtCore.QThread):
+class GenericWorker(QtCore.QThread):
+    def __init__(self, fn):
+        super(GenericWorker, self).__init__()
+        self.fn = fn
+
+    def run(self):
+        self.fn()
+
+
+class SharedMemoryWorker(QtCore.QThread):
     update_door = QtCore.pyqtSignal(bool, bool)
     update_temperature = QtCore.pyqtSignal(int, int, int, bool)
     update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
@@ -38,7 +49,7 @@ class Worker(QtCore.QThread):
     update_time = QtCore.pyqtSignal(QtCore.QTime)
 
     def __init__(self, shared_array):
-        super(Worker, self).__init__()
+        super(SharedMemoryWorker, self).__init__()
         self.shared_array = shared_array
 
     def run(self):
@@ -73,7 +84,8 @@ class Worker(QtCore.QThread):
                 minute = self.shared_array[17]
                 cpu_temperature = self.shared_array[19]
             self.update_door.emit(door, not disarmed)
-            self.update_temperature.emit(temperature, cpu_temperature, pwm, over_temperature)
+            self.update_temperature.emit(
+                temperature, cpu_temperature, pwm, over_temperature)
             self.update_server.emit(server, QtCore.QTime(hour, minute))
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
@@ -89,9 +101,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.shared_array = shared_array
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
-        # temperatureLimit = QtGui.QIntValidator()
-        # temperatureLimit.setRange(0, 99)
-        # self.ui.absoluteMaximumTemperatureLineEdit.setValidator(temperatureLimit)
         self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
@@ -105,11 +114,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.replace_naloxone)
         self.ui.temperatureSlider.valueChanged.connect(
             self.update_current_max_temperature)
+        self.ui.callTestPushButton.clicked.connect(
+            self.call_test_pushbutton_clicked)
+        self.ui.smsTestPushButton.clicked.connect(
+            self.sms_test_pushbutton_clicked)
         self.load_settings()
         self.lock_settings()
         self.goto_door_open()
 
-        self.get_shared_array_worker = Worker(self.shared_array)
+        self.get_shared_array_worker = SharedMemoryWorker(self.shared_array)
         self.get_shared_array_worker.update_door.connect(self.update_door_ui)
         self.get_shared_array_worker.update_temperature.connect(
             self.update_temperature_ui)
@@ -138,8 +151,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.naloxoneExpirationDateEdit.setDate(naloxone_expiration_date)
         self.ui.temperatureSlider.setValue(
             int(config["naloxone_info"]["absolute_maximum_temperature"]))
-        # self.ui.absoluteMaximumTemperatureLineEdit.setText(
-        #     config["naloxone_info"]["absolute_maximum_temperature"])
         self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
         self.ui.adminPhoneNumberLineEdit.setText(
             config["admin"]["admin_phone_number"])
@@ -153,6 +164,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.endTimeEdit.setTime(self.active_hour_end)
         self.ui.enablePowerSavingCheckBox.setChecked(
             config["power_management"]["enable_power_saving"] == "True")
+        self.ui.enableActiveCoolingCheckBox.setChecked(
+            config["power_management"]["enable_active_cooling"] == "True")
 
     def lock_settings(self):
         self.ui.unlockSettingsPushButton.setText("Unlock Other Settings")
@@ -262,6 +275,69 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             with self.shared_array.get_lock():
                 self.shared_array[8] = 0
 
+    def sms_test_pushbutton_clicked(self):
+        self.sms_worker = GenericWorker(self.sms_test)
+        self.sms_worker.start()
+
+    def sms_test(self):
+        client = Client(self.ui.twilioSIDLineEdit.text(),
+                        self.ui.twilioTokenLineEdit.text())
+        body = ("Internet-based Naloxone Safety Kit. " +
+                "These are the words that will be heard by " + self.ui.emergencyPhoneNumberLineEdit.text() +
+                " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
+                self.ui.emergencyAddressLineEdit.text() +
+                ". If the words sound good, you can save the settings. Thank you.")
+        try:
+            message = client.messages.create(
+                body=body,
+                to=self.ui.adminPhoneNumberLineEdit.text(),
+                from_=self.ui.twilioPhoneNumberLineEdit.text()
+            )
+        except TwilioRestException as e:
+            # if not successful, return False
+            print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
+            return False
+        else:
+            # if successful, return True
+            print(message.sid)
+            print("INFO: Twilio SMS: SMS ID: {}".format(str(message.sid)))
+            return True
+
+    def call_test_pushbutton_clicked(self):
+        self.call_worker = GenericWorker(self.call_test)
+        self.call_worker.start()
+
+    def call_test(self):
+        response = VoiceResponse()
+        response.say("Internet-based Naloxone Safety Kit. " +
+                     "These are the words that will be heard by " + " ".join(self.ui.emergencyPhoneNumberLineEdit.text()) +
+                     " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
+                     self.ui.emergencyAddressLineEdit.text() +
+                     ". If the call sounds good, you can save the settings. Thank you.", voice="woman", loop=3)
+        print("INFO: resonse: " + str(response))
+
+        # create client
+        client = Client(self.ui.twilioSIDLineEdit.text(),
+                        self.ui.twilioTokenLineEdit.text())
+        print(response)
+
+        # try to place the phone call
+        try:
+            call = client.calls.create(
+                twiml=response,
+                to=self.ui.adminPhoneNumberLineEdit.text(),
+                from_=self.ui.twilioPhoneNumberLineEdit.text()
+            )
+        except TwilioRestException as e:
+            # if not successful, return False
+            print("ERROR: Twilio Call: ERROR - {}".format(str(e)))
+            return False
+        else:
+            # if successful, return True
+            print(call.sid)
+            print("INFO: Twilio Call: Call ID: {}".format(str(call.sid)))
+            return True
+
     def toggle_door_arm(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
             self.ui.disarmPushButton.setText("Arm")
@@ -361,6 +437,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "enable_sms": self.ui.enableSMSCheckBox.isChecked()
         }
         config["power_management"] = {
+            "enable_active_cooling": self.ui.enableActiveCoolingCheckBox.isChecked(),
             "enable_power_saving": self.ui.enablePowerSavingCheckBox.isChecked(),
             "active_hours_start_at": self.active_hour_start.toString("hh:mm"),
             "active_hours_end_at": self.active_hour_end.toString("hh:mm")
@@ -385,6 +462,9 @@ def fork_gui(shared_array):
         print("INFO: gui_pid={}".format(pid))
     else:
         gui_pid = os.getpid()
+        os.sched_setaffinity(gui_pid, {gui_pid % os.cpu_count()})
+        print("gui" + str(gui_pid) + str(gui_pid % os.cpu_count()))
         signal.signal(signal.SIGINT, gui_signal_handler)
+        # sleep(1000)
         gui_manager(shared_array)
     return pid
