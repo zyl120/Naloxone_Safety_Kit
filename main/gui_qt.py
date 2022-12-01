@@ -41,6 +41,71 @@ class GenericWorker(QtCore.QThread):
         self.fn()
 
 
+class CallWorker(Qtcore.QThread):
+    call_thread_status = QtCore.pyqtSignal(bool, str)
+
+    def __init__(self, number, body):
+        super(CallWorker, self).__init__()
+        self.number = number
+        self.body = body
+        self.config = configparser.ConfigParser()
+        self.config.read("safety_kit.conf")
+        self.twilio_sid = self.config["twilio"]["twilio_sid"]
+        self.twilio_token = self.config["twilio"]["twilio_token"]
+        self.twilio_phone_number = self.config["twilio"]["twilio_phone_number"]
+
+    def run(self):
+        client = Client(self.twilio_sid, self.twilio_token)
+        try:
+            call = client.calls.create(
+                twiml=self.body,
+                to=self.number,
+                from_=self.twilio_phone_number
+            )
+        except TwilioRestException as e:
+            # if not successful, return False
+            print("ERROR: Twilio Call: ERROR - {}".format(str(e)))
+            self.call_thread_status.emit(False, str(e))
+        else:
+            # if successful, return True
+            print(call.sid)
+            print("INFO: Twilio Call: Call ID: %s", call.sid)
+            self.call_thread_status.emit(True, str(call.sid))
+
+
+class SMSWorker(QtCore.QThread):
+    sms_thread_status = QtCore.pyqtSignal(bool, str)
+
+    def __init__(self, number, body):
+        super(SMSWorker, self).__init__()
+        self.number = number
+        self.body = body
+        self.config = configparser.ConfigParser()
+        self.config.read("safety_kit.conf")
+        self.twilio_sid = self.config["twilio"]["twilio_sid"]
+        self.twilio_token = self.config["twilio"]["twilio_token"]
+        self.twilio_phone_number = self.config["twilio"]["twilio_phone_number"]
+
+    def run(self):
+        client = Client(self.twilio_sid,
+                        self.twilio_token)
+        try:
+            sms = client.messages.create(
+                body=self.body,
+                to=self.number,
+                from_=self.twilio_phone_number
+            )
+        except TwilioRestException as e:
+            # if not successful, return False
+            print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
+            self.sms_thread_status.emit(False, str(e))
+        else:
+            # if successful, return True
+            print(sms.sid)
+            print("INFO: Twilio SMS: SMS ID: {}".format(str(sms.sid)))
+            self.sms_thread_status.emit(True, str(sms.sid))
+
+
 class SharedMemoryWorker(QtCore.QThread):
     update_door = QtCore.pyqtSignal(bool, bool)
     update_temperature = QtCore.pyqtSignal(int, int, int, bool)
