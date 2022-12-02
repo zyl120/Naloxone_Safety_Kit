@@ -5,7 +5,6 @@ from twilio.base.exceptions import TwilioRestException
 import os
 import sys
 import configparser
-import subprocess
 import signal
 from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
@@ -33,26 +32,47 @@ def handleVisibleChanged():
 
 
 class GenericWorker(QtCore.QThread):
+    msg_info_signal = QtCore.pyqtSignal(str, str, str)
+
     def __init__(self, fn):
         super(GenericWorker, self).__init__()
         self.fn = fn
 
     def run(self):
-        self.fn()
+        icon, text, detailed_text = self.fn()
+        if text:
+            self.msg_info_signal.emit(icon, text, detailed_text)
 
 
-class CallWorker(Qtcore.QThread):
-    call_thread_status = QtCore.pyqtSignal(bool, str)
+class CountDownWorker(QtCore.QThread):
+    time_end_signal = QtCore.pyqtSignal()
+    time_changed_signal = QtCore.pyqtSignal(int)
 
-    def __init__(self, number, body):
+    def __init__(self, time_in_sec):
+        super(CountDownWorker, self).__init__()
+        self.time_in_sec = time_in_sec
+
+    def run(self):
+        while (self.time_in_sec >= 0):
+            self.time_changed_signal.emit(self.time_in_sec)
+            self.time_in_sec = self.time_in_sec - 1
+            sleep(1)
+        self.time_end_signal.emit()
+    
+    def stop(self):
+        self.terminate()
+
+
+class CallWorker(QtCore.QThread):
+    call_thread_status = QtCore.pyqtSignal(str, str, str)
+
+    def __init__(self, number, body, t_sid, t_token, t_number):
         super(CallWorker, self).__init__()
         self.number = number
         self.body = body
-        self.config = configparser.ConfigParser()
-        self.config.read("safety_kit.conf")
-        self.twilio_sid = self.config["twilio"]["twilio_sid"]
-        self.twilio_token = self.config["twilio"]["twilio_token"]
-        self.twilio_phone_number = self.config["twilio"]["twilio_phone_number"]
+        self.twilio_sid = t_sid
+        self.twilio_token = t_token
+        self.twilio_phone_number = t_number
 
     def run(self):
         client = Client(self.twilio_sid, self.twilio_token)
@@ -65,26 +85,26 @@ class CallWorker(Qtcore.QThread):
         except TwilioRestException as e:
             # if not successful, return False
             print("ERROR: Twilio Call: ERROR - {}".format(str(e)))
-            self.call_thread_status.emit(False, str(e))
+            self.call_thread_status.emit(
+                "Critical", "Call Request Failed.", str(e))
         else:
             # if successful, return True
             print(call.sid)
             print("INFO: Twilio Call: Call ID: %s", call.sid)
-            self.call_thread_status.emit(True, str(call.sid))
+            self.call_thread_status.emit(
+                "Information", "Call Request Sent Successfully.", str(call.sid))
 
 
 class SMSWorker(QtCore.QThread):
-    sms_thread_status = QtCore.pyqtSignal(bool, str)
+    sms_thread_status = QtCore.pyqtSignal(str, str, str)
 
-    def __init__(self, number, body):
+    def __init__(self, number, body, t_sid, t_token, t_number):
         super(SMSWorker, self).__init__()
         self.number = number
         self.body = body
-        self.config = configparser.ConfigParser()
-        self.config.read("safety_kit.conf")
-        self.twilio_sid = self.config["twilio"]["twilio_sid"]
-        self.twilio_token = self.config["twilio"]["twilio_token"]
-        self.twilio_phone_number = self.config["twilio"]["twilio_phone_number"]
+        self.twilio_sid = t_sid
+        self.twilio_token = t_token
+        self.twilio_phone_number = t_number
 
     def run(self):
         client = Client(self.twilio_sid,
@@ -98,12 +118,14 @@ class SMSWorker(QtCore.QThread):
         except TwilioRestException as e:
             # if not successful, return False
             print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
-            self.sms_thread_status.emit(False, str(e))
+            self.sms_thread_status.emit(
+                "Critical", "SMS Request Failed.", str(e))
         else:
             # if successful, return True
             print(sms.sid)
             print("INFO: Twilio SMS: SMS ID: {}".format(str(sms.sid)))
-            self.sms_thread_status.emit(True, str(sms.sid))
+            self.sms_thread_status.emit(
+                "Information", "SMS Request Sent Successfully.", str(sms.sid))
 
 
 class SharedMemoryWorker(QtCore.QThread):
@@ -112,6 +134,7 @@ class SharedMemoryWorker(QtCore.QThread):
     update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
     update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
     update_time = QtCore.pyqtSignal(QtCore.QTime)
+    go_to_door_open_signal = QtCore.pyqtSignal()
 
     def __init__(self, shared_array):
         super(SharedMemoryWorker, self).__init__()
@@ -148,6 +171,8 @@ class SharedMemoryWorker(QtCore.QThread):
                 hour = self.shared_array[16]
                 minute = self.shared_array[17]
                 cpu_temperature = self.shared_array[19]
+            if (door):  # if door opened
+                self.go_to_door_open_signal.emit()
             self.update_door.emit(door, not disarmed)
             self.update_temperature.emit(
                 temperature, cpu_temperature, pwm, over_temperature)
@@ -161,6 +186,7 @@ class SharedMemoryWorker(QtCore.QThread):
 class ApplicationWindow(QtWidgets.QMainWindow):
     def __init__(self, shared_array):
         super(ApplicationWindow, self).__init__()
+        self.door_opened = False
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.shared_array = shared_array
@@ -183,9 +209,17 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.call_test_pushbutton_clicked)
         self.ui.smsTestPushButton.clicked.connect(
             self.sms_test_pushbutton_clicked)
+        self.ui.passcodeEnterPushButton.clicked.connect(
+            self.check_passcode_unlock_settings)
+        self.ui.doorOpenResetPushButton.clicked.connect(
+            self.reset_button_pushed)
+        self.countdown_thread = CountDownWorker(10)
+        self.ui.stopCountdownPushButton.clicked.connect(self.stop_countdown_button_pushed)
+        self.ui.call911NowPushButton.clicked.connect(self.call_emergency_now)
+        self.ui.forgotPasswordPushButton.clicked.connect(self.forgot_password_button_pushed)
         self.load_settings()
         self.lock_settings()
-        self.goto_door_open()
+        self.goto_home()
 
         self.get_shared_array_worker = SharedMemoryWorker(self.shared_array)
         self.get_shared_array_worker.update_door.connect(self.update_door_ui)
@@ -196,56 +230,84 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.get_shared_array_worker.update_naloxone.connect(
             self.update_naloxone_ui)
         self.get_shared_array_worker.update_time.connect(self.update_time_ui)
+        self.get_shared_array_worker.go_to_door_open_signal.connect(
+            self.goto_door_open)
         self.get_shared_array_worker.start()
 
     def load_settings(self):
-        config = configparser.ConfigParser()
-        config.read("safety_kit.conf")
-        self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
-        self.ui.twilioTokenLineEdit.setText(config["twilio"]["twilio_token"])
-        self.ui.twilioPhoneNumberLineEdit.setText(
-            config["twilio"]["twilio_phone_number"])
-        self.ui.emergencyPhoneNumberLineEdit.setText(
-            config["emergency_info"]["emergency_phone_number"])
-        self.ui.emergencyAddressLineEdit.setText(
-            config["emergency_info"]["emergency_address"])
-        self.ui.emergencyMessageLineEdit.setText(
-            config["emergency_info"]["emergency_message"])
-        naloxone_expiration_date = QtCore.QDate.fromString(
-            config["naloxone_info"]["naloxone_expiration_date"])
-        self.ui.naloxoneExpirationDateEdit.setDate(naloxone_expiration_date)
-        self.ui.temperatureSlider.setValue(
-            int(config["naloxone_info"]["absolute_maximum_temperature"]))
-        self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
-        self.ui.adminPhoneNumberLineEdit.setText(
-            config["admin"]["admin_phone_number"])
-        self.ui.enableSMSCheckBox.setChecked(
-            config["admin"]["enable_sms"] == "True")
-        self.active_hour_start = QtCore.QTime.fromString(
-            config["power_management"]["active_hours_start_at"], "hh:mm")
-        self.ui.startTimeEdit.setTime(self.active_hour_start)
-        self.active_hour_end = QtCore.QTime.fromString(
-            config["power_management"]["active_hours_end_at"], "hh:mm")
-        self.ui.endTimeEdit.setTime(self.active_hour_end)
-        self.ui.enablePowerSavingCheckBox.setChecked(
-            config["power_management"]["enable_power_saving"] == "True")
-        self.ui.enableActiveCoolingCheckBox.setChecked(
-            config["power_management"]["enable_active_cooling"] == "True")
+        print("loading settings")
+        try:
+            config = configparser.ConfigParser()
+            config.read("safety_kit.conf")
+            self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
+            self.ui.twilioTokenLineEdit.setText(
+                config["twilio"]["twilio_token"])
+            self.ui.twilioPhoneNumberLineEdit.setText(
+                config["twilio"]["twilio_phone_number"])
+            self.ui.emergencyPhoneNumberLineEdit.setText(
+                config["emergency_info"]["emergency_phone_number"])
+            self.ui.emergencyAddressLineEdit.setText(
+                config["emergency_info"]["emergency_address"])
+            self.ui.emergencyMessageLineEdit.setText(
+                config["emergency_info"]["emergency_message"])
+            naloxone_expiration_date = QtCore.QDate.fromString(
+                config["naloxone_info"]["naloxone_expiration_date"])
+            self.ui.naloxoneExpirationDateEdit.setDate(
+                naloxone_expiration_date)
+            self.ui.temperatureSlider.setValue(
+                int(config["naloxone_info"]["absolute_maximum_temperature"]))
+            self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
+            self.ui.adminPhoneNumberLineEdit.setText(
+                config["admin"]["admin_phone_number"])
+            self.ui.enableSMSCheckBox.setChecked(
+                config["admin"]["enable_sms"] == "True")
+            self.ui.reportDoorOpenedCheckBox.setChecked(
+                config["admin"]["report_door_opened"] == "True")
+            self.ui.reportEmergencyCalledCheckBox.setChecked(
+                config["admin"]["report_emergency_called"] == "True")
+            self.ui.reportNaloxoneDestroyedCheckBox.setChecked(
+                config["admin"]["report_naloxone_destroyed"] == "True")
+            self.ui.reportSettingsChangedCheckBox.setChecked(
+                config["admin"]["report_settings_changed"] == "True")
+            self.active_hour_start = QtCore.QTime.fromString(
+                config["power_management"]["active_hours_start_at"], "hh:mm")
+            self.ui.startTimeEdit.setTime(self.active_hour_start)
+            self.active_hour_end = QtCore.QTime.fromString(
+                config["power_management"]["active_hours_end_at"], "hh:mm")
+            self.ui.endTimeEdit.setTime(self.active_hour_end)
+            self.ui.enablePowerSavingCheckBox.setChecked(
+                config["power_management"]["enable_power_saving"] == "True")
+            self.ui.enableActiveCoolingCheckBox.setChecked(
+                config["power_management"]["enable_active_cooling"] == "True")
+        except Exception as e:
+            print("Failed to load config file")
+            msg = QtWidgets.QMessageBox()
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+            msg.setDetailedText(str(e))
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.setText("Failed to read config file.")
+            msg.setStyleSheet(
+                "QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
+            # msg.buttonClicked.connect(msg.close)
+            msg.exec_()
+        else:
+            print("config file loaded")
 
     def lock_settings(self):
-        self.ui.unlockSettingsPushButton.setText("Unlock Other Settings")
+        self.ui.unlockSettingsPushButton.setText("Unlock Settings")
+        self.ui.saveToFilePushButton.setEnabled(False)
         self.ui.settingsTab.setCurrentIndex(0)
         self.ui.settingsTab.setTabEnabled(0, True)
-        self.ui.settingsTab.setTabEnabled(1, True)
+        self.ui.settingsTab.setTabEnabled(1, False)
         self.ui.settingsTab.setTabEnabled(2, False)
         self.ui.settingsTab.setTabEnabled(3, False)
         self.ui.settingsTab.setTabEnabled(4, False)
         self.ui.settingsTab.setTabEnabled(5, False)
 
     def unlock_settings(self):
-        self.ui.unlockSettingsPushButton.setText("Lock Other Settings")
+        self.ui.unlockSettingsPushButton.setText("Lock Settings")
         self.load_settings()
-        # self.ui.saveToFilePushButton.setEnabled(True)
+        self.ui.saveToFilePushButton.setEnabled(True)
         self.ui.settingsTab.setCurrentIndex(0)
         self.ui.settingsTab.setTabEnabled(0, True)
         self.ui.settingsTab.setTabEnabled(1, True)
@@ -273,15 +335,24 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.lock_settings()
 
     def lock_unlock_settings(self):
-        if (self.ui.unlockSettingsPushButton.text() == "Unlock Other Settings"):
-            self.ui.passcodeEnterPushButton.clicked.connect(
-                self.check_passcode_unlock_settings)
+        if (self.ui.unlockSettingsPushButton.text() == "Unlock Settings"):
             self.goto_passcode()
-        elif (self.ui.unlockSettingsPushButton.text() == "Lock Other Settings"):
+        elif (self.ui.unlockSettingsPushButton.text() == "Lock Settings"):
             self.lock_settings()
 
+    @QtCore.pyqtSlot()
     def goto_door_open(self):
-        self.ui.stackedWidget.setCurrentIndex(4)
+        if (self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1):
+            self.ui.homePushButton.setEnabled(False)
+            self.ui.replaceNaloxonePushButton.setEnabled(True)
+            self.ui.settingsPushButton.setEnabled(False)
+            self.ui.dashboardPushButton.setEnabled(False)
+            self.ui.stackedWidget.setCurrentIndex(4)
+            self.countdown_thread = CountDownWorker(10)
+            self.countdown_thread.time_changed_signal.connect(
+                self.update_emergency_call_countdown)
+            self.countdown_thread.time_end_signal.connect(self.call_emergency_now)
+            self.countdown_thread.start()
 
     def goto_passcode(self):
         self.ui.passcodeEnterLineEdit.clear()
@@ -289,40 +360,33 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(3)
 
     def goto_settings(self):
+       
+        self.ui.homePushButton.setChecked(False)
+        self.ui.dashboardPushButton.setChecked(False)
+        self.ui.settingsPushButton.setChecked(True)
+
         self.ui.stackedWidget.setCurrentIndex(2)
-        self.ui.settingsPushButton.setStyleSheet(
-            "color: white; background-color: rgb(90,90,90); border-radius:3px;border-color: rgb(90,90,90);border-width: 1px;border-style: solid;")
-        self.ui.dashboardPushButton.setStyleSheet(
-            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-        self.ui.homePushButton.setStyleSheet(
-            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
 
     def goto_dashboard(self):
+        self.ui.homePushButton.setChecked(False)
+        self.ui.dashboardPushButton.setChecked(True)
+        self.ui.settingsPushButton.setChecked(False)
+
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(1)
-        self.ui.dashboardPushButton.setStyleSheet(
-            "color: white; background-color: rgb(90,90,90); border-radius:3px;border-color: rgb(90,90,90);border-width: 1px;border-style: solid;")
-        self.ui.settingsPushButton.setStyleSheet(
-            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-        self.ui.homePushButton.setStyleSheet(
-            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
 
     def goto_home(self):
+        self.ui.homePushButton.setChecked(True)
+        self.ui.dashboardPushButton.setChecked(False)
+        self.ui.settingsPushButton.setChecked(False)
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(0)
-        self.ui.homePushButton.setStyleSheet(
-            "color: white; background-color: rgb(90,90,90); border-radius:3px;border-color: rgb(90,90,90);border-width: 1px;border-style: solid;")
-        self.ui.dashboardPushButton.setStyleSheet(
-            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-        self.ui.settingsPushButton.setStyleSheet(
-            "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-
-    def exit_program(self):
-        os.kill(0, signal.SIGINT)  # kill all processes
-        self.close()
 
     def replace_naloxone(self):
         if (self.ui.replaceNaloxonePushButton.text() == "Replace Naloxone"):
+            self.ui.homePushButton.setEnabled(False)
+            self.ui.dashboardPushButton.setEnabled(False)
+            self.ui.settingsPushButton.setEnabled(False)
             with self.shared_array.get_lock():
                 self.shared_array[8] = 1
             self.ui.replaceNaloxonePushButton.setText("Finish Replacement")
@@ -330,8 +394,25 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.saveToFilePushButton.setText(
                 "Close the door and Click \"Finish Replacement\" to finish up.")
             self.goto_settings()
+            self.lock_settings()
+            self.ui.settingsTab.setTabEnabled(0, False)
             self.ui.settingsTab.setCurrentIndex(1)
+            self.ui.settingsTab.setTabEnabled(1, True)
         else:
+            self.finish_replace_naloxone_thread = GenericWorker(
+                self.finish_replace_naloxone)
+            self.finish_replace_naloxone_thread.msg_info_signal.connect(
+                self.display_messagebox)
+            self.finish_replace_naloxone_thread.start()
+
+    def finish_replace_naloxone(self):
+        if (self.door_opened):
+            print("door is still opened")
+            return "Critical", "Please close the door first and wait for five seconds.", "The system needs some time to detect the door status change."
+        else:
+            self.ui.homePushButton.setEnabled(True)
+            self.ui.dashboardPushButton.setEnabled(True)
+            self.ui.settingsPushButton.setEnabled(True)
             self.save_config_file()
             self.ui.replaceNaloxonePushButton.setText("Replace Naloxone")
             self.ui.saveToFilePushButton.setText("Save Settings")
@@ -339,69 +420,51 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.goto_home()
             with self.shared_array.get_lock():
                 self.shared_array[8] = 0
+            return "Information", "New Naloxone info saved.", "N/A"
+
+    
+    def send_sms_using_config_file(self, msg):
+        config = configparser.ConfigParser()
+        config.read("safety_kit.conf")
+        admin_phone_number = config["admin"]["admin_phone_number"]
+        address = config["emergency_info"]["emergency_address"]
+        t_sid = config["twilio"]["twilio_sid"]
+        t_token = config["twilio"]["twilio_token"]
+        t_number = config["twilio"]["twilio_phone_number"]
+        self.sender = SMSWorker(admin_phone_number, "The naloxone safety box at " + address + " sent the following information: " + msg, t_sid, t_token, t_number)
+        self.sender.start()
 
     def sms_test_pushbutton_clicked(self):
-        self.sms_worker = GenericWorker(self.sms_test)
-        self.sms_worker.start()
-
-    def sms_test(self):
-        client = Client(self.ui.twilioSIDLineEdit.text(),
-                        self.ui.twilioTokenLineEdit.text())
+        phone_number = self.ui.adminPhoneNumberLineEdit.text()
+        t_sid = self.ui.twilioSIDLineEdit.text()
+        t_token = self.ui.twilioTokenLineEdit.text()
+        t_number = self.ui.twilioPhoneNumberLineEdit.text()
         body = ("Internet-based Naloxone Safety Kit. " +
                 "These are the words that will be heard by " + self.ui.emergencyPhoneNumberLineEdit.text() +
                 " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
                 self.ui.emergencyAddressLineEdit.text() +
                 ". If the words sound good, you can save the settings. Thank you.")
-        try:
-            message = client.messages.create(
-                body=body,
-                to=self.ui.adminPhoneNumberLineEdit.text(),
-                from_=self.ui.twilioPhoneNumberLineEdit.text()
-            )
-        except TwilioRestException as e:
-            # if not successful, return False
-            print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
-            return False
-        else:
-            # if successful, return True
-            print(message.sid)
-            print("INFO: Twilio SMS: SMS ID: {}".format(str(message.sid)))
-            return True
+        self.sms_worker = SMSWorker(
+            phone_number, body, t_sid, t_token, t_number)
+        self.sms_worker.sms_thread_status.connect(self.display_messagebox)
+        self.sms_worker.start()
 
     def call_test_pushbutton_clicked(self):
-        self.call_worker = GenericWorker(self.call_test)
-        self.call_worker.start()
-
-    def call_test(self):
+        phone_number = self.ui.adminPhoneNumberLineEdit.text()
+        t_sid = self.ui.twilioSIDLineEdit.text()
+        t_token = self.ui.twilioTokenLineEdit.text()
+        t_number = self.ui.twilioPhoneNumberLineEdit.text()
         response = VoiceResponse()
         response.say("Internet-based Naloxone Safety Kit. " +
                      "These are the words that will be heard by " + " ".join(self.ui.emergencyPhoneNumberLineEdit.text()) +
                      " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
                      self.ui.emergencyAddressLineEdit.text() +
                      ". If the call sounds good, you can save the settings. Thank you.", voice="woman", loop=3)
-        print("INFO: resonse: " + str(response))
 
-        # create client
-        client = Client(self.ui.twilioSIDLineEdit.text(),
-                        self.ui.twilioTokenLineEdit.text())
-        print(response)
-
-        # try to place the phone call
-        try:
-            call = client.calls.create(
-                twiml=response,
-                to=self.ui.adminPhoneNumberLineEdit.text(),
-                from_=self.ui.twilioPhoneNumberLineEdit.text()
-            )
-        except TwilioRestException as e:
-            # if not successful, return False
-            print("ERROR: Twilio Call: ERROR - {}".format(str(e)))
-            return False
-        else:
-            # if successful, return True
-            print(call.sid)
-            print("INFO: Twilio Call: Call ID: {}".format(str(call.sid)))
-            return True
+        self.call_worker = CallWorker(
+            phone_number, response, t_sid, t_token, t_number)
+        self.call_worker.call_thread_status.connect(self.display_messagebox)
+        self.call_worker.start()
 
     def toggle_door_arm(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
@@ -413,12 +476,69 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             with self.shared_array.get_lock():
                 self.shared_array[8] = 0
 
+    def reset_button_pushed(self):
+        self.reset_thread = GenericWorker(
+            self.reset_after_door_open)
+        self.reset_thread.msg_info_signal.connect(
+            self.display_messagebox)
+        self.reset_thread.start()
+
+    def reset_after_door_open(self):
+        if (self.door_opened):
+            print("door is still opened")
+            return "Critical", "Please close the door first and wait for five seconds.", "The system needs some time to detect the door status change."
+        else:
+            self.ui.homePushButton.setEnabled(True)
+            self.ui.dashboardPushButton.setEnabled(True)
+            self.ui.settingsPushButton.setEnabled(True)
+            self.ui.emergencyCallStatusLabel.setText("Waiting")
+            self.ui.emergencyCallLastCallLabel.setText("N/A")
+            self.goto_home()
+            with self.shared_array.get_lock():
+                self.shared_array[8] = 0
+            return "Information", "System Reset to Default.", "N/A"
+    
+    def stop_countdown_button_pushed(self):
+        self.countdown_thread.stop()
+
+    def forgot_password_button_pushed(self):
+        config = configparser.ConfigParser()
+        config.read("safety_kit.conf")
+        passcode = config["admin"]["passcode"]
+        self.send_sms_using_config_file("Passcode is " + passcode)
+
+    @QtCore.pyqtSlot()
+    def call_emergency_now(self):
+        with self.shared_array.get_lock():
+            self.shared_array[4] = True
+        self.ui.emergencyCallStatusLabel.setText("Requested")
+        self.ui.emergencyCallLastCallLabel.setText(QtCore.QTime().currentTime().toString("h:mm AP"))
+
+    @QtCore.pyqtSlot(int)
+    def update_emergency_call_countdown(self, sec):
+        self.ui.emergencyCallCountdownLabel.setText("T-" + str(sec) + "s")
+
+    @QtCore.pyqtSlot(str, str, str)
+    def display_messagebox(self, icon, text, detailed_text):
+        msg = QtWidgets.QMessageBox()
+        msg.setText(text)
+        msg.setDetailedText(detailed_text)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        if (icon == "Information"):
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+        elif (icon == "Critical"):
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+        msg.setStyleSheet("QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
+        msg.exec_()
+
     @QtCore.pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
         if (not door):
             self.ui.doorClosedLineEdit.setText("Closed")
+            self.door_opened = False
         else:
             self.ui.doorClosedLineEdit.setText("Open")
+            self.door_opened = True
         if (armed):
             self.ui.doorArmedLineEdit.setText("Armed")
         else:
@@ -499,7 +619,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         config["admin"] = {
             "passcode": self.ui.passcodeLineEdit.text(),
             "admin_phone_number": self.ui.adminPhoneNumberLineEdit.text(),
-            "enable_sms": self.ui.enableSMSCheckBox.isChecked()
+            "enable_sms": self.ui.enableSMSCheckBox.isChecked(),
+            "report_door_opened": self.ui.reportDoorOpenedCheckBox.isChecked(),
+            "report_emergency_called": self.ui.reportEmergencyCalledCheckBox.isChecked(),
+            "report_naloxone_destroyed": self.ui.reportNaloxoneDestroyedCheckBox.isChecked(),
+            "report_settings_changed": self.ui.reportSettingsChangedCheckBox.isChecked()
         }
         config["power_management"] = {
             "enable_active_cooling": self.ui.enableActiveCoolingCheckBox.isChecked(),
@@ -509,7 +633,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
+        if(self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
+            self.send_sms_using_config_file("Settings Changed")
         print("INFO: save config file")
+
+    def exit_program(self):
+        os.kill(0, signal.SIGINT)  # kill all processes
+        self.close()
 
 
 def gui_manager(shared_array):

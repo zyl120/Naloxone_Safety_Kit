@@ -26,13 +26,13 @@ def read_temperature_sensor():
     #temperature = 20
     #list1 = [5, 10, 15, 20, 25, 30, 35, 40]
     #temperature = random.choice(list1)
-    print(temperature)
+    #print(temperature)
     return int(temperature * 1.8 + 32)
 
 
 def get_cpu_temperature():
     cpu = CPUTemperature()
-    print(cpu.temperature)
+    #print(cpu.temperature)
     return int(cpu.temperature * 1.8 + 32)
 
 
