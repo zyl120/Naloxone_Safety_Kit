@@ -9,8 +9,6 @@ from gpiozero import CPUTemperature
 
 
 DOOR_PIN = 17
-DHT_PIN = 27
-
 
 def gpio_signal_handler(signum, frame):
     # close child processes
@@ -18,35 +16,6 @@ def gpio_signal_handler(signum, frame):
     if (signum == signal.SIGINT):
         print("INFO: child process {} exited.".format(os.getpid()))
         sys.exit(0)
-
-
-# Read from the DHT22 temperature sensor connected to GPIO27.
-def read_temperature_sensor():
-    humidity, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
-    #temperature = 20
-    #list1 = [5, 10, 15, 20, 25, 30, 35, 40]
-    #temperature = random.choice(list1)
-    #print(temperature)
-    return int(temperature * 1.8 + 32)
-
-
-def get_cpu_temperature():
-    cpu = CPUTemperature()
-    #print(cpu.temperature)
-    return int(cpu.temperature * 1.8 + 32)
-
-
-def calculate_pwm(temperature):
-    #print("control pwm")
-    list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
-    pwm = random.choice(list1)
-    return pwm
-
-
-def control_fan(pwm):
-    return True
-    #print("controling fan pwm")
-
 
 def read_door_switch():
     if GPIO.input(DOOR_PIN):
@@ -59,20 +28,10 @@ def gpio_manager(shared_array):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(DOOR_PIN, GPIO.IN)
     while True:
-        temp = read_temperature_sensor()
-        pwm = calculate_pwm(temp)
-        cpu_temp = get_cpu_temperature()
-        control_fan(pwm)
         door_status = read_door_switch()
         with shared_array.get_lock():
-            shared_array[1] = temp
-            if (temp > shared_array[18]):
-                # once destroyed by overheat, never change it back.
-                shared_array[0] = True
-            shared_array[2] = pwm
             shared_array[3] = door_status
-            shared_array[19] = cpu_temp
-        sleep(3)
+        sleep(0.5)
 
 
 def fork_gpio(shared_array):

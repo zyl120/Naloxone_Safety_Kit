@@ -19,6 +19,7 @@ def gui_signal_handler(signum, frame):
 
 
 def handleVisibleChanged():
+    # control the position of the virtual keyboard
     if not QtGui.QGuiApplication.inputMethod().isVisible():
         return
     for w in QtGui.QGuiApplication.allWindows():
@@ -32,6 +33,8 @@ def handleVisibleChanged():
 
 
 class GenericWorker(QtCore.QThread):
+    # Generic worker thread that used to run a function that may block the GUI
+    # Will emit a signal to show a message box if the slot is defined
     msg_info_signal = QtCore.pyqtSignal(str, str, str)
 
     def __init__(self, fn):
@@ -45,7 +48,10 @@ class GenericWorker(QtCore.QThread):
 
 
 class CountDownWorker(QtCore.QThread):
+    # Used to record the countdown time before calling the emergency
+    # signal to indicate end of countdown time.
     time_end_signal = QtCore.pyqtSignal()
+    # signal to indicate the change of countdown time.
     time_changed_signal = QtCore.pyqtSignal(int)
 
     def __init__(self, time_in_sec):
@@ -58,12 +64,14 @@ class CountDownWorker(QtCore.QThread):
             self.time_in_sec = self.time_in_sec - 1
             sleep(1)
         self.time_end_signal.emit()
-    
+
     def stop(self):
         self.terminate()
 
 
 class CallWorker(QtCore.QThread):
+    # Worker thread to make the phone call
+    # The status signal can be used to determine the calling result.
     call_thread_status = QtCore.pyqtSignal(str, str, str)
 
     def __init__(self, number, body, t_sid, t_token, t_number):
@@ -96,6 +104,8 @@ class CallWorker(QtCore.QThread):
 
 
 class SMSWorker(QtCore.QThread):
+    # Worker thread to send the sms
+    # The status signal can be used to determine the calling result.
     sms_thread_status = QtCore.pyqtSignal(str, str, str)
 
     def __init__(self, number, body, t_sid, t_token, t_number):
@@ -129,6 +139,8 @@ class SMSWorker(QtCore.QThread):
 
 
 class SharedMemoryWorker(QtCore.QThread):
+    # Worker thread to read the shared memory block.
+    # These signals can be used to change the GUI when emitted.
     update_door = QtCore.pyqtSignal(bool, bool)
     update_temperature = QtCore.pyqtSignal(int, int, int, bool)
     update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
@@ -156,6 +168,7 @@ class SharedMemoryWorker(QtCore.QThread):
         minute = 0
         cpu_temperature = 0
         while True:
+            print("read shm")
             with self.shared_array.get_lock():
                 over_temperature = self.shared_array[0]
                 door = self.shared_array[3]
@@ -171,7 +184,7 @@ class SharedMemoryWorker(QtCore.QThread):
                 hour = self.shared_array[16]
                 minute = self.shared_array[17]
                 cpu_temperature = self.shared_array[19]
-            if (door):  # if door opened
+            if (door and not disarmed):  # if door opened and the switch is armed
                 self.go_to_door_open_signal.emit()
             self.update_door.emit(door, not disarmed)
             self.update_temperature.emit(
@@ -180,7 +193,8 @@ class SharedMemoryWorker(QtCore.QThread):
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
             self.update_time.emit(QtCore.QTime().currentTime())
-            sleep(1)
+            # poll the shared memory block every 0.5s so that other processes can write to the block.
+            sleep(0.5)
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
@@ -200,9 +214,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.dashboardPushButton.clicked.connect(self.goto_dashboard)
         self.ui.unlockSettingsPushButton.clicked.connect(
             self.lock_unlock_settings)
+        self.ui.lockSettingsPushButton.clicked.connect(self.lock_settings)
+        self.ui.lockSettingsPushButton.setVisible(False)
         self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
-        self.ui.replaceNaloxonePushButton.clicked.connect(
-            self.replace_naloxone)
         self.ui.temperatureSlider.valueChanged.connect(
             self.update_current_max_temperature)
         self.ui.callTestPushButton.clicked.connect(
@@ -214,9 +228,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.doorOpenResetPushButton.clicked.connect(
             self.reset_button_pushed)
         self.countdown_thread = CountDownWorker(10)
-        self.ui.stopCountdownPushButton.clicked.connect(self.stop_countdown_button_pushed)
+        self.ui.stopCountdownPushButton.clicked.connect(
+            self.stop_countdown_button_pushed)
         self.ui.call911NowPushButton.clicked.connect(self.call_emergency_now)
-        self.ui.forgotPasswordPushButton.clicked.connect(self.forgot_password_button_pushed)
+        self.ui.forgotPasswordPushButton.clicked.connect(
+            self.forgot_password_button_pushed)
+        self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
+        self.ui.getPasscodePushButton.clicked.connect(
+            self.get_passcode_button_pushed)
         self.load_settings()
         self.lock_settings()
         self.goto_home()
@@ -235,6 +254,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.get_shared_array_worker.start()
 
     def load_settings(self):
+        # load the settings from the conf file.
         print("loading settings")
         try:
             config = configparser.ConfigParser()
@@ -269,6 +289,18 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["admin"]["report_naloxone_destroyed"] == "True")
             self.ui.reportSettingsChangedCheckBox.setChecked(
                 config["admin"]["report_settings_changed"] == "True")
+            self.ui.allowParamedicsCheckBox.setChecked(
+                config["admin"]["allow_paramedics"] == "True")
+            if (config["admin"]["allow_paramedics"] == "True"):
+                self.ui.paramedicsLabel.setVisible(True)
+                self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
+                self.ui.getPasscodePushButton.setVisible(True)
+                self.ui.paramedicsWarning.setVisible(True)
+            else:
+                self.ui.paramedicsLabel.setVisible(False)
+                self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
+                self.ui.getPasscodePushButton.setVisible(False)
+                self.ui.paramedicsWarning.setVisible(False)
             self.active_hour_start = QtCore.QTime.fromString(
                 config["power_management"]["active_hours_start_at"], "hh:mm")
             self.ui.startTimeEdit.setTime(self.active_hour_start)
@@ -294,34 +326,43 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             print("config file loaded")
 
     def lock_settings(self):
+        # lock the whole setting page.
         self.ui.unlockSettingsPushButton.setText("Unlock Settings")
-        self.ui.saveToFilePushButton.setEnabled(False)
+        self.ui.unlockSettingsPushButton.setVisible(True)
+        self.ui.lockSettingsPushButton.setVisible(False)
+        self.ui.saveToFilePushButton.setVisible(False)
         self.ui.settingsTab.setCurrentIndex(0)
-        self.ui.settingsTab.setTabEnabled(0, True)
-        self.ui.settingsTab.setTabEnabled(1, False)
-        self.ui.settingsTab.setTabEnabled(2, False)
-        self.ui.settingsTab.setTabEnabled(3, False)
-        self.ui.settingsTab.setTabEnabled(4, False)
-        self.ui.settingsTab.setTabEnabled(5, False)
+        self.ui.settingsTab.setTabVisible(0, True)
+        self.ui.settingsTab.setTabVisible(1, False)
+        self.ui.settingsTab.setTabVisible(2, False)
+        self.ui.settingsTab.setTabVisible(3, False)
+        self.ui.settingsTab.setTabVisible(4, False)
+        self.ui.settingsTab.setTabVisible(5, False)
 
     def unlock_settings(self):
+        # unlock the whole setting page. Should only be called after the user enter the correct passcode.
         self.ui.unlockSettingsPushButton.setText("Lock Settings")
+        self.ui.unlockSettingsPushButton.setVisible(False)
+        self.ui.lockSettingsPushButton.setVisible(True)
         self.load_settings()
-        self.ui.saveToFilePushButton.setEnabled(True)
+        self.ui.saveToFilePushButton.setVisible(True)
         self.ui.settingsTab.setCurrentIndex(0)
-        self.ui.settingsTab.setTabEnabled(0, True)
-        self.ui.settingsTab.setTabEnabled(1, True)
-        self.ui.settingsTab.setTabEnabled(2, True)
-        self.ui.settingsTab.setTabEnabled(3, True)
-        self.ui.settingsTab.setTabEnabled(4, True)
-        self.ui.settingsTab.setTabEnabled(5, True)
+        self.ui.settingsTab.setTabVisible(0, True)
+        self.ui.settingsTab.setTabVisible(1, True)
+        self.ui.settingsTab.setTabVisible(2, True)
+        self.ui.settingsTab.setTabVisible(3, True)
+        self.ui.settingsTab.setTabVisible(4, True)
+        self.ui.settingsTab.setTabVisible(5, True)
 
     def check_passcode(self):
+        # First read from the conf file
         config = configparser.ConfigParser()
         config.read("safety_kit.conf")
         if (self.ui.passcodeEnterLineEdit.text() == config["admin"]["passcode"]):
+            # If passcode is correct
             return True
         else:
+            # If passcode is wrong
             self.ui.passcodeEnterLabel.setText("Try Again")
             self.ui.passcodeEnterLineEdit.clear()
             return False
@@ -329,49 +370,60 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def check_passcode_unlock_settings(self):
         passcode_check_result = self.check_passcode()
         if (passcode_check_result):
+            # If passcode is correct, unlock the settings
             self.unlock_settings()
             self.goto_settings()
         else:
+            # If passcode is wrong, lock the settings
             self.lock_settings()
 
     def lock_unlock_settings(self):
-        if (self.ui.unlockSettingsPushButton.text() == "Unlock Settings"):
-            self.goto_passcode()
-        elif (self.ui.unlockSettingsPushButton.text() == "Lock Settings"):
-            self.lock_settings()
+        self.goto_passcode()
 
     @QtCore.pyqtSlot()
     def goto_door_open(self):
         if (self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1):
-            self.ui.homePushButton.setEnabled(False)
-            self.ui.replaceNaloxonePushButton.setEnabled(True)
-            self.ui.settingsPushButton.setEnabled(False)
-            self.ui.dashboardPushButton.setEnabled(False)
+            # Only go to the door open page when the user is not changing settings.
+            self.ui.homePushButton.setVisible(False)
+            self.ui.dashboardPushButton.setVisible(False)
+            self.ui.settingsPushButton.setVisible(False)
+            self.ui.backPushButton.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
             self.countdown_thread = CountDownWorker(10)
             self.countdown_thread.time_changed_signal.connect(
                 self.update_emergency_call_countdown)
-            self.countdown_thread.time_end_signal.connect(self.call_emergency_now)
+            self.countdown_thread.time_end_signal.connect(
+                self.call_emergency_now)
             self.countdown_thread.start()
+
+    def back_pushbutton_pushed(self):
+        self.ui.settingsPushButton.setChecked(False)
+        self.ui.settingsPushButton.setEnabled(True)
+        self.ui.backPushButton.setVisible(False)
+        self.ui.stackedWidget.setCurrentIndex(4)
 
     def goto_passcode(self):
         self.ui.passcodeEnterLineEdit.clear()
         self.ui.passcodeEnterLabel.setText("Enter Passcode")
+        self.ui.paramedicsPhoneNumberLineEdit.clear()
         self.ui.stackedWidget.setCurrentIndex(3)
 
     def goto_settings(self):
-       
         self.ui.homePushButton.setChecked(False)
         self.ui.dashboardPushButton.setChecked(False)
         self.ui.settingsPushButton.setChecked(True)
-
+        if (self.ui.stackedWidget.currentIndex() == 4):
+            # When entering the setting page from the door open page,
+            # show the go back pushbutton so that the user can go back to the
+            # door open page.
+            self.ui.backPushButton.setVisible(True)
         self.ui.stackedWidget.setCurrentIndex(2)
 
     def goto_dashboard(self):
         self.ui.homePushButton.setChecked(False)
         self.ui.dashboardPushButton.setChecked(True)
         self.ui.settingsPushButton.setChecked(False)
-
+        self.ui.backPushButton.setVisible(False)
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(1)
 
@@ -379,51 +431,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.homePushButton.setChecked(True)
         self.ui.dashboardPushButton.setChecked(False)
         self.ui.settingsPushButton.setChecked(False)
+        self.ui.backPushButton.setVisible(False)
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(0)
 
-    def replace_naloxone(self):
-        if (self.ui.replaceNaloxonePushButton.text() == "Replace Naloxone"):
-            self.ui.homePushButton.setEnabled(False)
-            self.ui.dashboardPushButton.setEnabled(False)
-            self.ui.settingsPushButton.setEnabled(False)
-            with self.shared_array.get_lock():
-                self.shared_array[8] = 1
-            self.ui.replaceNaloxonePushButton.setText("Finish Replacement")
-            self.ui.saveToFilePushButton.setEnabled(False)
-            self.ui.saveToFilePushButton.setText(
-                "Close the door and Click \"Finish Replacement\" to finish up.")
-            self.goto_settings()
-            self.lock_settings()
-            self.ui.settingsTab.setTabEnabled(0, False)
-            self.ui.settingsTab.setCurrentIndex(1)
-            self.ui.settingsTab.setTabEnabled(1, True)
-        else:
-            self.finish_replace_naloxone_thread = GenericWorker(
-                self.finish_replace_naloxone)
-            self.finish_replace_naloxone_thread.msg_info_signal.connect(
-                self.display_messagebox)
-            self.finish_replace_naloxone_thread.start()
-
-    def finish_replace_naloxone(self):
-        if (self.door_opened):
-            print("door is still opened")
-            return "Critical", "Please close the door first and wait for five seconds.", "The system needs some time to detect the door status change."
-        else:
-            self.ui.homePushButton.setEnabled(True)
-            self.ui.dashboardPushButton.setEnabled(True)
-            self.ui.settingsPushButton.setEnabled(True)
-            self.save_config_file()
-            self.ui.replaceNaloxonePushButton.setText("Replace Naloxone")
-            self.ui.saveToFilePushButton.setText("Save Settings")
-            self.ui.saveToFilePushButton.setEnabled(True)
-            self.goto_home()
-            with self.shared_array.get_lock():
-                self.shared_array[8] = 0
-            return "Information", "New Naloxone info saved.", "N/A"
-
-    
     def send_sms_using_config_file(self, msg):
+        # Used to contact the admin via the info in the conf file
         config = configparser.ConfigParser()
         config.read("safety_kit.conf")
         admin_phone_number = config["admin"]["admin_phone_number"]
@@ -431,10 +444,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         t_sid = config["twilio"]["twilio_sid"]
         t_token = config["twilio"]["twilio_token"]
         t_number = config["twilio"]["twilio_phone_number"]
-        self.sender = SMSWorker(admin_phone_number, "The naloxone safety box at " + address + " sent the following information: " + msg, t_sid, t_token, t_number)
+        self.sender = SMSWorker(admin_phone_number, "The naloxone safety box at " +
+                                address + " sent the following information: " + msg, t_sid, t_token, t_number)
         self.sender.start()
 
     def sms_test_pushbutton_clicked(self):
+        # Use the info on the setting page to make sms test.
         phone_number = self.ui.adminPhoneNumberLineEdit.text()
         t_sid = self.ui.twilioSIDLineEdit.text()
         t_token = self.ui.twilioTokenLineEdit.text()
@@ -450,6 +465,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.sms_worker.start()
 
     def call_test_pushbutton_clicked(self):
+        # Use the info on the setting page to make phone call test
         phone_number = self.ui.adminPhoneNumberLineEdit.text()
         t_sid = self.ui.twilioSIDLineEdit.text()
         t_token = self.ui.twilioTokenLineEdit.text()
@@ -467,59 +483,109 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.call_worker.start()
 
     def toggle_door_arm(self):
+        # Used to disable the door switch
+        self.door_arm_thread = GenericWorker(
+            self.toggle_door_arm_thread)
+        self.door_arm_thread.msg_info_signal.connect(self.display_messagebox)
+        self.door_arm_thread.start()
+
+    def toggle_door_arm_thread(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
             self.ui.disarmPushButton.setText("Arm")
             with self.shared_array.get_lock():
                 self.shared_array[8] = 1
+            return "Information", "Door Disarmed.", "The door sensor is now off."
         else:
             self.ui.disarmPushButton.setText("Disarm")
             with self.shared_array.get_lock():
                 self.shared_array[8] = 0
+            return "Information", "Door Armed.", "The door sensor is now on."
 
     def reset_button_pushed(self):
+        # Create a thread to check the shared memory for door status.
         self.reset_thread = GenericWorker(
             self.reset_after_door_open)
         self.reset_thread.msg_info_signal.connect(
             self.display_messagebox)
         self.reset_thread.start()
 
+    def auto_reset(self):
+        # Used to auto reset the door if closed with the countdown time.
+        self.reset_thread = GenericWorker(
+            self.reset_after_door_open)
+        self.reset_thread.start()
+
     def reset_after_door_open(self):
+        # Used to check whether the door is still opened
         if (self.door_opened):
             print("door is still opened")
             return "Critical", "Please close the door first and wait for five seconds.", "The system needs some time to detect the door status change."
         else:
-            self.ui.homePushButton.setEnabled(True)
-            self.ui.dashboardPushButton.setEnabled(True)
-            self.ui.settingsPushButton.setEnabled(True)
+            self.ui.homePushButton.setVisible(True)
+            self.ui.dashboardPushButton.setVisible(True)
+            self.ui.settingsPushButton.setVisible(True)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
+            self.ui.stopCountdownPushButton.setVisible(True)
             self.goto_home()
-            with self.shared_array.get_lock():
-                self.shared_array[8] = 0
             return "Information", "System Reset to Default.", "N/A"
-    
+
     def stop_countdown_button_pushed(self):
+        # Stop the countdown timer by stop it.
+        self.ui.settingsPushButton.setVisible(True)
+        self.ui.emergencyCallStatusLabel.setText("Waiting")
+        self.ui.emergencyCallLastCallLabel.setText("N/A")
         self.countdown_thread.stop()
 
     def forgot_password_button_pushed(self):
+        # when the forgot password button is pushed, use the conf file to send
+        # the passcode
         config = configparser.ConfigParser()
         config.read("safety_kit.conf")
         passcode = config["admin"]["passcode"]
         self.send_sms_using_config_file("Passcode is " + passcode)
 
+    def get_passcode_button_pushed(self):
+        print("Enter function")
+        config = configparser.ConfigParser()
+        config.read("safety_kit.conf")
+        paramedic_phone_number = self.ui.paramedicsPhoneNumberLineEdit.text()
+        address = config["emergency_info"]["emergency_address"]
+        t_sid = config["twilio"]["twilio_sid"]
+        t_token = config["twilio"]["twilio_token"]
+        t_number = config["twilio"]["twilio_phone_number"]
+        passcode = config["admin"]["passcode"]
+        self.send_to_paramedic = SMSWorker(paramedic_phone_number, "The passcode of the naloxone safety box at " +
+                                           address + " is: " + passcode, t_sid, t_token, t_number)
+        self.send_to_paramedic.start()
+        print("sent to paramedics")
+        self.send_sms_using_config_file(
+            "Paramedics want to access the settings. The number is " + paramedic_phone_number + ".")
+        print("sent to admin")
+
     @QtCore.pyqtSlot()
+    # Used to communicate with the shm to make phone calls.
     def call_emergency_now(self):
+        self.ui.stopCountdownPushButton.setVisible(False)
         with self.shared_array.get_lock():
             self.shared_array[4] = True
         self.ui.emergencyCallStatusLabel.setText("Requested")
-        self.ui.emergencyCallLastCallLabel.setText(QtCore.QTime().currentTime().toString("h:mm AP"))
+        self.ui.emergencyCallLastCallLabel.setText(
+            QtCore.QTime().currentTime().toString("h:mm AP"))
+        self.ui.settingsPushButton.setVisible(True)
 
     @QtCore.pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
+        # Used to update the GUI for the countdown time.
         self.ui.emergencyCallCountdownLabel.setText("T-" + str(sec) + "s")
+        if (not self.door_opened):
+            # when the door is closed within the countdown time, auto reset it.
+            self.stop_countdown_button_pushed()
+            self.auto_reset()
 
     @QtCore.pyqtSlot(str, str, str)
     def display_messagebox(self, icon, text, detailed_text):
+        # Used to show messagebox above the main window.
         msg = QtWidgets.QMessageBox()
         msg.setText(text)
         msg.setDetailedText(detailed_text)
@@ -533,11 +599,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
+        # Update the door ui of the main window.
         if (not door):
             self.ui.doorClosedLineEdit.setText("Closed")
+            self.ui.doorOpenLabel.setText("Closed")
             self.door_opened = False
         else:
             self.ui.doorClosedLineEdit.setText("Open")
+            self.ui.doorOpenLabel.setText("Open")
             self.door_opened = True
         if (armed):
             self.ui.doorArmedLineEdit.setText("Armed")
@@ -552,6 +621,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot(bool, QtCore.QDate)
     def update_naloxone_ui(self, naloxone_good, naloxone_expiration_date):
+        # update the naloxone of the main window.
         self.ui.naloxoneExpirationDateLineEdit.setText(
             naloxone_expiration_date.toString("MMM dd, yy"))
         if (naloxone_good):
@@ -565,6 +635,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot(bool, QtCore.QTime)
     def update_server_ui(self, server, server_check_time):
+        # update the server of the main window
         self.ui.serverCheckLineEdit.setText(
             server_check_time.toString("h:mm AP"))
         if (server):
@@ -578,6 +649,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot(int, int, int, bool)
     def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
+        # update the temperature of the main window.
         self.ui.temperatureLineEdit.setText(
             str(temperature) + "℉")
         self.ui.cpuTemperatureLineEdit.setText(str(cpu_temperature) + "℉")
@@ -591,14 +663,17 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot(QtCore.QTime)
     def update_time_ui(self, current_time):
+        # update the time of the main window.
         self.ui.currentTimeLineEdit.setText(current_time.toString("h:mm AP"))
 
     @QtCore.pyqtSlot(int)
     def update_current_max_temperature(self, value):
+        # Used to update the current temperature selection when the user uses
+        # the slider on the setting page.
         self.ui.CurrentTemperatureLabel.setText(str(value)+"℉")
 
     def save_config_file(self):
-        #self.naloxone_expiration_date = self.ui.calendarWidget.selectedDate()
+        # save the config file
         self.active_hour_start = self.ui.startTimeEdit.time()
         self.active_hour_end = self.ui.endTimeEdit.time()
         config = configparser.ConfigParser()
@@ -623,7 +698,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "report_door_opened": self.ui.reportDoorOpenedCheckBox.isChecked(),
             "report_emergency_called": self.ui.reportEmergencyCalledCheckBox.isChecked(),
             "report_naloxone_destroyed": self.ui.reportNaloxoneDestroyedCheckBox.isChecked(),
-            "report_settings_changed": self.ui.reportSettingsChangedCheckBox.isChecked()
+            "report_settings_changed": self.ui.reportSettingsChangedCheckBox.isChecked(),
+            "allow_paramedics": self.ui.allowParamedicsCheckBox.isChecked()
         }
         config["power_management"] = {
             "enable_active_cooling": self.ui.enableActiveCoolingCheckBox.isChecked(),
@@ -633,12 +709,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
-        if(self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
+        if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
         print("INFO: save config file")
+        self.load_settings()
 
     def exit_program(self):
-        os.kill(0, signal.SIGINT)  # kill all processes
+        os.kill(0, signal.SIGINT)  # kill all processes by sending signal 2.
         self.close()
 
 

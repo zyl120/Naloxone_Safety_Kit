@@ -43,8 +43,6 @@ def naloxone_manager(shared_array):
                 if (shared_array[0]):
                     # overheat
                     shared_array[10] = True
-                    # shared_array[11] = max(2, shared_array[11])
-                    # shared_array[12] = max(2, shared_array[12])
         sleep(5)
 
 

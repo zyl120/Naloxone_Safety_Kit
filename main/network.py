@@ -19,10 +19,8 @@ def ping():
 
     # and then check the response...
     if response == 0:
-        #print(hostname, 'is up!')
         return True
     else:
-        #print(hostname, 'is down!')
         return False
 
 
