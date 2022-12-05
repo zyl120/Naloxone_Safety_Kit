@@ -7,18 +7,14 @@ from time import sleep
 from multiprocessing import Array
 import signal
 from network import fork_network
-from call import fork_call
 from naloxone import fork_naloxone
 from gpio import fork_gpio
-from temp import fork_temp
 from alarm import fork_alarm
 from gui_qt import fork_gui
 
 
 main_pid = 0
 gpio_pid = 0
-temp_pid = 0
-call_pid = 0
 network_pid = 0
 alarm_pid = 0
 naloxone_pid = 0
@@ -31,12 +27,6 @@ def parent_signal_handler(signum, frame):
     if (signum == signal.SIGINT):
         os.kill(gpio_pid, signal.SIGINT)
         os.waitpid(gpio_pid, 0)
-
-        os.kill(temp_pid, signal.SIGINT)
-        os.waitpid(temp_pid, 0)
-
-        os.kill(call_pid, signal.SIGINT)
-        os.waitpid(call_pid, 0)
 
         os.kill(network_pid, signal.SIGINT)
         os.waitpid(network_pid, 0)
@@ -72,15 +62,11 @@ def print_shared_memory(shared_array):
 
 def process_monitor(shared_array):
     pid, status = os.waitpid(0, os.WNOHANG)
-    global gpio_pid, temp_pid, call_pid, network_pid, alarm_pid, naloxone_pid, gui_pid
+    global gpio_pid, temp_pid, network_pid, alarm_pid, naloxone_pid, gui_pid
     if (pid != 0):
         print("ERROR: {} crashed, fork...".format(pid))
         if (pid == gpio_pid):
             gpio_pid = fork_gpio(shared_array)
-        elif (pid == temp_pid):
-            temp_pid = fork_call(shared_array)
-        elif (pid == call_pid):
-            call_pid = fork_call(shared_array)
         elif (pid == network_pid):
             network_pid = fork_network(shared_array)
         elif (pid == alarm_pid):
@@ -96,8 +82,6 @@ if __name__ == "__main__":
     print("INFO: main_pid={}".format(os.getpid()))
     shared_array = Array("i", (0, 20, 20, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2000, 1, 20, 0, 0, 40, 0))
     gpio_pid = fork_gpio(shared_array)
-    temp_pid = fork_temp(shared_array)
-    call_pid = fork_call(shared_array)
     network_pid = fork_network(shared_array)
     alarm_pid = fork_alarm(shared_array)
     naloxone_pid = fork_naloxone(shared_array)

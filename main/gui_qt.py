@@ -168,7 +168,7 @@ class SharedMemoryWorker(QtCore.QThread):
         minute = 0
         cpu_temperature = 0
         while True:
-            print("read shm")
+            #print("read shm")
             with self.shared_array.get_lock():
                 over_temperature = self.shared_array[0]
                 door = self.shared_array[3]
@@ -193,8 +193,8 @@ class SharedMemoryWorker(QtCore.QThread):
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
             self.update_time.emit(QtCore.QTime().currentTime())
-            # poll the shared memory block every 0.5s so that other processes can write to the block.
-            sleep(0.5)
+            # poll the shared memory block every 1s so that other processes can write to the block.
+            sleep(1)
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
@@ -448,6 +448,29 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                                 address + " sent the following information: " + msg, t_sid, t_token, t_number)
         self.sender.start()
 
+    def call_911_using_config_file(self):
+        config = configparser.ConfigParser()
+        config.read("safety_kit.conf")
+        account_sid = config["twilio"]["twilio_sid"]
+        auth_token = config["twilio"]["twilio_token"]
+        address = config["emergency_info"]["emergency_address"]
+        message = config["emergency_info"]["emergency_message"]
+        from_phone_number = config["twilio"]["twilio_phone_number"]
+        to_phone_number = config["emergency_info"]["emergency_phone_number"]
+        loop = "0"
+        voice = "woman"
+
+        # create the response
+        response = VoiceResponse()
+        response.say("Message: " + message + ". Address: " +
+                     address + ".", voice=voice, loop=loop)
+        print("INFO: resonse: " + str(response))
+
+        self.sender = CallWorker(
+            to_phone_number, response, account_sid, auth_token, from_phone_number)
+        self.sender.call_thread_status.connect(self.update_phone_call_gui)
+        self.sender.start()
+
     def sms_test_pushbutton_clicked(self):
         # Use the info on the setting page to make sms test.
         phone_number = self.ui.adminPhoneNumberLineEdit.text()
@@ -521,18 +544,23 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             print("door is still opened")
             return "Critical", "Please close the door first and wait for five seconds.", "The system needs some time to detect the door status change."
         else:
+            self.goto_home()
             self.ui.homePushButton.setVisible(True)
             self.ui.dashboardPushButton.setVisible(True)
             self.ui.settingsPushButton.setVisible(True)
+            self.ui.stopCountdownPushButton.setVisible(True)
+            self.ui.countdownLabel.setVisible(True)
+            self.ui.emergencyCallCountdownLabel.setVisible(True)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
-            self.ui.stopCountdownPushButton.setVisible(True)
-            self.goto_home()
             return "Information", "System Reset to Default.", "N/A"
 
     def stop_countdown_button_pushed(self):
         # Stop the countdown timer by stop it.
         self.ui.settingsPushButton.setVisible(True)
+        self.ui.stopCountdownPushButton.setVisible(False)
+        self.ui.countdownLabel.setVisible(False)
+        self.ui.emergencyCallCountdownLabel.setVisible(False)
         self.ui.emergencyCallStatusLabel.setText("Waiting")
         self.ui.emergencyCallLastCallLabel.setText("N/A")
         self.countdown_thread.stop()
@@ -566,13 +594,18 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     @QtCore.pyqtSlot()
     # Used to communicate with the shm to make phone calls.
     def call_emergency_now(self):
-        self.ui.stopCountdownPushButton.setVisible(False)
-        with self.shared_array.get_lock():
-            self.shared_array[4] = True
+        print("call 911 now pushed")
+        self.call_911_using_config_file()
         self.ui.emergencyCallStatusLabel.setText("Requested")
-        self.ui.emergencyCallLastCallLabel.setText(
-            QtCore.QTime().currentTime().toString("h:mm AP"))
+        # self.ui.emergencyCallLastCallLabel.setText(
+        #     QtCore.QTime().currentTime().toString("h:mm AP"))
         self.ui.settingsPushButton.setVisible(True)
+        self.ui.stopCountdownPushButton.setVisible(False)
+        self.ui.countdownLabel.setVisible(False)
+        self.ui.emergencyCallCountdownLabel.setVisible(False)
+        if (self.ui.stopCountdownPushButton.isVisible()):
+            self.ui.stopCountdownPushButton.setVisible(False)
+            self.countdown_thread.stop()
 
     @QtCore.pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
@@ -582,6 +615,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             # when the door is closed within the countdown time, auto reset it.
             self.stop_countdown_button_pushed()
             self.auto_reset()
+
+    @QtCore.pyqtSlot(str, str, str)
+    def update_phone_call_gui(self, icon, text, detailed_text):
+        if (text == "Call Request Sent Successfully."):
+            self.ui.emergencyCallStatusLabel.setText("Successful")
+            self.ui.emergencyCallLastCallLabel.setText(
+                QtCore.QTime().currentTime().toString("h:mm AP"))
+        else:
+            self.ui.emergencyCallStatusLabel.setText("Failed")
 
     @QtCore.pyqtSlot(str, str, str)
     def display_messagebox(self, icon, text, detailed_text):
