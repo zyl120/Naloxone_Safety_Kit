@@ -1,83 +1,148 @@
-import subprocess
-import tkinter as tk
-from tkinter import ttk
-import sv_ttk
+from PyQt5 import QtWidgets, QtCore
+from ui_form import Ui_Widget
+from ui_calendar_picker import Ui_Dialog
+from ui_time_picker import Ui_activeHoursPicker
 import os
 import sys
+import configparser
+import subprocess
+import qdarktheme
 
 
-def write_twilio_file(sid, token, from_, to, address, message):
-    # write the twilio config file to the hard drive
-    if (len(sid) == 0 or len(token) == 0 or len(from_) == 0 or len(to) == 0 or len(address) == 0 or len(message) == 0):
-        print("ERROR: empty field(s) detected.")
-        return False
-    print(sid, token, from_, to, address, message)
-    with open("/home/pi/Naloxone_Safety_Kit/main/twilio.txt", "w") as file:
-        file.write("{}\n{}\n{}\n{}\n{}\n{}\n0\nwoman".format(
-            sid, token, address, message, from_, to))
-        file.close()
-    return True
+class ApplicationWindow(QtWidgets.QMainWindow):
+    naloxone_expiration_date = QtCore.QDate.currentDate()
+    active_hour_start = QtCore.QTime(8, 0, 0)
+    active_hour_end = QtCore.QTime(18, 0, 0)
+    #print(naloxone_expiration_date)
+    #touch_keyboard = subprocess.Popen(['matchbox-keyboard'])
 
+    def __init__(self):
+        super(ApplicationWindow, self).__init__()
+        self.ui = Ui_Widget()
+        self.ui.setupUi(self)
+        self.ui.naloxoneExpirationDatePickerPushButton.clicked.connect(
+            self.date_picker)
+        self.ui.activeHoursPushButton.clicked.connect(self.time_picker)
+        self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
+        self.ui.saveAndExitPushButton.clicked.connect(self.save_and_exit)
+        self.ui.discardAndExitPushButton.clicked.connect(self.close)
+        self.ui.naloxoneExpirationDateLineEdit.setText(
+            self.naloxone_expiration_date.toString())
+        self.ui.startHourLabel.setText(self.active_hour_start.toString("h AP"))
+        self.ui.endHourLabel.setText(self.active_hour_end.toString("h AP"))
 
-def save_and_exit(sid, token, from_, to, address, message, window):
-    result = write_twilio_file(sid, token, from_, to, address, message)
-    if (result):
-        window.destroy()
+    def date_picker(self):
+        print("INFO: date picker go")
+        date_picker_dialog = QtWidgets.QDialog()
+        date_picker_dialog.ui = Ui_Dialog()
+        date_picker_dialog.ui.setupUi(date_picker_dialog)
+        date_picker_dialog.ui.calendarWidget.setSelectedDate(
+            self.naloxone_expiration_date)
+        date_picker_dialog.ui.buttonBox.accepted.connect(lambda: self.get_date(
+            date_picker_dialog.ui.calendarWidget.selectedDate()))
+        date_picker_dialog.exec_()
+
+    def get_date(self, selectedDate):
+        self.naloxone_expiration_date = selectedDate
+        self.ui.naloxoneExpirationDateLineEdit.setText(
+            self.naloxone_expiration_date.toString())
+        print(selectedDate.toString())
+
+    def military_clock_to_12_clock(self, military_clock):
+        print(military_clock.toString())
+        hour, apm = military_clock.toString("h AP").split()
+        print(hour, apm)
+        if (apm == "AM"):
+            apm = 0
+        else:
+            apm = 1
+        return int(hour), apm
+
+    def time_picker(self):
+        print("INFO: time picker go")
+        time_picker_dialog = QtWidgets.QDialog()
+        time_picker_dialog.ui = Ui_activeHoursPicker()
+        time_picker_dialog.ui.setupUi(time_picker_dialog)
+        start_hour, start_apm = self.military_clock_to_12_clock(
+            self.active_hour_start)
+        end_hour, end_apm = self.military_clock_to_12_clock(
+            self.active_hour_end)
+
+        time_picker_dialog.ui.startTimeHour.setValue(start_hour)
+        time_picker_dialog.ui.startTimeAPM.setCurrentIndex(start_apm)
+        time_picker_dialog.ui.endTimeHour.setValue(end_hour)
+        time_picker_dialog.ui.endTimeAPM.setCurrentIndex(end_apm)
+
+        time_picker_dialog.ui.activeHoursPickerButtonBox.accepted.connect(lambda: self.get_time(time_picker_dialog.ui.startTimeHour.value(
+        ), time_picker_dialog.ui.startTimeAPM.currentIndex(), time_picker_dialog.ui.endTimeHour.value(), time_picker_dialog.ui.endTimeAPM.currentIndex()))
+        time_picker_dialog.exec_()
+
+    def get_time(self, startHour, startAPM, endHour, endAPM):
+        print("INFO: get time" + str(startHour) +
+              str(startAPM) + str(endHour) + str(endAPM))
+        start_hour_calculate = 0
+        if (startHour == 12 and startAPM == 0):
+            start_hour_calculate = 0
+        elif (startHour == 12 and startAPM == 1):
+            start_hour_calculate = 12
+        else:
+            start_hour_calculate = startHour + startAPM * 12
+
+        end_hour_calculate = 0
+        if (endHour == 12 and endAPM == 0):
+            end_hour_calculate = 0
+        elif (endHour == 12 and endAPM == 1):
+            end_hour_calculate = 12
+        else:
+            end_hour_calculate = endHour + endAPM * 12
+
+        self.active_hour_start.setHMS(start_hour_calculate, 0, 0)
+        self.active_hour_end.setHMS(end_hour_calculate, 0, 0)
+        self.ui.startHourLabel.setText(self.active_hour_start.toString("h AP"))
+        self.ui.endHourLabel.setText(self.active_hour_end.toString("h AP"))
+
+    def save_config_file(self):
+        config = configparser.ConfigParser()
+        config["twilio"] = {
+            "twilio_sid": self.ui.twilioSIDLineEdit.text(),
+            "twilio_token": self.ui.twilioTokenLineEdit.text(),
+            "twilio_phone_number": self.ui.twilioPhoneNumberLineEdit.text()
+        }
+        config["emergency_info"] = {
+            "emergency_phone_number": self.ui.emergencyPhoneNumberLineEdit.text(),
+            "emergency_address": self.ui.emergencyAddressLineEdit.text(),
+            "emergency_message": self.ui.emergencyMessageLineEdit.text()
+        }
+        config["naloxone_info"] = {
+            "naloxone_expiration_date": self.naloxone_expiration_date.toString(),
+            "absolute_maximum_temperature": self.ui.temperatureSpinBox.text()
+        }
+        config["admin"] = {
+            "passcode": self.ui.passcodeLineEdit.text(),
+            "admin_phone_number": self.ui.adminPhoneNumberLineEdit.text(),
+            "enable_sms": self.ui.enableSMSCheckBox.isChecked()
+        }
+        config["power_management"] = {
+            "enable_power_saving": self.ui.enablePowerSavingCheckBox.isChecked(),
+            "active_hours_start_at": self.active_hour_start.toString("hh"),
+            "active_hours_end_at": self.active_hour_end.toString("hh")
+        }
+        with open("safety_kit.conf", "w") as configfile:
+            config.write(configfile)
+        print("INFO: save config file")
+
+    def save_and_exit(self):
+        print("INFO: save and exit...")
+        self.save_config_file()
+        self.close()
 
 
 def enter_info_window():
-    touch_keyboard = subprocess.Popen(['matchbox-keyboard'])
-    window = tk.Tk()
-    sv_ttk.set_theme("dark")
-    window.geometry("800x240")
-    window.title("Internet-based Naloxone Safety Kit OOBE")
-    sid = tk.StringVar()
-    token = tk.StringVar()
-    from_ = tk.StringVar()
-    to = tk.StringVar()
-    address = tk.StringVar()
-    message = tk.StringVar()
-    for i in range(4):
-        window.rowconfigure(i, weight=1)
-    for i in range(4):
-        window.columnconfigure(i, weight=1)
-
-    account_sid_label = ttk.Label(
-        window, text="SID").grid(row=0, column=0)
-    account_sid_entry = ttk.Entry(
-        window, textvariable=sid).grid(row=0, column=1)
-
-    account_token_label = ttk.Label(
-        window, text="Token").grid(row=0, column=2)
-    account_token_entry = ttk.Entry(
-        window, show="*", textvariable=token).grid(row=0, column=3)
-
-    from_phone_label = ttk.Label(
-        window, text="From").grid(row=1, column=0)
-    from_phone_entry = ttk.Entry(
-        window, textvariable=from_).grid(row=1, column=1)
-
-    to_phone_label = ttk.Label(
-        window, text="To").grid(row=1, column=2)
-    to_phone_entry = ttk.Entry(
-        window, textvariable=to).grid(row=1, column=3)
-
-    address_label = ttk.Label(window, text="Addr").grid(
-        row=2, column=0)
-    address_entry = ttk.Entry(
-        window, textvariable=address).grid(row=2, column=1)
-
-    message_label = ttk.Label(window, text="Msg").grid(
-        row=2, column=2)
-    message_textbox = ttk.Entry(
-        window, textvariable=message).grid(row=2, column=3)
-
-    save_changes_button = ttk.Button(window, text="Save Changes", command=lambda: write_twilio_file(sid.get(
-    ), token.get(), from_.get(), to.get(), address.get(), message.get())).grid(row=3, column=0, columnspan=2)
-    save_changes_and_exit_button = ttk.Button(window, text="Save & Exit", command=lambda: save_and_exit(sid.get(
-    ), token.get(), from_.get(), to.get(), address.get(), message.get(), window)).grid(row=3, column=2, columnspan=2)
-
-    window.mainloop()
+    app = QtWidgets.QApplication(sys.argv)
+    app.setStyleSheet(qdarktheme.load_stylesheet())
+    application = ApplicationWindow()
+    application.show()
+    sys.exit(app.exec_())
 
 
 def oobe_manager():
