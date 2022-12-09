@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>240</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Internet-based Naloxone Safety Kit Setup</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>781</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="mainVerticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>16</width>
+        <height>16</height>
+       </size>
+      </property>
+      <widget class="QWidget" name="twilio">
+       <attribute name="title">
+        <string>Twilio</string>
+       </attribute>
+       <widget class="QWidget" name="formLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>751</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="twilioFormLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="twilioSIDLabel">
+           <property name="text">
+            <string>Twilio &amp;SID</string>
+           </property>
+           <property name="buddy">
+            <cstring>twilioSIDLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="twilioSIDLineEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="twilioTokenLabel">
+           <property name="text">
+            <string>Twilio &amp;Token</string>
+           </property>
+           <property name="buddy">
+            <cstring>twilioTokenLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="twilioTokenLineEdit">
+           <property name="echoMode">
+            <enum>QLineEdit::PasswordEchoOnEdit</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="twilioPhoneNumberLabel">
+           <property name="text">
+            <string>Twilio Phone &amp;Number</string>
+           </property>
+           <property name="buddy">
+            <cstring>twilioPhoneNumberLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="twilioPhoneNumberLineEdit"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="emergency_info">
+       <attribute name="title">
+        <string>Emergency Info</string>
+       </attribute>
+       <widget class="QWidget" name="formLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>751</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="emergencyInfoFormLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="emergencyPhoneNumberLabel">
+           <property name="text">
+            <string>Emergency Phone &amp;Number</string>
+           </property>
+           <property name="buddy">
+            <cstring>emergencyPhoneNumberLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="emergencyPhoneNumberLineEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="emergencyAddressLabel">
+           <property name="text">
+            <string>Emergency &amp;Address</string>
+           </property>
+           <property name="buddy">
+            <cstring>emergencyAddressLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="emergencyAddressLineEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="emergencyMessageLabel">
+           <property name="text">
+            <string>Emergency &amp;Message</string>
+           </property>
+           <property name="buddy">
+            <cstring>emergencyMessageLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="emergencyMessageLineEdit"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLabel" name="twilioAddressWarning">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>119</y>
+          <width>751</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Remember to set the proper address in Twilio console as well!</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="widget">
+       <attribute name="title">
+        <string>Naloxone Info</string>
+       </attribute>
+       <widget class="QWidget" name="formLayoutWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>751</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="naloxoneInfoFormLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="naloxoneExpirationDateLabel">
+           <property name="text">
+            <string>Naloxone &amp;Expiration Date</string>
+           </property>
+           <property name="buddy">
+            <cstring>naloxoneExpirationDatePickerPushButton</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="absoluteMaximumTemperatureLabel">
+           <property name="text">
+            <string>Absolute Maximum &amp;Temperature</string>
+           </property>
+           <property name="buddy">
+            <cstring>temperatureSpinBox</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="temperatureSpinBox">
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="singleStep">
+            <number>5</number>
+           </property>
+           <property name="value">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <layout class="QHBoxLayout" name="naloxoneExpirationDateHorizontalLayout">
+           <item>
+            <widget class="QLabel" name="naloxoneExpirationDateLineEdit">
+             <property name="text">
+              <string>Use Date Picker -&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextEditable</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="naloxoneExpirationDatePickerPushButton">
+             <property name="text">
+              <string>Open Expiration Date Picker</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="admin">
+       <attribute name="title">
+        <string>Admin</string>
+       </attribute>
+       <widget class="QWidget" name="formLayoutWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>751</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="adminFormLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="passcodeLabel">
+           <property name="text">
+            <string>&amp;Passcode</string>
+           </property>
+           <property name="buddy">
+            <cstring>passcodeLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="passcodeLineEdit">
+           <property name="echoMode">
+            <enum>QLineEdit::PasswordEchoOnEdit</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="adminPhoneNumberLabel">
+           <property name="text">
+            <string>Admin Phone &amp;Number</string>
+           </property>
+           <property name="buddy">
+            <cstring>adminPhoneNumberLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="adminPhoneNumberLineEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="enableSMSLabel">
+           <property name="text">
+            <string>Enable &amp;SMS</string>
+           </property>
+           <property name="buddy">
+            <cstring>enableSMSCheckBox</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QCheckBox" name="enableSMSCheckBox">
+           <property name="text">
+            <string>Send text message to admin when door is opened or Naloxone is destroyed</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Power Management</string>
+       </attribute>
+       <widget class="QWidget" name="formLayoutWidget_5">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>751</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="enablePowerSavingLabel">
+           <property name="text">
+            <string>Enable &amp;Power Saving</string>
+           </property>
+           <property name="buddy">
+            <cstring>enablePowerSavingCheckBox</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="enablePowerSavingCheckBox">
+           <property name="text">
+            <string>Turn off the display outside active hours. Display will be on when door opens.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="activeHoursLabel">
+           <property name="text">
+            <string>&amp;Active Hours</string>
+           </property>
+           <property name="buddy">
+            <cstring>activeHoursPushButton</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLabel" name="startHourLabel">
+             <property name="text">
+              <string>Start Time</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="activeHoursColon">
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>to</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="endHourLabel">
+             <property name="text">
+              <string>End Time</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="activeHoursPushButton">
+             <property name="text">
+              <string>Open Active Hours Picker</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="bottomButtonsHorizontalLayout">
+      <item>
+       <widget class="QPushButton" name="saveToFilePushButton">
+        <property name="text">
+         <string>Save to File</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="saveAndExitPushButton">
+        <property name="text">
+         <string>Save and Exit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="discardAndExitPushButton">
+        <property name="text">
+         <string>Discard and Exit</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>twilioSIDLineEdit</tabstop>
+  <tabstop>twilioTokenLineEdit</tabstop>
+  <tabstop>twilioPhoneNumberLineEdit</tabstop>
+  <tabstop>emergencyPhoneNumberLineEdit</tabstop>
+  <tabstop>emergencyAddressLineEdit</tabstop>
+  <tabstop>emergencyMessageLineEdit</tabstop>
+  <tabstop>naloxoneExpirationDatePickerPushButton</tabstop>
+  <tabstop>temperatureSpinBox</tabstop>
+  <tabstop>passcodeLineEdit</tabstop>
+  <tabstop>adminPhoneNumberLineEdit</tabstop>
+  <tabstop>enableSMSCheckBox</tabstop>
+  <tabstop>enablePowerSavingCheckBox</tabstop>
+  <tabstop>activeHoursPushButton</tabstop>
+  <tabstop>saveToFilePushButton</tabstop>
+  <tabstop>saveAndExitPushButton</tabstop>
+  <tabstop>discardAndExitPushButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

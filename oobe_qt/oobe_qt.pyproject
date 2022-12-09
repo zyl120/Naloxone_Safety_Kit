@@ -1,0 +1,3 @@
+{
+    "files": ["door_close_window.ui","form.ui","time_picker.ui","calendar_picker.ui","widget.py"]
+}
