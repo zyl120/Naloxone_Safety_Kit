@@ -250,7 +250,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QGraphicsView" name="picture2">
@@ -525,7 +525,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>151</width>
+          <width>155</width>
           <height>61</height>
          </rect>
         </property>
@@ -628,7 +628,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>151</width>
+          <width>180</width>
           <height>61</height>
          </rect>
         </property>
@@ -1509,7 +1509,7 @@ color:darkgrey
 </string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2070,7 +2070,7 @@ Formatted as &quot;+1XXXXXXXXXX&quot;</string>
             <item>
              <widget class="Line" name="line_8">
               <property name="styleSheet">
-               <string notr="true">color:rgb(50,50,50)</string>
+               <string notr="true">color:lightgrey</string>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Plain</enum>
@@ -2161,7 +2161,7 @@ Formatted as &quot;+1XXXXXXXXXX&quot;</string>
             <item>
              <widget class="Line" name="line_9">
               <property name="styleSheet">
-               <string notr="true">color:rgb(50,50,50)</string>
+               <string notr="true">color:lightgrey</string>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Plain</enum>
@@ -2312,7 +2312,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>744</width>
-              <height>390</height>
+              <height>362</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2402,7 +2402,7 @@ Formatted as &quot;+1XXXXXXXXXX&quot;</string>
                <item>
                 <widget class="Line" name="line_6">
                  <property name="styleSheet">
-                  <string notr="true">color:rgb(50,50,50)</string>
+                  <string notr="true">color:lightgrey</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
@@ -2502,7 +2502,7 @@ This info will be included in the emergency call.</string>
                <item>
                 <widget class="Line" name="line_7">
                  <property name="styleSheet">
-                  <string notr="true">color:rgb(50,50,50)</string>
+                  <string notr="true">color:lightgrey</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
@@ -2763,7 +2763,7 @@ Otherwise each emergency call will cost $75.</string>
             <item>
              <widget class="Line" name="line_2">
               <property name="styleSheet">
-               <string notr="true">color:rgb(50,50,50)</string>
+               <string notr="true">color:lightgrey</string>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Plain</enum>
@@ -2865,7 +2865,7 @@ color:white;
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>13</pointsize>
+                  <pointsize>9</pointsize>
                  </font>
                 </property>
                 <property name="styleSheet">
@@ -2888,7 +2888,7 @@ Display will be turned on automatically when door opens.</string>
             <item>
              <widget class="Line" name="line">
               <property name="styleSheet">
-               <string notr="true">color:rgb(50,50,50)</string>
+               <string notr="true">color:lightgrey</string>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Plain</enum>
@@ -2984,14 +2984,15 @@ color:white;
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>13</pointsize>
+                  <pointsize>9</pointsize>
                  </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>Use fan to cool down the CPU.</string>
+                 <string>Use fan to cool down the CPU.
+May lead to poor performance.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -3061,9 +3062,9 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-123</y>
               <width>744</width>
-              <height>481</height>
+              <height>452</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -3131,8 +3132,11 @@ QScrollBar::sub-line:vertical {
                </item>
                <item>
                 <widget class="Line" name="line_3">
+                 <property name="autoFillBackground">
+                  <bool>false</bool>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">color:rgb(50,50,50)</string>
+                  <string notr="true">color:lightgrey</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
@@ -3627,7 +3631,7 @@ color:white;
                <item>
                 <widget class="Line" name="line_4">
                  <property name="styleSheet">
-                  <string notr="true">color:rgb(50,50,50)</string>
+                  <string notr="true">color:lightgrey</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
@@ -4495,7 +4499,7 @@ Mute</string>
         <rect>
          <x>13</x>
          <y>7</y>
-         <width>361</width>
+         <width>363</width>
          <height>381</height>
         </rect>
        </property>

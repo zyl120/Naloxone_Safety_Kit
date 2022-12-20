@@ -27,7 +27,7 @@ def handleVisibleChanged():
             keyboard = w.findChild(QtCore.QObject, "keyboard")
             if keyboard is not None:
                 r = w.geometry()
-                r.moveTop(keyboard.property("y"))
+                r.moveTop(int(keyboard.property("y")))
                 w.setMask(QtGui.QRegion(r))
                 return
 
@@ -762,9 +762,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
 
 def gui_manager(shared_array):
-    os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
+    #os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
-    QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
+    #QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow(shared_array)
     application.show()
     sys.exit(app.exec_())

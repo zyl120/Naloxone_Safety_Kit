@@ -1,15 +1,15 @@
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+#import RPi.GPIO as GPIO
+#import Adafruit_DHT as dht
 from time import sleep
 import signal
 import os
 import sys
 import random
-from gpiozero import CPUTemperature
+#from gpiozero import CPUTemperature
 
 
-DOOR_PIN = 17
-DHT_PIN = 27
+#DOOR_PIN = 17
+#DHT_PIN = 27
 
 
 def temp_signal_handler(signum, frame):
@@ -22,14 +22,14 @@ def temp_signal_handler(signum, frame):
 
 # Read from the DHT22 temperature sensor connected to GPIO27.
 def read_temperature_sensor():
-    _, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
-    return int(temperature * 1.8 + 32)
+    #_, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+    return int(25 * 1.8 + 32)
 
 
 def get_cpu_temperature():
-    cpu = CPUTemperature()
+    #cpu = CPUTemperature()
     #print(cpu.temperature)
-    return int(cpu.temperature * 1.8 + 32)
+    return int(50 * 1.8 + 32)
 
 
 def calculate_pwm(temperature):
@@ -51,15 +51,16 @@ def gpio_signal_handler(signum, frame):
         sys.exit(0)
 
 def read_door_switch():
-    if GPIO.input(DOOR_PIN):
-        return True
-    else:
-        return False
+    return False
+    # if GPIO.input(DOOR_PIN):
+    #     return True
+    # else:
+    #     return False
 
 
 def gpio_manager(shared_array):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(DOOR_PIN, GPIO.IN)
+    #GPIO.setmode(GPIO.BCM)
+    #GPIO.setup(DOOR_PIN, GPIO.IN)
     counter = 0
     temp = read_temperature_sensor()
     pwm = calculate_pwm(temp)
