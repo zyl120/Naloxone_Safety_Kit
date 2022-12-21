@@ -250,7 +250,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -3122,7 +3122,7 @@ color:white;
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>44</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="font">
@@ -3135,8 +3135,7 @@ color:white;
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>Turn off the display outside active hours.
-Display will be turned on automatically when door opens.</string>
+                 <string>Turn off the display outside active hours. Display will be turned on automatically when door opens.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -3254,7 +3253,7 @@ color:white;
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>Use fan to cool down the CPU. May lead to poor performance.</string>
+                 <string>Use fan to cool down the CPU. May lead to better performance.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

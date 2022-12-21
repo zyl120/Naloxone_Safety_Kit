@@ -1288,7 +1288,7 @@ class Ui_door_close_main_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
         self.label_14.setSizePolicy(sizePolicy)
-        self.label_14.setMinimumSize(QtCore.QSize(0, 44))
+        self.label_14.setMinimumSize(QtCore.QSize(0, 22))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(False)
@@ -2168,7 +2168,7 @@ class Ui_door_close_main_window(object):
         self.closeSoftwareLabel.setBuddy(self.exitPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         self.settingsTab.setCurrentIndex(4)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
@@ -2263,10 +2263,9 @@ class Ui_door_close_main_window(object):
         self.activeHoursLabel.setText(_translate("door_close_main_window", "&Active Hours"))
         self.activeHoursColon.setText(_translate("door_close_main_window", "to"))
         self.enablePowerSavingLabel.setText(_translate("door_close_main_window", "Enable Power &Saving"))
-        self.label_14.setText(_translate("door_close_main_window", "Turn off the display outside active hours.\n"
-"Display will be turned on automatically when door opens."))
+        self.label_14.setText(_translate("door_close_main_window", "Turn off the display outside active hours. Display will be turned on automatically when door opens."))
         self.label_13.setText(_translate("door_close_main_window", "Enable Active &Cooling"))
-        self.label_19.setText(_translate("door_close_main_window", "Use fan to cool down the CPU. May lead to poor performance."))
+        self.label_19.setText(_translate("door_close_main_window", "Use fan to cool down the CPU. May lead to better performance."))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.power_management), _translate("door_close_main_window", "Power"))
         self.passcodeLabel.setText(_translate("door_close_main_window", "&Passcode"))
         self.adminPhoneNumberLabel.setText(_translate("door_close_main_window", "Admin Phone &Number"))
