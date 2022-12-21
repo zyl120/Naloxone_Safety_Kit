@@ -1771,7 +1771,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>0</number>
          </property>
          <property name="iconSize">
           <size>
@@ -1798,7 +1798,7 @@ color:darkgrey
              <x>10</x>
              <y>10</y>
              <width>761</width>
-             <height>341</height>
+             <height>321</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1929,7 +1929,7 @@ color:darkgrey
              <x>10</x>
              <y>10</y>
              <width>761</width>
-             <height>341</height>
+             <height>321</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -2241,7 +2241,7 @@ QSlider::handle:horizontal {
              <x>10</x>
              <y>10</y>
              <width>761</width>
-             <height>341</height>
+             <height>321</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2572,7 +2572,7 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-33</y>
               <width>744</width>
               <height>362</height>
              </rect>
@@ -2906,7 +2906,7 @@ Otherwise each emergency call will cost $75.</string>
              <x>10</x>
              <y>10</y>
              <width>761</width>
-             <height>341</height>
+             <height>321</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -3326,7 +3326,7 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-80</y>
+              <y>-123</y>
               <width>744</width>
               <height>452</height>
              </rect>
