@@ -15,6 +15,12 @@ class Ui_door_close_main_window(object):
     def setupUi(self, door_close_main_window):
         door_close_main_window.setObjectName("door_close_main_window")
         door_close_main_window.resize(800, 480)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(door_close_main_window.sizePolicy().hasHeightForWidth())
+        door_close_main_window.setSizePolicy(sizePolicy)
+        door_close_main_window.setMinimumSize(QtCore.QSize(800, 480))
         door_close_main_window.setMaximumSize(QtCore.QSize(800, 480))
         font = QtGui.QFont()
         font.setPointSize(13)
