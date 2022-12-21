@@ -8,6 +8,7 @@ import configparser
 import signal
 from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
+import qrcode
 
 
 def gui_signal_handler(signum, frame):
@@ -95,17 +96,6 @@ class NetworkWorker(QtCore.QThread):
                 self.update_server.emit(True, float(
                     balance), currency, self.currentTime.currentTime())
             sleep(600)
-
-class TimeWorker(QtCore.QThread):
-    update_time = QtCore.pyqtSignal(QtCore.QDateTime)
-
-    def __init__(self):
-        super(TimeWorker, self).__init__()
-
-    def run(self):
-        while True:
-            self.update_time.emit(QtCore.QDateTime().currentDateTime())
-            sleep(1)
 
 
 class CallWorker(QtCore.QThread):
@@ -268,6 +258,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.get_passcode_button_pushed)
         self.load_settings()
         self.lock_settings()
+
         self.goto_home()
 
         self.get_shared_array_worker = SharedMemoryWorker(self.shared_array)
@@ -284,10 +275,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.account_balance_worker.update_server.connect(
             self.update_server_ui)
         self.account_balance_worker.start()
-
-        self.time_worker = TimeWorker()
-        self.time_worker.update_time.connect(self.update_time_ui)
-        self.time_worker.start()
 
     def load_settings(self):
         # load the settings from the conf file.
@@ -347,6 +334,29 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["enable_power_saving"] == "True")
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
+            img = qrcode.make("https://github.com/zyl120/Naloxone_Safety_Kit")
+            img.save("github_qrcode.png")
+            github_qrcode_pixmap = QtGui.QPixmap(
+                "github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+            self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
+            img = qrcode.make(config["admin"]["admin_phone_number"])
+            img.save("admin_qrcode.png")
+            admin_qrcode_pixmap = QtGui.QPixmap(
+                "admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+            self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
+            img = qrcode.make(
+                "https://www.cdc.gov/drugoverdose/epidemic/index.html")
+            img.save("understanding_qrcode.png")
+            understanding_qrcode_pixmap = QtGui.QPixmap(
+                "understanding_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+            self.ui.understanding_qrcode.setPixmap(understanding_qrcode_pixmap)
+            img = qrcode.make(
+                "https://nida.nih.gov/publications/drugfacts/naloxone")
+            img.save("naloxone_qrcode.png")
+            naloxone_qrcode_pixmap = QtGui.QPixmap(
+                "naloxone_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+            self.ui.naloxone_qrcode.setPixmap(naloxone_qrcode_pixmap)
+
         except Exception as e:
             print("Failed to load config file")
             msg = QtWidgets.QMessageBox()
@@ -742,11 +752,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#AC193D")
 
-    @QtCore.pyqtSlot(QtCore.QDateTime)
-    def update_time_ui(self, current_time):
-        # update the time of the main window.
-        self.ui.currentTimeLineEdit.setText(current_time.toString("MMM d, yyyy h:mm AP"))
-
     @QtCore.pyqtSlot(int)
     def update_current_max_temperature(self, value):
         # Used to update the current temperature selection when the user uses
@@ -796,7 +801,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         msg.setText("Config file saved as safety_kit.conf.")
         msg.setStyleSheet(
             "QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
-            # msg.buttonClicked.connect(msg.close)
+        # msg.buttonClicked.connect(msg.close)
         msg.exec_()
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")

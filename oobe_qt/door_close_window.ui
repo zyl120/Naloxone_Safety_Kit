@@ -250,22 +250,9 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="homePage">
-     <widget class="QGraphicsView" name="picture2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>220</y>
-        <width>380</width>
-        <height>190</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: white; background-color: grey; border-radius:3px;border-color:red;border-width: 0.5px;border-style: solid;</string>
-      </property>
-     </widget>
      <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
@@ -671,7 +658,162 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
        </widget>
       </widget>
      </widget>
-     <widget class="QGraphicsView" name="picture2_2">
+     <widget class="QFrame" name="frame_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>380</width>
+        <height>190</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget_17">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>361</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_54">
+        <item>
+         <widget class="QLabel" name="label_33">
+          <property name="font">
+           <font>
+            <pointsize>26</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Overdose Death is&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; font-weight:700; color:#5555ff;&quot;&gt;PREVENTABLE.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>220</y>
+        <width>380</width>
+        <height>190</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>361</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_42">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_43">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
+            <property name="text">
+             <string>Build Your
+Own Kit</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="github_qrcode">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>GITHUB_QR_CODE</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_48">
+          <item>
+           <widget class="QLabel" name="label_25">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
+            <property name="text">
+             <string>Contact
+Admin</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="admin_qrcode">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>ADMIN_QR_CODE</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_4">
       <property name="geometry">
        <rect>
         <x>400</x>
@@ -681,58 +823,124 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: white; background-color: grey; border-radius:3px;border-color:red;border-width: 0.5px;border-style: solid;</string>
+       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
       </property>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_10">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>10</y>
-        <width>381</width>
-        <height>191</height>
-       </rect>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_43">
-       <item>
-        <widget class="QLabel" name="currentTimeLineEdit">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>26</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color:white</string>
-         </property>
-         <property name="text">
-          <string>N/A</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_26">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>361</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_44">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_51">
+          <item>
+           <widget class="QLabel" name="label_28">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
+            <property name="text">
+             <string>Overdose
+Epidemic</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="understanding_qrcode">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>UNDERSTANDING
+QR_CODE</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_52">
+          <item>
+           <widget class="QLabel" name="label_30">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
+            <property name="text">
+             <string>What is
+Naloxone?</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="naloxone_qrcode">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>NALOXONE
+QR_CODE</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_53">
+          <item>
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>N/A</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_32">
+            <property name="text">
+             <string>N/A</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="dashboardPage">
@@ -1558,6 +1766,9 @@ color:darkgrey
 }
 
 </string>
+         </property>
+         <property name="tabShape">
+          <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
           <number>4</number>
@@ -2917,6 +3128,7 @@ color:white;
                 <property name="font">
                  <font>
                   <pointsize>9</pointsize>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
@@ -3059,6 +3271,9 @@ color:white;
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
@@ -3112,7 +3327,7 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-80</y>
               <width>744</width>
               <height>452</height>
              </rect>
@@ -3620,7 +3835,7 @@ color:white;
                     <string notr="true">color:white</string>
                    </property>
                    <property name="text">
-                    <string>Allow Paramedics to Contact Admin</string>
+                    <string>Allow Paramedics to Retrieve Passcode</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
