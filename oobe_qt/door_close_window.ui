@@ -1771,7 +1771,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>5</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2330,19 +2330,6 @@ Formatted as &quot;+1XXXXXXXXXX&quot;</string>
              </layout>
             </item>
             <item>
-             <widget class="Line" name="line_8">
-              <property name="styleSheet">
-               <string notr="true">color:lightgrey</string>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
              <layout class="QVBoxLayout" name="verticalLayout_38">
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -2419,19 +2406,6 @@ Formatted as &quot;+1XXXXXXXXXX&quot;</string>
                </widget>
               </item>
              </layout>
-            </item>
-            <item>
-             <widget class="Line" name="line_9">
-              <property name="styleSheet">
-               <string notr="true">color:lightgrey</string>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_40">
@@ -2572,9 +2546,9 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-33</y>
+              <y>0</y>
               <width>744</width>
-              <height>362</height>
+              <height>344</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2662,19 +2636,6 @@ Formatted as &quot;+1XXXXXXXXXX&quot;</string>
                 </layout>
                </item>
                <item>
-                <widget class="Line" name="line_6">
-                 <property name="styleSheet">
-                  <string notr="true">color:lightgrey</string>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Plain</enum>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
                 <layout class="QVBoxLayout" name="verticalLayout_28">
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_30">
@@ -2760,19 +2721,6 @@ This info will be included in the emergency call.</string>
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item>
-                <widget class="Line" name="line_7">
-                 <property name="styleSheet">
-                  <string notr="true">color:lightgrey</string>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Plain</enum>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
                </item>
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_35">
@@ -3023,19 +2971,6 @@ Otherwise each emergency call will cost $75.</string>
              </layout>
             </item>
             <item>
-             <widget class="Line" name="line_2">
-              <property name="styleSheet">
-               <string notr="true">color:lightgrey</string>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
              <layout class="QVBoxLayout" name="verticalLayout_33">
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_36">
@@ -3122,7 +3057,7 @@ color:white;
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>22</height>
+                  <height>44</height>
                  </size>
                 </property>
                 <property name="font">
@@ -3135,7 +3070,8 @@ color:white;
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Turn off the display outside active hours. Display will be turned on automatically when door opens.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>Turn off the display outside active hours. 
+Display will be turned on automatically when door opens.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -3146,19 +3082,6 @@ color:white;
                </widget>
               </item>
              </layout>
-            </item>
-            <item>
-             <widget class="Line" name="line">
-              <property name="styleSheet">
-               <string notr="true">color:lightgrey</string>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Plain</enum>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -3241,7 +3164,7 @@ color:white;
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>22</height>
+                  <height>44</height>
                  </size>
                 </property>
                 <property name="font">
@@ -3253,7 +3176,8 @@ color:white;
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use fan to cool down the CPU. May lead to better performance.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>Use fan to cool down the CPU.
+May lead to better performance.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -3326,9 +3250,9 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-123</y>
+              <y>-83</y>
               <width>744</width>
-              <height>452</height>
+              <height>434</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -3393,22 +3317,6 @@ QScrollBar::sub-line:vertical {
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item>
-                <widget class="Line" name="line_3">
-                 <property name="autoFillBackground">
-                  <bool>false</bool>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">color:lightgrey</string>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Plain</enum>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_22">
@@ -3891,19 +3799,6 @@ color:white;
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item>
-                <widget class="Line" name="line_4">
-                 <property name="styleSheet">
-                  <string notr="true">color:lightgrey</string>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Plain</enum>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_19">
