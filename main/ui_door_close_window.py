@@ -954,7 +954,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 744, 362))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, -33, 744, 362))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -2052,7 +2052,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(3)
+        self.settingsTab.setCurrentIndex(4)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.passcodeEnterLineEdit)
@@ -2133,8 +2133,7 @@ class Ui_door_close_main_window(object):
         self.label_14.setText(_translate("door_close_main_window", "Turn off the display outside active hours.\n"
 "Display will be turned on automatically when door opens."))
         self.label_13.setText(_translate("door_close_main_window", "Enable Active &Cooling"))
-        self.label_19.setText(_translate("door_close_main_window", "Use fan to cool down the CPU.\n"
-"May lead to poor performance."))
+        self.label_19.setText(_translate("door_close_main_window", "Use fan to cool down the CPU. May lead to poor performance."))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.power_management), _translate("door_close_main_window", "Power"))
         self.passcodeLabel.setText(_translate("door_close_main_window", "&Passcode"))
         self.adminPhoneNumberLabel.setText(_translate("door_close_main_window", "Admin Phone &Number"))

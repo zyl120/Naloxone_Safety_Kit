@@ -1509,7 +1509,7 @@ color:darkgrey
 </string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>4</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2310,7 +2310,7 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-33</y>
               <width>744</width>
               <height>362</height>
              </rect>
@@ -2991,8 +2991,7 @@ color:white;
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>Use fan to cool down the CPU.
-May lead to poor performance.</string>
+                 <string>Use fan to cool down the CPU. May lead to poor performance.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
