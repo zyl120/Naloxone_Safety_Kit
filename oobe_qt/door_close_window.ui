@@ -1771,7 +1771,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>4</number>
          </property>
          <property name="iconSize">
           <size>
@@ -3135,7 +3135,7 @@ color:white;
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>Turn off the display outside active hours. Display will be turned on automatically when door opens.</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Turn off the display outside active hours. Display will be turned on automatically when door opens.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -3253,7 +3253,7 @@ color:white;
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>Use fan to cool down the CPU. May lead to better performance.</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use fan to cool down the CPU. May lead to better performance.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
