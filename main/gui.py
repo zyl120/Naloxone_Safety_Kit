@@ -334,24 +334,65 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["enable_power_saving"] == "True")
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
-            img = qrcode.make("https://github.com/zyl120/Naloxone_Safety_Kit")
+
+            github_qr_code = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=10,
+                border=0,
+            )
+            github_qr_code.add_data(
+                "https://github.com/zyl120/Naloxone_Safety_Kit")
+            github_qr_code.make(fit=True)
+            img = github_qr_code.make_image(
+                fill_color="white", back_color=(50, 50, 50))
             img.save("github_qrcode.png")
             github_qrcode_pixmap = QtGui.QPixmap(
                 "github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
-            img = qrcode.make(config["admin"]["admin_phone_number"])
+
+            admin_qr_code = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=10,
+                border=0,
+            )
+            admin_qr_code.add_data(config["admin"]["admin_phone_number"])
+            admin_qr_code.make(fit=True)
+            img = admin_qr_code.make_image(
+                fill_color="white", back_color=(50, 50, 50))
             img.save("admin_qrcode.png")
             admin_qrcode_pixmap = QtGui.QPixmap(
                 "admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
-            img = qrcode.make(
+
+            understanding_qr_code = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=10,
+                border=0,
+            )
+            understanding_qr_code.add_data(
                 "https://www.cdc.gov/drugoverdose/epidemic/index.html")
+            understanding_qr_code.make(fit=True)
+            img = understanding_qr_code.make_image(
+                fill_color="white", back_color=(50, 50, 50))
             img.save("understanding_qrcode.png")
             understanding_qrcode_pixmap = QtGui.QPixmap(
                 "understanding_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.understanding_qrcode.setPixmap(understanding_qrcode_pixmap)
-            img = qrcode.make(
+
+            naloxone_qr_code = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=10,
+                border=0,
+            )
+            naloxone_qr_code.add_data(
                 "https://nida.nih.gov/publications/drugfacts/naloxone")
+            naloxone_qr_code.make(fit=True)
+            img = naloxone_qr_code.make_image(
+                fill_color="white", back_color=(50, 50, 50))
             img.save("naloxone_qrcode.png")
             naloxone_qrcode_pixmap = QtGui.QPixmap(
                 "naloxone_qrcode.png").scaledToWidth(100).scaledToHeight(100)

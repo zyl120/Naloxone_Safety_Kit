@@ -250,7 +250,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -733,6 +733,45 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_42">
         <item>
+         <layout class="QVBoxLayout" name="verticalLayout_55">
+          <item>
+           <widget class="QLabel" name="label_34">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
+            <property name="text">
+             <string>User
+Manual</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="manual_qrcode">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>MANUAL_QR_CODE</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <layout class="QVBoxLayout" name="verticalLayout_43">
           <item>
            <widget class="QLabel" name="label_3">
@@ -836,7 +875,7 @@ Admin</string>
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>361</width>
+         <width>364</width>
          <height>171</height>
         </rect>
        </property>
@@ -925,15 +964,37 @@ QR_CODE</string>
          <layout class="QVBoxLayout" name="verticalLayout_53">
           <item>
            <widget class="QLabel" name="label_31">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
             <property name="text">
-             <string>N/A</string>
+             <string>Something
+Else</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_32">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
             <property name="text">
-             <string>N/A</string>
+             <string>SOMETHING_
+ QR_CODE</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -1771,7 +1832,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>4</number>
          </property>
          <property name="iconSize">
           <size>
@@ -3073,6 +3134,9 @@ color:white;
                  <string>Turn off the display outside active hours. 
 Display will be turned on automatically when door opens.</string>
                 </property>
+                <property name="textFormat">
+                 <enum>Qt::PlainText</enum>
+                </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                 </property>
@@ -3178,6 +3242,12 @@ color:white;
                 <property name="text">
                  <string>Use fan to cool down the CPU.
 May lead to better performance.</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
