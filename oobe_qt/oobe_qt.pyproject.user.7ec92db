@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 9.0.1, 2022-12-20T20:51:16. -->
+<!-- Written by QtCreator 9.0.0, 2022-12-04T23:56:22. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{10ce5dae-6bac-4173-ab53-98eff24329a6}</value>
+  <value type="QByteArray">{7ec92dbb-a34c-49f0-9e39-fea5721dc4b7}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -87,14 +87,14 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{893af785-0917-49e6-a118-c91bdd9a784f}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop (arm-darwin-generic-mach_o-64bit)</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop (arm-darwin-generic-mach_o-64bit)</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47beb92c-bb5e-4a8e-86c3-e087c5618a71}</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/yilu/Documents/Cornell/Design Project/Naloxone_Safety_Kit/oobe_qt</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/yiluzhou/oobe_qt</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -141,14 +141,14 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">widget.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/yilu/Documents/Cornell/Design Project/Naloxone_Safety_Kit/oobe_qt/widget.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/yilu/Documents/Cornell/Design Project/Naloxone_Safety_Kit/oobe_qt/widget.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/yilu/Documents/Cornell/Design Project/Naloxone_Safety_Kit/oobe_qt/widget.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./Users/yiluzhou/oobe_qt/widget.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/yiluzhou/oobe_qt/widget.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/Users/yiluzhou/oobe_qt/widget.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/yilu/Documents/Cornell/Design Project/Naloxone_Safety_Kit/oobe_qt</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/yiluzhou/oobe_qt</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

@@ -69,6 +69,24 @@ class CountDownWorker(QtCore.QThread):
         self.terminate()
 
 
+class AccountBalanceWorker(QtCore.QThread):
+    account_balance_thread_status = QtCore.pyqtSignal(float)
+
+    def __init__(self):
+        super(AccountBalanceWorker, self).__init__()
+
+    def run(self):
+        while True:
+            config = configparser.ConfigParser()
+            config.read("safety_kit.conf")
+            account_sid = config["twilio"]["twilio_sid"]
+            account_token = config["twilio"]["twilio_token"]
+            client = Client(account_sid, account_token)
+            balance = client.api.v2010.balance.fetch().balance
+            self.account_balance_thread_status.emit(float(balance))
+            sleep(3600)
+
+
 class CallWorker(QtCore.QThread):
     # Worker thread to make the phone call
     # The status signal can be used to determine the calling result.
@@ -252,6 +270,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.get_shared_array_worker.go_to_door_open_signal.connect(
             self.goto_door_open)
         self.get_shared_array_worker.start()
+
+        self.account_balance_worker = AccountBalanceWorker()
+        self.account_balance_worker.account_balance_thread_status.connect(
+            self.update_account_balance)
+        self.account_balance_worker.start()
 
     def load_settings(self):
         # load the settings from the conf file.
@@ -714,6 +737,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # the slider on the setting page.
         self.ui.CurrentTemperatureLabel.setText(str(value)+"℉")
 
+    @QtCore.pyqtSlot(float)
+    def update_account_balance(self, balance):
+        # Used to update the current account balance
+        self.ui.accountBalanceLineEdit.setText("$" + str(round(balance, 2)))
+
     def save_config_file(self):
         # save the config file
         self.active_hour_start = self.ui.startTimeEdit.time()
@@ -764,7 +792,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 def gui_manager(shared_array):
     #os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
-    #QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
+    # QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow(shared_array)
     application.show()
     sys.exit(app.exec_())

@@ -250,7 +250,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QGraphicsView" name="picture2">
@@ -356,7 +356,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
            </property>
            <property name="font">
             <font>
-             <pointsize>22</pointsize>
+             <pointsize>20</pointsize>
              <bold>true</bold>
             </font>
            </property>
@@ -390,8 +390,8 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
       <widget class="QFrame" name="serverStatusBarFrame">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>100</y>
+         <x>200</x>
+         <y>10</y>
          <width>170</width>
          <height>80</height>
         </rect>
@@ -459,7 +459,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
            </property>
            <property name="font">
             <font>
-             <pointsize>22</pointsize>
+             <pointsize>20</pointsize>
              <bold>true</bold>
             </font>
            </property>
@@ -490,11 +490,88 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
         </layout>
        </widget>
       </widget>
-      <widget class="QFrame" name="thermalStatusBarFrame">
+      <widget class="QFrame" name="naloxoneStatusBarFrame">
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>10</y>
+         <y>100</y>
+         <width>170</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>170</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>170</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:white;border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QWidget" name="horizontalLayoutWidget_19">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>171</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_29">
+         <item>
+          <widget class="QLabel" name="naloxoneStatusBox">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:white</string>
+           </property>
+           <property name="text">
+            <string>NALOXONE</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QFrame" name="thermalStatusBarFrame">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
          <width>170</width>
          <height>80</height>
         </rect>
@@ -562,7 +639,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
            </property>
            <property name="font">
             <font>
-             <pointsize>22</pointsize>
+             <pointsize>20</pointsize>
              <bold>true</bold>
             </font>
            </property>
@@ -579,109 +656,6 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
          </item>
          <item>
           <spacer name="horizontalSpacer_24">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QFrame" name="naloxoneStatusBarFrame">
-       <property name="geometry">
-        <rect>
-         <x>200</x>
-         <y>100</y>
-         <width>170</width>
-         <height>80</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>170</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>170</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color:white;border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <widget class="QWidget" name="horizontalLayoutWidget_19">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>180</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_29">
-         <item>
-          <spacer name="horizontalSpacer_27">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="naloxoneStatusBox">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>22</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color:white</string>
-           </property>
-           <property name="text">
-            <string>NALOXONE</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_28">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -942,38 +916,38 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
-         <widget class="QLabel" name="serverLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>30</pointsize>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color:white</string>
-          </property>
-          <property name="text">
-           <string>SERVER</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="horizontalLayout_40">
+          <item>
+           <widget class="QLabel" name="serverLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>30</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
+            <property name="text">
+             <string>SERVER</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+            </property>
+           </widget>
+          </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
@@ -1000,12 +974,12 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>60</height>
+                <height>10</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>25</pointsize>
+                <pointsize>22</pointsize>
                 <bold>true</bold>
                </font>
               </property>
@@ -1022,6 +996,10 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
             </item>
            </layout>
           </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_7">
             <item>
@@ -1048,14 +1026,60 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>60</height>
+                <height>10</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>25</pointsize>
+                <pointsize>22</pointsize>
                 <bold>false</bold>
                 <underline>false</underline>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
+              </property>
+              <property name="text">
+               <string>N/A</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_47">
+            <item>
+             <widget class="QLabel" name="accountBalanceLabel">
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:white</string>
+              </property>
+              <property name="text">
+               <string>Balance</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="accountBalanceLineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>10</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
                </font>
               </property>
               <property name="styleSheet">
@@ -1125,7 +1149,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
             </property>
             <property name="font">
              <font>
-              <pointsize>25</pointsize>
+              <pointsize>30</pointsize>
               <bold>false</bold>
              </font>
             </property>
@@ -2310,7 +2334,7 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-33</y>
+              <y>0</y>
               <width>744</width>
               <height>362</height>
              </rect>
@@ -3061,7 +3085,7 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-123</y>
+              <y>0</y>
               <width>744</width>
               <height>452</height>
              </rect>
