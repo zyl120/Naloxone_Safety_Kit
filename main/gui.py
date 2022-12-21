@@ -69,11 +69,13 @@ class CountDownWorker(QtCore.QThread):
         self.terminate()
 
 
-class AccountBalanceWorker(QtCore.QThread):
-    account_balance_thread_status = QtCore.pyqtSignal(float)
+class NetworkWorker(QtCore.QThread):
+    update_server = QtCore.pyqtSignal(bool, float, str, QtCore.QTime)
 
     def __init__(self):
-        super(AccountBalanceWorker, self).__init__()
+        super(NetworkWorker, self).__init__()
+        self.hostname = "www.twilio.com"  # ping twilio directly
+        self.currentTime = QtCore.QTime()
 
     def run(self):
         while True:
@@ -82,9 +84,17 @@ class AccountBalanceWorker(QtCore.QThread):
             account_sid = config["twilio"]["twilio_sid"]
             account_token = config["twilio"]["twilio_token"]
             client = Client(account_sid, account_token)
-            balance = client.api.v2010.balance.fetch().balance
-            self.account_balance_thread_status.emit(float(balance))
-            sleep(3600)
+
+            response = os.system("ping -c 1 " + self.hostname)
+            if (response == 1):
+                self.update_server.emit(
+                    False, 0, self.currentTime.currentTime())
+            else:
+                balance = client.api.v2010.balance.fetch().balance
+                currency = client.api.v2010.balance.fetch().currency
+                self.update_server.emit(True, float(
+                    balance), currency, self.currentTime.currentTime())
+            sleep(600)
 
 
 class CallWorker(QtCore.QThread):
@@ -207,7 +217,7 @@ class SharedMemoryWorker(QtCore.QThread):
             self.update_door.emit(door, not disarmed)
             self.update_temperature.emit(
                 temperature, cpu_temperature, pwm, over_temperature)
-            self.update_server.emit(server, QtCore.QTime(hour, minute))
+            #self.update_server.emit(server, QtCore.QTime(hour, minute))
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
             self.update_time.emit(QtCore.QTime().currentTime())
@@ -262,8 +272,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.get_shared_array_worker.update_door.connect(self.update_door_ui)
         self.get_shared_array_worker.update_temperature.connect(
             self.update_temperature_ui)
-        self.get_shared_array_worker.update_server.connect(
-            self.update_server_ui)
+        # self.get_shared_array_worker.update_server.connect(
+        #    self.update_server_ui)
         self.get_shared_array_worker.update_naloxone.connect(
             self.update_naloxone_ui)
         self.get_shared_array_worker.update_time.connect(self.update_time_ui)
@@ -271,9 +281,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.goto_door_open)
         self.get_shared_array_worker.start()
 
-        self.account_balance_worker = AccountBalanceWorker()
-        self.account_balance_worker.account_balance_thread_status.connect(
-            self.update_account_balance)
+        self.account_balance_worker = NetworkWorker()
+        self.account_balance_worker.update_server.connect(
+            self.update_server_ui)
         self.account_balance_worker.start()
 
     def load_settings(self):
@@ -698,8 +708,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.naloxoneStatusBox.setStyleSheet(
                 "color:#AC193D")
 
-    @QtCore.pyqtSlot(bool, QtCore.QTime)
-    def update_server_ui(self, server, server_check_time):
+    @QtCore.pyqtSlot(bool, float, str, QtCore.QTime)
+    def update_server_ui(self, server, balance, currency, server_check_time):
         # update the server of the main window
         self.ui.serverCheckLineEdit.setText(
             server_check_time.toString("h:mm AP"))
@@ -711,6 +721,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.serverStatusLineEdit.setText("Down")
             self.ui.serverStatusBox.setStyleSheet(
                 "color:#AC193D")
+        self.ui.accountBalanceLineEdit.setText(
+            str(round(balance, 2)) + " " + currency)
 
     @QtCore.pyqtSlot(int, int, int, bool)
     def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
@@ -736,11 +748,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # Used to update the current temperature selection when the user uses
         # the slider on the setting page.
         self.ui.CurrentTemperatureLabel.setText(str(value)+"℉")
-
-    @QtCore.pyqtSlot(float)
-    def update_account_balance(self, balance):
-        # Used to update the current account balance
-        self.ui.accountBalanceLineEdit.setText("$" + str(round(balance, 2)))
 
     def save_config_file(self):
         # save the config file
