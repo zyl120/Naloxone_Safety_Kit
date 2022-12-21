@@ -96,6 +96,17 @@ class NetworkWorker(QtCore.QThread):
                     balance), currency, self.currentTime.currentTime())
             sleep(600)
 
+class TimeWorker(QtCore.QThread):
+    update_time = QtCore.pyqtSignal(QtCore.QDateTime)
+
+    def __init__(self):
+        super(TimeWorker, self).__init__()
+
+    def run(self):
+        while True:
+            self.update_time.emit(QtCore.QDateTime().currentDateTime())
+            sleep(1)
+
 
 class CallWorker(QtCore.QThread):
     # Worker thread to make the phone call
@@ -191,9 +202,6 @@ class SharedMemoryWorker(QtCore.QThread):
         year = 2000
         month = 1
         day = 20
-        server = False
-        hour = 0
-        minute = 0
         cpu_temperature = 0
         while True:
             #print("read shm")
@@ -208,20 +216,14 @@ class SharedMemoryWorker(QtCore.QThread):
                 year = self.shared_array[13]
                 month = self.shared_array[14]
                 day = self.shared_array[15]
-                server = self.shared_array[6]
-                hour = self.shared_array[16]
-                minute = self.shared_array[17]
                 cpu_temperature = self.shared_array[19]
             if (door and not disarmed):  # if door opened and the switch is armed
                 self.go_to_door_open_signal.emit()
             self.update_door.emit(door, not disarmed)
             self.update_temperature.emit(
                 temperature, cpu_temperature, pwm, over_temperature)
-            #self.update_server.emit(server, QtCore.QTime(hour, minute))
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
-            self.update_time.emit(QtCore.QTime().currentTime())
-            # poll the shared memory block every 1s so that other processes can write to the block.
             sleep(1)
 
 
@@ -272,11 +274,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.get_shared_array_worker.update_door.connect(self.update_door_ui)
         self.get_shared_array_worker.update_temperature.connect(
             self.update_temperature_ui)
-        # self.get_shared_array_worker.update_server.connect(
-        #    self.update_server_ui)
         self.get_shared_array_worker.update_naloxone.connect(
             self.update_naloxone_ui)
-        self.get_shared_array_worker.update_time.connect(self.update_time_ui)
         self.get_shared_array_worker.go_to_door_open_signal.connect(
             self.goto_door_open)
         self.get_shared_array_worker.start()
@@ -285,6 +284,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.account_balance_worker.update_server.connect(
             self.update_server_ui)
         self.account_balance_worker.start()
+
+        self.time_worker = TimeWorker()
+        self.time_worker.update_time.connect(self.update_time_ui)
+        self.time_worker.start()
 
     def load_settings(self):
         # load the settings from the conf file.
@@ -433,6 +436,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsPushButton.setChecked(False)
         self.ui.settingsPushButton.setEnabled(True)
         self.ui.backPushButton.setVisible(False)
+        self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(4)
 
     def goto_passcode(self):
@@ -575,7 +579,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # Used to check whether the door is still opened
         if (self.door_opened):
             print("door is still opened")
-            return "Critical", "Please close the door first and wait for five seconds.", "The system needs some time to detect the door status change."
+            return "Critical", "Please close the door first.", "The system needs some time to detect the door status change."
         else:
             self.goto_home()
             self.ui.homePushButton.setVisible(True)
@@ -738,10 +742,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#AC193D")
 
-    @QtCore.pyqtSlot(QtCore.QTime)
+    @QtCore.pyqtSlot(QtCore.QDateTime)
     def update_time_ui(self, current_time):
         # update the time of the main window.
-        self.ui.currentTimeLineEdit.setText(current_time.toString("h:mm AP"))
+        self.ui.currentTimeLineEdit.setText(current_time.toString("MMM d, yyyy h:mm AP"))
 
     @QtCore.pyqtSlot(int)
     def update_current_max_temperature(self, value):
@@ -786,6 +790,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
+        msg = QtWidgets.QMessageBox()
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("Config file saved as safety_kit.conf.")
+        msg.setStyleSheet(
+            "QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
+            # msg.buttonClicked.connect(msg.close)
+        msg.exec_()
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
         print("INFO: save config file")
