@@ -147,19 +147,21 @@ class IOWorker(QtCore.QThread):
 class NetworkWorker(QtCore.QThread):
     update_server = QtCore.pyqtSignal(bool, float, str, QtCore.QTime)
 
-    def __init__(self):
+    def __init__(self, twilio_sid, twilio_token):
         super(NetworkWorker, self).__init__()
         self.hostname = "www.twilio.com"  # ping twilio directly
         print("network thread go.")
         self.currentTime = QtCore.QTime()
+        self.twilio_sid = twilio_sid
+        self.twilio_token = twilio_token
 
     def run(self):
         while True:
-            config = configparser.ConfigParser()
-            config.read("safety_kit.conf")
-            account_sid = config["twilio"]["twilio_sid"]
-            account_token = config["twilio"]["twilio_token"]
-            client = Client(account_sid, account_token)
+            # config = configparser.ConfigParser()
+            # config.read("safety_kit.conf")
+            # account_sid = config["twilio"]["twilio_sid"]
+            # account_token = config["twilio"]["twilio_token"]
+            client = Client(self.twilio_sid, self.twilio_token)
 
             response = os.system("ping -c 1 " + self.hostname)
             if (response == 1):
@@ -250,6 +252,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.door_opened = False
         self.disarmed = False
         self.max_temp = 0
+        self.twilio_sid = str()
+        self.twilio_token = str()
         self.naloxone_expiration_date = QtCore.QDate().currentDate()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
@@ -298,7 +302,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.network_worker is not None):
             self.network_worker.quit()
             self.network_worker.requestInterruption()
-        self.network_worker = NetworkWorker()
+        self.network_worker = NetworkWorker(self.twilio_sid, self.twilio_token)
         self.network_worker.update_server.connect(
             self.update_server_ui)
         self.network_worker.start()
@@ -323,8 +327,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             config = configparser.ConfigParser()
             config.read("safety_kit.conf")
             self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
+            self.twilio_sid = config["twilio"]["twilio_sid"]
             self.ui.twilioTokenLineEdit.setText(
                 config["twilio"]["twilio_token"])
+            self.twilio_token = config["twilio"]["twilio_token"]
             self.ui.twilioPhoneNumberLineEdit.setText(
                 config["twilio"]["twilio_phone_number"])
             self.ui.emergencyPhoneNumberLineEdit.setText(

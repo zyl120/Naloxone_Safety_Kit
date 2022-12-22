@@ -30,6 +30,7 @@
   </property>
   <property name="font">
    <font>
+    <family>.AppleSystemUIFont</family>
     <pointsize>13</pointsize>
    </font>
   </property>
@@ -40,7 +41,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgba(0,0,0,0)</string>
+   <string notr="true">background-color:rgba(0,0,0,0);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="horizontalLayoutWidget_4">
@@ -48,7 +49,7 @@
      <rect>
       <x>10</x>
       <y>440</y>
-      <width>781</width>
+      <width>786</width>
       <height>41</height>
      </rect>
     </property>
@@ -296,7 +297,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -1878,7 +1879,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2566,9 +2567,9 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-49</y>
+              <y>0</y>
               <width>744</width>
-              <height>448</height>
+              <height>482</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -3285,7 +3286,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>744</width>
-              <height>434</height>
+              <height>451</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
