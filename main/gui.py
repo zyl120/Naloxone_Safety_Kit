@@ -70,19 +70,16 @@ class CountDownWorker(QtCore.QThread):
     def stop(self):
         self.terminate()
 
-class NaloxoneWorker(QtCore.QThread):
-    def __init__(self):
-        super(NaloxoneWorker,self).__init__()
 
-
-class GPIOWorker(QtCore.QThread):
+class IOWorker(QtCore.QThread):
     update_door = QtCore.pyqtSignal(bool, bool)
     update_temperature = QtCore.pyqtSignal(int, int, int, bool)
+    update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
     go_to_door_open_signal = QtCore.pyqtSignal()
 
-    def __init__(self, disarmed, max_temp):
-        super(GPIOWorker, self).__init__()
-        print("gpio thread go" + str(disarmed))
+    def __init__(self, disarmed, max_temp, expiration_date):
+        super(IOWorker, self).__init__()
+        print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
         self.fan_pwm = 0
@@ -90,6 +87,7 @@ class GPIOWorker(QtCore.QThread):
         self.door_opened = False
         self.disarmed = disarmed
         self.max_temp = max_temp
+        self.expiration_date = expiration_date
 
     def read_naloxone_sensor(self):
         #_, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
@@ -118,6 +116,13 @@ class GPIOWorker(QtCore.QThread):
         # else:
         #     self.door_opened =  False
 
+    def is_expiry(self):
+        today = QtCore.QDate().currentDate()
+        return today > self.expiration_date
+
+    def is_overheat(self):
+        return self.max_temp < self.naloxone_temp
+
     def run(self):
         while True:
             self.naloxone_counter += 1
@@ -133,7 +138,11 @@ class GPIOWorker(QtCore.QThread):
             if (self.door_opened and not self.disarmed):  # if door opened and the switch is armed
                 self.go_to_door_open_signal.emit()
             self.update_door.emit(self.door_opened, not self.disarmed)
+            self.update_naloxone.emit(
+                not self.is_overheat() and not self.is_expiry(), self.expiration_date)
             sleep(1)
+            if (self.isInterruptionRequested()):
+                break
 
 
 class NetworkWorker(QtCore.QThread):
@@ -233,55 +242,16 @@ class SMSWorker(QtCore.QThread):
                 "Information", "SMS Request Sent Successfully.", str(sms.sid))
 
 
-class SharedMemoryWorker(QtCore.QThread):
-    # Worker thread to read the shared memory block.
-    # These signals can be used to change the GUI when emitted.
-    update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
-    update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
-    update_time = QtCore.pyqtSignal(QtCore.QTime)
-
-    def __init__(self, shared_array):
-        super(SharedMemoryWorker, self).__init__()
-        self.shared_array = shared_array
-
-    def run(self):
-        over_temperature = False
-        door = False
-        disarmed = False
-        temperature = 0
-        pwm = 0
-        naloxone_expired = False
-        naloxone_overheat = False
-        year = 2000
-        month = 1
-        day = 20
-        cpu_temperature = 0
-        while True:
-            #print("read shm")
-            with self.shared_array.get_lock():
-                over_temperature = self.shared_array[0]
-                door = self.shared_array[3]
-                disarmed = self.shared_array[8]
-                temperature = self.shared_array[1]
-                pwm = self.shared_array[2]
-                naloxone_expired = self.shared_array[9]
-                naloxone_overheat = self.shared_array[10]
-                year = self.shared_array[13]
-                month = self.shared_array[14]
-                day = self.shared_array[15]
-                cpu_temperature = self.shared_array[19]
-            self.update_naloxone.emit(
-                not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
-            sleep(1)
-
-
 class ApplicationWindow(QtWidgets.QMainWindow):
-    def __init__(self, shared_array):
+    def __init__(self):
         super(ApplicationWindow, self).__init__()
         self.door_opened = False
+        self.disarmed = False
+        self.max_temp = 0
+        self.naloxone_overheat = False
+        self.naloxone_expiration_date = QtCore.QDate().currentDate()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
-        self.shared_array = shared_array
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
@@ -314,27 +284,31 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
         self.ui.getPasscodePushButton.clicked.connect(
             self.get_passcode_button_pushed)
-        self.load_settings()
-        self.lock_settings()
-
-        self.goto_home()
-
-        self.get_shared_array_worker = SharedMemoryWorker(self.shared_array)
-        self.get_shared_array_worker.update_naloxone.connect(
-            self.update_naloxone_ui)
-        self.get_shared_array_worker.start()
 
         self.account_balance_worker = NetworkWorker()
         self.account_balance_worker.update_server.connect(
             self.update_server_ui)
         self.account_balance_worker.start()
 
-        self.gpio_worker = GPIOWorker(False, 100)
+        self.naloxone_worker = None
+        self.gpio_worker = None
 
+        self.load_settings()
+        self.lock_settings()
+
+        self.goto_home()
+
+    def create_gpio_worker(self):
+        if (self.gpio_worker is not None):
+            self.gpio_worker.quit()
+            self.gpio_worker.requestInterruption()
+        self.gpio_worker = IOWorker(
+            self.disarmed, self.max_temp, self.naloxone_expiration_date)
         self.gpio_worker.update_door.connect(self.update_door_ui)
         self.gpio_worker.go_to_door_open_signal.connect(self.goto_door_open)
         self.gpio_worker.update_temperature.connect(
             self.update_temperature_ui)
+        self.gpio_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.gpio_worker.start()
 
     def load_settings(self):
@@ -354,12 +328,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["emergency_info"]["emergency_address"])
             self.ui.emergencyMessageLineEdit.setText(
                 config["emergency_info"]["emergency_message"])
-            naloxone_expiration_date = QtCore.QDate.fromString(
+            self.naloxone_expiration_date = QtCore.QDate.fromString(
                 config["naloxone_info"]["naloxone_expiration_date"])
             self.ui.naloxoneExpirationDateEdit.setDate(
-                naloxone_expiration_date)
+                self.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
+            self.max_temp = int(
+                config["naloxone_info"]["absolute_maximum_temperature"])
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
@@ -458,6 +434,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             naloxone_qrcode_pixmap = QtGui.QPixmap(
                 "naloxone_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.naloxone_qrcode.setPixmap(naloxone_qrcode_pixmap)
+
+            self.create_gpio_worker()
 
         except Exception as e:
             print("Failed to load config file")
@@ -664,25 +642,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def toggle_door_arm_thread(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
             self.ui.disarmPushButton.setText("Arm")
-            self.gpio_worker.terminate()
-            self.gpio_worker = GPIOWorker(True, 100)
-            self.gpio_worker.update_door.connect(self.update_door_ui)
-            self.gpio_worker.go_to_door_open_signal.connect(self.goto_door_open)
-            self.gpio_worker.update_temperature.connect(
-            self.update_temperature_ui)
-            self.gpio_worker.start()
-            # with self.shared_array.get_lock():
-            #     self.shared_array[8] = 1
+            self.disarmed = True
+            self.create_gpio_worker()
             return "Information", "Door Disarmed.", "The door sensor is now off."
         else:
             self.ui.disarmPushButton.setText("Disarm")
-            self.gpio_worker.terminate()
-            self.gpio_worker = GPIOWorker(False, 100)
-            self.gpio_worker.update_door.connect(self.update_door_ui)
-            self.gpio_worker.go_to_door_open_signal.connect(self.goto_door_open)
-            self.gpio_worker.update_temperature.connect(
-            self.update_temperature_ui)
-            self.gpio_worker.start()
+            self.disarmed = False
+            self.create_gpio_worker()
             return "Information", "Door Armed.", "The door sensor is now on."
 
     def reset_button_pushed(self):
@@ -758,8 +724,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         print("call 911 now pushed")
         self.call_911_using_config_file()
         self.ui.emergencyCallStatusLabel.setText("Requested")
-        # self.ui.emergencyCallLastCallLabel.setText(
-        #     QtCore.QTime().currentTime().toString("h:mm AP"))
         self.ui.settingsPushButton.setVisible(True)
         self.ui.stopCountdownPushButton.setVisible(False)
         self.ui.countdownLabel.setVisible(False)
@@ -859,6 +823,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             str(temperature) + "℉")
         self.ui.cpuTemperatureLineEdit.setText(str(cpu_temperature) + "℉")
         self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
+        self.naloxone_overheat = over_temperature
         if (not over_temperature):
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#008A00")
@@ -915,7 +880,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         msg.setText("Config file saved as safety_kit.conf.")
         msg.setStyleSheet(
             "QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
-        # msg.buttonClicked.connect(msg.close)
         msg.exec_()
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
@@ -927,16 +891,16 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.close()
 
 
-def gui_manager(shared_array):
+def gui_manager():
     #os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
     # QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
-    application = ApplicationWindow(shared_array)
+    application = ApplicationWindow()
     application.show()
     sys.exit(app.exec_())
 
 
-def fork_gui(shared_array):
+def fork_gui():
     pid = os.fork()
     if (pid > 0):
         print("INFO: gui_pid={}".format(pid))
@@ -945,6 +909,5 @@ def fork_gui(shared_array):
         os.sched_setaffinity(gui_pid, {gui_pid % os.cpu_count()})
         print("gui" + str(gui_pid) + str(gui_pid % os.cpu_count()))
         signal.signal(signal.SIGINT, gui_signal_handler)
-        # sleep(1000)
-        gui_manager(shared_array)
+        gui_manager()
     return pid
