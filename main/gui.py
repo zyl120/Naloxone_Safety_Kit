@@ -10,6 +10,13 @@ from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
 import qrcode
 import random
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
+
+
+DOOR_PIN = 17
+DHT_PIN = 27
 
 
 def gui_signal_handler(signum, frame):
@@ -79,6 +86,8 @@ class IOWorker(QtCore.QThread):
 
     def __init__(self, disarmed, max_temp, expiration_date):
         super(IOWorker, self).__init__()
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
@@ -90,8 +99,8 @@ class IOWorker(QtCore.QThread):
         self.expiration_date = expiration_date
 
     def read_naloxone_sensor(self):
-        #_, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
-        self.naloxone_temp = int(25*1.8+32)
+        _, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+        #self.naloxone_temp = int(25*1.8+32)
         # return int(25 * 1.8 + 32)
 
     def calculate_pwm(self):
@@ -104,17 +113,17 @@ class IOWorker(QtCore.QThread):
         return
 
     def read_cpu_sensor(self):
-        #cpu = CPUTemperature()
+        self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
         # print(cpu.temperature)
-        self.cpu_temp = int(50*1.8+32)
+        #self.cpu_temp = int(50*1.8+32)
         # return int(50 * 1.8 + 32)
 
     def read_door_sensor(self):
-        self.door_opened = False
-        # if GPIO.input(DOOR_PIN):
-        #     self.door_opened = True
-        # else:
-        #     self.door_opened =  False
+        #self.door_opened = False
+        if GPIO.input(DOOR_PIN):
+            self.door_opened = True
+        else:
+            self.door_opened = False
 
     def is_expiry(self):
         today = QtCore.QDate().currentDate()
@@ -151,6 +160,7 @@ class NetworkWorker(QtCore.QThread):
     def __init__(self):
         super(NetworkWorker, self).__init__()
         self.hostname = "www.twilio.com"  # ping twilio directly
+        print("network thread go.")
         self.currentTime = QtCore.QTime()
 
     def run(self):
@@ -171,6 +181,8 @@ class NetworkWorker(QtCore.QThread):
                 self.update_server.emit(True, float(
                     balance), currency, self.currentTime.currentTime())
             sleep(600)
+            if (self.isInterruptionRequested()):
+                break
 
 
 class CallWorker(QtCore.QThread):
@@ -284,18 +296,22 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.getPasscodePushButton.clicked.connect(
             self.get_passcode_button_pushed)
 
-        self.account_balance_worker = NetworkWorker()
-        self.account_balance_worker.update_server.connect(
-            self.update_server_ui)
-        self.account_balance_worker.start()
-
-        self.naloxone_worker = None
+        self.network_worker = None
         self.gpio_worker = None
 
         self.load_settings()
         self.lock_settings()
 
         self.goto_home()
+
+    def create_network_worker(self):
+        if (self.network_worker is not None):
+            self.network_worker.quit()
+            self.network_worker.requestInterruption()
+        self.network_worker = NetworkWorker()
+        self.network_worker.update_server.connect(
+            self.update_server_ui)
+        self.network_worker.start()
 
     def create_gpio_worker(self):
         if (self.gpio_worker is not None):
@@ -435,6 +451,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.naloxone_qrcode.setPixmap(naloxone_qrcode_pixmap)
 
             self.create_gpio_worker()
+            self.create_network_worker()
 
         except Exception as e:
             print("Failed to load config file")
@@ -909,6 +926,7 @@ def fork_gui():
         signal.signal(signal.SIGINT, gui_signal_handler)
         gui_manager()
     return pid
+
 
 if __name__ == "__main__":
     gui_manager()
