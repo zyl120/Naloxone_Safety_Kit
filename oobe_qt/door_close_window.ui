@@ -262,7 +262,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -1844,7 +1844,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>1</number>
          </property>
          <property name="iconSize">
           <size>
@@ -1996,65 +1996,156 @@ color:darkgrey
           <attribute name="title">
            <string>Naloxone</string>
           </attribute>
-          <widget class="QWidget" name="verticalLayoutWidget_14">
+          <widget class="QWidget" name="verticalLayoutWidget_10">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>761</width>
-             <height>321</height>
+             <x>18</x>
+             <y>21</y>
+             <width>741</width>
+             <height>311</height>
             </rect>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_21">
+           <layout class="QVBoxLayout" name="verticalLayout_49">
             <item>
-             <widget class="QLabel" name="replaceNaloxonGuidedLabel1">
-              <property name="font">
-               <font>
-                <pointsize>16</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color:white</string>
-              </property>
-              <property name="text">
-               <string>Select the new expiration date and max temperature for the Naloxone.</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+             <layout class="QVBoxLayout" name="verticalLayout_50">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_43">
+                <item>
+                 <widget class="QLabel" name="absoluteMaximumTemperatureLabel">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
+                  </property>
+                  <property name="text">
+                   <string>Max &amp;Temperature</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>temperatureSlider</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="CurrentTemperatureLabel">
+                  <property name="minimumSize">
+                   <size>
+                    <width>60</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                  </property>
+                  <property name="text">
+                   <string>100℉</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_20">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QSlider" name="temperatureSlider">
+                  <property name="minimumSize">
+                   <size>
+                    <width>380</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid rgb(50,50,50);
+    border-radius: 3px;
+    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: rgb(50,50,50);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background-color:white;
+    border: 1px solid white;
+    width: 30px;
+    border-radius: 3px;
+}</string>
+                  </property>
+                  <property name="maximum">
+                   <number>212</number>
+                  </property>
+                  <property name="value">
+                   <number>40</number>
+                  </property>
+                  <property name="sliderPosition">
+                   <number>40</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </item>
             <item>
-             <layout class="QFormLayout" name="naloxoneInfoFormLayout">
-              <property name="labelAlignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="formAlignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <item row="1" column="0">
-               <widget class="QLabel" name="naloxoneExpirationDateSettingsLabel">
-                <property name="font">
-                 <font>
-                  <pointsize>16</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color:white</string>
-                </property>
-                <property name="text">
-                 <string>Naloxone &amp;Expiration Date</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <property name="buddy">
-                 <cstring>naloxoneExpirationDateEdit</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout_23">
+             <layout class="QVBoxLayout" name="verticalLayout_22">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QLabel" name="naloxoneExpirationDateSettingsLabel">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
+                  </property>
+                  <property name="text">
+                   <string>Naloxone &amp;Expiration Date</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>naloxoneExpirationDateEdit</cstring>
+                  </property>
+                 </widget>
+                </item>
                 <item>
                  <spacer name="horizontalSpacer_19">
                   <property name="orientation">
@@ -2095,201 +2186,10 @@ QCalendarWidget QWidget { alternate-background-color: rgb(50, 50, 50); }</string
                 </item>
                </layout>
               </item>
-              <item row="0" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout_24">
-                <item>
-                 <spacer name="horizontalSpacer_20">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_22">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_13">
-                    <item>
-                     <widget class="QSlider" name="temperatureSlider">
-                      <property name="minimumSize">
-                       <size>
-                        <width>380</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QSlider::groove:horizontal {
-    border: 1px solid rgb(50,50,50);
-    border-radius: 3px;
-    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
-    background: rgb(50,50,50);
-    margin: 2px 0;
-}
-
-QSlider::handle:horizontal {
-    background-color:white;
-    border: 1px solid white;
-    width: 30px;
-    border-radius: 3px;
-}</string>
-                      </property>
-                      <property name="maximum">
-                       <number>140</number>
-                      </property>
-                      <property name="value">
-                       <number>40</number>
-                      </property>
-                      <property name="sliderPosition">
-                       <number>40</number>
-                      </property>
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_34">
-                    <item>
-                     <widget class="QLabel" name="label_15">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color:white</string>
-                      </property>
-                      <property name="text">
-                       <string>0℉</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_7">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="CurrentTemperatureLabel">
-                      <property name="minimumSize">
-                       <size>
-                        <width>60</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
-                      </property>
-                      <property name="text">
-                       <string>100</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_18">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_16">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>16</pointsize>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color:white</string>
-                      </property>
-                      <property name="text">
-                       <string>140℉</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="absoluteMaximumTemperatureLabel">
-                <property name="font">
-                 <font>
-                  <pointsize>16</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color:white</string>
-                </property>
-                <property name="text">
-                 <string>Naloxone Max &amp;Temperature</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-                <property name="buddy">
-                 <cstring>temperatureSlider</cstring>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
             <item>
-             <spacer name="verticalSpacer_10">
+             <spacer name="verticalSpacer_5">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -2311,10 +2211,10 @@ QSlider::handle:horizontal {
           <widget class="QWidget" name="verticalLayoutWidget_19">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>761</width>
-             <height>321</height>
+             <x>20</x>
+             <y>20</y>
+             <width>741</width>
+             <height>311</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2924,10 +2824,10 @@ Otherwise each emergency call will cost $75.</string>
           <widget class="QWidget" name="verticalLayoutWidget_15">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>761</width>
-             <height>321</height>
+             <x>20</x>
+             <y>20</y>
+             <width>741</width>
+             <height>311</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -5062,12 +4962,12 @@ Countdown</string>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>473</x>
-     <y>205</y>
+     <x>477</x>
+     <y>197</y>
     </hint>
     <hint type="destinationlabel">
-     <x>621</x>
-     <y>207</y>
+     <x>623</x>
+     <y>196</y>
     </hint>
    </hints>
   </connection>
