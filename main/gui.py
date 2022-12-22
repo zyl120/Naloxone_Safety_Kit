@@ -248,7 +248,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.door_opened = False
         self.disarmed = False
         self.max_temp = 0
-        self.naloxone_overheat = False
         self.naloxone_expiration_date = QtCore.QDate().currentDate()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
@@ -823,7 +822,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             str(temperature) + "℉")
         self.ui.cpuTemperatureLineEdit.setText(str(cpu_temperature) + "℉")
         self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
-        self.naloxone_overheat = over_temperature
         if (not over_temperature):
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#008A00")
@@ -911,3 +909,6 @@ def fork_gui():
         signal.signal(signal.SIGINT, gui_signal_handler)
         gui_manager()
     return pid
+
+if __name__ == "__main__":
+    gui_manager()
