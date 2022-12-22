@@ -9,6 +9,7 @@ import signal
 from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
 import qrcode
+import random
 
 
 def gui_signal_handler(signum, frame):
@@ -68,6 +69,71 @@ class CountDownWorker(QtCore.QThread):
 
     def stop(self):
         self.terminate()
+
+class NaloxoneWorker(QtCore.QThread):
+    def __init__(self):
+        super(NaloxoneWorker,self).__init__()
+
+
+class GPIOWorker(QtCore.QThread):
+    update_door = QtCore.pyqtSignal(bool, bool)
+    update_temperature = QtCore.pyqtSignal(int, int, int, bool)
+    go_to_door_open_signal = QtCore.pyqtSignal()
+
+    def __init__(self, disarmed, max_temp):
+        super(GPIOWorker, self).__init__()
+        print("gpio thread go" + str(disarmed))
+        self.naloxone_counter = 9
+        self.naloxone_temp = 25
+        self.fan_pwm = 0
+        self.cpu_temp = 50
+        self.door_opened = False
+        self.disarmed = disarmed
+        self.max_temp = max_temp
+
+    def read_naloxone_sensor(self):
+        #_, temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+        self.naloxone_temp = int(25*1.8+32)
+        # return int(25 * 1.8 + 32)
+
+    def calculate_pwm(self):
+        #print("control pwm")
+        list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
+        self.fan_pwm = random.choice(list1)
+        # return pwm
+
+    def send_pwm(self):
+        return
+
+    def read_cpu_sensor(self):
+        #cpu = CPUTemperature()
+        # print(cpu.temperature)
+        self.cpu_temp = int(50*1.8+32)
+        # return int(50 * 1.8 + 32)
+
+    def read_door_sensor(self):
+        self.door_opened = False
+        # if GPIO.input(DOOR_PIN):
+        #     self.door_opened = True
+        # else:
+        #     self.door_opened =  False
+
+    def run(self):
+        while True:
+            self.naloxone_counter += 1
+            if (self.naloxone_counter == 10):
+                self.read_naloxone_sensor()
+                self.read_cpu_sensor()
+                self.calculate_pwm()
+                self.update_temperature.emit(
+                    self.naloxone_temp, self.cpu_temp, self.fan_pwm, self.naloxone_temp > self.max_temp)
+                self.naloxone_counter = 0
+            self.send_pwm()
+            self.read_door_sensor()
+            if (self.door_opened and not self.disarmed):  # if door opened and the switch is armed
+                self.go_to_door_open_signal.emit()
+            self.update_door.emit(self.door_opened, not self.disarmed)
+            sleep(1)
 
 
 class NetworkWorker(QtCore.QThread):
@@ -170,12 +236,9 @@ class SMSWorker(QtCore.QThread):
 class SharedMemoryWorker(QtCore.QThread):
     # Worker thread to read the shared memory block.
     # These signals can be used to change the GUI when emitted.
-    update_door = QtCore.pyqtSignal(bool, bool)
-    update_temperature = QtCore.pyqtSignal(int, int, int, bool)
     update_server = QtCore.pyqtSignal(bool, QtCore.QTime)
     update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
     update_time = QtCore.pyqtSignal(QtCore.QTime)
-    go_to_door_open_signal = QtCore.pyqtSignal()
 
     def __init__(self, shared_array):
         super(SharedMemoryWorker, self).__init__()
@@ -207,11 +270,6 @@ class SharedMemoryWorker(QtCore.QThread):
                 month = self.shared_array[14]
                 day = self.shared_array[15]
                 cpu_temperature = self.shared_array[19]
-            if (door and not disarmed):  # if door opened and the switch is armed
-                self.go_to_door_open_signal.emit()
-            self.update_door.emit(door, not disarmed)
-            self.update_temperature.emit(
-                temperature, cpu_temperature, pwm, over_temperature)
             self.update_naloxone.emit(
                 not naloxone_expired and not naloxone_overheat, QtCore.QDate(year, month, day))
             sleep(1)
@@ -262,19 +320,22 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.goto_home()
 
         self.get_shared_array_worker = SharedMemoryWorker(self.shared_array)
-        self.get_shared_array_worker.update_door.connect(self.update_door_ui)
-        self.get_shared_array_worker.update_temperature.connect(
-            self.update_temperature_ui)
         self.get_shared_array_worker.update_naloxone.connect(
             self.update_naloxone_ui)
-        self.get_shared_array_worker.go_to_door_open_signal.connect(
-            self.goto_door_open)
         self.get_shared_array_worker.start()
 
         self.account_balance_worker = NetworkWorker()
         self.account_balance_worker.update_server.connect(
             self.update_server_ui)
         self.account_balance_worker.start()
+
+        self.gpio_worker = GPIOWorker(False, 100)
+
+        self.gpio_worker.update_door.connect(self.update_door_ui)
+        self.gpio_worker.go_to_door_open_signal.connect(self.goto_door_open)
+        self.gpio_worker.update_temperature.connect(
+            self.update_temperature_ui)
+        self.gpio_worker.start()
 
     def load_settings(self):
         # load the settings from the conf file.
@@ -603,13 +664,25 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def toggle_door_arm_thread(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
             self.ui.disarmPushButton.setText("Arm")
-            with self.shared_array.get_lock():
-                self.shared_array[8] = 1
+            self.gpio_worker.terminate()
+            self.gpio_worker = GPIOWorker(True, 100)
+            self.gpio_worker.update_door.connect(self.update_door_ui)
+            self.gpio_worker.go_to_door_open_signal.connect(self.goto_door_open)
+            self.gpio_worker.update_temperature.connect(
+            self.update_temperature_ui)
+            self.gpio_worker.start()
+            # with self.shared_array.get_lock():
+            #     self.shared_array[8] = 1
             return "Information", "Door Disarmed.", "The door sensor is now off."
         else:
             self.ui.disarmPushButton.setText("Disarm")
-            with self.shared_array.get_lock():
-                self.shared_array[8] = 0
+            self.gpio_worker.terminate()
+            self.gpio_worker = GPIOWorker(False, 100)
+            self.gpio_worker.update_door.connect(self.update_door_ui)
+            self.gpio_worker.go_to_door_open_signal.connect(self.goto_door_open)
+            self.gpio_worker.update_temperature.connect(
+            self.update_temperature_ui)
+            self.gpio_worker.start()
             return "Information", "Door Armed.", "The door sensor is now on."
 
     def reset_button_pushed(self):
