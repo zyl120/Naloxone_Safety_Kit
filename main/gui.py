@@ -10,9 +10,9 @@ from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
 import qrcode
 import random
-#from gpiozero import CPUTemperature
-#import RPi.GPIO as GPIO
-#import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -86,8 +86,8 @@ class IOWorker(QtCore.QThread):
 
     def __init__(self, disarmed, max_temp, expiration_date):
         super(IOWorker, self).__init__()
-        #GPIO.setmode(GPIO.BCM)
-        #GPIO.setup(DOOR_PIN, GPIO.IN)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
@@ -99,9 +99,9 @@ class IOWorker(QtCore.QThread):
         self.expiration_date = expiration_date
 
     def read_naloxone_sensor(self):
-        #_, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
-        self.temperature = 25
-        
+        _, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+        #self.temperature = 25
+
     def calculate_pwm(self):
         #print("control pwm")
         list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
@@ -112,15 +112,15 @@ class IOWorker(QtCore.QThread):
         return
 
     def read_cpu_sensor(self):
-        #self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
-        self.cpu_temp = 100
+        self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
+        #self.cpu_temp = 100
 
     def read_door_sensor(self):
-        self.door_opened = False
-        # if GPIO.input(DOOR_PIN):
-        #     self.door_opened = True
-        # else:
-        #     self.door_opened = False
+        #self.door_opened = False
+        if GPIO.input(DOOR_PIN):
+            self.door_opened = True
+        else:
+            self.door_opened = False
 
     def is_expiry(self):
         today = QtCore.QDate().currentDate()
@@ -294,7 +294,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.get_passcode_button_pushed)
 
         self.network_worker = None
-        self.gpio_worker = None
+        self.io_worker = None
 
         self.load_settings()
         self.lock_settings()
@@ -310,18 +310,18 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_server_ui)
         self.network_worker.start()
 
-    def create_gpio_worker(self):
-        if (self.gpio_worker is not None):
-            self.gpio_worker.quit()
-            self.gpio_worker.requestInterruption()
-        self.gpio_worker = IOWorker(
+    def create_io_worker(self):
+        if (self.io_worker is not None):
+            self.io_worker.quit()
+            self.io_worker.requestInterruption()
+        self.io_worker = IOWorker(
             self.disarmed, self.max_temp, self.naloxone_expiration_date)
-        self.gpio_worker.update_door.connect(self.update_door_ui)
-        self.gpio_worker.go_to_door_open_signal.connect(self.goto_door_open)
-        self.gpio_worker.update_temperature.connect(
+        self.io_worker.update_door.connect(self.update_door_ui)
+        self.io_worker.go_to_door_open_signal.connect(self.goto_door_open)
+        self.io_worker.update_temperature.connect(
             self.update_temperature_ui)
-        self.gpio_worker.update_naloxone.connect(self.update_naloxone_ui)
-        self.gpio_worker.start()
+        self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
+        self.io_worker.start()
 
     def load_settings(self):
         # load the settings from the conf file.
@@ -453,14 +453,18 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 box_size=10,
                 border=0
             )
-            twilio_75_qr_code.add_data("https://www.twilio.com/docs/voice/tutorials/emergency-calling-for-programmable-voice#:~:text=When%20placing%20an%20emergency%20call,for%20a%20test%20emergency%20call.")
+            twilio_75_qr_code.add_data(
+                "https://www.twilio.com/docs/voice/tutorials/emergency-calling-for-programmable-voice#:~:text=When%20placing%20an%20emergency%20call,for%20a%20test%20emergency%20call.")
             twilio_75_qr_code.make(fit=True)
-            img = twilio_75_qr_code.make_image(fill_color="white", back_color="black")
+            img = twilio_75_qr_code.make_image(
+                fill_color="white", back_color="black")
             img.save("twilio_75.png")
-            twilio_75_qrcode_pixmap = QtGui.QPixmap("twilio_75.png").scaledToWidth(150).scaledToHeight(150)
-            self.ui.twilioAddressWarningQrCode.setPixmap((twilio_75_qrcode_pixmap))
+            twilio_75_qrcode_pixmap = QtGui.QPixmap(
+                "twilio_75.png").scaledToWidth(150).scaledToHeight(150)
+            self.ui.twilioAddressWarningQrCode.setPixmap(
+                (twilio_75_qrcode_pixmap))
 
-            self.create_gpio_worker()
+            self.create_io_worker()
             self.create_network_worker()
 
         except Exception as e:
@@ -496,7 +500,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.unlockSettingsPushButton.setText("Lock Settings")
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
-        self.load_settings()
         self.ui.saveToFilePushButton.setVisible(True)
         self.ui.settingsTab.setCurrentIndex(0)
         self.ui.settingsTab.setTabVisible(0, True)
@@ -669,12 +672,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.ui.disarmPushButton.text() == "Disarm"):
             self.ui.disarmPushButton.setText("Arm")
             self.disarmed = True
-            self.create_gpio_worker()
+            self.create_io_worker()
             return "Information", "Door Disarmed.", "The door sensor is now off."
         else:
             self.ui.disarmPushButton.setText("Disarm")
             self.disarmed = False
-            self.create_gpio_worker()
+            self.create_io_worker()
             return "Information", "Door Armed.", "The door sensor is now on."
 
     def reset_button_pushed(self):
