@@ -193,6 +193,40 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="saveToFilePushButton">
+       <property name="minimumSize">
+        <size>
+         <width>140</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>140</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+
+QPushButton:disabled {
+background-color: rgb(20,20,20);
+color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;border-style: solid;
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Save Settings</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="backPushButton">
        <property name="minimumSize">
         <size>
@@ -1844,7 +1878,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>1</number>
          </property>
          <property name="iconSize">
           <size>
@@ -1868,10 +1902,10 @@ color:darkgrey
           <widget class="QWidget" name="verticalLayoutWidget_7">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>761</width>
-             <height>321</height>
+             <x>20</x>
+             <y>20</y>
+             <width>741</width>
+             <height>341</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2002,7 +2036,7 @@ color:darkgrey
              <x>18</x>
              <y>21</y>
              <width>741</width>
-             <height>311</height>
+             <height>341</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_49">
@@ -2032,6 +2066,19 @@ color:darkgrey
                  </widget>
                 </item>
                 <item>
+                 <spacer name="horizontalSpacer_20">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
                  <widget class="QLabel" name="CurrentTemperatureLabel">
                   <property name="minimumSize">
                    <size>
@@ -2054,19 +2101,6 @@ color:darkgrey
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_20">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
                 </item>
                 <item>
                  <widget class="QSlider" name="temperatureSlider">
@@ -2118,6 +2152,19 @@ QSlider::handle:horizontal {
                  </widget>
                 </item>
                </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_19">
+                <property name="styleSheet">
+                 <string notr="true">color:lightgrey</string>
+                </property>
+                <property name="text">
+                 <string>Typical max temperature of Naloxone is 104℉.</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -2214,7 +2261,7 @@ QCalendarWidget QWidget { alternate-background-color: rgb(50, 50, 50); }</string
              <x>20</x>
              <y>20</y>
              <width>741</width>
-             <height>311</height>
+             <height>341</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2287,7 +2334,7 @@ QCalendarWidget QWidget { alternate-background-color: rgb(50, 50, 50); }</string
                 </property>
                 <property name="text">
                  <string>The virtual phone number purchased from Twilio.
-Formatted as &quot;+1XXXXXXXXXX&quot;</string>
+Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                 </property>
                 <property name="textFormat">
                  <enum>Qt::PlainText</enum>
@@ -2487,7 +2534,7 @@ your account.</string>
              <x>9</x>
              <y>9</y>
              <width>761</width>
-             <height>331</height>
+             <height>351</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -2519,9 +2566,9 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-49</y>
               <width>744</width>
-              <height>344</height>
+              <height>448</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2596,7 +2643,7 @@ QScrollBar::sub-line:vertical {
                    </property>
                    <property name="text">
                     <string>The phone number used to call emergency service.
-Formatted as &quot;+1XXXXXXXXXX&quot;</string>
+Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -2777,26 +2824,65 @@ This info will be included in the emergency call.</string>
                 </layout>
                </item>
                <item>
-                <widget class="QLabel" name="twilioAddressWarning">
-                 <property name="font">
-                  <font>
-                   <pointsize>13</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">color:yellow</string>
-                 </property>
-                 <property name="text">
-                  <string>Warning: Remember to set the emergency address in Twilio console as well!
-Otherwise each emergency call will cost $75.</string>
-                 </property>
-                 <property name="textFormat">
-                  <enum>Qt::AutoText</enum>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QLabel" name="twilioAddressWarning">
+                   <property name="font">
+                    <font>
+                     <pointsize>13</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:yellow</string>
+                   </property>
+                   <property name="text">
+                    <string>Warning: Remember to set the emergency address in Twilio console!
+Otherwise each emergency call will cost $75. Details =&gt;</string>
+                   </property>
+                   <property name="textFormat">
+                    <enum>Qt::AutoText</enum>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_18">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="twilioAddressWarningQrCode">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>150</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>150</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>75_QR_CODE</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
                 <spacer name="verticalSpacer_6">
@@ -2825,9 +2911,9 @@ Otherwise each emergency call will cost $75.</string>
            <property name="geometry">
             <rect>
              <x>19</x>
-             <y>29</y>
+             <y>19</y>
              <width>741</width>
-             <height>301</height>
+             <height>341</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -3021,6 +3107,12 @@ color:white;
               </item>
               <item>
                <widget class="QLabel" name="label_16">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>44</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color:lightgrey</string>
                 </property>
@@ -3113,6 +3205,12 @@ color:white;
               </item>
               <item>
                <widget class="QLabel" name="label_15">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>44</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color:lightgrey</string>
                 </property>
@@ -3153,7 +3251,7 @@ Lead to better performance and louder noise.</string>
              <x>9</x>
              <y>9</y>
              <width>761</width>
-             <height>331</height>
+             <height>351</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -3891,42 +3989,6 @@ color:white;
           </widget>
          </widget>
         </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_12">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_41">
-           <item>
-            <widget class="QPushButton" name="saveToFilePushButton">
-             <property name="minimumSize">
-              <size>
-               <width>250</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
-
-QPushButton:disabled {
-background-color: rgb(20,20,20);
-color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;border-style: solid;
-}
-</string>
-             </property>
-             <property name="text">
-              <string>Save Settings</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>

@@ -388,7 +388,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_M,
                 box_size=10,
-                border=0,
+                border=0
             )
             github_qr_code.add_data(
                 "https://github.com/zyl120/Naloxone_Safety_Kit")
@@ -404,7 +404,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_M,
                 box_size=10,
-                border=0,
+                border=0
             )
             admin_qr_code.add_data(config["admin"]["admin_phone_number"])
             admin_qr_code.make(fit=True)
@@ -419,7 +419,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_M,
                 box_size=10,
-                border=0,
+                border=0
             )
             understanding_qr_code.add_data(
                 "https://www.cdc.gov/drugoverdose/epidemic/index.html")
@@ -435,7 +435,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_M,
                 box_size=10,
-                border=0,
+                border=0
             )
             naloxone_qr_code.add_data(
                 "https://nida.nih.gov/publications/drugfacts/naloxone")
@@ -446,6 +446,19 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             naloxone_qrcode_pixmap = QtGui.QPixmap(
                 "naloxone_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.naloxone_qrcode.setPixmap(naloxone_qrcode_pixmap)
+
+            twilio_75_qr_code = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=10,
+                border=0
+            )
+            twilio_75_qr_code.add_data("https://www.twilio.com/docs/voice/tutorials/emergency-calling-for-programmable-voice#:~:text=When%20placing%20an%20emergency%20call,for%20a%20test%20emergency%20call.")
+            twilio_75_qr_code.make(fit=True)
+            img = twilio_75_qr_code.make_image(fill_color="white", back_color="black")
+            img.save("twilio_75.png")
+            twilio_75_qrcode_pixmap = QtGui.QPixmap("twilio_75.png").scaledToWidth(150).scaledToHeight(150)
+            self.ui.twilioAddressWarningQrCode.setPixmap((twilio_75_qrcode_pixmap))
 
             self.create_gpio_worker()
             self.create_network_worker()
