@@ -297,7 +297,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -1875,6 +1875,9 @@ color:darkgrey
 
 </string>
          </property>
+         <property name="tabPosition">
+          <enum>QTabWidget::South</enum>
+         </property>
          <property name="tabShape">
           <enum>QTabWidget::Rounded</enum>
          </property>
@@ -2569,7 +2572,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>744</width>
-              <height>482</height>
+              <height>448</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -3286,7 +3289,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>744</width>
-              <height>451</height>
+              <height>434</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">

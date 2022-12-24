@@ -914,12 +914,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.load_settings()
 
     def exit_program(self):
-        os.kill(0, signal.SIGINT)  # kill all processes by sending signal 2.
         self.close()
 
 
 def gui_manager():
-    #os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
+    os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
     # QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow()
