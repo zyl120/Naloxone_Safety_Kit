@@ -19,7 +19,6 @@ DOOR_PIN = 17
 DHT_PIN = 27
 
 
-
 def handleVisibleChanged():
     # control the position of the virtual keyboard
     if not QtGui.QGuiApplication.inputMethod().isVisible():
@@ -157,10 +156,6 @@ class NetworkWorker(QtCore.QThread):
 
     def run(self):
         while True:
-            # config = configparser.ConfigParser()
-            # config.read("safety_kit.conf")
-            # account_sid = config["twilio"]["twilio_sid"]
-            # account_token = config["twilio"]["twilio_token"]
             client = Client(self.twilio_sid, self.twilio_token)
 
             response = os.system("ping -c 1 " + self.hostname)
@@ -252,8 +247,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.door_opened = False
         self.disarmed = False
         self.max_temp = 0
+        self.passcode = str()
         self.twilio_sid = str()
         self.twilio_token = str()
+        self.twilio_phone_number = str()
+        self.admin_phone_number = str()
+        self.address = str()
+        self.to_phone_number = str()
+        self.message = str()
         self.naloxone_expiration_date = QtCore.QDate().currentDate()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
@@ -290,13 +291,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.getPasscodePushButton.clicked.connect(
             self.get_passcode_button_pushed)
 
+        self.generate_ui_qrcode()
+
         self.network_worker = None
         self.io_worker = None
 
-        self.load_settings()
-        self.lock_settings()
-
         self.goto_home()
+
+        self.lock_settings()
+        self.load_settings()
 
     def create_network_worker(self):
         if (self.network_worker is not None):
@@ -320,6 +323,72 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
 
+    def generate_ui_qrcode(self):
+        github_qr_code = qrcode.QRCode(
+            version=None,
+            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            box_size=10,
+            border=0
+        )
+        github_qr_code.add_data(
+            "https://github.com/zyl120/Naloxone_Safety_Kit")
+        github_qr_code.make(fit=True)
+        img = github_qr_code.make_image(
+            fill_color="white", back_color=(50, 50, 50))
+        img.save("github_qrcode.png")
+        github_qrcode_pixmap = QtGui.QPixmap(
+            "github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+        self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
+
+        understanding_qr_code = qrcode.QRCode(
+            version=None,
+            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            box_size=10,
+            border=0
+        )
+        understanding_qr_code.add_data(
+            "https://www.cdc.gov/drugoverdose/epidemic/index.html")
+        understanding_qr_code.make(fit=True)
+        img = understanding_qr_code.make_image(
+            fill_color="white", back_color=(50, 50, 50))
+        img.save("understanding_qrcode.png")
+        understanding_qrcode_pixmap = QtGui.QPixmap(
+            "understanding_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+        self.ui.understanding_qrcode.setPixmap(understanding_qrcode_pixmap)
+
+        naloxone_qr_code = qrcode.QRCode(
+            version=None,
+            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            box_size=10,
+            border=0
+        )
+        naloxone_qr_code.add_data(
+            "https://nida.nih.gov/publications/drugfacts/naloxone")
+        naloxone_qr_code.make(fit=True)
+        img = naloxone_qr_code.make_image(
+            fill_color="white", back_color=(50, 50, 50))
+        img.save("naloxone_qrcode.png")
+        naloxone_qrcode_pixmap = QtGui.QPixmap(
+            "naloxone_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+        self.ui.naloxone_qrcode.setPixmap(naloxone_qrcode_pixmap)
+
+        twilio_75_qr_code = qrcode.QRCode(
+            version=None,
+            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            box_size=10,
+            border=0
+        )
+        twilio_75_qr_code.add_data(
+            "https://www.twilio.com/docs/voice/tutorials/emergency-calling-for-programmable-voice#:~:text=When%20placing%20an%20emergency%20call,for%20a%20test%20emergency%20call.")
+        twilio_75_qr_code.make(fit=True)
+        img = twilio_75_qr_code.make_image(
+            fill_color="white", back_color="black")
+        img.save("twilio_75.png")
+        twilio_75_qrcode_pixmap = QtGui.QPixmap(
+            "twilio_75.png").scaledToWidth(150).scaledToHeight(150)
+        self.ui.twilioAddressWarningQrCode.setPixmap(
+            (twilio_75_qrcode_pixmap))
+
     def load_settings(self):
         # load the settings from the conf file.
         print("loading settings")
@@ -333,12 +402,16 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.twilio_token = config["twilio"]["twilio_token"]
             self.ui.twilioPhoneNumberLineEdit.setText(
                 config["twilio"]["twilio_phone_number"])
+            self.twilio_phone_number = config["twilio"]["twilio_phone_number"]
             self.ui.emergencyPhoneNumberLineEdit.setText(
                 config["emergency_info"]["emergency_phone_number"])
+            self.to_phone_number = config["emergency_info"]["emergency_phone_number"]
             self.ui.emergencyAddressLineEdit.setText(
                 config["emergency_info"]["emergency_address"])
+            self.address = config["emergency_info"]["emergency_address"]
             self.ui.emergencyMessageLineEdit.setText(
                 config["emergency_info"]["emergency_message"])
+            self.message = config["emergency_info"]["emergency_message"]
             self.naloxone_expiration_date = QtCore.QDate.fromString(
                 config["naloxone_info"]["naloxone_expiration_date"])
             self.ui.naloxoneExpirationDateEdit.setDate(
@@ -348,8 +421,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.max_temp = int(
                 config["naloxone_info"]["absolute_maximum_temperature"])
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
+            self.passcode = config["admin"]["passcode"]
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
+            self.admin_phone_number = config["admin"]["admin_phone_number"]
             self.ui.enableSMSCheckBox.setChecked(
                 config["admin"]["enable_sms"] == "True")
             self.ui.reportDoorOpenedCheckBox.setChecked(
@@ -383,22 +458,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
 
-            github_qr_code = qrcode.QRCode(
-                version=None,
-                error_correction=qrcode.constants.ERROR_CORRECT_M,
-                box_size=10,
-                border=0
-            )
-            github_qr_code.add_data(
-                "https://github.com/zyl120/Naloxone_Safety_Kit")
-            github_qr_code.make(fit=True)
-            img = github_qr_code.make_image(
-                fill_color="white", back_color=(50, 50, 50))
-            img.save("github_qrcode.png")
-            github_qrcode_pixmap = QtGui.QPixmap(
-                "github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
-            self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
-
             admin_qr_code = qrcode.QRCode(
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_M,
@@ -414,55 +473,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
-            understanding_qr_code = qrcode.QRCode(
-                version=None,
-                error_correction=qrcode.constants.ERROR_CORRECT_M,
-                box_size=10,
-                border=0
-            )
-            understanding_qr_code.add_data(
-                "https://www.cdc.gov/drugoverdose/epidemic/index.html")
-            understanding_qr_code.make(fit=True)
-            img = understanding_qr_code.make_image(
-                fill_color="white", back_color=(50, 50, 50))
-            img.save("understanding_qrcode.png")
-            understanding_qrcode_pixmap = QtGui.QPixmap(
-                "understanding_qrcode.png").scaledToWidth(100).scaledToHeight(100)
-            self.ui.understanding_qrcode.setPixmap(understanding_qrcode_pixmap)
-
-            naloxone_qr_code = qrcode.QRCode(
-                version=None,
-                error_correction=qrcode.constants.ERROR_CORRECT_M,
-                box_size=10,
-                border=0
-            )
-            naloxone_qr_code.add_data(
-                "https://nida.nih.gov/publications/drugfacts/naloxone")
-            naloxone_qr_code.make(fit=True)
-            img = naloxone_qr_code.make_image(
-                fill_color="white", back_color=(50, 50, 50))
-            img.save("naloxone_qrcode.png")
-            naloxone_qrcode_pixmap = QtGui.QPixmap(
-                "naloxone_qrcode.png").scaledToWidth(100).scaledToHeight(100)
-            self.ui.naloxone_qrcode.setPixmap(naloxone_qrcode_pixmap)
-
-            twilio_75_qr_code = qrcode.QRCode(
-                version=None,
-                error_correction=qrcode.constants.ERROR_CORRECT_M,
-                box_size=10,
-                border=0
-            )
-            twilio_75_qr_code.add_data(
-                "https://www.twilio.com/docs/voice/tutorials/emergency-calling-for-programmable-voice#:~:text=When%20placing%20an%20emergency%20call,for%20a%20test%20emergency%20call.")
-            twilio_75_qr_code.make(fit=True)
-            img = twilio_75_qr_code.make_image(
-                fill_color="white", back_color="black")
-            img.save("twilio_75.png")
-            twilio_75_qrcode_pixmap = QtGui.QPixmap(
-                "twilio_75.png").scaledToWidth(150).scaledToHeight(150)
-            self.ui.twilioAddressWarningQrCode.setPixmap(
-                (twilio_75_qrcode_pixmap))
-
             self.create_io_worker()
             self.create_network_worker()
 
@@ -472,11 +482,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
             msg.setDetailedText(str(e))
             msg.setIcon(QtWidgets.QMessageBox.Critical)
-            msg.setText("Failed to read config file.")
+            msg.setText("Failed to read config file. Going to setup process.")
             msg.setStyleSheet(
                 "QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
             # msg.buttonClicked.connect(msg.close)
             msg.exec_()
+            self.unlock_settings()
+            self.goto_settings()
+
         else:
             print("config file loaded")
 
@@ -493,6 +506,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(3, False)
         self.ui.settingsTab.setTabVisible(4, False)
         self.ui.settingsTab.setTabVisible(5, False)
+        print("Settings locked")
 
     def unlock_settings(self):
         # unlock the whole setting page. Should only be called after the user enter the correct passcode.
@@ -500,33 +514,23 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
-        self.ui.settingsTab.setCurrentIndex(0)
         self.ui.settingsTab.setTabVisible(0, True)
         self.ui.settingsTab.setTabVisible(1, True)
         self.ui.settingsTab.setTabVisible(2, True)
         self.ui.settingsTab.setTabVisible(3, True)
         self.ui.settingsTab.setTabVisible(4, True)
         self.ui.settingsTab.setTabVisible(5, True)
+        self.ui.settingsTab.setCurrentIndex(1)
+        print("Settings unlocked")
 
     def check_passcode(self):
         # First read from the conf file
-        config = configparser.ConfigParser()
-        try:
-            config.read("safety_kit.conf")
-            if (self.ui.passcodeEnterLineEdit.text() == config["admin"]["passcode"]):
-                # If passcode is correct
-                return True
-            else:
-                # If passcode is wrong
-                self.ui.passcodeEnterLabel.setText("Try Again")
-                self.ui.passcodeEnterLineEdit.clear()
-                return False
-        except Exception as e:
-            # when failed to read the config file, continue.
+        if (self.passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.passcode):
             return True
         else:
-            return True
-        
+            self.ui.passcodeEnterLabel.setText("Try Again")
+            self.ui.passcodeEnterLineEdit.clear()
+            return False
 
     def check_passcode_unlock_settings(self):
         passcode_check_result = self.check_passcode()
@@ -539,7 +543,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.lock_settings()
 
     def lock_unlock_settings(self):
-        self.goto_passcode()
+        if (self.passcode == str()):
+            self.unlock_settings()
+        else:
+            self.goto_passcode()
 
     @QtCore.pyqtSlot()
     def goto_door_open(self):
@@ -580,6 +587,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             # door open page.
             self.ui.backPushButton.setVisible(True)
         self.ui.stackedWidget.setCurrentIndex(2)
+        if (self.passcode == str()):
+            self.unlock_settings()
 
     def goto_dashboard(self):
         self.ui.homePushButton.setChecked(False)
@@ -599,37 +608,22 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def send_sms_using_config_file(self, msg):
         # Used to contact the admin via the info in the conf file
-        config = configparser.ConfigParser()
-        config.read("safety_kit.conf")
-        admin_phone_number = config["admin"]["admin_phone_number"]
-        address = config["emergency_info"]["emergency_address"]
-        t_sid = config["twilio"]["twilio_sid"]
-        t_token = config["twilio"]["twilio_token"]
-        t_number = config["twilio"]["twilio_phone_number"]
-        self.sender = SMSWorker(admin_phone_number, "The naloxone safety box at " +
-                                address + " sent the following information: " + msg, t_sid, t_token, t_number)
+        self.sender = SMSWorker(self.admin_phone_number, "The naloxone safety box at " +
+                                self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.sender.start()
 
     def call_911_using_config_file(self):
-        config = configparser.ConfigParser()
-        config.read("safety_kit.conf")
-        account_sid = config["twilio"]["twilio_sid"]
-        auth_token = config["twilio"]["twilio_token"]
-        address = config["emergency_info"]["emergency_address"]
-        message = config["emergency_info"]["emergency_message"]
-        from_phone_number = config["twilio"]["twilio_phone_number"]
-        to_phone_number = config["emergency_info"]["emergency_phone_number"]
         loop = "0"
         voice = "woman"
 
         # create the response
         response = VoiceResponse()
-        response.say("Message: " + message + ". Address: " +
-                     address + ".", voice=voice, loop=loop)
+        response.say("Message: " + self.message + ". Address: " +
+                     self.address + ".", voice=voice, loop=loop)
         print("INFO: resonse: " + str(response))
 
         self.sender = CallWorker(
-            to_phone_number, response, account_sid, auth_token, from_phone_number)
+            self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.sender.call_thread_status.connect(self.update_phone_call_gui)
         self.sender.start()
 
@@ -730,23 +724,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def forgot_password_button_pushed(self):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
-        config = configparser.ConfigParser()
-        config.read("safety_kit.conf")
-        passcode = config["admin"]["passcode"]
-        self.send_sms_using_config_file("Passcode is " + passcode)
+        self.send_sms_using_config_file("Passcode is " + self.passcode)
 
     def get_passcode_button_pushed(self):
         print("Enter function")
-        config = configparser.ConfigParser()
-        config.read("safety_kit.conf")
         paramedic_phone_number = self.ui.paramedicsPhoneNumberLineEdit.text()
-        address = config["emergency_info"]["emergency_address"]
-        t_sid = config["twilio"]["twilio_sid"]
-        t_token = config["twilio"]["twilio_token"]
-        t_number = config["twilio"]["twilio_phone_number"]
-        passcode = config["admin"]["passcode"]
         self.send_to_paramedic = SMSWorker(paramedic_phone_number, "The passcode of the naloxone safety box at " +
-                                           address + " is: " + passcode, t_sid, t_token, t_number)
+                                           self.address + " is: " + self.passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_to_paramedic.start()
         print("sent to paramedics")
         self.send_sms_using_config_file(
