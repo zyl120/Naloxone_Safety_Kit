@@ -1031,7 +1031,7 @@ class Ui_door_close_main_window(object):
         self.twilioTokenLineEdit.setFont(font)
         self.twilioTokenLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
-        self.twilioTokenLineEdit.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.twilioTokenLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.twilioTokenLineEdit.setObjectName("twilioTokenLineEdit")
         self.horizontalLayout_8.addWidget(self.twilioTokenLineEdit)
         self.verticalLayout_40.addLayout(self.horizontalLayout_8)
@@ -1383,7 +1383,7 @@ class Ui_door_close_main_window(object):
         self.passcodeLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
         self.passcodeLineEdit.setText("")
-        self.passcodeLineEdit.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.passcodeLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.passcodeLineEdit.setObjectName("passcodeLineEdit")
         self.horizontalLayout_4.addWidget(self.passcodeLineEdit)
         self.verticalLayout_20.addLayout(self.horizontalLayout_4)
@@ -2111,8 +2111,8 @@ class Ui_door_close_main_window(object):
         self.closeSoftwareLabel.setBuddy(self.exitPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
+        self.settingsTab.setCurrentIndex(2)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.passcodeEnterLineEdit)

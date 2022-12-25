@@ -297,7 +297,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -1882,7 +1882,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2487,7 +2487,7 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
 </string>
                   </property>
                   <property name="echoMode">
-                   <enum>QLineEdit::PasswordEchoOnEdit</enum>
+                   <enum>QLineEdit::Password</enum>
                   </property>
                  </widget>
                 </item>
@@ -3349,7 +3349,7 @@ QScrollBar::sub-line:vertical {
                     <string/>
                    </property>
                    <property name="echoMode">
-                    <enum>QLineEdit::PasswordEchoOnEdit</enum>
+                    <enum>QLineEdit::Password</enum>
                    </property>
                   </widget>
                  </item>
