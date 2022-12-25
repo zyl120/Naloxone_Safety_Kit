@@ -511,15 +511,22 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def check_passcode(self):
         # First read from the conf file
         config = configparser.ConfigParser()
-        config.read("safety_kit.conf")
-        if (self.ui.passcodeEnterLineEdit.text() == config["admin"]["passcode"]):
-            # If passcode is correct
+        try:
+            config.read("safety_kit.conf")
+            if (self.ui.passcodeEnterLineEdit.text() == config["admin"]["passcode"]):
+                # If passcode is correct
+                return True
+            else:
+                # If passcode is wrong
+                self.ui.passcodeEnterLabel.setText("Try Again")
+                self.ui.passcodeEnterLineEdit.clear()
+                return False
+        except Exception as e:
+            # when failed to read the config file, continue.
             return True
         else:
-            # If passcode is wrong
-            self.ui.passcodeEnterLabel.setText("Try Again")
-            self.ui.passcodeEnterLineEdit.clear()
-            return False
+            return True
+        
 
     def check_passcode_unlock_settings(self):
         passcode_check_result = self.check_passcode()
