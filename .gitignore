@@ -2,5 +2,5 @@
 .DS_Store
 __pycache__/
 *.py[cod]
-oobe_qt/oobe_qt.pyproject.user*
+oobe_qt/oobe_qt.pyproject.*
 main/safety_kit.conf
