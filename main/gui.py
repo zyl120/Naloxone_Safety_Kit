@@ -910,7 +910,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
-    # QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
+    QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow()
     application.show()
     sys.exit(app.exec_())
