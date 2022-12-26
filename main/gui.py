@@ -5,7 +5,6 @@ from twilio.base.exceptions import TwilioRestException
 import os
 import sys
 import configparser
-import signal
 from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
 import qrcode
