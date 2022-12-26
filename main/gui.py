@@ -289,6 +289,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
         self.ui.getPasscodePushButton.clicked.connect(
             self.get_passcode_button_pushed)
+        self.ui.enablePowerSavingCheckBox.stateChanged.connect(
+            self.toggle_active_hour_ui)
+        self.ui.enableSMSCheckBox.stateChanged.connect(
+            self.toggle_sms_reporting_ui)
 
         self.generate_ui_qrcode()
 
@@ -388,6 +392,58 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.twilioAddressWarningQrCode.setPixmap(
             (twilio_75_qrcode_pixmap))
 
+    def load_settings_ui(self):
+        # Load the settings from the conf file, will not handle exceptions.
+        # Should be used when it is absolutely safe to do so.
+        config = configparser.ConfigParser()
+        config.read("safety_kit.conf")
+        self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
+        self.ui.twilioTokenLineEdit.setText(
+            config["twilio"]["twilio_token"])
+        self.ui.twilioPhoneNumberLineEdit.setText(
+            config["twilio"]["twilio_phone_number"])
+        self.ui.emergencyPhoneNumberLineEdit.setText(
+            config["emergency_info"]["emergency_phone_number"])
+        self.ui.emergencyAddressLineEdit.setText(
+            config["emergency_info"]["emergency_address"])
+        self.ui.emergencyMessageLineEdit.setText(
+            config["emergency_info"]["emergency_message"])
+        self.ui.naloxoneExpirationDateEdit.setDate(
+            self.naloxone_expiration_date)
+        self.ui.temperatureSlider.setValue(
+            int(config["naloxone_info"]["absolute_maximum_temperature"]))
+        self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
+        self.ui.adminPhoneNumberLineEdit.setText(
+            config["admin"]["admin_phone_number"])
+        self.ui.enableSMSCheckBox.setChecked(
+            config["admin"]["enable_sms"] == "True")
+        self.ui.reportDoorOpenedCheckBox.setChecked(
+            config["admin"]["report_door_opened"] == "True")
+        self.ui.reportEmergencyCalledCheckBox.setChecked(
+            config["admin"]["report_emergency_called"] == "True")
+        self.ui.reportNaloxoneDestroyedCheckBox.setChecked(
+            config["admin"]["report_naloxone_destroyed"] == "True")
+        self.ui.reportSettingsChangedCheckBox.setChecked(
+            config["admin"]["report_settings_changed"] == "True")
+        self.ui.allowParamedicsCheckBox.setChecked(
+            config["admin"]["allow_paramedics"] == "True")
+        if (config["admin"]["allow_paramedics"] == "True"):
+            self.ui.paramedicsLabel.setVisible(True)
+            self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
+            self.ui.getPasscodePushButton.setVisible(True)
+            self.ui.paramedicsWarning.setVisible(True)
+        else:
+            self.ui.paramedicsLabel.setVisible(False)
+            self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
+            self.ui.getPasscodePushButton.setVisible(False)
+            self.ui.paramedicsWarning.setVisible(False)
+        self.ui.startTimeEdit.setTime(self.active_hour_start)
+        self.ui.endTimeEdit.setTime(self.active_hour_end)
+        self.ui.enablePowerSavingCheckBox.setChecked(
+            config["power_management"]["enable_power_saving"] == "True")
+        self.ui.enableActiveCoolingCheckBox.setChecked(
+            config["power_management"]["enable_active_cooling"] == "True")
+
     def load_settings(self):
         # load the settings from the conf file.
         print("loading settings")
@@ -486,15 +542,26 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
             # msg.buttonClicked.connect(msg.close)
             msg.exec_()
-            self.unlock_settings()
-            self.goto_settings()
+            self.ui.unlockSettingsPushButton.setVisible(False)
+            self.ui.lockSettingsPushButton.setVisible(True)
+            self.ui.saveToFilePushButton.setVisible(True)
+            self.ui.settingsTab.setTabVisible(0, True)
+            self.ui.settingsTab.setTabVisible(1, True)
+            self.ui.settingsTab.setTabVisible(2, True)
+            self.ui.settingsTab.setTabVisible(3, True)
+            self.ui.settingsTab.setTabVisible(4, True)
+            self.ui.settingsTab.setTabVisible(5, True)
+            self.ui.settingsTab.setCurrentIndex(1)
+            self.ui.homePushButton.setChecked(False)
+            self.ui.dashboardPushButton.setChecked(False)
+            self.ui.settingsPushButton.setChecked(True)
+            self.ui.stackedWidget.setCurrentIndex(2)
 
         else:
             print("config file loaded")
 
     def lock_settings(self):
         # lock the whole setting page.
-        self.ui.unlockSettingsPushButton.setText("Unlock Settings")
         self.ui.unlockSettingsPushButton.setVisible(True)
         self.ui.lockSettingsPushButton.setVisible(False)
         self.ui.saveToFilePushButton.setVisible(False)
@@ -509,7 +576,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def unlock_settings(self):
         # unlock the whole setting page. Should only be called after the user enter the correct passcode.
-        self.ui.unlockSettingsPushButton.setText("Lock Settings")
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
@@ -520,6 +586,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(4, True)
         self.ui.settingsTab.setTabVisible(5, True)
         self.ui.settingsTab.setCurrentIndex(1)
+        self.load_settings()
         print("Settings unlocked")
 
     def check_passcode(self):
@@ -735,6 +802,36 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.send_sms_using_config_file(
             "Paramedics want to access the settings. The number is " + paramedic_phone_number + ".")
         print("sent to admin")
+
+    @QtCore.pyqtSlot(int)
+    def toggle_sms_reporting_ui(self, val):
+        if(val):
+            self.ui.smsReportingLabel.setVisible(True)
+            self.ui.smsReportingWarning.setVisible(True)
+            self.ui.reportDoorOpenedCheckBox.setVisible(True)
+            self.ui.reportEmergencyCalledCheckBox.setVisible(True)
+            self.ui.reportNaloxoneDestroyedCheckBox.setVisible(True)
+            self.ui.reportSettingsChangedCheckBox.setVisible(True)
+        else:
+            self.ui.smsReportingLabel.setVisible(False)
+            self.ui.smsReportingWarning.setVisible(False)
+            self.ui.reportDoorOpenedCheckBox.setVisible(False)
+            self.ui.reportEmergencyCalledCheckBox.setVisible(False)
+            self.ui.reportNaloxoneDestroyedCheckBox.setVisible(False)
+            self.ui.reportSettingsChangedCheckBox.setVisible(False)
+
+    @QtCore.pyqtSlot(int)
+    def toggle_active_hour_ui(self, val):
+        if(val):
+            self.ui.activeHoursLabel.setVisible(True)
+            self.ui.startTimeEdit.setVisible(True)
+            self.ui.endTimeEdit.setVisible(True)
+            self.ui.activeHoursColon.setVisible(True)
+        else:
+            self.ui.activeHoursLabel.setVisible(False)
+            self.ui.startTimeEdit.setVisible(False)
+            self.ui.endTimeEdit.setVisible(False)
+            self.ui.activeHoursColon.setVisible(False)
 
     @QtCore.pyqtSlot()
     # Used to communicate with the shm to make phone calls.

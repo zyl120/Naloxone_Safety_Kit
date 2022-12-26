@@ -38,10 +38,12 @@
    <string>Internet-based Naloxone Safety Kit</string>
   </property>
   <property name="autoFillBackground">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgba(0,0,0,0);</string>
+   <string notr="true">QWidget {
+	background-color:rgba(0,0,0,0);
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="horizontalLayoutWidget_4">
@@ -297,7 +299,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -1882,7 +1884,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>4</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2346,9 +2348,6 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                 </property>
-                <property name="buddy">
-                 <cstring>twilioPhoneNumberLineEdit</cstring>
-                </property>
                </widget>
               </item>
              </layout>
@@ -2423,9 +2422,6 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                </property>
-                <property name="buddy">
-                 <cstring>twilioSIDLineEdit</cstring>
                 </property>
                </widget>
               </item>
@@ -2505,9 +2501,6 @@ your account.</string>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                 </property>
-                <property name="buddy">
-                 <cstring>twilioTokenLineEdit</cstring>
-                </property>
                </widget>
               </item>
              </layout>
@@ -2572,7 +2565,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>744</width>
-              <height>448</height>
+              <height>482</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2651,9 +2644,6 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                   </property>
-                   <property name="buddy">
-                    <cstring>emergencyPhoneNumberLineEdit</cstring>
                    </property>
                   </widget>
                  </item>
@@ -2739,9 +2729,6 @@ This info will be included in the emergency call.</string>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                    </property>
-                   <property name="buddy">
-                    <cstring>emergencyAddressLineEdit</cstring>
-                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -2819,9 +2806,6 @@ This info will be included in the emergency call.</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                   </property>
-                   <property name="buddy">
-                    <cstring>emergencyMessageLineEdit</cstring>
                    </property>
                   </widget>
                  </item>
@@ -2921,6 +2905,104 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_21">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_56">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_34">
+                <item>
+                 <widget class="QLabel" name="enablePowerSavingLabel">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
+                  </property>
+                  <property name="text">
+                   <string>Enable Power &amp;Saving</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>enablePowerSavingCheckBox</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_35">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="enablePowerSavingCheckBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="layoutDirection">
+                   <enum>Qt::RightToLeft</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QCheckBox::indicator{
+border-color:rgb(50,50,50);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}
+QCheckBox::indicator:unchecked{
+background-color : rgb(50,50,50);}
+QCheckBox::indicator:checked{
+background-color : white;}
+QCheckBox{
+color:white;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_16">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>44</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color:lightgrey</string>
+                </property>
+                <property name="text">
+                 <string>Turn off the display outside active hours.
+Display will be turned on automatically when door opens.</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_23">
               <item>
@@ -3034,102 +3116,20 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
              </layout>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_56">
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_34">
-                <item>
-                 <widget class="QLabel" name="enablePowerSavingLabel">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color:white</string>
-                  </property>
-                  <property name="text">
-                   <string>Enable Power &amp;Saving</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                  </property>
-                  <property name="buddy">
-                   <cstring>enablePowerSavingCheckBox</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_35">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="enablePowerSavingCheckBox">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="layoutDirection">
-                   <enum>Qt::RightToLeft</enum>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QCheckBox::indicator{
-border-color:rgb(50,50,50);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}
-QCheckBox::indicator:unchecked{
-background-color : rgb(50,50,50);}
-QCheckBox::indicator:checked{
-background-color : white;}
-QCheckBox{
-color:white;
-}
-</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="checked">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_16">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>44</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color:lightgrey</string>
-                </property>
-                <property name="text">
-                 <string>Turn off the display outside active hours.
-Display will be turned on automatically when door opens.</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <widget class="Line" name="line_5">
+              <property name="styleSheet">
+               <string notr="true">color:white</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_57">
@@ -3289,7 +3289,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>744</width>
-              <height>434</height>
+              <height>553</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -3308,7 +3308,7 @@ QScrollBar::sub-line:vertical {
                     <string notr="true">color:white</string>
                    </property>
                    <property name="text">
-                    <string>&amp;Passcode</string>
+                    <string>&amp;Admin Passcode</string>
                    </property>
                    <property name="buddy">
                     <cstring>passcodeLineEdit</cstring>
@@ -3354,6 +3354,22 @@ QScrollBar::sub-line:vertical {
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_2">
+                 <property name="styleSheet">
+                  <string notr="true">color:white</string>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_22">
@@ -3492,6 +3508,22 @@ QScrollBar::sub-line:vertical {
                 </layout>
                </item>
                <item>
+                <widget class="Line" name="line">
+                 <property name="styleSheet">
+                  <string notr="true">color:white</string>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_18">
                  <item>
                   <widget class="QLabel" name="enableSMSLabel">
@@ -3558,6 +3590,9 @@ color:white;
                    <property name="text">
                     <string/>
                    </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -3567,7 +3602,7 @@ color:white;
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_42">
                    <item>
-                    <widget class="QLabel" name="label_20">
+                    <widget class="QLabel" name="smsReportingLabel">
                      <property name="font">
                       <font>
                        <pointsize>16</pointsize>
@@ -3588,7 +3623,7 @@ color:white;
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_24">
+                    <widget class="QLabel" name="smsReportingWarning">
                      <property name="styleSheet">
                       <string notr="true">color:yellow</string>
                      </property>
@@ -3767,6 +3802,82 @@ color:white;
                 </layout>
                </item>
                <item>
+                <widget class="Line" name="line_3">
+                 <property name="styleSheet">
+                  <string notr="true">color:white</string>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_36">
+                 <item>
+                  <widget class="QLabel" name="passcodeLabel_2">
+                   <property name="font">
+                    <font>
+                     <pointsize>16</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:white</string>
+                   </property>
+                   <property name="text">
+                    <string>&amp;Naloxone Passcode</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>passcodeLineEdit_2</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_7">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="passcodeLineEdit_2">
+                   <property name="minimumSize">
+                    <size>
+                     <width>380</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>16</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="echoMode">
+                    <enum>QLineEdit::Password</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_39">
                  <item>
                   <widget class="QLabel" name="label_29">
@@ -3785,7 +3896,7 @@ color:white;
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                    </property>
                    <property name="buddy">
-                    <cstring>reportDoorOpenedCheckBox</cstring>
+                    <cstring>allowParamedicsCheckBox</cstring>
                    </property>
                   </widget>
                  </item>
@@ -3836,6 +3947,22 @@ color:white;
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_4">
+                 <property name="styleSheet">
+                  <string notr="true">color:white</string>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_19">
@@ -4148,6 +4275,9 @@ color:white;
            <property name="text">
             <string>If you forgot the passcode</string>
            </property>
+           <property name="buddy">
+            <cstring>forgotPasswordPushButton</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -4211,6 +4341,9 @@ color:white;
               <string>If you do not know the passcode,
 enter your phone number to get it.</string>
              </property>
+             <property name="buddy">
+              <cstring>paramedicsPhoneNumberLineEdit</cstring>
+             </property>
             </widget>
            </item>
            <item>
@@ -4266,6 +4399,9 @@ Format the phone number as &quot;+1XXXXXXXXXX&quot;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+             </property>
+             <property name="buddy">
+              <cstring>getPasscodePushButton</cstring>
              </property>
             </widget>
            </item>
@@ -4981,12 +5117,12 @@ Countdown</string>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>477</x>
-     <y>197</y>
+     <x>474</x>
+     <y>186</y>
     </hint>
     <hint type="destinationlabel">
-     <x>623</x>
-     <y>196</y>
+     <x>622</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
