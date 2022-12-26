@@ -393,56 +393,61 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             (twilio_75_qrcode_pixmap))
 
     def load_settings_ui(self):
-        # Load the settings from the conf file, will not handle exceptions.
-        # Should be used when it is absolutely safe to do so.
-        config = configparser.ConfigParser()
-        config.read("safety_kit.conf")
-        self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
-        self.ui.twilioTokenLineEdit.setText(
-            config["twilio"]["twilio_token"])
-        self.ui.twilioPhoneNumberLineEdit.setText(
-            config["twilio"]["twilio_phone_number"])
-        self.ui.emergencyPhoneNumberLineEdit.setText(
-            config["emergency_info"]["emergency_phone_number"])
-        self.ui.emergencyAddressLineEdit.setText(
-            config["emergency_info"]["emergency_address"])
-        self.ui.emergencyMessageLineEdit.setText(
-            config["emergency_info"]["emergency_message"])
-        self.ui.naloxoneExpirationDateEdit.setDate(
-            self.naloxone_expiration_date)
-        self.ui.temperatureSlider.setValue(
-            int(config["naloxone_info"]["absolute_maximum_temperature"]))
-        self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
-        self.ui.adminPhoneNumberLineEdit.setText(
-            config["admin"]["admin_phone_number"])
-        self.ui.enableSMSCheckBox.setChecked(
-            config["admin"]["enable_sms"] == "True")
-        self.ui.reportDoorOpenedCheckBox.setChecked(
-            config["admin"]["report_door_opened"] == "True")
-        self.ui.reportEmergencyCalledCheckBox.setChecked(
-            config["admin"]["report_emergency_called"] == "True")
-        self.ui.reportNaloxoneDestroyedCheckBox.setChecked(
-            config["admin"]["report_naloxone_destroyed"] == "True")
-        self.ui.reportSettingsChangedCheckBox.setChecked(
-            config["admin"]["report_settings_changed"] == "True")
-        self.ui.allowParamedicsCheckBox.setChecked(
-            config["admin"]["allow_paramedics"] == "True")
-        if (config["admin"]["allow_paramedics"] == "True"):
-            self.ui.paramedicsLabel.setVisible(True)
-            self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
-            self.ui.getPasscodePushButton.setVisible(True)
-            self.ui.paramedicsWarning.setVisible(True)
+        try:
+            # Load the settings from the conf file, will not handle exceptions.
+            # Should be used when it is absolutely safe to do so.
+            config = configparser.ConfigParser()
+            config.read("safety_kit.conf")
+            self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
+            self.ui.twilioTokenLineEdit.setText(
+                config["twilio"]["twilio_token"])
+            self.ui.twilioPhoneNumberLineEdit.setText(
+                config["twilio"]["twilio_phone_number"])
+            self.ui.emergencyPhoneNumberLineEdit.setText(
+                config["emergency_info"]["emergency_phone_number"])
+            self.ui.emergencyAddressLineEdit.setText(
+                config["emergency_info"]["emergency_address"])
+            self.ui.emergencyMessageLineEdit.setText(
+                config["emergency_info"]["emergency_message"])
+            self.ui.naloxoneExpirationDateEdit.setDate(
+                self.naloxone_expiration_date)
+            self.ui.temperatureSlider.setValue(
+                int(config["naloxone_info"]["absolute_maximum_temperature"]))
+            self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
+            self.ui.adminPhoneNumberLineEdit.setText(
+                config["admin"]["admin_phone_number"])
+            self.ui.enableSMSCheckBox.setChecked(
+                config["admin"]["enable_sms"] == "True")
+            self.ui.reportDoorOpenedCheckBox.setChecked(
+                config["admin"]["report_door_opened"] == "True")
+            self.ui.reportEmergencyCalledCheckBox.setChecked(
+                config["admin"]["report_emergency_called"] == "True")
+            self.ui.reportNaloxoneDestroyedCheckBox.setChecked(
+                config["admin"]["report_naloxone_destroyed"] == "True")
+            self.ui.reportSettingsChangedCheckBox.setChecked(
+                config["admin"]["report_settings_changed"] == "True")
+            self.ui.allowParamedicsCheckBox.setChecked(
+                config["admin"]["allow_paramedics"] == "True")
+            if (config["admin"]["allow_paramedics"] == "True"):
+                self.ui.paramedicsLabel.setVisible(True)
+                self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
+                self.ui.getPasscodePushButton.setVisible(True)
+                self.ui.paramedicsWarning.setVisible(True)
+            else:
+                self.ui.paramedicsLabel.setVisible(False)
+                self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
+                self.ui.getPasscodePushButton.setVisible(False)
+                self.ui.paramedicsWarning.setVisible(False)
+            self.ui.startTimeEdit.setTime(self.active_hour_start)
+            self.ui.endTimeEdit.setTime(self.active_hour_end)
+            self.ui.enablePowerSavingCheckBox.setChecked(
+                config["power_management"]["enable_power_saving"] == "True")
+            self.ui.enableActiveCoolingCheckBox.setChecked(
+                config["power_management"]["enable_active_cooling"] == "True")
+        except Exception as e:
+            return
         else:
-            self.ui.paramedicsLabel.setVisible(False)
-            self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
-            self.ui.getPasscodePushButton.setVisible(False)
-            self.ui.paramedicsWarning.setVisible(False)
-        self.ui.startTimeEdit.setTime(self.active_hour_start)
-        self.ui.endTimeEdit.setTime(self.active_hour_end)
-        self.ui.enablePowerSavingCheckBox.setChecked(
-            config["power_management"]["enable_power_saving"] == "True")
-        self.ui.enableActiveCoolingCheckBox.setChecked(
-            config["power_management"]["enable_active_cooling"] == "True")
+            return
 
     def load_settings(self):
         # load the settings from the conf file.
@@ -586,7 +591,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(4, True)
         self.ui.settingsTab.setTabVisible(5, True)
         self.ui.settingsTab.setCurrentIndex(1)
-        self.load_settings()
+        self.load_settings_ui()
         print("Settings unlocked")
 
     def check_passcode(self):
