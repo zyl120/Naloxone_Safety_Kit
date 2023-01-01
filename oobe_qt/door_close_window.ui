@@ -305,7 +305,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -432,8 +432,8 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
       <widget class="QFrame" name="serverStatusBarFrame">
        <property name="geometry">
         <rect>
-         <x>200</x>
-         <y>10</y>
+         <x>10</x>
+         <y>100</y>
          <width>170</width>
          <height>80</height>
         </rect>
@@ -612,8 +612,8 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
       <widget class="QFrame" name="thermalStatusBarFrame">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>100</y>
+         <x>200</x>
+         <y>10</y>
          <width>170</width>
          <height>80</height>
         </rect>
@@ -689,7 +689,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
             <string notr="true">color:white</string>
            </property>
            <property name="text">
-            <string>THERMAL</string>
+            <string>SYSTEM</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1235,8 +1235,8 @@ Else</string>
      <widget class="QFrame" name="serverFrame">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>10</y>
+        <x>0</x>
+        <y>220</y>
         <width>380</width>
         <height>190</height>
        </rect>
@@ -1448,11 +1448,233 @@ Else</string>
        </layout>
       </widget>
      </widget>
+     <widget class="QFrame" name="naloxoneFrame">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>220</y>
+        <width>380</width>
+        <height>190</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>361</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_35">
+          <item>
+           <widget class="QLabel" name="naloxoneLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>30</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:white</string>
+            </property>
+            <property name="text">
+             <string>NALOXONE</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QLabel" name="naloxoneStatusLabel">
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:white</string>
+              </property>
+              <property name="text">
+               <string>Status</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="naloxoneStatusLineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>10</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
+              </property>
+              <property name="text">
+               <string>N/A</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <widget class="QLabel" name="naloxoneExpirationDateLabel">
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:white</string>
+              </property>
+              <property name="text">
+               <string>Expiration</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="naloxoneExpirationDateLineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>10</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+                <bold>false</bold>
+                <underline>false</underline>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
+              </property>
+              <property name="text">
+               <string>N/A</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QLabel" name="temperatureLabel">
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:white;</string>
+              </property>
+              <property name="text">
+               <string>Temperature</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="temperatureLineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>10</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+                <kerning>true</kerning>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 0, 255);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
+              </property>
+              <property name="text">
+               <string>N/A</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
      <widget class="QFrame" name="thermalFrame">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>220</y>
+        <x>400</x>
+        <y>10</y>
         <width>380</width>
         <height>190</height>
        </rect>
@@ -1480,91 +1702,35 @@ Else</string>
        </property>
        <layout class="QVBoxLayout" name="thermalVLayout">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_31">
-          <item>
-           <widget class="QLabel" name="thermalLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>30</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color:white</string>
-            </property>
-            <property name="text">
-             <string>THERMAL</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QLabel" name="temperatureLabel">
-              <property name="font">
-               <font>
-                <pointsize>22</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color:white;</string>
-              </property>
-              <property name="text">
-               <string>Naloxone</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="temperatureLineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>10</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>22</pointsize>
-                <italic>false</italic>
-                <bold>true</bold>
-                <underline>false</underline>
-                <strikeout>false</strikeout>
-                <kerning>true</kerning>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
-              </property>
-              <property name="text">
-               <string>N/A</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
+         <widget class="QLabel" name="thermalLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>30</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:white</string>
+          </property>
+          <property name="text">
+           <string>SYSTEM</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1581,7 +1747,7 @@ Else</string>
                <string notr="true">color:white</string>
               </property>
               <property name="text">
-               <string>CPU</string>
+               <string>CPU Temp.</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -1593,13 +1759,13 @@ Else</string>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>10</height>
+                <height>60</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>22</pointsize>
-                <bold>false</bold>
+                <pointsize>25</pointsize>
+                <bold>true</bold>
                </font>
               </property>
               <property name="styleSheet">
@@ -1641,124 +1807,6 @@ Else</string>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>10</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>22</pointsize>
-                <bold>false</bold>
-                <underline>false</underline>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
-              </property>
-              <property name="text">
-               <string>N/A</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QFrame" name="naloxoneFrame">
-      <property name="geometry">
-       <rect>
-        <x>400</x>
-        <y>220</y>
-        <width>380</width>
-        <height>190</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <property name="lineWidth">
-       <number>3</number>
-      </property>
-      <widget class="QWidget" name="verticalLayoutWidget_3">
-       <property name="geometry">
-        <rect>
-         <x>9</x>
-         <y>9</y>
-         <width>361</width>
-         <height>171</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_11">
-        <item>
-         <widget class="QLabel" name="naloxoneLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>30</pointsize>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color:white</string>
-          </property>
-          <property name="text">
-           <string>NALOXONE</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_8">
-            <item>
-             <widget class="QLabel" name="naloxoneStatusLabel">
-              <property name="font">
-               <font>
-                <pointsize>22</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color:white</string>
-              </property>
-              <property name="text">
-               <string>Status</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="naloxoneStatusLineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
                 <height>60</height>
                </size>
               </property>
@@ -1766,59 +1814,11 @@ Else</string>
                <font>
                 <pointsize>25</pointsize>
                 <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
-              </property>
-              <property name="text">
-               <string>N/A</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <widget class="QLabel" name="naloxoneExpirationDateLabel">
-              <property name="font">
-               <font>
-                <pointsize>22</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color:white</string>
-              </property>
-              <property name="text">
-               <string>Expiration</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="naloxoneExpirationDateLineEdit">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>60</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>25</pointsize>
-                <bold>false</bold>
                 <underline>false</underline>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
+               <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
               </property>
               <property name="text">
                <string>N/A</string>
