@@ -297,8 +297,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.io_worker = None
 
         self.goto_home()
-        self.load_settings()
         self.lock_settings()
+        self.load_settings()
 
     def create_network_worker(self):
         if (self.network_worker is not None):
@@ -521,7 +521,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             print("Failed to load config file")
             msg = QtWidgets.QMessageBox()
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-            msg.setDetailedText(str(e))
+            msg.setDetailedText("Error starting at item " + str(e))
             msg.setIcon(QtWidgets.QMessageBox.Critical)
             msg.setText("Failed to read config file. Going to setup process.")
             msg.setStyleSheet(

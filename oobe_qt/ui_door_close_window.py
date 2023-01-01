@@ -857,7 +857,7 @@ class Ui_door_close_main_window(object):
         self.naloxone_info = QtWidgets.QWidget()
         self.naloxone_info.setObjectName("naloxone_info")
         self.verticalLayoutWidget_10 = QtWidgets.QWidget(self.naloxone_info)
-        self.verticalLayoutWidget_10.setGeometry(QtCore.QRect(8, 11, 761, 455))
+        self.verticalLayoutWidget_10.setGeometry(QtCore.QRect(8, 11, 761, 371))
         self.verticalLayoutWidget_10.setObjectName("verticalLayoutWidget_10")
         self.verticalLayout_49 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_10)
         self.verticalLayout_49.setContentsMargins(0, 0, 0, 0)
