@@ -260,7 +260,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
-        self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
+        #self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.homePushButton.clicked.connect(self.goto_home)
@@ -410,7 +410,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["emergency_info"]["emergency_address"])
             self.ui.emergencyMessageLineEdit.setText(
                 config["emergency_info"]["emergency_message"])
-            self.ui.naloxoneExpirationDateEdit.setDate(
+            self.ui.naloxoneExpirationDateEdit.setSelectedDate(
                 self.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
@@ -477,7 +477,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.message = config["emergency_info"]["emergency_message"]
             self.naloxone_expiration_date = QtCore.QDate.fromString(
                 config["naloxone_info"]["naloxone_expiration_date"])
-            self.ui.naloxoneExpirationDateEdit.setDate(
+            self.ui.naloxoneExpirationDateEdit.setSelectedDate(
                 self.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
@@ -1006,7 +1006,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "emergency_message": self.ui.emergencyMessageLineEdit.text()
         }
         config["naloxone_info"] = {
-            "naloxone_expiration_date": self.ui.naloxoneExpirationDateEdit.date().toString(),
+            "naloxone_expiration_date": self.ui.naloxoneExpirationDateEdit.selectedDate().toString(),
             "absolute_maximum_temperature": self.ui.temperatureSlider.value()
         }
         config["admin"] = {
