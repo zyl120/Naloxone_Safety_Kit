@@ -260,7 +260,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
-        #self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
+        # self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.homePushButton.clicked.connect(self.goto_home)
@@ -290,10 +290,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
         self.ui.getPasscodePushButton.clicked.connect(
             self.get_passcode_button_pushed)
-        self.ui.enablePowerSavingCheckBox.stateChanged.connect(
-            self.toggle_active_hour_ui)
-        self.ui.enableSMSCheckBox.stateChanged.connect(
-            self.toggle_sms_reporting_ui)
 
         self.generate_ui_qrcode()
 
@@ -301,9 +297,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.io_worker = None
 
         self.goto_home()
-
-        self.lock_settings()
         self.load_settings()
+        self.lock_settings()
 
     def create_network_worker(self):
         if (self.network_worker is not None):
@@ -431,16 +426,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["admin"]["report_settings_changed"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
-            if (config["admin"]["allow_paramedics"] == "True"):
-                self.ui.paramedicsLabel.setVisible(True)
-                self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
-                self.ui.getPasscodePushButton.setVisible(True)
-                self.ui.paramedicsWarning.setVisible(True)
-            else:
-                self.ui.paramedicsLabel.setVisible(False)
-                self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
-                self.ui.getPasscodePushButton.setVisible(False)
-                self.ui.paramedicsWarning.setVisible(False)
             self.ui.startTimeEdit.setTime(self.active_hour_start)
             self.ui.endTimeEdit.setTime(self.active_hour_end)
             self.ui.enablePowerSavingCheckBox.setChecked(
@@ -503,16 +488,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["admin"]["report_settings_changed"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
-            if (config["admin"]["allow_paramedics"] == "True"):
-                self.ui.paramedicsLabel.setVisible(True)
-                self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
-                self.ui.getPasscodePushButton.setVisible(True)
-                self.ui.paramedicsWarning.setVisible(True)
-            else:
-                self.ui.paramedicsLabel.setVisible(False)
-                self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
-                self.ui.getPasscodePushButton.setVisible(False)
-                self.ui.paramedicsWarning.setVisible(False)
             self.active_hour_start = QtCore.QTime.fromString(
                 config["power_management"]["active_hours_start_at"], "hh:mm")
             self.ui.startTimeEdit.setTime(self.active_hour_start)
@@ -589,7 +564,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
-        
+        self.load_settings_ui()
         self.ui.settingsTab.setTabVisible(0, True)
         self.ui.settingsTab.setTabVisible(1, True)
         self.ui.settingsTab.setTabVisible(2, False)
@@ -597,7 +572,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(4, False)
         self.ui.settingsTab.setTabVisible(5, False)
         self.ui.settingsTab.setCurrentIndex(1)
-        self.load_settings_ui()
         print("Naloxone Settings unlocked")
 
     def unlock_all_settings(self):
@@ -605,7 +579,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
-        
+        self.load_settings_ui()
         self.ui.settingsTab.setTabVisible(0, True)
         self.ui.settingsTab.setTabVisible(1, True)
         self.ui.settingsTab.setTabVisible(2, True)
@@ -613,7 +587,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(4, True)
         self.ui.settingsTab.setTabVisible(5, True)
         self.ui.settingsTab.setCurrentIndex(1)
-        self.load_settings_ui()
         print("All Settings unlocked")
 
     def check_passcode(self):
@@ -638,11 +611,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             # If passcode is correct, unlock the settings
             self.goto_settings()
             self.unlock_all_settings()
-            
+
         elif (passcode_check_result == 2):
             self.goto_settings()
             self.unlock_naloxone_settings()
-            
+
         else:
             # If passcode is wrong, lock the settings
             self.lock_settings()
@@ -841,36 +814,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.send_sms_using_config_file(
             "Paramedics want to access the settings. The number is " + paramedic_phone_number + ".")
         print("sent to admin")
-
-    @QtCore.pyqtSlot(int)
-    def toggle_sms_reporting_ui(self, val):
-        if (val):
-            self.ui.smsReportingLabel.setVisible(True)
-            self.ui.smsReportingWarning.setVisible(True)
-            self.ui.reportDoorOpenedCheckBox.setVisible(True)
-            self.ui.reportEmergencyCalledCheckBox.setVisible(True)
-            self.ui.reportNaloxoneDestroyedCheckBox.setVisible(True)
-            self.ui.reportSettingsChangedCheckBox.setVisible(True)
-        else:
-            self.ui.smsReportingLabel.setVisible(False)
-            self.ui.smsReportingWarning.setVisible(False)
-            self.ui.reportDoorOpenedCheckBox.setVisible(False)
-            self.ui.reportEmergencyCalledCheckBox.setVisible(False)
-            self.ui.reportNaloxoneDestroyedCheckBox.setVisible(False)
-            self.ui.reportSettingsChangedCheckBox.setVisible(False)
-
-    @QtCore.pyqtSlot(int)
-    def toggle_active_hour_ui(self, val):
-        if (val):
-            self.ui.activeHoursLabel.setVisible(True)
-            self.ui.startTimeEdit.setVisible(True)
-            self.ui.endTimeEdit.setVisible(True)
-            self.ui.activeHoursColon.setVisible(True)
-        else:
-            self.ui.activeHoursLabel.setVisible(False)
-            self.ui.startTimeEdit.setVisible(False)
-            self.ui.endTimeEdit.setVisible(False)
-            self.ui.activeHoursColon.setVisible(False)
 
     @QtCore.pyqtSlot()
     # Used to communicate with the shm to make phone calls.
