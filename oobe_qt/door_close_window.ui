@@ -305,7 +305,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -4758,7 +4758,7 @@ Reset</string>
                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;background-color:rgb(65,65,65);border-color:rgb(65,65,65);border-width: 0.5px;border-style: solid;</string>
               </property>
               <property name="text">
-               <string>Muted</string>
+               <string>Waiting</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>

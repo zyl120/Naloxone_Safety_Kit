@@ -142,6 +142,19 @@ class IOWorker(QtCore.QThread):
                 break
 
 
+class AlarmWorker(QtCore.QThread):
+    def __init__(self):
+        super(AlarmWorker, self).__init__()
+        print("alarm thread go.")
+
+    def run(self):
+        while (True):
+            print("saying alarm now.")
+            sleep(1)
+            if (self.isInterruptionRequested()):
+                break
+
+
 class NetworkWorker(QtCore.QThread):
     update_server = QtCore.pyqtSignal(bool, float, str, QtCore.QTime)
 
@@ -290,11 +303,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
         self.ui.getPasscodePushButton.clicked.connect(
             self.get_passcode_button_pushed)
+        self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
 
         self.generate_ui_qrcode()
 
         self.network_worker = None
         self.io_worker = None
+        self.alarm_worker = None
 
         self.goto_home()
         self.lock_settings()
@@ -321,6 +336,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
+
+    def create_alarm_worker(self):
+        if (self.alarm_worker is not None):
+            self.alarm_worker.quit()
+            self.alarm_worker.requestInterruption()
+        self.alarm_worker = AlarmWorker()
+        self.alarm_worker.start()
 
     def generate_ui_qrcode(self):
         github_qr_code = qrcode.QRCode(
@@ -640,6 +662,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.update_emergency_call_countdown)
             self.countdown_thread.time_end_signal.connect(
                 self.call_emergency_now)
+            self.countdown_thread.time_end_signal.connect(self.speak_now)
             self.countdown_thread.start()
 
     def back_pushbutton_pushed(self):
@@ -785,6 +808,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.stopCountdownPushButton.setVisible(True)
             self.ui.countdownLabel.setVisible(True)
             self.ui.emergencyCallCountdownLabel.setVisible(True)
+            self.ui.alarmStatusLabel.setText("Waiting")
+            self.ui.alarmMutePushButton.setVisible(True)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
             return "Information", "System Reset to Default.", "N/A"
@@ -814,6 +839,20 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.send_sms_using_config_file(
             "Paramedics want to access the settings. The number is " + paramedic_phone_number + ".")
         print("sent to admin")
+
+    @QtCore.pyqtSlot()
+    def speak_now(self):
+        print("speak now")
+        self.create_alarm_worker()
+        self.ui.alarmStatusLabel.setText("Speaking")
+
+    @QtCore.pyqtSlot()
+    def stop_alarm(self):
+        if (self.alarm_worker is not None):
+            self.alarm_worker.quit()
+            self.alarm_worker.requestInterruption()
+        self.ui.alarmStatusLabel.setText("Muted")
+        self.ui.alarmMutePushButton.setVisible(False)
 
     @QtCore.pyqtSlot()
     # Used to communicate with the shm to make phone calls.

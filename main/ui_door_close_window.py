@@ -2190,7 +2190,7 @@ class Ui_door_close_main_window(object):
         self.paramedicsWarning.setBuddy(self.getPasscodePushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(4)
         self.settingsTab.setCurrentIndex(1)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
@@ -2332,7 +2332,7 @@ class Ui_door_close_main_window(object):
 "Reset"))
         self.doorLabel_4.setText(_translate("door_close_main_window", "ALARM"))
         self.label_6.setText(_translate("door_close_main_window", "Status"))
-        self.alarmStatusLabel.setText(_translate("door_close_main_window", "Muted"))
+        self.alarmStatusLabel.setText(_translate("door_close_main_window", "Waiting"))
         self.alarmMutePushButton.setText(_translate("door_close_main_window", "Push to\n"
 "Mute"))
         self.doorLabel_3.setText(_translate("door_close_main_window", "EMERGENCY CALL"))
