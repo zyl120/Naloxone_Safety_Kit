@@ -2244,7 +2244,7 @@ QSlider::handle:horizontal {
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color:lightgrey</string>
+                   <string notr="true">color:rgb(189, 189, 189)</string>
                   </property>
                  </widget>
                 </item>

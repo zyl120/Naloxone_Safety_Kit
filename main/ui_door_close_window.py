@@ -939,7 +939,7 @@ class Ui_door_close_main_window(object):
         self.horizontalLayout_13.addItem(spacerItem14)
         self.naloxoneExpirationDateEdit = QtWidgets.QCalendarWidget(self.verticalLayoutWidget_10)
         self.naloxoneExpirationDateEdit.setMinimumSize(QtCore.QSize(380, 240))
-        self.naloxoneExpirationDateEdit.setStyleSheet("color:lightgrey")
+        self.naloxoneExpirationDateEdit.setStyleSheet("color:rgb(189, 189, 189)")
         self.naloxoneExpirationDateEdit.setObjectName("naloxoneExpirationDateEdit")
         self.horizontalLayout_13.addWidget(self.naloxoneExpirationDateEdit)
         self.verticalLayout_22.addLayout(self.horizontalLayout_13)
