@@ -2107,7 +2107,7 @@ color:darkgrey
                    <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                   </property>
                   <property name="text">
-                   <string>100℉</string>
+                   <string>104℉</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -2153,10 +2153,10 @@ QSlider::handle:horizontal {
                    <number>212</number>
                   </property>
                   <property name="value">
-                   <number>100</number>
+                   <number>104</number>
                   </property>
                   <property name="sliderPosition">
-                   <number>100</number>
+                   <number>104</number>
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
