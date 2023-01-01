@@ -90,11 +90,11 @@ class IOWorker(QtCore.QThread):
         self.expiration_date = expiration_date
 
     def read_naloxone_sensor(self):
-        #_, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+        # _, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
         self.temperature = 25
 
     def calculate_pwm(self):
-        #print("control pwm")
+        # print("control pwm")
         list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
         self.fan_pwm = random.choice(list1)
         # return pwm
@@ -103,7 +103,7 @@ class IOWorker(QtCore.QThread):
         return
 
     def read_cpu_sensor(self):
-        #self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
+        # self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
         self.cpu_temp = 100
 
     def read_door_sensor(self):
@@ -246,7 +246,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.door_opened = False
         self.disarmed = False
         self.max_temp = 0
-        self.passcode = str()
+        self.admin_passcode = str()
+        self.naloxone_passcode = str()
         self.twilio_sid = str()
         self.twilio_token = str()
         self.twilio_phone_number = str()
@@ -388,7 +389,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             fill_color="white", back_color="black")
         img.save("twilio_75.png")
         twilio_75_qrcode_pixmap = QtGui.QPixmap(
-            "twilio_75.png").scaledToWidth(150).scaledToHeight(150)
+            "twilio_75.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.twilioAddressWarningQrCode.setPixmap(
             (twilio_75_qrcode_pixmap))
 
@@ -414,6 +415,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
+            self.ui.naloxonePasscodeLineEdit.setText(
+                config["admin"]["naloxone_passcode"])
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
             self.ui.enableSMSCheckBox.setChecked(
@@ -481,7 +484,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.max_temp = int(
                 config["naloxone_info"]["absolute_maximum_temperature"])
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
-            self.passcode = config["admin"]["passcode"]
+            self.admin_passcode = config["admin"]["passcode"]
+            self.ui.naloxonePasscodeLineEdit.setText(
+                config["admin"]["naloxone_passcode"])
+            self.naloxone_passcode = config["admin"]["naloxone_passcode"]
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
             self.admin_phone_number = config["admin"]["admin_phone_number"]
@@ -579,11 +585,27 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, False)
         print("Settings locked")
 
-    def unlock_settings(self):
+    def unlock_naloxone_settings(self):
+        self.ui.unlockSettingsPushButton.setVisible(False)
+        self.ui.lockSettingsPushButton.setVisible(True)
+        self.ui.saveToFilePushButton.setVisible(True)
+        
+        self.ui.settingsTab.setTabVisible(0, True)
+        self.ui.settingsTab.setTabVisible(1, True)
+        self.ui.settingsTab.setTabVisible(2, False)
+        self.ui.settingsTab.setTabVisible(3, False)
+        self.ui.settingsTab.setTabVisible(4, False)
+        self.ui.settingsTab.setTabVisible(5, False)
+        self.ui.settingsTab.setCurrentIndex(1)
+        self.load_settings_ui()
+        print("Naloxone Settings unlocked")
+
+    def unlock_all_settings(self):
         # unlock the whole setting page. Should only be called after the user enter the correct passcode.
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
+        
         self.ui.settingsTab.setTabVisible(0, True)
         self.ui.settingsTab.setTabVisible(1, True)
         self.ui.settingsTab.setTabVisible(2, True)
@@ -592,30 +614,42 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, True)
         self.ui.settingsTab.setCurrentIndex(1)
         self.load_settings_ui()
-        print("Settings unlocked")
+        print("All Settings unlocked")
 
     def check_passcode(self):
         # First read from the conf file
-        if (self.passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.passcode):
-            return True
+        # return values:
+        # 0: wrong passcode
+        # 1: unlock all settings
+        # 2: unlock naloxone settings
+        if (self.admin_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.admin_passcode):
+            return 1
+        elif (self.naloxone_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.naloxone_passcode):
+            return 2
         else:
-            self.ui.passcodeEnterLabel.setText("Try Again")
+            sleep(3)
+            self.ui.passcodeEnterLabel.setText("Sorry, try again")
             self.ui.passcodeEnterLineEdit.clear()
-            return False
+            return 0
 
     def check_passcode_unlock_settings(self):
         passcode_check_result = self.check_passcode()
-        if (passcode_check_result):
+        if (passcode_check_result == 1):
             # If passcode is correct, unlock the settings
-            self.unlock_settings()
             self.goto_settings()
+            self.unlock_all_settings()
+            
+        elif (passcode_check_result == 2):
+            self.goto_settings()
+            self.unlock_naloxone_settings()
+            
         else:
             # If passcode is wrong, lock the settings
             self.lock_settings()
 
     def lock_unlock_settings(self):
-        if (self.passcode == str()):
-            self.unlock_settings()
+        if (self.admin_passcode == str()):
+            self.unlock_all_settings()
         else:
             self.goto_passcode()
 
@@ -658,8 +692,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             # door open page.
             self.ui.backPushButton.setVisible(True)
         self.ui.stackedWidget.setCurrentIndex(2)
-        if (self.passcode == str()):
-            self.unlock_settings()
+        if (self.admin_passcode == str()):
+            self.unlock_all_settings()
 
     def goto_dashboard(self):
         self.ui.homePushButton.setChecked(False)
@@ -795,13 +829,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def forgot_password_button_pushed(self):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
-        self.send_sms_using_config_file("Passcode is " + self.passcode)
+        self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
 
     def get_passcode_button_pushed(self):
         print("Enter function")
         paramedic_phone_number = self.ui.paramedicsPhoneNumberLineEdit.text()
         self.send_to_paramedic = SMSWorker(paramedic_phone_number, "The passcode of the naloxone safety box at " +
-                                           self.address + " is: " + self.passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+                                           self.address + " is: " + self.naloxone_passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_to_paramedic.start()
         print("sent to paramedics")
         self.send_sms_using_config_file(
@@ -810,7 +844,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot(int)
     def toggle_sms_reporting_ui(self, val):
-        if(val):
+        if (val):
             self.ui.smsReportingLabel.setVisible(True)
             self.ui.smsReportingWarning.setVisible(True)
             self.ui.reportDoorOpenedCheckBox.setVisible(True)
@@ -827,7 +861,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot(int)
     def toggle_active_hour_ui(self, val):
-        if(val):
+        if (val):
             self.ui.activeHoursLabel.setVisible(True)
             self.ui.startTimeEdit.setVisible(True)
             self.ui.endTimeEdit.setVisible(True)
@@ -977,6 +1011,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         config["admin"] = {
             "passcode": self.ui.passcodeLineEdit.text(),
+            "naloxone_passcode": self.ui.naloxonePasscodeLineEdit.text(),
             "admin_phone_number": self.ui.adminPhoneNumberLineEdit.text(),
             "enable_sms": self.ui.enableSMSCheckBox.isChecked(),
             "report_door_opened": self.ui.reportDoorOpenedCheckBox.isChecked(),
