@@ -1890,7 +1890,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>1</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2242,6 +2242,9 @@ QSlider::handle:horizontal {
                     <width>380</width>
                     <height>240</height>
                    </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
                   </property>
                  </widget>
                 </item>
@@ -3310,7 +3313,7 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-170</y>
+              <y>0</y>
               <width>765</width>
               <height>550</height>
              </rect>

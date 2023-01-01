@@ -939,6 +939,7 @@ class Ui_door_close_main_window(object):
         self.horizontalLayout_13.addItem(spacerItem14)
         self.naloxoneExpirationDateEdit = QtWidgets.QCalendarWidget(self.verticalLayoutWidget_10)
         self.naloxoneExpirationDateEdit.setMinimumSize(QtCore.QSize(380, 240))
+        self.naloxoneExpirationDateEdit.setStyleSheet("color:white")
         self.naloxoneExpirationDateEdit.setObjectName("naloxoneExpirationDateEdit")
         self.horizontalLayout_13.addWidget(self.naloxoneExpirationDateEdit)
         self.verticalLayout_22.addLayout(self.horizontalLayout_13)
@@ -1379,7 +1380,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -170, 765, 550))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 765, 550))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -2190,7 +2191,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(5)
+        self.settingsTab.setCurrentIndex(1)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.passcodeEnterLineEdit)
