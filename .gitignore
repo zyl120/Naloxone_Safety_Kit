@@ -4,3 +4,4 @@ __pycache__/
 *.py[cod]
 oobe_qt/oobe_qt.pyproject.*
 main/safety_kit.conf
+*.png
