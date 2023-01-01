@@ -2153,10 +2153,10 @@ QSlider::handle:horizontal {
                    <number>212</number>
                   </property>
                   <property name="value">
-                   <number>40</number>
+                   <number>100</number>
                   </property>
                   <property name="sliderPosition">
-                   <number>40</number>
+                   <number>100</number>
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>

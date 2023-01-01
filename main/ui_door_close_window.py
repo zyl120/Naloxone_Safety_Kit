@@ -906,8 +906,8 @@ class Ui_door_close_main_window(object):
 "    border-radius: 3px;\n"
 "}")
         self.temperatureSlider.setMaximum(212)
-        self.temperatureSlider.setProperty("value", 40)
-        self.temperatureSlider.setSliderPosition(40)
+        self.temperatureSlider.setProperty("value", 100)
+        self.temperatureSlider.setSliderPosition(100)
         self.temperatureSlider.setOrientation(QtCore.Qt.Horizontal)
         self.temperatureSlider.setObjectName("temperatureSlider")
         self.horizontalLayout_43.addWidget(self.temperatureSlider)
