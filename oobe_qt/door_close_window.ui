@@ -1118,13 +1118,13 @@ Else</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color:white;background-color:rgb(50,50,50);</string>
+           <string notr="true">color:white;background-color:rgb(50,50,50);border-width: 0px;</string>
           </property>
           <property name="text">
            <string>DOOR</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
           </property>
          </widget>
         </item>
@@ -1140,7 +1140,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white;background-color:rgb(50,50,50);</string>
+               <string notr="true">color:white;background-color:rgb(50,50,50);border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Status</string>
@@ -1193,7 +1193,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white;background-color:rgb(50,50,50);</string>
+               <string notr="true">color:white;background-color:rgb(50,50,50);border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Sensor</string>
@@ -1289,13 +1289,13 @@ Else</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;border-width: 0px;</string>
             </property>
             <property name="text">
              <string>SERVER</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -1310,7 +1310,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Status</string>
@@ -1362,7 +1362,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Last Check</string>
@@ -1410,7 +1410,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Balance</string>
@@ -1505,7 +1505,7 @@ Else</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;border-width: 0px;</string>
             </property>
             <property name="text">
              <string>NALOXONE</string>
@@ -1526,7 +1526,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Status</string>
@@ -1578,7 +1578,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Expiration</string>
@@ -1627,7 +1627,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white;</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Temperature</string>
@@ -1725,13 +1725,13 @@ Else</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color:white;background-color:rgb(50,50,50);</string>
+           <string notr="true">color:white;background-color:rgb(50,50,50);border-width: 0px;</string>
           </property>
           <property name="text">
            <string>SYSTEM</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
           </property>
          </widget>
         </item>
@@ -1747,7 +1747,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>CPU Temp.</string>
@@ -1795,7 +1795,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white;</string>
+               <string notr="true">color:white;border-width: 0px;</string>
               </property>
               <property name="text">
                <string>Fan</string>
