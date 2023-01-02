@@ -362,38 +362,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
 
-        understanding_qr_code = qrcode.QRCode(
-            version=None,
-            error_correction=qrcode.constants.ERROR_CORRECT_M,
-            box_size=10,
-            border=0
-        )
-        understanding_qr_code.add_data(
-            "https://www.cdc.gov/drugoverdose/epidemic/index.html")
-        understanding_qr_code.make(fit=True)
-        img = understanding_qr_code.make_image(
-            fill_color="white", back_color=(50, 50, 50))
-        img.save("understanding_qrcode.png")
-        understanding_qrcode_pixmap = QtGui.QPixmap(
-            "understanding_qrcode.png").scaledToWidth(100).scaledToHeight(100)
-        self.ui.understanding_qrcode.setPixmap(understanding_qrcode_pixmap)
-
-        naloxone_qr_code = qrcode.QRCode(
-            version=None,
-            error_correction=qrcode.constants.ERROR_CORRECT_M,
-            box_size=10,
-            border=0
-        )
-        naloxone_qr_code.add_data(
-            "https://nida.nih.gov/publications/drugfacts/naloxone")
-        naloxone_qr_code.make(fit=True)
-        img = naloxone_qr_code.make_image(
-            fill_color="white", back_color=(50, 50, 50))
-        img.save("naloxone_qrcode.png")
-        naloxone_qrcode_pixmap = QtGui.QPixmap(
-            "naloxone_qrcode.png").scaledToWidth(100).scaledToHeight(100)
-        self.ui.naloxone_qrcode.setPixmap(naloxone_qrcode_pixmap)
-
         twilio_75_qr_code = qrcode.QRCode(
             version=None,
             error_correction=qrcode.constants.ERROR_CORRECT_M,
@@ -511,6 +479,16 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["admin"]["report_settings_changed"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
+            if(config["admin"]["allow_paramedics"] == "False"):
+                self.ui.paramedicsLabel.setVisible(False)
+                self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
+                self.ui.paramedicsWarning.setVisible(False)
+                self.ui.getPasscodePushButton.setVisible(False)
+            else:
+                self.ui.paramedicsLabel.setVisible(True)
+                self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
+                self.ui.paramedicsWarning.setVisible(True)
+                self.ui.getPasscodePushButton.setVisible(True)
             self.active_hour_start = QtCore.QTime.fromString(
                 config["power_management"]["active_hours_start_at"], "hh:mm")
             self.ui.startTimeEdit.setTime(self.active_hour_start)
