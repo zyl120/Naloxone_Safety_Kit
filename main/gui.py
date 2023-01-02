@@ -77,7 +77,7 @@ class IOWorker(QtCore.QThread):
 
     def __init__(self, disarmed, max_temp, expiration_date):
         super(IOWorker, self).__init__()
-        #GPIO.setmode(GPIO.BCM)
+        # GPIO.setmode(GPIO.BCM)
         #GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9

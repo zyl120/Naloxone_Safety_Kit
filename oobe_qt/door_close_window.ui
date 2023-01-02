@@ -42,7 +42,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
-	background-color:rgba(0,0,0,0);
+	background-color:rgba(0,0,0,100);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -748,6 +748,9 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
             <pointsize>26</pointsize>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(50,50,50);</string>
+          </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Overdose Death is&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; font-weight:700; color:#aa00ff;&quot;&gt;PREVENTABLE.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -769,7 +772,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+       <string notr="true">border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -797,7 +800,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;background-color:rgb(50,50,50);</string>
             </property>
             <property name="text">
              <string>User
@@ -836,7 +839,7 @@ Manual</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;background-color:rgb(50,50,50);</string>
             </property>
             <property name="text">
              <string>Build Your
@@ -875,7 +878,7 @@ Own Kit</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;background-color:rgb(50,50,50);</string>
             </property>
             <property name="text">
              <string>Contact
@@ -917,7 +920,7 @@ Admin</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+       <string notr="true">border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -945,7 +948,7 @@ Admin</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;background-color:rgb(50,50,50);</string>
             </property>
             <property name="text">
              <string>Overdose
@@ -985,7 +988,7 @@ QR_CODE</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;background-color:rgb(50,50,50);</string>
             </property>
             <property name="text">
              <string>What is
@@ -1025,7 +1028,7 @@ QR_CODE</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:white</string>
+             <string notr="true">color:white;background-color:rgb(50,50,50);</string>
             </property>
             <property name="text">
              <string>Something
@@ -1070,7 +1073,7 @@ Else</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+       <string notr="true">border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -1090,7 +1093,7 @@ Else</string>
          <x>9</x>
          <y>9</y>
          <width>361</width>
-         <height>171</height>
+         <height>173</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1115,13 +1118,13 @@ Else</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color:white</string>
+           <string notr="true">color:white;background-color:rgb(50,50,50);</string>
           </property>
           <property name="text">
            <string>DOOR</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -1137,7 +1140,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white;</string>
+               <string notr="true">color:white;background-color:rgb(50,50,50);</string>
               </property>
               <property name="text">
                <string>Status</string>
@@ -1190,7 +1193,7 @@ Else</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:white;background-color:rgb(50,50,50);</string>
               </property>
               <property name="text">
                <string>Sensor</string>
@@ -1242,7 +1245,7 @@ Else</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+       <string notr="true">border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -1458,7 +1461,7 @@ Else</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+       <string notr="true">border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -1680,7 +1683,7 @@ Else</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">.QFrame{border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+       <string notr="true">border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -1697,7 +1700,7 @@ Else</string>
          <x>9</x>
          <y>9</y>
          <width>361</width>
-         <height>171</height>
+         <height>173</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="thermalVLayout">
@@ -1722,7 +1725,7 @@ Else</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color:white</string>
+           <string notr="true">color:white;background-color:rgb(50,50,50);</string>
           </property>
           <property name="text">
            <string>SYSTEM</string>
@@ -1890,7 +1893,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>5</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2181,6 +2184,22 @@ QSlider::handle:horizontal {
              </layout>
             </item>
             <item>
+             <widget class="Line" name="line_11">
+              <property name="styleSheet">
+               <string notr="true">color:rgb(50,50,50)</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
              <layout class="QVBoxLayout" name="verticalLayout_22">
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -2364,6 +2383,22 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
              </layout>
             </item>
             <item>
+             <widget class="Line" name="line_9">
+              <property name="styleSheet">
+               <string notr="true">color:rgb(50,50,50)</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
              <layout class="QVBoxLayout" name="verticalLayout_38">
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -2437,6 +2472,22 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                </widget>
               </item>
              </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line_10">
+              <property name="styleSheet">
+               <string notr="true">color:rgb(50,50,50)</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_40">
@@ -2585,7 +2636,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>765</width>
-              <height>398</height>
+              <height>477</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2668,6 +2719,22 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_6">
+                 <property name="styleSheet">
+                  <string notr="true">color:rgb(50,50,50)</string>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_28">
@@ -2754,6 +2821,22 @@ This info will be included in the emergency call.</string>
                 </layout>
                </item>
                <item>
+                <widget class="Line" name="line_7">
+                 <property name="styleSheet">
+                  <string notr="true">color:rgb(50,50,50)</string>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <layout class="QVBoxLayout" name="verticalLayout_35">
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_37">
@@ -2830,6 +2913,22 @@ This info will be included in the emergency call.</string>
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_8">
+                 <property name="styleSheet">
+                  <string notr="true">color:rgb(50,50,50)</string>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Plain</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -3138,7 +3237,7 @@ Display will be turned on automatically when door opens.</string>
             <item>
              <widget class="Line" name="line_5">
               <property name="styleSheet">
-               <string notr="true">color:white</string>
+               <string notr="true">color:rgb(50,50,50)</string>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Plain</enum>
@@ -3315,7 +3414,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>765</width>
-              <height>550</height>
+              <height>597</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -3399,7 +3498,7 @@ naloxone passcode as well.</string>
                <item>
                 <widget class="Line" name="line_2">
                  <property name="styleSheet">
-                  <string notr="true">color:white</string>
+                  <string notr="true">color:rgb(50,50,50)</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
@@ -3551,7 +3650,7 @@ naloxone passcode as well.</string>
                <item>
                 <widget class="Line" name="line">
                  <property name="styleSheet">
-                  <string notr="true">color:white</string>
+                  <string notr="true">color:rgb(50,50,50)</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
@@ -3845,7 +3944,7 @@ color:white;
                <item>
                 <widget class="Line" name="line_3">
                  <property name="styleSheet">
-                  <string notr="true">color:white</string>
+                  <string notr="true">color:rgb(50,50,50)</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
@@ -3992,7 +4091,7 @@ color:white;
                <item>
                 <widget class="Line" name="line_4">
                  <property name="styleSheet">
-                  <string notr="true">color:white</string>
+                  <string notr="true">color:rgb(50,50,50)</string>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Plain</enum>
