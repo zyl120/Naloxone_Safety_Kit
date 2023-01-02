@@ -9,9 +9,9 @@ from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
 import qrcode
 import random
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+#from gpiozero import CPUTemperature
+#import RPi.GPIO as GPIO
+#import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -77,8 +77,8 @@ class IOWorker(QtCore.QThread):
 
     def __init__(self, disarmed, max_temp, expiration_date):
         super(IOWorker, self).__init__()
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(DOOR_PIN, GPIO.IN)
+        #GPIO.setmode(GPIO.BCM)
+        #GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
@@ -90,8 +90,8 @@ class IOWorker(QtCore.QThread):
         self.expiration_date = expiration_date
 
     def read_naloxone_sensor(self):
-        _, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
-        #self.temperature = 25
+        #_, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+        self.temperature = 25
 
     def calculate_pwm(self):
         # print("control pwm")
@@ -103,11 +103,12 @@ class IOWorker(QtCore.QThread):
         return
 
     def read_cpu_sensor(self):
-        self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
-        #self.cpu_temp = 100
+        #self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
+        self.cpu_temp = 100
 
     def read_door_sensor(self):
-        #self.door_opened = False
+        self.door_opened = False
+        return
         if GPIO.input(DOOR_PIN):
             self.door_opened = True
         else:
@@ -1031,6 +1032,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("Fusion")
     QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow()
     application.show()
