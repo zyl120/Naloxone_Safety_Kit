@@ -224,7 +224,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
 </string>
        </property>
        <property name="text">
-        <string>Save Settings</string>
+        <string>Apply</string>
        </property>
       </widget>
      </item>
@@ -304,7 +304,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -2515,8 +2515,8 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>765</width>
-              <height>411</height>
+              <width>780</width>
+              <height>380</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2995,6 +2995,117 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_47">
+              <item>
+               <widget class="QLabel" name="voice_volume">
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color:white</string>
+                </property>
+                <property name="text">
+                 <string>Voice &amp;Volume</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+                <property name="buddy">
+                 <cstring>temperatureSlider</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_39">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="voice_volume_label">
+                <property name="minimumSize">
+                 <size>
+                  <width>60</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                </property>
+                <property name="text">
+                 <string>20%</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="voice_volume_slider">
+                <property name="minimumSize">
+                 <size>
+                  <width>380</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid rgb(50,50,50);
+    border-radius: 3px;
+    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: rgb(50,50,50);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background-color:white;
+    border: 1px solid white;
+    width: 30px;
+    border-radius: 3px;
+}</string>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>20</number>
+                </property>
+                <property name="sliderPosition">
+                 <number>20</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
@@ -3654,7 +3765,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>765</width>
-              <height>572</height>
+              <height>529</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">

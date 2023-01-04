@@ -10,9 +10,9 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+#from gpiozero import CPUTemperature
+#import RPi.GPIO as GPIO
+#import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -83,8 +83,8 @@ class IOWorker(QtCore.QThread):
 
     def __init__(self, disarmed, max_temp, fan_threshold_temp, expiration_date):
         super(IOWorker, self).__init__()
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(DOOR_PIN, GPIO.IN)
+        #GPIO.setmode(GPIO.BCM)
+        #GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
@@ -97,8 +97,8 @@ class IOWorker(QtCore.QThread):
         self.expiration_date = expiration_date
 
     def read_naloxone_sensor(self):
-        _, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
-        #self.temperature = 77
+        #_, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+        self.temperature = 77
 
     def calculate_pwm(self):
         # print("control pwm")
@@ -112,12 +112,12 @@ class IOWorker(QtCore.QThread):
         return
 
     def read_cpu_sensor(self):
-        self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
-        #self.cpu_temp = 100
+        #self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
+        self.cpu_temp = 100
 
     def read_door_sensor(self):
-        #self.door_opened = False
-        #return
+        self.door_opened = False
+        return
         if GPIO.input(DOOR_PIN):
             self.door_opened = True
         else:
@@ -153,12 +153,14 @@ class IOWorker(QtCore.QThread):
 
 
 class AlarmWorker(QtCore.QThread):
-    def __init__(self, alarm_message, loop):
+    def __init__(self, alarm_message, voice_volume, loop):
         super(AlarmWorker, self).__init__()
         self.alarm_message = alarm_message
+        self.voice_volume = voice_volume
         self.loop = loop
         self.tts = gTTS(self.alarm_message, lang="en")
         self.tts.save("alarm.mp3")
+        os.system("pactl set-sink-volume 0 {}%".format(self.voice_volume))
         print("alarm thread go.")
 
     def run(self):
@@ -295,6 +297,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.alarm_message = str()
+        self.voice_volume = 20
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
@@ -311,6 +314,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_current_max_temperature)
         self.ui.fan_temperature_slider.valueChanged.connect(
             self.update_current_threshold_temperature)
+        self.ui.voice_volume_slider.valueChanged.connect(self.update_voice_volume)
         self.ui.callTestPushButton.clicked.connect(
             self.call_test_pushbutton_clicked)
         self.ui.smsTestPushButton.clicked.connect(
@@ -374,10 +378,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.alarm_worker.quit()
             self.alarm_worker.requestInterruption()
 
-    def create_alarm_worker(self, alarm_message, loop):
+    def create_alarm_worker(self, alarm_message, voice_volume, loop):
         self.destroy_alarm_worker()
         self.alarm_worker = AlarmWorker(
-            alarm_message, loop)
+            alarm_message, voice_volume, loop)
         self.alarm_worker.start()
 
     def destroy_countdown_worker(self):
@@ -476,6 +480,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["enable_active_cooling"] == "True")
             self.ui.alarm_message_lineedit.setText(
                 config["alarm"]["alarm_message"])
+            self.ui.voice_volume_slider.setValue(int(config["alarm"]["voice_volume"]))
         except Exception as e:
             return
         else:
@@ -559,6 +564,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.alarm_message_lineedit.setText(
                 config["alarm"]["alarm_message"])
             self.alarm_message = config["alarm"]["alarm_message"]
+            self.ui.voice_volume_slider.setValue(int(config["alarm"]["voice_volume"]))
+            self.voice_volume = int(config["alarm"]["voice_volume"])
 
             admin_qr_code = qrcode.QRCode(
                 version=None,
@@ -700,13 +707,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.settingsPushButton.setVisible(False)
             self.ui.backPushButton.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
-            # self.countdown_thread = CountDownWorker(10)
-            # self.countdown_thread.time_changed_signal.connect(
-            #     self.update_emergency_call_countdown)
-            # self.countdown_thread.time_end_signal.connect(
-            #     self.call_emergency_now)
-            # self.countdown_thread.time_end_signal.connect(self.speak_now)
-            # self.countdown_thread.start()
             self.create_countdown_worker(10)
 
     def back_pushbutton_pushed(self):
@@ -826,19 +826,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             return "Information", "Door Armed.", "The door sensor is now on."
 
     def reset_button_pushed(self):
-        # Create a thread to check the shared memory for door status.
-        # self.reset_thread = GenericWorker(
-        #     self.reset_after_door_open)
-        # self.reset_thread.msg_info_signal.connect(
-        #     self.display_messagebox)
-        # self.reset_thread.start()
         self.reset_after_door_open()
 
     def auto_reset(self):
         # Used to auto reset the door if closed with the countdown time.
-        # self.reset_thread = GenericWorker(
-        #     self.reset_after_door_open)
-        # self.reset_thread.start()
         self.reset_after_door_open()
 
     def reset_after_door_open(self):
@@ -892,12 +883,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def test_tts_engine(self):
-        self.create_alarm_worker(self.ui.alarm_message_lineedit.text(), False)
+        self.create_alarm_worker(self.ui.alarm_message_lineedit.text(), self.ui.voice_volume_slider.value(), False)
 
     @QtCore.pyqtSlot()
     def speak_now(self):
         print("speak now")
-        self.create_alarm_worker(self.alarm_message, True)
+        self.create_alarm_worker(self.alarm_message, self.voice_volume, True)
         self.ui.alarmStatusLabel.setText("Speaking")
 
     @QtCore.pyqtSlot()
@@ -1020,6 +1011,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         else:
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#AC193D")
+    
+    @QtCore.pyqtSlot(int)
+    def update_voice_volume(self, value):
+        self.ui.voice_volume_label.setText(str(value) + "%")
 
     @QtCore.pyqtSlot(int)
     def update_current_max_temperature(self, value):
@@ -1070,6 +1065,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         config["alarm"] = {
             "alarm_message": self.ui.alarm_message_lineedit.text(),
+            "voice_volume":self.ui.voice_volume_slider.value()
         }
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
