@@ -10,7 +10,6 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-from playsound import playsound
 from gpiozero import CPUTemperature
 import RPi.GPIO as GPIO
 import Adafruit_DHT as dht
