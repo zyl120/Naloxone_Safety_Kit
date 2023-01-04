@@ -322,7 +322,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.passcodeEnterPushButton.clicked.connect(
             self.check_passcode_unlock_settings)
         self.ui.doorOpenResetPushButton.clicked.connect(
-            self.reset_button_pushed)
+            self.reset_to_default)
         self.ui.stopCountdownPushButton.clicked.connect(
             self.stop_countdown_button_pushed)
         self.ui.call911NowPushButton.clicked.connect(self.call_emergency_now)
@@ -807,13 +807,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.call_worker.start()
 
     def toggle_door_arm(self):
-        # Used to disable the door switch
-        self.door_arm_thread = GenericWorker(
-            self.toggle_door_arm_thread)
-        self.door_arm_thread.msg_info_signal.connect(self.display_messagebox)
-        self.door_arm_thread.start()
-
-    def toggle_door_arm_thread(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
             self.ui.disarmPushButton.setText("Arm")
             self.disarmed = True
@@ -825,14 +818,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.create_io_worker()
             return "Information", "Door Armed.", "The door sensor is now on."
 
-    def reset_button_pushed(self):
-        self.reset_after_door_open()
-
-    def auto_reset(self):
-        # Used to auto reset the door if closed with the countdown time.
-        self.reset_after_door_open()
-
-    def reset_after_door_open(self):
+    def reset_to_default(self):
         # Used to check whether the door is still opened
         if (self.door_opened):
             print("door is still opened")
@@ -918,7 +904,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (not self.door_opened):
             # when the door is closed within the countdown time, auto reset it.
             self.stop_countdown_button_pushed()
-            self.auto_reset()
+            self.reset_to_default()
 
     @QtCore.pyqtSlot(str, str, str)
     def update_phone_call_gui(self, icon, text, detailed_text):
