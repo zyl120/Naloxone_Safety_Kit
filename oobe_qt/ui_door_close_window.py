@@ -1215,6 +1215,9 @@ class Ui_door_close_main_window(object):
         self.horizontalLayout_31.addItem(spacerItem25)
         self.alarm_message_lineedit = QtWidgets.QLineEdit(self.verticalLayoutWidget_12)
         self.alarm_message_lineedit.setMinimumSize(QtCore.QSize(380, 30))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.alarm_message_lineedit.setFont(font)
         self.alarm_message_lineedit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.alarm_message_lineedit.setObjectName("alarm_message_lineedit")
         self.horizontalLayout_31.addWidget(self.alarm_message_lineedit)
@@ -2323,7 +2326,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(6)
+        self.settingsTab.setCurrentIndex(4)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.passcodeEnterLineEdit)

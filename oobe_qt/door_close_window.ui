@@ -1739,7 +1739,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>6</number>
+          <number>4</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2960,6 +2960,11 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
                     <width>380</width>
                     <height>30</height>
                    </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
