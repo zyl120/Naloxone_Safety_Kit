@@ -75,13 +75,14 @@ class IOWorker(QtCore.QThread):
     update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
     go_to_door_open_signal = QtCore.pyqtSignal()
 
-    def __init__(self, disarmed, max_temp, expiration_date):
+    def __init__(self, disarmed, max_temp, fan_threshold_temp, expiration_date):
         super(IOWorker, self).__init__()
         # GPIO.setmode(GPIO.BCM)
         #GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
+        self.fan_threshold_temp = fan_threshold_temp
         self.fan_pwm = 0
         self.cpu_temp = 50
         self.door_opened = False
@@ -91,13 +92,15 @@ class IOWorker(QtCore.QThread):
 
     def read_naloxone_sensor(self):
         #_, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
-        self.temperature = 25
+        self.temperature = 77
 
     def calculate_pwm(self):
         # print("control pwm")
         list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
-        self.fan_pwm = random.choice(list1)
-        # return pwm
+        if(self.cpu_temp < self.fan_threshold_temp):
+            self.fan_pwm = 0
+        else:
+            self.fan_pwm = random.choice(list1)
 
     def send_pwm(self):
         return
@@ -260,6 +263,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.door_opened = False
         self.disarmed = False
         self.max_temp = 0
+        self.fan_threshold_temp = 0
         self.admin_passcode = str()
         self.naloxone_passcode = str()
         self.twilio_sid = str()
@@ -287,6 +291,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
         self.ui.temperatureSlider.valueChanged.connect(
             self.update_current_max_temperature)
+        self.ui.fan_temperature_slider.valueChanged.connect(
+            self.update_current_threshold_temperature)
         self.ui.callTestPushButton.clicked.connect(
             self.call_test_pushbutton_clicked)
         self.ui.smsTestPushButton.clicked.connect(
@@ -330,7 +336,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.io_worker.quit()
             self.io_worker.requestInterruption()
         self.io_worker = IOWorker(
-            self.disarmed, self.max_temp, self.naloxone_expiration_date)
+            self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
         self.io_worker.update_door.connect(self.update_door_ui)
         self.io_worker.go_to_door_open_signal.connect(self.goto_door_open)
         self.io_worker.update_temperature.connect(
@@ -400,6 +406,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
+            self.ui.fan_temperature_slider.setValue(
+                int(config["power_management"]["threshold_temperature"]))
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
             self.ui.naloxonePasscodeLineEdit.setText(
                 config["admin"]["naloxone_passcode"])
@@ -457,8 +465,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
+            self.ui.fan_temperature_slider.setValue(
+                int(config["power_management"]["threshold_temperature"]))
             self.max_temp = int(
                 config["naloxone_info"]["absolute_maximum_temperature"])
+            self.fan_threshold_temp = int(
+                config["power_management"]["threshold_temperature"])
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
             self.admin_passcode = config["admin"]["passcode"]
             self.ui.naloxonePasscodeLineEdit.setText(
@@ -953,6 +965,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # the slider on the setting page.
         self.ui.CurrentTemperatureLabel.setText(str(value)+"℉")
 
+    @QtCore.pyqtSlot(int)
+    def update_current_threshold_temperature(self, value):
+        self.ui.current_fan_temperature.setText(str(value)+"℉")
+
     def save_config_file(self):
         # save the config file
         self.active_hour_start = self.ui.startTimeEdit.time()
@@ -985,6 +1001,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         config["power_management"] = {
             "enable_active_cooling": self.ui.enableActiveCoolingCheckBox.isChecked(),
+            "threshold_temperature": self.ui.fan_temperature_slider.value(),
             "enable_power_saving": self.ui.enablePowerSavingCheckBox.isChecked(),
             "active_hours_start_at": self.active_hour_start.toString("hh:mm"),
             "active_hours_end_at": self.active_hour_end.toString("hh:mm")
