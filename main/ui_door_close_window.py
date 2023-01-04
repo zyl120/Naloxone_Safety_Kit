@@ -2206,7 +2206,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(25)
         font.setBold(True)
         self.stopCountdownPushButton.setFont(font)
-        self.stopCountdownPushButton.setStyleSheet("color: white; background-color: rgb(65,65,65); border-radius:3px;border-color: rgb(65,65,65);border-width: 0.5px;border-style: solid;\n"
+        self.stopCountdownPushButton.setStyleSheet("color: white; background-color: rgb(65,65,65); border-radius:5px;border-color: rgb(65,65,65);border-width: 0.5px;border-style: solid;\n"
 "")
         self.stopCountdownPushButton.setObjectName("stopCountdownPushButton")
         self.horizontalLayout_42.addWidget(self.stopCountdownPushButton)
@@ -2282,6 +2282,8 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_27.addWidget(self.emergencyCallLastCallLabel)
         self.horizontalLayout_46.addLayout(self.verticalLayout_27)
         self.verticalLayout_14.addLayout(self.horizontalLayout_46)
+        spacerItem50 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_14.addItem(spacerItem50)
         self.call911NowPushButton = QtWidgets.QPushButton(self.verticalLayoutWidget_9)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
