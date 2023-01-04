@@ -2183,7 +2183,7 @@ class Ui_door_close_main_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.emergencyCallCountdownLabel.sizePolicy().hasHeightForWidth())
         self.emergencyCallCountdownLabel.setSizePolicy(sizePolicy)
-        self.emergencyCallCountdownLabel.setMinimumSize(QtCore.QSize(0, 30))
+        self.emergencyCallCountdownLabel.setMinimumSize(QtCore.QSize(0, 40))
         self.emergencyCallCountdownLabel.setMaximumSize(QtCore.QSize(16777215, 30))
         font = QtGui.QFont()
         font.setPointSize(25)
@@ -2200,12 +2200,12 @@ class Ui_door_close_main_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.stopCountdownPushButton.sizePolicy().hasHeightForWidth())
         self.stopCountdownPushButton.setSizePolicy(sizePolicy)
-        self.stopCountdownPushButton.setMinimumSize(QtCore.QSize(0, 60))
+        self.stopCountdownPushButton.setMinimumSize(QtCore.QSize(0, 80))
         font = QtGui.QFont()
         font.setPointSize(25)
         font.setBold(True)
         self.stopCountdownPushButton.setFont(font)
-        self.stopCountdownPushButton.setStyleSheet("color: white; background-color: rgb(65,65,65); border-radius:3px;border-color: rgb(65,65,65);border-width: 2px;border-style: solid;\n"
+        self.stopCountdownPushButton.setStyleSheet("color: white; background-color: rgb(65,65,65); border-radius:3px;border-color: rgb(65,65,65);border-width: 0.5px;border-style: solid;\n"
 "")
         self.stopCountdownPushButton.setObjectName("stopCountdownPushButton")
         self.verticalLayout_15.addWidget(self.stopCountdownPushButton)
@@ -2234,7 +2234,7 @@ class Ui_door_close_main_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.emergencyCallStatusLabel.sizePolicy().hasHeightForWidth())
         self.emergencyCallStatusLabel.setSizePolicy(sizePolicy)
-        self.emergencyCallStatusLabel.setMinimumSize(QtCore.QSize(0, 30))
+        self.emergencyCallStatusLabel.setMinimumSize(QtCore.QSize(0, 40))
         self.emergencyCallStatusLabel.setMaximumSize(QtCore.QSize(16777215, 30))
         font = QtGui.QFont()
         font.setPointSize(25)
@@ -2267,7 +2267,7 @@ class Ui_door_close_main_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.emergencyCallLastCallLabel.sizePolicy().hasHeightForWidth())
         self.emergencyCallLastCallLabel.setSizePolicy(sizePolicy)
-        self.emergencyCallLastCallLabel.setMinimumSize(QtCore.QSize(0, 30))
+        self.emergencyCallLastCallLabel.setMinimumSize(QtCore.QSize(0, 40))
         self.emergencyCallLastCallLabel.setMaximumSize(QtCore.QSize(16777215, 30))
         font = QtGui.QFont()
         font.setPointSize(25)
@@ -2291,7 +2291,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.call911NowPushButton.setFont(font)
-        self.call911NowPushButton.setStyleSheet("color: white; background-color: red; border-radius:5px;border-color:red;border-width: 2px;border-style: solid;\n"
+        self.call911NowPushButton.setStyleSheet("color: white; background-color: red; border-radius:5px;border-color:red;border-width: 0.5px;border-style: solid;\n"
 "")
         self.call911NowPushButton.setObjectName("call911NowPushButton")
         self.verticalLayout_14.addWidget(self.call911NowPushButton)
@@ -2325,7 +2325,7 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(4)
         self.settingsTab.setCurrentIndex(4)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)

@@ -304,7 +304,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -5286,7 +5286,7 @@ Mute</string>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>30</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -5325,7 +5325,7 @@ Mute</string>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>60</height>
+                <height>80</height>
                </size>
               </property>
               <property name="font">
@@ -5335,7 +5335,7 @@ Mute</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color: white; background-color: rgb(65,65,65); border-radius:3px;border-color: rgb(65,65,65);border-width: 2px;border-style: solid;
+               <string notr="true">color: white; background-color: rgb(65,65,65); border-radius:3px;border-color: rgb(65,65,65);border-width: 0.5px;border-style: solid;
 </string>
               </property>
               <property name="text">
@@ -5391,7 +5391,7 @@ Countdown</string>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>30</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -5462,7 +5462,7 @@ Countdown</string>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>30</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -5515,7 +5515,7 @@ Countdown</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color: white; background-color: red; border-radius:5px;border-color:red;border-width: 2px;border-style: solid;
+           <string notr="true">color: white; background-color: red; border-radius:5px;border-color:red;border-width: 0.5px;border-style: solid;
 </string>
           </property>
           <property name="text">
