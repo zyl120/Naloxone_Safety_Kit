@@ -9,7 +9,8 @@ from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
 import qrcode
 import random
-import pyttsx3
+from gtts import gTTS
+from playsound import playsound
 #from gpiozero import CPUTemperature
 #import RPi.GPIO as GPIO
 #import Adafruit_DHT as dht
@@ -148,16 +149,25 @@ class IOWorker(QtCore.QThread):
 
 
 class AlarmWorker(QtCore.QThread):
-    def __init__(self):
+    def __init__(self, alarm_message, loop):
         super(AlarmWorker, self).__init__()
+        self.alarm_message = alarm_message
+        self.loop = loop
+        self.tts = gTTS(self.alarm_message, lang="en")
+        self.tts.save("alarm.mp3")
         print("alarm thread go.")
 
     def run(self):
-        while (True):
+        if(self.loop):
+            # loop until stopped by interruption
+            while (True):
+                playsound("alarm.mp3")
+                if (self.isInterruptionRequested()):
+                    break
+        else:
             print("saying alarm now.")
-            sleep(1)
-            if (self.isInterruptionRequested()):
-                break
+            playsound("alarm.mp3")
+            print("finish")
 
 
 class NetworkWorker(QtCore.QThread):
@@ -277,9 +287,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.naloxone_expiration_date = QtCore.QDate().currentDate()
         self.active_hour_start = QtCore.QTime(8, 0, 0)
         self.active_hour_end = QtCore.QTime(18, 0, 0)
+        self.alarm_message = str()
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
-        # self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.homePushButton.clicked.connect(self.goto_home)
@@ -312,6 +322,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.getPasscodePushButton.clicked.connect(
             self.get_passcode_button_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
+        self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
 
         self.generate_ui_qrcode()
 
@@ -345,11 +356,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
 
-    def create_alarm_worker(self):
+    def create_alarm_worker(self, alarm_message, loop):
         if (self.alarm_worker is not None):
             self.alarm_worker.quit()
             self.alarm_worker.requestInterruption()
-        self.alarm_worker = AlarmWorker()
+        self.alarm_worker = AlarmWorker(
+            alarm_message, loop)
         self.alarm_worker.start()
 
     def generate_ui_qrcode(self):
@@ -432,6 +444,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["enable_power_saving"] == "True")
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
+            self.ui.alarm_message_lineedit.setText(
+                config["alarm"]["alarm_message"])
         except Exception as e:
             return
         else:
@@ -512,6 +526,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["enable_power_saving"] == "True")
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
+            self.ui.alarm_message_lineedit.setText(
+                config["alarm"]["alarm_message"])
+            self.alarm_message = config["alarm"]["alarm_message"]
 
             admin_qr_code = qrcode.QRCode(
                 version=None,
@@ -839,9 +856,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         print("sent to admin")
 
     @QtCore.pyqtSlot()
+    def test_tts_engine(self):
+        self.create_alarm_worker(self.ui.alarm_message_lineedit.text(), False)
+
+    @QtCore.pyqtSlot()
     def speak_now(self):
         print("speak now")
-        self.create_alarm_worker()
+        self.create_alarm_worker(self.alarm_message, True)
         self.ui.alarmStatusLabel.setText("Speaking")
 
     @QtCore.pyqtSlot()
@@ -1010,6 +1031,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "enable_power_saving": self.ui.enablePowerSavingCheckBox.isChecked(),
             "active_hours_start_at": self.active_hour_start.toString("hh:mm"),
             "active_hours_end_at": self.active_hour_end.toString("hh:mm")
+        }
+        config["alarm"] = {
+            "alarm_message": self.ui.alarm_message_lineedit.text(),
         }
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
