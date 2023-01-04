@@ -5209,7 +5209,7 @@ Mute</string>
          <x>5</x>
          <y>7</y>
          <width>371</width>
-         <height>391</height>
+         <height>381</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -5224,6 +5224,12 @@ Mute</string>
           <property name="minimumSize">
            <size>
             <width>0</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
             <height>50</height>
            </size>
           </property>
@@ -5255,6 +5261,12 @@ Mute</string>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
                   <height>40</height>
                  </size>
                 </property>
@@ -5292,7 +5304,7 @@ Mute</string>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>30</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="font">
@@ -5325,6 +5337,12 @@ Mute</string>
               <property name="minimumSize">
                <size>
                 <width>0</width>
+                <height>80</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
                 <height>80</height>
                </size>
               </property>
@@ -5364,6 +5382,12 @@ Countdown</string>
                   <height>40</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>40</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <pointsize>25</pointsize>
@@ -5397,7 +5421,7 @@ Countdown</string>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>30</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="font">
@@ -5435,6 +5459,12 @@ Countdown</string>
                   <height>40</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>40</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <pointsize>25</pointsize>
@@ -5468,7 +5498,7 @@ Countdown</string>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>30</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="font">
@@ -5495,6 +5525,19 @@ Countdown</string>
          </layout>
         </item>
         <item>
+         <spacer name="verticalSpacer_13">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QPushButton" name="call911NowPushButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -5505,7 +5548,13 @@ Countdown</string>
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>40</height>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>80</height>
            </size>
           </property>
           <property name="font">
