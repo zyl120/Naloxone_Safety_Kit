@@ -977,7 +977,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.temperatureLineEdit.setText(
             str(temperature) + "℉")
         self.ui.cpuTemperatureLineEdit.setText(str(cpu_temperature) + "℉")
-        self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
+        if(pwm == 0):
+            self.ui.fanSpeedLineEdit.setText("OFF")
+        else:
+            self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
         if (not over_temperature):
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#008A00")
