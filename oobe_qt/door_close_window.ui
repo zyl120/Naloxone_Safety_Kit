@@ -5051,7 +5051,7 @@ Reset</string>
          <x>10</x>
          <y>10</y>
          <width>361</width>
-         <height>173</height>
+         <height>171</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -5209,7 +5209,7 @@ Mute</string>
          <x>5</x>
          <y>7</y>
          <width>371</width>
-         <height>381</height>
+         <height>391</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -5261,7 +5261,7 @@ Mute</string>
                 <property name="font">
                  <font>
                   <pointsize>25</pointsize>
-                  <bold>true</bold>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
@@ -5505,7 +5505,7 @@ Countdown</string>
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>60</height>
+            <height>40</height>
            </size>
           </property>
           <property name="font">
