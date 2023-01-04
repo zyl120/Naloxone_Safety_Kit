@@ -63,10 +63,15 @@ class CountDownWorker(QtCore.QThread):
         while (self.time_in_sec >= 0):
             self.time_changed_signal.emit(self.time_in_sec)
             self.time_in_sec = self.time_in_sec - 1
+            if (self.isInterruptionRequested()):
+                print("countdown timer terminated")
+                break
             sleep(1)
-        self.time_end_signal.emit()
+        if(self.time_in_sec == -1):
+            self.time_end_signal.emit()
 
     def stop(self):
+        print("countdown timer terminated")
         self.terminate()
 
 
@@ -314,7 +319,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.check_passcode_unlock_settings)
         self.ui.doorOpenResetPushButton.clicked.connect(
             self.reset_button_pushed)
-        self.countdown_thread = CountDownWorker(10)
         self.ui.stopCountdownPushButton.clicked.connect(
             self.stop_countdown_button_pushed)
         self.ui.call911NowPushButton.clicked.connect(self.call_emergency_now)
@@ -331,24 +335,31 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.network_worker = None
         self.io_worker = None
         self.alarm_worker = None
+        self.countdown_worker = None
 
         self.goto_home()
         self.lock_settings()
         self.load_settings()
-
-    def create_network_worker(self):
+    
+    def destroy_network_worker(self):
         if (self.network_worker is not None):
             self.network_worker.quit()
             self.network_worker.requestInterruption()
+
+    def create_network_worker(self):
+        self.destroy_network_worker()
         self.network_worker = NetworkWorker(self.twilio_sid, self.twilio_token)
         self.network_worker.update_server.connect(
             self.update_server_ui)
         self.network_worker.start()
 
-    def create_io_worker(self):
+    def destroy_io_worker(self):
         if (self.io_worker is not None):
             self.io_worker.quit()
             self.io_worker.requestInterruption()
+
+    def create_io_worker(self):
+        self.destroy_io_worker()
         self.io_worker = IOWorker(
             self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
         self.io_worker.update_door.connect(self.update_door_ui)
@@ -358,13 +369,30 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
 
-    def create_alarm_worker(self, alarm_message, loop):
+    def destroy_alarm_worker(self):
         if (self.alarm_worker is not None):
             self.alarm_worker.quit()
             self.alarm_worker.requestInterruption()
+
+    def create_alarm_worker(self, alarm_message, loop):
+        self.destroy_alarm_worker()
         self.alarm_worker = AlarmWorker(
             alarm_message, loop)
         self.alarm_worker.start()
+
+    def destroy_countdown_worker(self):
+        if(self.countdown_worker is not None):
+            self.countdown_worker.quit()
+            self.countdown_worker.requestInterruption()
+
+    def create_countdown_worker(self, time):
+        self.destroy_countdown_worker()
+        self.countdown_worker = CountDownWorker(time)
+        self.countdown_worker.time_changed_signal.connect(self.update_emergency_call_countdown)
+        self.countdown_worker.time_end_signal.connect(
+                self.call_emergency_now)
+        self.countdown_worker.time_end_signal.connect(self.speak_now)
+        self.countdown_worker.start()
 
     def generate_ui_qrcode(self):
         github_qr_code = qrcode.QRCode(
@@ -672,13 +700,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.settingsPushButton.setVisible(False)
             self.ui.backPushButton.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
-            self.countdown_thread = CountDownWorker(10)
-            self.countdown_thread.time_changed_signal.connect(
-                self.update_emergency_call_countdown)
-            self.countdown_thread.time_end_signal.connect(
-                self.call_emergency_now)
-            self.countdown_thread.time_end_signal.connect(self.speak_now)
-            self.countdown_thread.start()
+            # self.countdown_thread = CountDownWorker(10)
+            # self.countdown_thread.time_changed_signal.connect(
+            #     self.update_emergency_call_countdown)
+            # self.countdown_thread.time_end_signal.connect(
+            #     self.call_emergency_now)
+            # self.countdown_thread.time_end_signal.connect(self.speak_now)
+            # self.countdown_thread.start()
+            self.create_countdown_worker(10)
 
     def back_pushbutton_pushed(self):
         self.ui.settingsPushButton.setChecked(False)
@@ -798,17 +827,19 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def reset_button_pushed(self):
         # Create a thread to check the shared memory for door status.
-        self.reset_thread = GenericWorker(
-            self.reset_after_door_open)
-        self.reset_thread.msg_info_signal.connect(
-            self.display_messagebox)
-        self.reset_thread.start()
+        # self.reset_thread = GenericWorker(
+        #     self.reset_after_door_open)
+        # self.reset_thread.msg_info_signal.connect(
+        #     self.display_messagebox)
+        # self.reset_thread.start()
+        self.reset_after_door_open()
 
     def auto_reset(self):
         # Used to auto reset the door if closed with the countdown time.
-        self.reset_thread = GenericWorker(
-            self.reset_after_door_open)
-        self.reset_thread.start()
+        # self.reset_thread = GenericWorker(
+        #     self.reset_after_door_open)
+        # self.reset_thread.start()
+        self.reset_after_door_open()
 
     def reset_after_door_open(self):
         # Used to check whether the door is still opened
@@ -827,6 +858,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.alarmMutePushButton.setVisible(True)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
+            self.destroy_countdown_worker()
+            self.destroy_alarm_worker()
             return "Information", "System Reset to Default.", "N/A"
 
     def stop_countdown_button_pushed(self):
@@ -839,7 +872,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
         self.ui.emergencyCallLastCallLabel.setText("N/A")
-        self.countdown_thread.stop()
+        self.destroy_countdown_worker()
 
     def forgot_password_button_pushed(self):
         # when the forgot password button is pushed, use the conf file to send
@@ -869,9 +902,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def stop_alarm(self):
-        if (self.alarm_worker is not None):
-            self.alarm_worker.quit()
-            self.alarm_worker.requestInterruption()
+        self.destroy_alarm_worker()
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
 
@@ -887,7 +918,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.emergencyCallCountdownLabel.setVisible(False)
         if (self.ui.stopCountdownPushButton.isVisible()):
             self.ui.stopCountdownPushButton.setVisible(False)
-            self.countdown_thread.stop()
+            self.destroy_countdown_worker()
 
     @QtCore.pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
