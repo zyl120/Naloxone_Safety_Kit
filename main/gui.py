@@ -9,6 +9,7 @@ from ui_door_close_window import Ui_door_close_main_window
 from time import sleep
 import qrcode
 import random
+import pyttsx3
 #from gpiozero import CPUTemperature
 #import RPi.GPIO as GPIO
 #import Adafruit_DHT as dht
@@ -550,6 +551,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.settingsTab.setTabVisible(3, True)
             self.ui.settingsTab.setTabVisible(4, True)
             self.ui.settingsTab.setTabVisible(5, True)
+            self.ui.settingsTab.setTabVisible(6, True)
             self.ui.settingsTab.setCurrentIndex(1)
             self.ui.homePushButton.setChecked(False)
             self.ui.dashboardPushButton.setChecked(False)
@@ -571,6 +573,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(3, False)
         self.ui.settingsTab.setTabVisible(4, False)
         self.ui.settingsTab.setTabVisible(5, False)
+        self.ui.settingsTab.setTabVisible(6, False)
         print("Settings locked")
 
     def unlock_naloxone_settings(self):
@@ -584,6 +587,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(3, False)
         self.ui.settingsTab.setTabVisible(4, False)
         self.ui.settingsTab.setTabVisible(5, False)
+        self.ui.settingsTab.setTabVisible(6, False)
         self.ui.settingsTab.setCurrentIndex(1)
         print("Naloxone Settings unlocked")
 
@@ -599,6 +603,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(3, True)
         self.ui.settingsTab.setTabVisible(4, True)
         self.ui.settingsTab.setTabVisible(5, True)
+        self.ui.settingsTab.setTabVisible(6, True)
         self.ui.settingsTab.setCurrentIndex(1)
         print("All Settings unlocked")
 

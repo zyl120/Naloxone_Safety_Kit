@@ -305,7 +305,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="homePage">
      <widget class="QFrame" name="frame">
@@ -2216,12 +2216,23 @@ QSlider::handle:horizontal {
               </item>
               <item>
                <widget class="QLabel" name="label_22">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>22</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>The virtual phone number purchased from Twilio.
-Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
+                 <string>The virtual phone number purchased from Twilio. Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                 </property>
                 <property name="textFormat">
                  <enum>Qt::PlainText</enum>
@@ -2311,6 +2322,18 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
               </item>
               <item>
                <widget class="QLabel" name="label_4">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>22</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color:lightgrey</string>
                 </property>
@@ -2404,12 +2427,23 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
               </item>
               <item>
                <widget class="QLabel" name="label_21">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>22</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>The auth token provided by Twilio to access
-your account.</string>
+                 <string>The auth token provided by Twilio to access your account.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -2487,7 +2521,7 @@ QScrollBar::sub-line:vertical {
               <x>0</x>
               <y>0</y>
               <width>765</width>
-              <height>477</height>
+              <height>411</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2542,8 +2576,7 @@ QScrollBar::sub-line:vertical {
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
+                      <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                      </property>
                     </widget>
                    </item>
@@ -2554,15 +2587,20 @@ QScrollBar::sub-line:vertical {
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>44</height>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>22</height>
                     </size>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">color:lightgrey</string>
                    </property>
                    <property name="text">
-                    <string>The phone number used to call emergency service.
-Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
+                    <string>The phone number used to call emergency service. Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -2654,15 +2692,20 @@ Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>44</height>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>22</height>
                     </size>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">color:lightgrey</string>
                    </property>
                    <property name="text">
-                    <string>The location of the safety kit.
-This info will be included in the emergency call.</string>
+                    <string>The location of the safety kit. This info will be included in the emergency call.</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -2748,15 +2791,20 @@ This info will be included in the emergency call.</string>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>44</height>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>22</height>
                     </size>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">color:lightgrey</string>
                    </property>
                    <property name="text">
-                    <string>The message to describe nature of the emergency.
-This info will be included in the emergency call.</string>
+                    <string>The message to describe nature of the emergency. This info will be included in the emergency call.</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -2861,6 +2909,488 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
            </widget>
           </widget>
          </widget>
+         <widget class="QWidget" name="alarm">
+          <attribute name="title">
+           <string>Alarm</string>
+          </attribute>
+          <widget class="QWidget" name="verticalLayoutWidget_12">
+           <property name="geometry">
+            <rect>
+             <x>9</x>
+             <y>9</y>
+             <width>761</width>
+             <height>381</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_33">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_52">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_31">
+                <item>
+                 <widget class="QLabel" name="label_13">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
+                  </property>
+                  <property name="text">
+                   <string>Alarm &amp;Message</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>alarm_message_lineedit</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_37">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="alarm_message_lineedit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>380</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color:lightgrey</string>
+                </property>
+                <property name="text">
+                 <string>This message will be processed by TTS engine and output to the speaker.</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line_12">
+              <property name="styleSheet">
+               <string notr="true">color:rgb(50,50,50)</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_58">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_46">
+                <item>
+                 <widget class="QLabel" name="speaking_rate_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
+                  </property>
+                  <property name="text">
+                   <string>Speaking Rate</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>temperatureSlider</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_39">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="current_speaking_rate_label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                  </property>
+                  <property name="text">
+                   <string>150 Words/Min</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="speaking_rate_slider">
+                  <property name="minimumSize">
+                   <size>
+                    <width>380</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid rgb(50,50,50);
+    border-radius: 3px;
+    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: rgb(50,50,50);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background-color:white;
+    border: 1px solid white;
+    width: 30px;
+    border-radius: 3px;
+}</string>
+                  </property>
+                  <property name="minimum">
+                   <number>100</number>
+                  </property>
+                  <property name="maximum">
+                   <number>200</number>
+                  </property>
+                  <property name="value">
+                   <number>150</number>
+                  </property>
+                  <property name="sliderPosition">
+                   <number>150</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_26">
+                <property name="styleSheet">
+                 <string notr="true">color:lightgrey</string>
+                </property>
+                <property name="text">
+                 <string>The speed of the speaking in words per minute.</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line_13">
+              <property name="styleSheet">
+               <string notr="true">color:rgb(50,50,50)</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_59">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_47">
+                <item>
+                 <widget class="QLabel" name="voice_volume_label">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
+                  </property>
+                  <property name="text">
+                   <string>Voice Volume</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buddy">
+                   <cstring>temperatureSlider</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_40">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="current_voice_volume_label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>60</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                  </property>
+                  <property name="text">
+                   <string>50%</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="voice_volume_slider">
+                  <property name="minimumSize">
+                   <size>
+                    <width>380</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid rgb(50,50,50);
+    border-radius: 3px;
+    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: rgb(50,50,50);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background-color:white;
+    border: 1px solid white;
+    width: 30px;
+    border-radius: 3px;
+}</string>
+                  </property>
+                  <property name="minimum">
+                   <number>0</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="sliderPosition">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_27">
+                <property name="styleSheet">
+                 <string notr="true">color:yellow</string>
+                </property>
+                <property name="text">
+                 <string>Warning: Always start at low volume before incrementing volume.</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line_16">
+              <property name="styleSheet">
+               <string notr="true">color:rgb(50,50,50)</string>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_38">
+              <item>
+               <widget class="QLabel" name="label_24">
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color:white</string>
+                </property>
+                <property name="text">
+                 <string>&amp;Test Alarm</string>
+                </property>
+                <property name="buddy">
+                 <cstring>callTestPushButton</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_38">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="test_alarm_pushbutton">
+                <property name="minimumSize">
+                 <size>
+                  <width>140</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>140</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+
+
+</string>
+                </property>
+                <property name="text">
+                 <string>Test</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
          <widget class="QWidget" name="power_management">
           <attribute name="title">
            <string>Power</string>
@@ -2956,21 +3486,20 @@ color:white;
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>44</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>44</height>
+                  <height>22</height>
                  </size>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">color:lightgrey</string>
                 </property>
                 <property name="text">
-                 <string>Turn off the display outside active hours.
-Display will be turned on automatically when door opens.</string>
+                 <string>Turn off the display outside active hours. Display will be turned on automatically when door opens.</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -3225,7 +3754,7 @@ color:white;
                    <string notr="true">color:white</string>
                   </property>
                   <property name="text">
-                   <string>&amp;Fan Threshold Temperature</string>
+                   <string>Fan &amp;Threshold Temperature</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3417,9 +3946,9 @@ QScrollBar::sub-line:vertical {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-202</y>
+              <y>-192</y>
               <width>765</width>
-              <height>582</height>
+              <height>572</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -3489,12 +4018,23 @@ QScrollBar::sub-line:vertical {
                  </item>
                  <item>
                   <widget class="QLabel" name="label_14">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>22</height>
+                    </size>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">color:yellow</string>
                    </property>
                    <property name="text">
-                    <string>Warning: Leave admin passcode empty will nullify
-naloxone passcode as well.</string>
+                    <string>Warning: Leave admin passcode empty will nullify naloxone passcode as well.</string>
                    </property>
                   </widget>
                  </item>
@@ -3723,6 +4263,19 @@ color:white;
                     <cstring>callTestPushButton</cstring>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_41">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item>
                   <widget class="QPushButton" name="callTestPushButton">
@@ -4268,23 +4821,10 @@ color:white;
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QLabel" name="passcodeEnterLabel">
          <property name="font">
           <font>
-           <pointsize>30</pointsize>
+           <pointsize>36</pointsize>
           </font>
          </property>
          <property name="styleSheet">
@@ -4380,17 +4920,159 @@ color:white;
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
+        <widget class="Line" name="line_14">
+         <property name="styleSheet">
+          <string notr="true">color:rgb(50,50,50)</string>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="paramedicsLabel">
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:white</string>
+           </property>
+           <property name="text">
+            <string>If you do not know the passcode,
+enter your phone number to get it.</string>
+           </property>
+           <property name="buddy">
+            <cstring>paramedicsPhoneNumberLineEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="paramedicsPhoneNumberLineEdit">
+           <property name="minimumSize">
+            <size>
+             <width>380</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_15">
+         <item>
+          <widget class="QLabel" name="paramedicsWarning">
+           <property name="styleSheet">
+            <string notr="true">color:yellow</string>
+           </property>
+           <property name="text">
+            <string>Warning: Your phone number will be recorded.
+Format the phone number as &quot;+1XXXXXXXXXX&quot;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="buddy">
+            <cstring>getPasscodePushButton</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="getPasscodePushButton">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+</string>
+           </property>
+           <property name="text">
+            <string>Get Passcode</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_15">
+         <property name="styleSheet">
+          <string notr="true">color:rgb(50,50,50)</string>
          </property>
-        </spacer>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_32">
@@ -4456,131 +5138,20 @@ color:white;
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_45">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
-           <item>
-            <widget class="QLabel" name="paramedicsLabel">
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:white</string>
-             </property>
-             <property name="text">
-              <string>If you do not know the passcode,
-enter your phone number to get it.</string>
-             </property>
-             <property name="buddy">
-              <cstring>paramedicsPhoneNumberLineEdit</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="paramedicsPhoneNumberLineEdit">
-             <property name="minimumSize">
-              <size>
-               <width>380</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_15">
-           <item>
-            <widget class="QLabel" name="paramedicsWarning">
-             <property name="styleSheet">
-              <string notr="true">color:yellow</string>
-             </property>
-             <property name="text">
-              <string>Warning: Your phone number will be recorded.
-Format the phone number as &quot;+1XXXXXXXXXX&quot;</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-             </property>
-             <property name="buddy">
-              <cstring>getPasscodePushButton</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="getPasscodePushButton">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-             </property>
-             <property name="text">
-              <string>Get Passcode</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_45"/>
        </item>
       </layout>
      </widget>
