@@ -3,7 +3,7 @@ import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from ui_door_close_window import Ui_door_close_main_window
+from ui_main_window import Ui_door_close_main_window
 
 class ApplicationWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -14,7 +14,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(1)
 
-        self.ui.naloxoneExpirationDateEdit.setDisplayFormat("MMM dd, yy")
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         #self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.homePushButton.clicked.connect(self.goto_home)
