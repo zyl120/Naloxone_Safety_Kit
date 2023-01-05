@@ -4,6 +4,5 @@ __pycache__/
 *.py[cod]
 qt_design/qt_design.pyproject.*
 main/safety_kit.conf
-*.png
 *.mp3
 qt_design/qt_design.pyproject.user
