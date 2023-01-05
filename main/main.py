@@ -10,9 +10,9 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -363,7 +363,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.io_worker.requestInterruption()
 
     def create_io_worker(self):
-        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(
             self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
