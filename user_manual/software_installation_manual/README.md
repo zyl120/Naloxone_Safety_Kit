@@ -138,6 +138,8 @@ This chapter will go through the steps to download and install all dependencies 
 
         pip3 install qrcode
 
+    ![Install qrcode helper library.](Screenshot%202022-12-26%20at%205.22.35%20AM.png)
+
 - Since we only use the qrcode library in the project, we do not need to follow the orange instruction. However, if you want to use it outside the Python environment for other projects, you need to add the path to the library to the environment variables.
 
 ### Step 3.18: Install Adafruit DHT Library
@@ -147,7 +149,7 @@ This chapter will go through the steps to download and install all dependencies 
         pip3 install Adafruit-DHT
 
 ### Step 3.19: Install Google Text-to-Speech Library
-- When there is no internet connection, the system needs to use the speaker to call for help. Since an alarm like a fire alarm will drive people outside of the building, a text-to-speech (TTS) engine is used to synthesize the alarm to sound like human speaking. The synthesized alarm will then be saved as an mp3 file. To install the TTS engine, run the following command in the terminal window:
+- When there is no internet connection, the system needs to use the speaker to call for help. Since an alarm like a fire alarm will drive people outside the building, a text-to-speech (TTS) engine is used to synthesize the alarm to sound like human speaking. The synthesized alarm will then be saved as a mp3 file. To install the TTS engine, run the following command in the terminal window:
 
         pip3 install gtts
 
