@@ -221,7 +221,6 @@ class CallWorker(QtCore.QThread):
         self.twilio_phone_number = t_number
 
     def run(self):
-        return
         client = Client(self.twilio_sid, self.twilio_token)
         try:
             call = client.calls.create(
