@@ -115,34 +115,34 @@ This chapter will go through the steps to download and install all dependencies 
 
 - You should restart the Raspberry Pi after a software upgrade for the changes to be applied.
 
-### Step 3.15: Install python3-pyqt5
+### Step 3.15: Install `python3-pyqt5`
 
 - PyQt5 is a binding of the Qt5 implemented by Python. It is the GUI toolkit for the software we will use later. To download the PyQt5, enter the following command in the terminal window and then press enter:
 
         sudo apt install python3-pyqt5
 
-- python3-pyqt5 may have already been installed on your system, you can just ignore this step.
+- `python3-pyqt5` may have already been installed on your system, you can just ignore this step.
 
-### Step 3.16: Install Twilio python helper library
+### Step 3.16: Install Twilio's python helper library
 
 - We use Twilio as the communication service in the project. Twilio provides a Python helper library to simplify the calling and texting process. To install the helper library, enter the following command and press enter:
 
         pip3 install twilio
 
 - Since we are using the Python package manager pip3 in this process, we do not need to append sudo in front of the command.
-- This command will automatically install the twilio package's dependencies for us.
+- This command will automatically install the `twilio` package's dependencies for us.
 
-### Step 3.17: Install qrcode library
+### Step 3.17: Install `qrcode` library
 
-- We use QR code in the GUI to help users get the information they need. The QR codes are generated in the runtime. To install the qrcode library, enter the following command and press enter:
+- We use QR code in the GUI to help users get the information they need. The QR codes are generated in the runtime. To install the `qrcode` library, enter the following command and press enter:
 
         pip3 install qrcode
 
-    ![Install qrcode helper library.](Screenshot%202022-12-26%20at%205.22.35%20AM.png)
+    ![Install `qrcode` helper library.](Screenshot%202022-12-26%20at%205.22.35%20AM.png)
 
-- Since we only use the qrcode library in the project, we do not need to follow the orange instruction. However, if you want to use it outside the Python environment for other projects, you need to add the path to the library to the environment variables.
+- Since we only use the `qrcode` library in the project, we do not need to follow the orange instruction. However, if you want to use it outside the Python environment for other projects, you need to add the path to the library to the environment variables.
 
-### Step 3.18: Install Adafruit DHT Library
+### Step 3.18: Install `Adafruit-DHT` Library
 
 - Since the DHT22 comes from the Adafruit, Adafruit also provides a helper library to read the sensors using Python. To install the helper library, run the following command in the terminal window:
 

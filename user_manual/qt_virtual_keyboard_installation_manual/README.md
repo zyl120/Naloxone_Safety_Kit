@@ -25,7 +25,7 @@
 
         sudo apt install git build-essential
 
-- This command installs the git and the build-essential packages necessary to build the Qt virtual keyboard.
+- This command installs the `git` and the `build-essential` packages necessary to build the Qt virtual keyboard.
 
 ### Step 1.4: Check the PyQt5 prefix path
 
@@ -35,8 +35,8 @@
 
     ![Check QT_PREFIX_PATH.](Screenshot_20230104_234533.png)
 
-- In most cases, the prefix path is at /usr. However, if your prefix path is not at /usr, you need to adjust the command in later steps.
-- ***We define QT_PREFIX_PATH as /usr in later steps. You should adjust the path before executing the command.***
+- In most cases, the prefix path is at `/usr`. However, if your prefix path is not at `/usr`, you need to adjust the command in later steps.
+- ***We define `QT_PREFIX_PATH` as `/usr` in later steps. You should adjust the path accordingly before executing the command.***
 
 ### Step 1.5: Download dependencies
 
@@ -48,64 +48,88 @@
 
         sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
 
-### Step 1.7: Download QtVirtualKeyboard source code from GitHub
+### Step 1.7: Change directory to home
+
+- Later steps assume that your working directory is at your home folder. To change the current working directory to the home folder, run the following command:
+
+        cd ~
+
+### Step 1.8: Download QtVirtualKeyboard source code from GitHub
+
+- We are using the LTS version of the Qt5 for the project. To download the latest LTS source code of the Qt virtual keyboard, run the following command:
 
         git clone -b 5.15 https://github.com/qt/qtvirtualkeyboard.git
 
-### Step 1.8: Open the qtvirtualkeyboard folder
+### Step 1.9: Open the qtvirtualkeyboard folder
+
+- By default, step 1.8 will download the source code to a directory called `qtvirtualkeyboard` in your home directory. To open that directory, run the following command:
 
         cd ~/qtvirtualkeyboard
 
-### Step 1.9: Run qmake
+- You can verify the current working directory by using running the following command:
+
+        pwd
+        
+- You are expected to see the output of the above command as `/home/USER_NAME/qtvirtualkeyboard`, where `USER_NAME` is the name of the account. 
+
+### Step 1.10: Run qmake
+
+- To generate the `makefile` automatically, run the following command: 
 
         qmake
 
-### Step 1.10: Build
+### Step 1.11: Build
+
+- Then you can use the below command to compile the Qt virtual keyboard automatically. This will take around 15 minutes on Raspberry Pi.
 
         sudo make
 
-### Step 1.11: Install
+### Step 1.12: Install
+
+- By running the below command, the binary files will be moved to the appropriate locations on the system.
 
         sudo make install
 
+- By default, the destination is at `~\qtvirtualkeyboard`.
+
 ## Chapter 2: Copy Files
 
-### Step 2.12: Copy libQt5VirtualKeyboard.so.5
+### Step 2.13: Copy libQt5VirtualKeyboard.so.5
 
 - In the terminal window, enter the following command:
 
         sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8 QT_PREFIX_PATH/lib/libQt5VirtualKeyboard.so.5
 
-- If your QT_PREFIX_PATH is /usr, the command will be
+- If your QT_PREFIX_PATH is `/usr`, the command will be
 
         sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8 /usr/lib/libQt5VirtualKeyboard.so.5
 
 - If your compiled version is 5.15.8, you need to adjust the command to match the version number.
 
-### Step 2.13: Create folder QT_PREFIX_PATH/plugins/platforminputcontexts
+### Step 2.14: Create folder QT_PREFIX_PATH/plugins/platforminputcontexts
 
-- You need to create the folder QT_PREFIX_PATH/plugins/platforminputcontexts using the following command:
+- You need to create the folder `QT_PREFIX_PATH/plugins/platforminputcontexts` using the following command:
 
         sudo mkdir QT_PREFIX_PATH/plugins
         sudo mkdir QT_PREFIX_PATH/plugins/platforminputcontexts
 
-- Again, you should replace the path with the QT_PREFIX_PATH on your system. 
+- Again, you should replace the path with the `QT_PREFIX_PATH` on your system. 
 
-### Step 2.14: Copy libqtvirtualkeyboardplugin.so
+### Step 2.15: Copy libqtvirtualkeyboardplugin.so
 
-- You need to copy the libqtvirtualkeyboardplugin.so to QT_PREFIX_PATH/plugins/platforminputcontexts using the following command:
+- You need to copy the `libqtvirtualkeyboardplugin.so` to `QT_PREFIX_PATH/plugins/platforminputcontexts` using the following command:
 
         sudo cp ~/qtvirtualkeyboard/plugins/platforminputcontexts/libqtvirtualkeyboardplugin.so QT_PREFIX_PATH/plugins/platforminputcontexts/
 
-### Step 2.15: Copy virtualkeyvoard plugin Folder
+### Step 2.16: Copy virtualkeyvoard plugin Folder
 
-- You need to cop the whole virtualkeyboard folder to QT_PREFIX_PATH/plugins using the following command: 
+- You need to cop the whole `virtualkeyboard` folder to `QT_PREFIX_PATH/plugins` using the following command: 
 
         sudo cp -r ~/qtvirtualkeyboard/plugins/virtualkeyboard/ QT_PREFIX_PATH/plugins/
 
-### Step 2.16: Copy virtualKeyboard qml folder
+### Step 2.17: Copy virtualKeyboard qml folder
 
-- You will also need to copy the Qml’s virtualkeyboard folder to QT_PREFIX_PATH/qml/QtQuick folder. But first, you need to create the destination folder using the command:
+- You will also need to copy the Qml’s virtualkeyboard folder to `QT_PREFIX_PATH/qml/QtQuick` folder. But first, you need to create the destination folder using the command:
 
         sudo mkdir QT_PREFIX_PATH/qml
         sudo mkdir QT_PREFIX_PATH/qml/QtQuick
