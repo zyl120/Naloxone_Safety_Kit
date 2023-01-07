@@ -289,9 +289,9 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>9</y>
       <width>780</width>
-      <height>430</height>
+      <height>420</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -1696,12 +1696,12 @@ QR_CODE</string>
         <x>0</x>
         <y>0</y>
         <width>781</width>
-        <height>449</height>
+        <height>421</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="mainVerticalLayout">
        <item>
-        <widget class="TabWidget" name="settingsTab">
+        <widget class="QTabWidget" name="settingsTab">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -1733,11 +1733,7 @@ color:darkgrey
 </string>
          </property>
          <property name="tabPosition">
-<<<<<<< HEAD
-          <enum>QTabWidget::West</enum>
-=======
           <enum>QTabWidget::South</enum>
->>>>>>> parent of 5a7134a (add manual page in settings)
          </property>
          <property name="tabShape">
           <enum>QTabWidget::Rounded</enum>
@@ -5690,14 +5686,6 @@ Countdown</string>
    </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>TabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>tabwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>settingsTab</tabstop>
   <tabstop>passcodeEnterLineEdit</tabstop>
