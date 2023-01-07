@@ -289,9 +289,9 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>9</y>
+      <y>10</y>
       <width>780</width>
-      <height>420</height>
+      <height>430</height>
      </rect>
     </property>
     <property name="sizePolicy">
