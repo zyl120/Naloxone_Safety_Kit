@@ -1733,13 +1733,17 @@ color:darkgrey
 </string>
          </property>
          <property name="tabPosition">
+<<<<<<< HEAD
           <enum>QTabWidget::West</enum>
+=======
+          <enum>QTabWidget::South</enum>
+>>>>>>> parent of 5a7134a (add manual page in settings)
          </property>
          <property name="tabShape">
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>4</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2142,7 +2146,7 @@ QSlider::handle:horizontal {
             <rect>
              <x>10</x>
              <y>10</y>
-             <width>751</width>
+             <width>761</width>
              <height>371</height>
             </rect>
            </property>
@@ -2472,7 +2476,7 @@ QSlider::handle:horizontal {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>771</width>
+             <width>780</width>
              <height>380</height>
             </rect>
            </property>
@@ -2515,8 +2519,8 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>756</width>
-              <height>411</height>
+              <width>780</width>
+              <height>380</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -3724,7 +3728,7 @@ QSlider::handle:horizontal {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>771</width>
+             <width>780</width>
              <height>380</height>
             </rect>
            </property>
@@ -3764,8 +3768,8 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>756</width>
-              <height>572</height>
+              <width>765</width>
+              <height>529</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -4620,11 +4624,6 @@ color:white;
             </layout>
            </widget>
           </widget>
-         </widget>
-         <widget class="QWidget" name="manual">
-          <attribute name="title">
-           <string>Manual</string>
-          </attribute>
          </widget>
         </widget>
        </item>
