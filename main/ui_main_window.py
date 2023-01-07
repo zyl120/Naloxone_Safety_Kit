@@ -1929,6 +1929,9 @@ class Ui_door_close_main_window(object):
 "QScrollBar::sub-line:vertical {\n"
 "      border: none;\n"
 "      background: none;\n"
+"}QTextEdit {\n"
+"    background-color: black;\n"
+"    color: white;\n"
 "}")
         self.manual_textedit.setReadOnly(True)
         self.manual_textedit.setObjectName("manual_textedit")
@@ -2525,6 +2528,14 @@ class Ui_door_close_main_window(object):
         self.closeSoftwareLabel.setText(_translate("door_close_main_window", "&Exit"))
         self.exitPushButton.setText(_translate("door_close_main_window", "Exit"))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.admin), _translate("door_close_main_window", "Admin"))
+        self.manual_textedit.setHtml(_translate("door_close_main_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">MANUAL</p></body></html>"))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.manual), _translate("door_close_main_window", "Manual"))
         self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
         self.passcodeEnterPushButton.setText(_translate("door_close_main_window", "Unlock"))
