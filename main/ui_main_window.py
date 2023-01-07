@@ -741,11 +741,7 @@ class Ui_door_close_main_window(object):
 "}\n"
 "\n"
 "")
-<<<<<<< HEAD
-        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.West)
-=======
         self.settingsTab.setTabPosition(QtWidgets.QTabWidget.South)
->>>>>>> parent of 5a7134a (add manual page in settings)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(16, 16))
         self.settingsTab.setDocumentMode(False)
