@@ -10,9 +10,9 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -57,16 +57,19 @@ class CountDownWorker(QtCore.QThread):
 
     def __init__(self, time_in_sec):
         super(CountDownWorker, self).__init__()
+        self.countdown_time_in_sec = time_in_sec
         self.time_in_sec = time_in_sec
 
     def run(self):
         while (self.time_in_sec >= 0):
             self.time_changed_signal.emit(self.time_in_sec)
             self.time_in_sec = self.time_in_sec - 1
+            sleep(1)
             if (self.isInterruptionRequested()):
                 print("countdown timer terminated")
+                self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
-            sleep(1)
+
         if(self.time_in_sec == -1):
             self.time_end_signal.emit()
 
@@ -83,8 +86,8 @@ class IOWorker(QtCore.QThread):
 
     def __init__(self, disarmed, max_temp, fan_threshold_temp, expiration_date):
         super(IOWorker, self).__init__()
-        #GPIO.setmode(GPIO.BCM)
-        #GPIO.setup(DOOR_PIN, GPIO.IN)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
@@ -131,7 +134,6 @@ class IOWorker(QtCore.QThread):
         return self.max_temp < self.naloxone_temp
 
     def run(self):
-        return
         while True:
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
@@ -603,7 +605,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             msg.setText("Failed to read config file. Going to setup process.")
             msg.setStyleSheet(
                 "QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
-            # msg.buttonClicked.connect(msg.close)
             msg.exec_()
             self.ui.unlockSettingsPushButton.setVisible(False)
             self.ui.lockSettingsPushButton.setVisible(True)
@@ -844,6 +845,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.alarmMutePushButton.setVisible(True)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
+            self.ui.emergencyCallCountdownLabel.setText("T-10s")
             self.destroy_countdown_worker()
             self.destroy_alarm_worker()
             return "Information", "System Reset to Default.", "N/A"
