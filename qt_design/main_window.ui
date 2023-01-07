@@ -1739,7 +1739,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>7</number>
+          <number>1</number>
          </property>
          <property name="iconSize">
           <size>
@@ -1763,10 +1763,10 @@ color:darkgrey
           <widget class="QWidget" name="verticalLayoutWidget_7">
            <property name="geometry">
             <rect>
-             <x>20</x>
-             <y>20</y>
-             <width>741</width>
-             <height>341</height>
+             <x>10</x>
+             <y>10</y>
+             <width>751</width>
+             <height>371</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2143,7 +2143,7 @@ QSlider::handle:horizontal {
              <x>10</x>
              <y>10</y>
              <width>751</width>
-             <height>381</height>
+             <height>371</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2472,8 +2472,8 @@ QSlider::handle:horizontal {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>771</width>
-             <height>391</height>
+             <width>770</width>
+             <height>380</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -2515,7 +2515,7 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>756</width>
+              <width>755</width>
               <height>411</height>
              </rect>
             </property>
@@ -2914,7 +2914,7 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
              <x>9</x>
              <y>9</y>
              <width>751</width>
-             <height>381</height>
+             <height>371</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_33">
@@ -3218,7 +3218,7 @@ QSlider::handle:horizontal {
              <x>10</x>
              <y>10</y>
              <width>751</width>
-             <height>381</height>
+             <height>371</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -3725,7 +3725,7 @@ QSlider::handle:horizontal {
              <x>0</x>
              <y>0</y>
              <width>770</width>
-             <height>390</height>
+             <height>380</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -4628,10 +4628,10 @@ color:white;
           <widget class="QTextEdit" name="manual_textedit">
            <property name="geometry">
             <rect>
-             <x>-1</x>
-             <y>-1</y>
-             <width>771</width>
-             <height>391</height>
+             <x>0</x>
+             <y>0</y>
+             <width>770</width>
+             <height>380</height>
             </rect>
            </property>
            <property name="autoFillBackground">
