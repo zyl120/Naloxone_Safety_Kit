@@ -31,7 +31,8 @@
 
 - Since the PyQt5 will load the module from the prefix path, we need to determine the prefix path using the following command:
 
-        python -c "from PyQt5.QtCore import QLibraryInfo; print('QT_PREFIX_PATH:', QLibraryInfo.location(QLibraryInfo.PrefixPath))"
+        python -c "from PyQt5.QtCore import QLibraryInfo;  
+        print('QT_PREFIX_PATH:', QLibraryInfo.location(QLibraryInfo.PrefixPath))"
 
     ![Check QT_PREFIX_PATH.](Screenshot_20230104_234533.png)
 
@@ -42,11 +43,23 @@
 
 - We need to download qt5 from the repo. To do so, enter the following command into the terminal: 
 
-        sudo apt-get install python3-pyqt5 qtdeclarative5-dev libqt5svg5-dev qtbase5-private-dev qml-module-qtquick-controls2 qml-module-qtquick-controls qml-module-qt-labs-folderlistmodel
+        sudo apt-get install python3-pyqt5
+        sudo apt-get install qtdeclarative5-dev
+        sudo apt-get install libqt5svg5-dev
+        sudo apt-get install qtbase5-private-dev
+        sudo apt-get install qml-module-qtquick-controls2
+        sudo apt-get install qml-module-qtquick-controls
+        sudo apt-get install qml-module-qt-labs-folderlistmodel
 
 ### Step 1.6: Download More dependencies
 
-        sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+        sudo apt-get install '^libxcb.*-dev'
+        sudo apt-get install libx11-xcb-dev
+        sudo apt-get install libglu1-mesa-dev
+        sudo apt-get install libxrender-dev
+        sudo apt-get install libxi-dev
+        sudo apt-get install libxkbcommon-dev
+        sudo apt-get install libxkbcommon-x11-dev
 
 ### Step 1.7: Change directory to home
 
@@ -98,11 +111,13 @@
 
 - In the terminal window, enter the following command:
 
-        sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8 QT_PREFIX_PATH/lib/libQt5VirtualKeyboard.so.5
+        sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8  
+        QT_PREFIX_PATH/lib/libQt5VirtualKeyboard.so.5
 
 - If your QT_PREFIX_PATH is `/usr`, the command will be
 
-        sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8 /usr/lib/libQt5VirtualKeyboard.so.5
+        sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8  
+        /usr/lib/libQt5VirtualKeyboard.so.5
 
 - If your compiled version is 5.15.8, you need to adjust the command to match the version number.
 
@@ -119,13 +134,16 @@
 
 - You need to copy the `libqtvirtualkeyboardplugin.so` to `QT_PREFIX_PATH/plugins/platforminputcontexts` using the following command:
 
-        sudo cp ~/qtvirtualkeyboard/plugins/platforminputcontexts/libqtvirtualkeyboardplugin.so QT_PREFIX_PATH/plugins/platforminputcontexts/
+        sudo cp ~/qtvirtualkeyboard/plugins/platforminputcontexts/  
+        libqtvirtualkeyboardplugin.so QT_PREFIX_PATH/plugins/  
+        platforminputcontexts/
 
 ### Step 2.16: Copy virtualkeyvoard plugin Folder
 
 - You need to cop the whole `virtualkeyboard` folder to `QT_PREFIX_PATH/plugins` using the following command: 
 
-        sudo cp -r ~/qtvirtualkeyboard/plugins/virtualkeyboard/ QT_PREFIX_PATH/plugins/
+        sudo cp -r ~/qtvirtualkeyboard/plugins/virtualkeyboard/  
+        QT_PREFIX_PATH/plugins/
 
 ### Step 2.17: Copy virtualKeyboard qml folder
 
@@ -136,7 +154,8 @@
 
 - Then, you can copy the whole folder using the following command:
         
-        sudo cp -r ~/qtvirtualkeyboard/qml/QtQuick/VirtualKeyboard/ QT_PREFIX_PATH/qml/QtQuick/
+        sudo cp -r ~/qtvirtualkeyboard/qml/QtQuick/VirtualKeyboard/  
+        QT_PREFIX_PATH/qml/QtQuick/
 
 ## References
 
