@@ -1934,6 +1934,7 @@ class Ui_door_close_main_window(object):
 "    color: white;\n"
 "}")
         self.manual_textedit.setReadOnly(True)
+        self.manual_textedit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         self.manual_textedit.setObjectName("manual_textedit")
         self.settingsTab.addTab(self.manual, "")
         self.mainVerticalLayout.addWidget(self.settingsTab)
@@ -2411,7 +2412,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(1)
+        self.settingsTab.setCurrentIndex(7)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.passcodeEnterLineEdit)
