@@ -10,9 +10,9 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -83,8 +83,8 @@ class IOWorker(QtCore.QThread):
 
     def __init__(self, disarmed, max_temp, fan_threshold_temp, expiration_date):
         super(IOWorker, self).__init__()
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(DOOR_PIN, GPIO.IN)
+        #GPIO.setmode(GPIO.BCM)
+        #GPIO.setup(DOOR_PIN, GPIO.IN)
         print("gpio thread go " + str(disarmed) + " " + str(max_temp))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
@@ -131,6 +131,7 @@ class IOWorker(QtCore.QThread):
         return self.max_temp < self.naloxone_temp
 
     def run(self):
+        return
         while True:
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
@@ -332,6 +333,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.get_passcode_button_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
+        self.load_manual()
+
 
         self.generate_ui_qrcode()
 
@@ -396,6 +399,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.call_emergency_now)
         self.countdown_worker.time_end_signal.connect(self.speak_now)
         self.countdown_worker.start()
+    
+    def load_manual(self):
+        file = QtCore.QFile('../user_manual/software_installation_manual/README.md')
+        if not file.open(QtCore.QIODevice.ReadOnly):
+            QtGui.QMessageBox.information(None, 'info', file.errorString())
+        stream = QtCore.QTextStream(file)
+        self.ui.manual_textedit.setMarkdown(stream.readAll())
 
     def generate_ui_qrcode(self):
         github_qr_code = qrcode.QRCode(

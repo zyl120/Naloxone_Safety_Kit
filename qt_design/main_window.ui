@@ -1739,7 +1739,7 @@ color:darkgrey
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>7</number>
          </property>
          <property name="iconSize">
           <size>
@@ -1896,7 +1896,7 @@ color:darkgrey
             <rect>
              <x>8</x>
              <y>11</y>
-             <width>761</width>
+             <width>751</width>
              <height>371</height>
             </rect>
            </property>
@@ -2142,8 +2142,8 @@ QSlider::handle:horizontal {
             <rect>
              <x>10</x>
              <y>10</y>
-             <width>761</width>
-             <height>371</height>
+             <width>751</width>
+             <height>381</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2472,8 +2472,8 @@ QSlider::handle:horizontal {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
-             <height>380</height>
+             <width>771</width>
+             <height>391</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -2515,8 +2515,8 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>780</width>
-              <height>380</height>
+              <width>756</width>
+              <height>411</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2913,7 +2913,7 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
             <rect>
              <x>9</x>
              <y>9</y>
-             <width>761</width>
+             <width>751</width>
              <height>381</height>
             </rect>
            </property>
@@ -3215,10 +3215,10 @@ QSlider::handle:horizontal {
           <widget class="QWidget" name="verticalLayoutWidget_14">
            <property name="geometry">
             <rect>
-             <x>9</x>
-             <y>9</y>
-             <width>761</width>
-             <height>371</height>
+             <x>10</x>
+             <y>10</y>
+             <width>751</width>
+             <height>381</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -3724,8 +3724,8 @@ QSlider::handle:horizontal {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
-             <height>380</height>
+             <width>770</width>
+             <height>390</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -3764,8 +3764,8 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>765</width>
-              <height>529</height>
+              <width>755</width>
+              <height>572</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -4619,6 +4619,49 @@ color:white;
              </item>
             </layout>
            </widget>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="manual">
+          <attribute name="title">
+           <string>Manual</string>
+          </attribute>
+          <widget class="QTextEdit" name="manual_textedit">
+           <property name="geometry">
+            <rect>
+             <x>-1</x>
+             <y>-1</y>
+             <width>771</width>
+             <height>391</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QScrollBar {
+        background: rgb(50,50,50);
+        border-radius: 3px;
+        border-color:rgb(50,50,50);
+        width:15
+    }
+QScrollBar::handle:vertical
+    {
+        background-color: rgb(65,65,65);
+        border-radius: 3px;
+    }
+QScrollBar::add-line:vertical {
+      border: none;
+      background: none;
+}
+
+QScrollBar::sub-line:vertical {
+      border: none;
+      background: none;
+}</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
           </widget>
          </widget>
         </widget>
