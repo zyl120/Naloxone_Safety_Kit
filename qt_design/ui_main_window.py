@@ -741,7 +741,7 @@ class Ui_door_close_main_window(object):
 "}\n"
 "\n"
 "")
-        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.South)
+        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.North)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(16, 16))
         self.settingsTab.setDocumentMode(False)
@@ -893,7 +893,7 @@ class Ui_door_close_main_window(object):
         self.twilio = QtWidgets.QWidget()
         self.twilio.setObjectName("twilio")
         self.verticalLayoutWidget_19 = QtWidgets.QWidget(self.twilio)
-        self.verticalLayoutWidget_19.setGeometry(QtCore.QRect(10, 10, 761, 371))
+        self.verticalLayoutWidget_19.setGeometry(QtCore.QRect(10, 10, 751, 371))
         self.verticalLayoutWidget_19.setObjectName("verticalLayoutWidget_19")
         self.verticalLayout_36 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_19)
         self.verticalLayout_36.setContentsMargins(0, 0, 0, 0)
@@ -1017,7 +1017,7 @@ class Ui_door_close_main_window(object):
         self.emergency_info = QtWidgets.QWidget()
         self.emergency_info.setObjectName("emergency_info")
         self.scrollArea_2 = QtWidgets.QScrollArea(self.emergency_info)
-        self.scrollArea_2.setGeometry(QtCore.QRect(0, 0, 780, 380))
+        self.scrollArea_2.setGeometry(QtCore.QRect(0, 0, 771, 380))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -1047,7 +1047,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 780, 380))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 756, 411))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -1521,7 +1521,7 @@ class Ui_door_close_main_window(object):
         self.admin = QtWidgets.QWidget()
         self.admin.setObjectName("admin")
         self.scrollArea = QtWidgets.QScrollArea(self.admin)
-        self.scrollArea.setGeometry(QtCore.QRect(0, 0, 780, 380))
+        self.scrollArea.setGeometry(QtCore.QRect(0, 0, 771, 380))
         self.scrollArea.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
@@ -1547,7 +1547,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 765, 529))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 756, 572))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -1905,6 +1905,9 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_39.addLayout(self.verticalLayout_20)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.settingsTab.addTab(self.admin, "")
+        self.manual = QtWidgets.QWidget()
+        self.manual.setObjectName("manual")
+        self.settingsTab.addTab(self.manual, "")
         self.mainVerticalLayout.addWidget(self.settingsTab)
         self.stackedWidget.addWidget(self.settingsPage)
         self.passcodePage = QtWidgets.QWidget()
@@ -2380,7 +2383,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(4)
+        self.settingsTab.setCurrentIndex(5)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.passcodeEnterLineEdit)
@@ -2497,6 +2500,7 @@ class Ui_door_close_main_window(object):
         self.closeSoftwareLabel.setText(_translate("door_close_main_window", "&Exit"))
         self.exitPushButton.setText(_translate("door_close_main_window", "Exit"))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.admin), _translate("door_close_main_window", "Admin"))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.manual), _translate("door_close_main_window", "Manual"))
         self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
         self.passcodeEnterPushButton.setText(_translate("door_close_main_window", "Unlock"))
         self.paramedicsLabel.setText(_translate("door_close_main_window", "If you do not know the passcode,\n"

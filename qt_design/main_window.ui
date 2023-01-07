@@ -1733,13 +1733,13 @@ color:darkgrey
 </string>
          </property>
          <property name="tabPosition">
-          <enum>QTabWidget::South</enum>
+          <enum>QTabWidget::North</enum>
          </property>
          <property name="tabShape">
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>5</number>
          </property>
          <property name="iconSize">
           <size>
@@ -2142,7 +2142,7 @@ QSlider::handle:horizontal {
             <rect>
              <x>10</x>
              <y>10</y>
-             <width>761</width>
+             <width>751</width>
              <height>371</height>
             </rect>
            </property>
@@ -2472,7 +2472,7 @@ QSlider::handle:horizontal {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
+             <width>771</width>
              <height>380</height>
             </rect>
            </property>
@@ -2515,8 +2515,8 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>780</width>
-              <height>380</height>
+              <width>756</width>
+              <height>411</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -3724,7 +3724,7 @@ QSlider::handle:horizontal {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
+             <width>771</width>
              <height>380</height>
             </rect>
            </property>
@@ -3764,8 +3764,8 @@ QScrollBar::sub-line:vertical {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>765</width>
-              <height>529</height>
+              <width>756</width>
+              <height>572</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -4620,6 +4620,11 @@ color:white;
             </layout>
            </widget>
           </widget>
+         </widget>
+         <widget class="QWidget" name="manual">
+          <attribute name="title">
+           <string>Manual</string>
+          </attribute>
          </widget>
         </widget>
        </item>
