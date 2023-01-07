@@ -714,12 +714,12 @@ class Ui_door_close_main_window(object):
         self.settingsPage = QtWidgets.QWidget()
         self.settingsPage.setObjectName("settingsPage")
         self.verticalLayoutWidget_5 = QtWidgets.QWidget(self.settingsPage)
-        self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(0, 0, 781, 421))
+        self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(0, 0, 781, 449))
         self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
         self.mainVerticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_5)
         self.mainVerticalLayout.setContentsMargins(0, 0, 0, 0)
         self.mainVerticalLayout.setObjectName("mainVerticalLayout")
-        self.settingsTab = QtWidgets.QTabWidget(self.verticalLayoutWidget_5)
+        self.settingsTab = TabWidget(self.verticalLayoutWidget_5)
         self.settingsTab.setEnabled(True)
         font = QtGui.QFont()
         font.setPointSize(16)
@@ -741,7 +741,7 @@ class Ui_door_close_main_window(object):
 "}\n"
 "\n"
 "")
-        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.North)
+        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.West)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(16, 16))
         self.settingsTab.setDocumentMode(False)
@@ -2530,3 +2530,4 @@ class Ui_door_close_main_window(object):
         self.label_8.setText(_translate("door_close_main_window", "Last Req."))
         self.emergencyCallLastCallLabel.setText(_translate("door_close_main_window", "N/A"))
         self.call911NowPushButton.setText(_translate("door_close_main_window", "CALL 911 NOW"))
+from tabwidget import TabWidget
