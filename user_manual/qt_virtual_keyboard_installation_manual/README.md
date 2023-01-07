@@ -134,18 +134,17 @@
 
 - You need to copy the `libqtvirtualkeyboardplugin.so` to `QT_PREFIX_PATH/plugins/platforminputcontexts` using the following command:
 
-        sudo cp ~/qtvirtualkeyboard/plugins/platforminputcontexts/  
-        libqtvirtualkeyboardplugin.so QT_PREFIX_PATH/plugins/  
-        platforminputcontexts/
+        sudo cp ~/qtvirtualkeyboard/plugins/platforminputcontexts/libqtvirtualkeyboardplugin.so  
+        QT_PREFIX_PATH/plugins/platforminputcontexts/
 
-### Step 2.16: Copy virtualkeyvoard plugin Folder
+### Step 2.16: Copy virtual keyboard plugin Folder
 
 - You need to cop the whole `virtualkeyboard` folder to `QT_PREFIX_PATH/plugins` using the following command: 
 
         sudo cp -r ~/qtvirtualkeyboard/plugins/virtualkeyboard/  
         QT_PREFIX_PATH/plugins/
 
-### Step 2.17: Copy virtualKeyboard qml folder
+### Step 2.17: Copy virtual keyboard Qml folder
 
 - You will also need to copy the Qml’s virtualkeyboard folder to `QT_PREFIX_PATH/qml/QtQuick` folder. But first, you need to create the destination folder using the command:
 
@@ -153,7 +152,7 @@
         sudo mkdir QT_PREFIX_PATH/qml/QtQuick
 
 - Then, you can copy the whole folder using the following command:
-        
+
         sudo cp -r ~/qtvirtualkeyboard/qml/QtQuick/VirtualKeyboard/  
         QT_PREFIX_PATH/qml/QtQuick/
 
