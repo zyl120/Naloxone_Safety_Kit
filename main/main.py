@@ -10,9 +10,9 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -593,7 +593,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
-            self.create_io_worker()
+            #self.create_io_worker()
             self.create_network_worker()
 
         except Exception as e:
