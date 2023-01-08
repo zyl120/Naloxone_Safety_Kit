@@ -572,7 +572,7 @@ class Ui_door_close_main_window(object):
 "}\n"
 "\n"
 "")
-        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.South)
+        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.North)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(16, 16))
         self.settingsTab.setDocumentMode(False)
@@ -854,7 +854,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 691, 399))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 707, 399))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -1343,7 +1343,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -231, 691, 560))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 707, 560))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -1697,11 +1697,11 @@ class Ui_door_close_main_window(object):
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_9.addWidget(self.scrollArea, 0, 0, 1, 1)
         self.settingsTab.addTab(self.admin, "")
-        self.manual = QtWidgets.QWidget()
-        self.manual.setObjectName("manual")
-        self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.manual)
+        self.help = QtWidgets.QWidget()
+        self.help.setObjectName("help")
+        self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.help)
         self.verticalLayout_20.setObjectName("verticalLayout_20")
-        self.manual_textedit = QtWidgets.QTextEdit(self.manual)
+        self.manual_textedit = QtWidgets.QTextEdit(self.help)
         self.manual_textedit.setAutoFillBackground(False)
         self.manual_textedit.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
@@ -1730,7 +1730,7 @@ class Ui_door_close_main_window(object):
         self.manual_textedit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
         self.manual_textedit.setObjectName("manual_textedit")
         self.verticalLayout_20.addWidget(self.manual_textedit)
-        self.settingsTab.addTab(self.manual, "")
+        self.settingsTab.addTab(self.help, "")
         self.verticalLayout_2.addWidget(self.settingsTab)
         self.stackedWidget.addWidget(self.settingsPage)
         self.passcodePage = QtWidgets.QWidget()
@@ -2289,8 +2289,8 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(1)
-        self.settingsTab.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(2)
+        self.settingsTab.setCurrentIndex(7)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
 
@@ -2408,7 +2408,7 @@ class Ui_door_close_main_window(object):
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">MANUAL</p></body></html>"))
-        self.settingsTab.setTabText(self.settingsTab.indexOf(self.manual), _translate("door_close_main_window", "Manual"))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.help), _translate("door_close_main_window", "Help!"))
         self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
         self.passcodeEnterPushButton.setText(_translate("door_close_main_window", "Unlock"))
         self.paramedicsLabel.setText(_translate("door_close_main_window", "If you do not know the passcode,\n"
