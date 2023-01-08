@@ -337,6 +337,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
         QtWidgets.QScroller.grabGesture(self.ui.adminScrollArea.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
         QtWidgets.QScroller.grabGesture(self.ui.manual_textedit.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabGesture(self.ui.passcodeManual.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
 
         self.load_manual()
 
