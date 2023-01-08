@@ -406,11 +406,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.countdown_worker.start()
     
     def load_manual(self):
-        file = QtCore.QFile('../user_manual/software_installation_manual/README.md')
+        file = QtCore.QFile('../user_manual/gui_manual/lock_screen_manual.md')
         if not file.open(QtCore.QIODevice.ReadOnly):
             QtGui.QMessageBox.information(None, 'info', file.errorString())
         stream = QtCore.QTextStream(file)
         self.ui.manual_textedit.setMarkdown(stream.readAll())
+        stream.seek(0)
+        self.ui.passcodeManual.setMarkdown(stream.readAll())
 
     def generate_ui_qrcode(self):
         github_qr_code = qrcode.QRCode(

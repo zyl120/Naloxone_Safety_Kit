@@ -40,6 +40,7 @@ class Ui_door_close_main_window(object):
         sizePolicy.setHeightForWidth(self.stackedWidget.sizePolicy().hasHeightForWidth())
         self.stackedWidget.setSizePolicy(sizePolicy)
         self.stackedWidget.setStyleSheet("")
+        self.stackedWidget.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.stackedWidget.setObjectName("stackedWidget")
         self.homePage = QtWidgets.QWidget()
         self.homePage.setObjectName("homePage")
@@ -536,8 +537,8 @@ class Ui_door_close_main_window(object):
         self.stackedWidget.addWidget(self.dashboardPage)
         self.settingsPage = QtWidgets.QWidget()
         self.settingsPage.setObjectName("settingsPage")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.settingsPage)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.gridLayout_15 = QtWidgets.QGridLayout(self.settingsPage)
+        self.gridLayout_15.setObjectName("gridLayout_15")
         self.settingsTab = QtWidgets.QTabWidget(self.settingsPage)
         self.settingsTab.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -1836,7 +1837,7 @@ class Ui_door_close_main_window(object):
         self.manual_textedit.setObjectName("manual_textedit")
         self.verticalLayout_20.addWidget(self.manual_textedit)
         self.settingsTab.addTab(self.help, "")
-        self.verticalLayout_2.addWidget(self.settingsTab)
+        self.gridLayout_15.addWidget(self.settingsTab, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.settingsPage)
         self.passcodePage = QtWidgets.QWidget()
         self.passcodePage.setObjectName("passcodePage")
@@ -1859,7 +1860,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.passcodeEnterLineEdit.setFont(font)
-        self.passcodeEnterLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+        self.passcodeEnterLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;\n"
 "")
         self.passcodeEnterLineEdit.setText("")
         self.passcodeEnterLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -1872,7 +1873,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.passcodeEnterPushButton.setFont(font)
-        self.passcodeEnterPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+        self.passcodeEnterPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;\n"
 "")
         self.passcodeEnterPushButton.setObjectName("passcodeEnterPushButton")
         self.horizontalLayout.addWidget(self.passcodeEnterPushButton)
@@ -1903,7 +1904,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.paramedicsPhoneNumberLineEdit.setFont(font)
-        self.paramedicsPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+        self.paramedicsPhoneNumberLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: red;border-width: 1px;border-style: solid;\n"
 "")
         self.paramedicsPhoneNumberLineEdit.setObjectName("paramedicsPhoneNumberLineEdit")
         self.horizontalLayout_7.addWidget(self.paramedicsPhoneNumberLineEdit)
@@ -1923,7 +1924,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.getPasscodePushButton.setFont(font)
-        self.getPasscodePushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
+        self.getPasscodePushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: red;border-width: 1px;border-style: solid;\n"
 "")
         self.getPasscodePushButton.setObjectName("getPasscodePushButton")
         self.horizontalLayout_15.addWidget(self.getPasscodePushButton)
@@ -1957,8 +1958,40 @@ class Ui_door_close_main_window(object):
         self.forgotPasswordPushButton.setObjectName("forgotPasswordPushButton")
         self.horizontalLayout_32.addWidget(self.forgotPasswordPushButton)
         self.verticalLayout_33.addLayout(self.horizontalLayout_32)
-        spacerItem34 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_33.addItem(spacerItem34)
+        self.line_3 = QtWidgets.QFrame(self.passcodePage)
+        self.line_3.setStyleSheet("color:rgb(50,50,50)")
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_3.setObjectName("line_3")
+        self.verticalLayout_33.addWidget(self.line_3)
+        self.passcodeManual = QtWidgets.QTextEdit(self.passcodePage)
+        self.passcodeManual.setStyleSheet("QScrollBar {\n"
+"        background: rgb(50,50,50);\n"
+"        border-radius: 3px;\n"
+"        border-color:rgb(50,50,50);\n"
+"        width:10\n"
+"    }\n"
+"QScrollBar::handle:vertical\n"
+"    {\n"
+"        background-color: rgb(65,65,65);\n"
+"        border-radius: 3px;\n"
+"    }\n"
+"QScrollBar::add-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}QTextEdit {\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"}")
+        self.passcodeManual.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.passcodeManual.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.passcodeManual.setObjectName("passcodeManual")
+        self.verticalLayout_33.addWidget(self.passcodeManual)
         self.stackedWidget.addWidget(self.passcodePage)
         self.doorOpenPage = QtWidgets.QWidget()
         self.doorOpenPage.setObjectName("doorOpenPage")
@@ -2246,8 +2279,8 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_15.addWidget(self.stackedWidget)
         self.statusBarHLayout = QtWidgets.QHBoxLayout()
         self.statusBarHLayout.setObjectName("statusBarHLayout")
-        spacerItem35 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.statusBarHLayout.addItem(spacerItem35)
+        spacerItem34 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.statusBarHLayout.addItem(spacerItem34)
         self.dashboardPushButton = QtWidgets.QPushButton(self.centralwidget)
         self.dashboardPushButton.setMinimumSize(QtCore.QSize(140, 30))
         self.dashboardPushButton.setMaximumSize(QtCore.QSize(140, 30))
@@ -2314,7 +2347,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.saveToFilePushButton.setFont(font)
-        self.saveToFilePushButton.setStyleSheet("QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+        self.saveToFilePushButton.setStyleSheet("QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: red;border-width: 1px;border-style: solid;}\n"
 "\n"
 "QPushButton:disabled {\n"
 "background-color: rgb(20,20,20);\n"
@@ -2343,8 +2376,8 @@ class Ui_door_close_main_window(object):
         self.backPushButton.setCheckable(False)
         self.backPushButton.setObjectName("backPushButton")
         self.statusBarHLayout.addWidget(self.backPushButton)
-        spacerItem36 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.statusBarHLayout.addItem(spacerItem36)
+        spacerItem35 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.statusBarHLayout.addItem(spacerItem35)
         self.verticalLayout_15.addLayout(self.statusBarHLayout)
         door_close_main_window.setCentralWidget(self.centralwidget)
         self.absoluteMaximumTemperatureLabel.setBuddy(self.temperatureSlider)
@@ -2376,8 +2409,8 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(3)
+        self.settingsTab.setCurrentIndex(7)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
 
@@ -2498,13 +2531,21 @@ class Ui_door_close_main_window(object):
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.help), _translate("door_close_main_window", "Help!"))
         self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
         self.passcodeEnterPushButton.setText(_translate("door_close_main_window", "Unlock"))
-        self.paramedicsLabel.setText(_translate("door_close_main_window", "If you do not know the passcode,\n"
-"enter your phone number to get it."))
+        self.paramedicsLabel.setText(_translate("door_close_main_window", "FOR PARAMEDICS:\n"
+"Enter your phone number to get passcode."))
         self.paramedicsWarning.setText(_translate("door_close_main_window", "Warning: Your phone number will be recorded.\n"
 "Format the phone number as \"+1XXXXXXXXXX\""))
         self.getPasscodePushButton.setText(_translate("door_close_main_window", "Get Passcode"))
-        self.label_10.setText(_translate("door_close_main_window", "If you forgot the passcode"))
+        self.label_10.setText(_translate("door_close_main_window", "FOR ADMIN ONLY:"))
         self.forgotPasswordPushButton.setText(_translate("door_close_main_window", "Forgot Passcode"))
+        self.passcodeManual.setHtml(_translate("door_close_main_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">MANUAL</p></body></html>"))
         self.label_12.setText(_translate("door_close_main_window", "Status"))
         self.doorOpenLabel.setText(_translate("door_close_main_window", "Open"))
         self.doorOpenResetPushButton.setText(_translate("door_close_main_window", "Push to\n"
