@@ -335,6 +335,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.get_passcode_button_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
+        QtWidgets.QScroller.grabGesture(self.ui.adminScrollArea.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabGesture(self.ui.manual_textedit.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+
         self.load_manual()
 
 

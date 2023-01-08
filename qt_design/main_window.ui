@@ -1222,7 +1222,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>3</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1316,7 +1316,7 @@ color:darkgrey
         background: rgb(50,50,50);
         border-radius: 3px;
         border-color:rgb(50,50,50);
-        width:15
+        width:10
     }
 QScrollBar::handle:vertical
     {
@@ -1548,7 +1548,7 @@ QSlider::handle:horizontal {
         background: rgb(50,50,50);
         border-radius: 3px;
         border-color:rgb(50,50,50);
-        width:15
+        width:10
     }
 QScrollBar::handle:vertical
     {
@@ -1916,7 +1916,7 @@ QScrollBar::sub-line:vertical {
         background: rgb(50,50,50);
         border-radius: 3px;
         border-color:rgb(50,50,50);
-        width:15
+        width:10
     }
 QScrollBar::handle:vertical
     {
@@ -1947,7 +1947,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>707</width>
+                 <width>712</width>
                  <height>399</height>
                 </rect>
                </property>
@@ -2267,7 +2267,7 @@ QScrollBar::sub-line:vertical {
                      <string notr="true">color:yellow</string>
                     </property>
                     <property name="text">
-                     <string>Warning: Remember to set the emergency address in Twilio console!
+                     <string>Warning: Remember to set the emergency address in Twilio.
 Otherwise each emergency call will cost $75. Details =&gt;</string>
                     </property>
                     <property name="textFormat">
@@ -2333,7 +2333,7 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
         background: rgb(50,50,50);
         border-radius: 3px;
         border-color:rgb(50,50,50);
-        width:15
+        width:10
     }
 QScrollBar::handle:vertical
     {
@@ -2667,7 +2667,7 @@ QSlider::handle:horizontal {
         background: rgb(50,50,50);
         border-radius: 3px;
         border-color:rgb(50,50,50);
-        width:15
+        width:10
     }
 QScrollBar::handle:vertical
     {
@@ -3200,13 +3200,13 @@ QSlider::handle:horizontal {
            </attribute>
            <layout class="QGridLayout" name="gridLayout_9">
             <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea">
+             <widget class="QScrollArea" name="adminScrollArea">
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
         border-radius: 3px;
         border-color:rgb(50,50,50);
-        width:15
+        width:10
     }
 QScrollBar::handle:vertical
     {
@@ -3237,7 +3237,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>707</width>
+                 <width>712</width>
                  <height>560</height>
                 </rect>
                </property>
@@ -4094,7 +4094,7 @@ color:white;
         background: rgb(50,50,50);
         border-radius: 3px;
         border-color:rgb(50,50,50);
-        width:15
+        width:10
     }
 QScrollBar::handle:vertical
     {

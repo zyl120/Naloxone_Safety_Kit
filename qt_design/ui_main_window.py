@@ -609,7 +609,7 @@ class Ui_door_close_main_window(object):
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
-"        width:15\n"
+"        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
@@ -722,7 +722,7 @@ class Ui_door_close_main_window(object):
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
-"        width:15\n"
+"        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
@@ -878,7 +878,7 @@ class Ui_door_close_main_window(object):
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
-"        width:15\n"
+"        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
@@ -899,7 +899,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 707, 399))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 712, 399))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -1049,7 +1049,7 @@ class Ui_door_close_main_window(object):
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
-"        width:15\n"
+"        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
@@ -1194,7 +1194,7 @@ class Ui_door_close_main_window(object):
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
-"        width:15\n"
+"        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
@@ -1422,12 +1422,12 @@ class Ui_door_close_main_window(object):
         self.admin.setObjectName("admin")
         self.gridLayout_9 = QtWidgets.QGridLayout(self.admin)
         self.gridLayout_9.setObjectName("gridLayout_9")
-        self.scrollArea = QtWidgets.QScrollArea(self.admin)
-        self.scrollArea.setStyleSheet("QScrollBar {\n"
+        self.adminScrollArea = QtWidgets.QScrollArea(self.admin)
+        self.adminScrollArea.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
-"        width:15\n"
+"        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
@@ -1443,12 +1443,12 @@ class Ui_door_close_main_window(object):
 "      border: none;\n"
 "      background: none;\n"
 "}")
-        self.scrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
+        self.adminScrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.adminScrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
+        self.adminScrollArea.setWidgetResizable(True)
+        self.adminScrollArea.setObjectName("adminScrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 707, 560))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 712, 560))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -1799,8 +1799,8 @@ class Ui_door_close_main_window(object):
         self.exitPushButton.setObjectName("exitPushButton")
         self.horizontalLayout_20.addWidget(self.exitPushButton)
         self.verticalLayout_39.addLayout(self.horizontalLayout_20)
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout_9.addWidget(self.scrollArea, 0, 0, 1, 1)
+        self.adminScrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout_9.addWidget(self.adminScrollArea, 0, 0, 1, 1)
         self.settingsTab.addTab(self.admin, "")
         self.help = QtWidgets.QWidget()
         self.help.setObjectName("help")
@@ -1812,7 +1812,7 @@ class Ui_door_close_main_window(object):
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
-"        width:15\n"
+"        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
@@ -2377,7 +2377,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(4)
+        self.settingsTab.setCurrentIndex(3)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
 
@@ -2446,7 +2446,7 @@ class Ui_door_close_main_window(object):
         self.label_7.setText(_translate("door_close_main_window", "The location of the safety kit. This info will be included in the emergency call."))
         self.emergencyMessageLabel.setText(_translate("door_close_main_window", "Emergency &Message"))
         self.label_9.setText(_translate("door_close_main_window", "The message to describe nature of the emergency. This info will be included in the emergency call."))
-        self.twilioAddressWarning.setText(_translate("door_close_main_window", "Warning: Remember to set the emergency address in Twilio console!\n"
+        self.twilioAddressWarning.setText(_translate("door_close_main_window", "Warning: Remember to set the emergency address in Twilio.\n"
 "Otherwise each emergency call will cost $75. Details =>"))
         self.twilioAddressWarningQrCode.setText(_translate("door_close_main_window", "75_QR_CODE"))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.emergency_info), _translate("door_close_main_window", "Call"))
