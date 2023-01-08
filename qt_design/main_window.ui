@@ -1222,7 +1222,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>4</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2329,7 +2329,25 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
             <item>
              <widget class="QScrollArea" name="scrollArea_5">
               <property name="styleSheet">
-               <string notr="true">QScrollBar {         background: rgb(50,50,50);         border-radius: 3px;         border-color:rgb(50,50,50);         width:15     } QScrollBar::handle:vertical     {         background-color: rgb(65,65,65);         border-radius: 3px;     } QScrollBar::add-line:vertical {       border: none;       background: none; }  QScrollBar::sub-line:vertical {       border: none;       background: none; }</string>
+               <string notr="true">QScrollBar {
+        background: rgb(50,50,50);
+        border-radius: 3px;
+        border-color:rgb(50,50,50);
+        width:15
+    }
+QScrollBar::handle:vertical
+    {
+        background-color: rgb(65,65,65);
+        border-radius: 3px;
+    }
+QScrollBar::add-line:vertical {
+      border: none;
+      background: none;
+}
+QScrollBar::sub-line:vertical {
+      border: none;
+      background: none;
+}</string>
               </property>
               <property name="widgetResizable">
                <bool>true</bool>
@@ -3218,7 +3236,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-217</y>
+                 <y>0</y>
                  <width>707</width>
                  <height>560</height>
                 </rect>

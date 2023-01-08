@@ -1045,7 +1045,25 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_36 = QtWidgets.QVBoxLayout(self.alarm)
         self.verticalLayout_36.setObjectName("verticalLayout_36")
         self.scrollArea_5 = QtWidgets.QScrollArea(self.alarm)
-        self.scrollArea_5.setStyleSheet("QScrollBar {         background: rgb(50,50,50);         border-radius: 3px;         border-color:rgb(50,50,50);         width:15     } QScrollBar::handle:vertical     {         background-color: rgb(65,65,65);         border-radius: 3px;     } QScrollBar::add-line:vertical {       border: none;       background: none; }  QScrollBar::sub-line:vertical {       border: none;       background: none; }")
+        self.scrollArea_5.setStyleSheet("QScrollBar {\n"
+"        background: rgb(50,50,50);\n"
+"        border-radius: 3px;\n"
+"        border-color:rgb(50,50,50);\n"
+"        width:15\n"
+"    }\n"
+"QScrollBar::handle:vertical\n"
+"    {\n"
+"        background-color: rgb(65,65,65);\n"
+"        border-radius: 3px;\n"
+"    }\n"
+"QScrollBar::add-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}\n"
+"QScrollBar::sub-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}")
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollArea_5.setObjectName("scrollArea_5")
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
@@ -1430,7 +1448,7 @@ class Ui_door_close_main_window(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -217, 707, 560))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 707, 560))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -2359,7 +2377,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(6)
+        self.settingsTab.setCurrentIndex(4)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
 
