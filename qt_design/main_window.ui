@@ -1345,7 +1345,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>720</width>
+                 <width>625</width>
                  <height>341</height>
                 </rect>
                </property>
@@ -1577,8 +1577,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>720</width>
-                 <height>341</height>
+                 <width>633</width>
+                 <height>282</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1950,7 +1950,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>712</width>
+                 <width>625</width>
                  <height>399</height>
                 </rect>
                </property>
@@ -2360,8 +2360,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>720</width>
-                 <height>341</height>
+                 <width>586</width>
+                 <height>204</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2696,8 +2696,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>720</width>
-                 <height>341</height>
+                 <width>685</width>
+                 <height>310</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -3240,7 +3240,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>712</width>
+                 <width>616</width>
                  <height>560</height>
                 </rect>
                </property>
@@ -4296,14 +4296,14 @@ Enter your phone number to get passcode.</string>
            <widget class="QLineEdit" name="paramedicsPhoneNumberLineEdit">
             <property name="minimumSize">
              <size>
-              <width>380</width>
+              <width>200</width>
               <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>16777215</width>
-              <height>16777215</height>
+              <width>200</width>
+              <height>30</height>
              </size>
             </property>
             <property name="font">
