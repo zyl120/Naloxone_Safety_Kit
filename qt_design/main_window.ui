@@ -58,7 +58,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -786,7 +786,7 @@ QR_CODE</string>
                 <string notr="true">color:white;border-width: 0px;</string>
                </property>
                <property name="text">
-                <string>Temperature</string>
+                <string>Temp.</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignHCenter</set>

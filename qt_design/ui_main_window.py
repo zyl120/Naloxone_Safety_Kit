@@ -2289,7 +2289,7 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
         self.settingsTab.setCurrentIndex(2)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
@@ -2323,7 +2323,7 @@ class Ui_door_close_main_window(object):
         self.naloxoneLabel.setText(_translate("door_close_main_window", "NALOXONE"))
         self.naloxoneExpirationDateLabel.setText(_translate("door_close_main_window", "Expiration"))
         self.naloxoneExpirationDateLineEdit.setText(_translate("door_close_main_window", "N/A"))
-        self.temperatureLabel.setText(_translate("door_close_main_window", "Temperature"))
+        self.temperatureLabel.setText(_translate("door_close_main_window", "Temp."))
         self.temperatureLineEdit.setText(_translate("door_close_main_window", "N/A"))
         self.serverLabel.setText(_translate("door_close_main_window", "SERVER"))
         self.serverStatusLabel.setText(_translate("door_close_main_window", "Status"))
