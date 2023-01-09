@@ -559,15 +559,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
             if(config["admin"]["allow_paramedics"] == "False"):
-                self.ui.paramedicsLabel.setVisible(False)
-                self.ui.paramedicsPhoneNumberLineEdit.setVisible(False)
-                self.ui.paramedicsWarning.setVisible(False)
-                self.ui.getPasscodePushButton.setVisible(False)
+                self.ui.paramedic_frame.setVisible(False)
+                self.ui.admin_only_frame.setVisible(True)
             else:
-                self.ui.paramedicsLabel.setVisible(True)
-                self.ui.paramedicsPhoneNumberLineEdit.setVisible(True)
-                self.ui.paramedicsWarning.setVisible(True)
-                self.ui.getPasscodePushButton.setVisible(True)
+                self.ui.paramedic_frame.setVisible(True)
+                self.ui.admin_only_frame.setVisible(False)
             self.active_hour_start = QtCore.QTime.fromString(
                 config["power_management"]["active_hours_start_at"], "hh:mm")
             self.ui.startTimeEdit.setTime(self.active_hour_start)
