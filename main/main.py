@@ -718,6 +718,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.dashboardPushButton.setVisible(False)
             self.ui.settingsPushButton.setVisible(False)
             self.ui.backPushButton.setVisible(False)
+            self.ui.alarmMutePushButton.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
             self.create_countdown_worker(10)
 
@@ -844,7 +845,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.countdownLabel.setVisible(True)
             self.ui.emergencyCallCountdownLabel.setVisible(True)
             self.ui.alarmStatusLabel.setText("Waiting")
-            self.ui.alarmMutePushButton.setVisible(True)
+            self.ui.alarmMutePushButton.setVisible(False)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
             self.ui.emergencyCallCountdownLabel.setText("T-10s")
@@ -889,6 +890,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         print("speak now")
         self.create_alarm_worker(self.alarm_message, self.voice_volume, True)
         self.ui.alarmStatusLabel.setText("Speaking")
+        self.ui.alarmMutePushButton.setVisible(True)
 
     @QtCore.pyqtSlot()
     def stop_alarm(self):
