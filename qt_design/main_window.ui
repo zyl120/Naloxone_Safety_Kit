@@ -41,8 +41,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgb(0,0,0);
-</string>
+   <string notr="true">background-color:black</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_21">
@@ -67,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1221,7 +1220,7 @@ QTabBar::tab:disabled {
 background: rgb(20,20,20);
 color:darkgrey
 }
-.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+</string>
           </property>
           <property name="tabPosition">
            <enum>QTabWidget::North</enum>
@@ -1230,7 +1229,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>6</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1351,7 +1350,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-73</y>
+                 <y>0</y>
                  <width>710</width>
                  <height>395</height>
                 </rect>
@@ -1360,7 +1359,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_5">
                   <property name="styleSheet">
-                   <string notr="true"/>
+                   <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -1498,6 +1497,9 @@ QSlider::handle:horizontal {
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_8">
+                  <property name="styleSheet">
+                   <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -1617,12 +1619,15 @@ QScrollBar::sub-line:vertical {
                  <x>0</x>
                  <y>0</y>
                  <width>720</width>
-                 <height>322</height>
+                 <height>325</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
                 <item>
                  <widget class="QFrame" name="frame_9">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_9{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -1982,7 +1987,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-110</y>
+                 <y>0</y>
                  <width>712</width>
                  <height>434</height>
                 </rect>
@@ -1990,6 +1995,9 @@ QScrollBar::sub-line:vertical {
                <layout class="QVBoxLayout" name="verticalLayout_44">
                 <item>
                  <widget class="QFrame" name="frame_12">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_12{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -2270,6 +2278,9 @@ QScrollBar::sub-line:vertical {
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_15">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_15{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -2367,12 +2378,15 @@ QScrollBar::sub-line:vertical {
                  <x>0</x>
                  <y>0</y>
                  <width>720</width>
-                 <height>322</height>
+                 <height>325</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
                 <item>
                  <widget class="QFrame" name="frame_16">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_16{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -2590,6 +2604,9 @@ QSlider::handle:horizontal {
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_18">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_18{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -2721,7 +2738,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-61</y>
+                 <y>0</y>
                  <width>710</width>
                  <height>383</height>
                 </rect>
@@ -2729,6 +2746,9 @@ QScrollBar::sub-line:vertical {
                <layout class="QVBoxLayout" name="verticalLayout_22">
                 <item>
                  <widget class="QFrame" name="frame_10">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_10{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -2968,6 +2988,9 @@ color:white;
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_11">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_11{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -3290,7 +3313,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-388</y>
+                 <y>-385</y>
                  <width>712</width>
                  <height>712</height>
                 </rect>
@@ -3298,6 +3321,9 @@ QScrollBar::sub-line:vertical {
                <layout class="QVBoxLayout" name="verticalLayout_39">
                 <item>
                  <widget class="QFrame" name="frame_13">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_13{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -3539,6 +3565,9 @@ color:white;
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_14">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_14{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -3716,6 +3745,9 @@ color:white;
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_17">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_17{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -4022,6 +4054,9 @@ color:white;
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_19">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_19{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -4103,6 +4138,9 @@ color:white;
                 </item>
                 <item>
                  <widget class="QFrame" name="frame_20">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_20{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
                   </property>
@@ -4308,171 +4346,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </layout>
          </widget>
         </item>
-        <item row="0" column="1" rowspan="5">
-         <widget class="QFrame" name="frame_7">
-          <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_18">
-           <item row="0" column="0">
-            <widget class="QTextEdit" name="passcodeManual">
-             <property name="styleSheet">
-              <string notr="true">QScrollBar {
-        background: rgb(50,50,50);
-        border-radius: 3px;
-        border-color:rgb(50,50,50);
-        width:10
-    }
-QScrollBar::handle:vertical
-    {
-        background-color: rgb(65,65,65);
-        border-radius: 3px;
-    }
-QScrollBar::add-line:vertical {
-      border: none;
-      background: none;
-}
-
-QScrollBar::sub-line:vertical {
-      border: none;
-      background: none;
-}QTextEdit {
-	background-color: black;
-	color: white;
-}</string>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Sunken</enum>
-             </property>
-             <property name="html">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-li.unchecked::marker { content: &quot;\2610&quot;; }
-li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;MANUAL&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="textInteractionFlags">
-              <set>Qt::NoTextInteraction</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QFrame" name="frame_3">
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_19">
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="passcodeEnterLabel">
-             <property name="font">
-              <font>
-               <pointsize>24</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:white</string>
-             </property>
-             <property name="text">
-              <string>Enter Passcode</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="passcodeEnterPushButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;
-</string>
-             </property>
-             <property name="text">
-              <string>Unlock</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLineEdit" name="passcodeEnterLineEdit">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;
-</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="echoMode">
-              <enum>QLineEdit::Password</enum>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item row="1" column="0" rowspan="3">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -4606,6 +4479,171 @@ The phone number will be recorded.</string>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="0" column="0">
+         <widget class="QFrame" name="frame_3">
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_19">
+           <item row="1" column="1">
+            <widget class="QPushButton" name="passcodeEnterPushButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;
+</string>
+             </property>
+             <property name="text">
+              <string>Unlock</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="passcodeEnterLabel">
+             <property name="font">
+              <font>
+               <pointsize>24</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:white</string>
+             </property>
+             <property name="text">
+              <string>Enter Passcode</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLineEdit" name="passcodeEnterLineEdit">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;
+</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="echoMode">
+              <enum>QLineEdit::Password</enum>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1" rowspan="5">
+         <widget class="QFrame" name="frame_7">
+          <property name="styleSheet">
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_18">
+           <item row="0" column="0">
+            <widget class="QTextEdit" name="passcodeManual">
+             <property name="styleSheet">
+              <string notr="true">QScrollBar {
+        background: rgb(50,50,50);
+        border-radius: 3px;
+        border-color:rgb(50,50,50);
+        width:10
+    }
+QScrollBar::handle:vertical
+    {
+        background-color: rgb(65,65,65);
+        border-radius: 3px;
+    }
+QScrollBar::add-line:vertical {
+      border: none;
+      background: none;
+}
+
+QScrollBar::sub-line:vertical {
+      border: none;
+      background: none;
+}QTextEdit {
+	background-color: black;
+	color: white;
+}</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;MANUAL&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::NoTextInteraction</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>

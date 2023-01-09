@@ -27,8 +27,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(13)
         door_close_main_window.setFont(font)
         door_close_main_window.setAutoFillBackground(False)
-        door_close_main_window.setStyleSheet("background-color:rgb(0,0,0);\n"
-"")
+        door_close_main_window.setStyleSheet("background-color:black")
         self.centralwidget = QtWidgets.QWidget(door_close_main_window)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_21 = QtWidgets.QGridLayout(self.centralwidget)
@@ -567,7 +566,7 @@ class Ui_door_close_main_window(object):
 "background: rgb(20,20,20);\n"
 "color:darkgrey\n"
 "}\n"
-".QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}")
+"")
         self.settingsTab.setTabPosition(QtWidgets.QTabWidget.North)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(16, 16))
@@ -633,12 +632,12 @@ class Ui_door_close_main_window(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollArea_3.setObjectName("scrollArea_3")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, -73, 710, 395))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 710, 395))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frame_5 = QtWidgets.QFrame(self.scrollAreaWidgetContents_3)
-        self.frame_5.setStyleSheet("")
+        self.frame_5.setStyleSheet(".QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_5.setObjectName("frame_5")
@@ -699,6 +698,7 @@ class Ui_door_close_main_window(object):
         self.gridLayout_23.addLayout(self.horizontalLayout_43, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.frame_5)
         self.frame_8 = QtWidgets.QFrame(self.scrollAreaWidgetContents_3)
+        self.frame_8.setStyleSheet(".QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_8.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_8.setObjectName("frame_8")
@@ -757,11 +757,12 @@ class Ui_door_close_main_window(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollArea_4.setObjectName("scrollArea_4")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 720, 322))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 720, 325))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
         self.frame_9 = QtWidgets.QFrame(self.scrollAreaWidgetContents_4)
+        self.frame_9.setStyleSheet("QWidget#frame_9{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_9.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_9.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_9.setObjectName("frame_9")
@@ -910,11 +911,12 @@ class Ui_door_close_main_window(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, -110, 712, 434))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 712, 434))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
         self.frame_12 = QtWidgets.QFrame(self.scrollAreaWidgetContents_2)
+        self.frame_12.setStyleSheet("QWidget#frame_12{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_12.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_12.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_12.setObjectName("frame_12")
@@ -1018,6 +1020,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_16.addWidget(self.label_9)
         self.verticalLayout_44.addWidget(self.frame_12)
         self.frame_15 = QtWidgets.QFrame(self.scrollAreaWidgetContents_2)
+        self.frame_15.setStyleSheet("QWidget#frame_15{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_15.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_15.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_15.setObjectName("frame_15")
@@ -1069,11 +1072,12 @@ class Ui_door_close_main_window(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollArea_5.setObjectName("scrollArea_5")
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 720, 322))
+        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 720, 325))
         self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_5)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
         self.frame_16 = QtWidgets.QFrame(self.scrollAreaWidgetContents_5)
+        self.frame_16.setStyleSheet("QWidget#frame_16{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_16.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_16.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_16.setObjectName("frame_16")
@@ -1163,6 +1167,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_6.addLayout(self.horizontalLayout_47)
         self.verticalLayout_14.addWidget(self.frame_16)
         self.frame_18 = QtWidgets.QFrame(self.scrollAreaWidgetContents_5)
+        self.frame_18.setStyleSheet("QWidget#frame_18{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_18.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_18.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_18.setObjectName("frame_18")
@@ -1227,11 +1232,12 @@ class Ui_door_close_main_window(object):
         self.scrollArea_6.setWidgetResizable(True)
         self.scrollArea_6.setObjectName("scrollArea_6")
         self.scrollAreaWidgetContents_6 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, -61, 710, 383))
+        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 710, 383))
         self.scrollAreaWidgetContents_6.setObjectName("scrollAreaWidgetContents_6")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_6)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
         self.frame_10 = QtWidgets.QFrame(self.scrollAreaWidgetContents_6)
+        self.frame_10.setStyleSheet("QWidget#frame_10{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_10.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_10.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_10.setObjectName("frame_10")
@@ -1329,6 +1335,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_13.addLayout(self.horizontalLayout_23)
         self.verticalLayout_22.addWidget(self.frame_10)
         self.frame_11 = QtWidgets.QFrame(self.scrollAreaWidgetContents_6)
+        self.frame_11.setStyleSheet("QWidget#frame_11{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_11.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_11.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_11.setObjectName("frame_11")
@@ -1472,11 +1479,12 @@ class Ui_door_close_main_window(object):
         self.adminScrollArea.setWidgetResizable(True)
         self.adminScrollArea.setObjectName("adminScrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -388, 712, 712))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -385, 712, 712))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
         self.frame_13 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
+        self.frame_13.setStyleSheet("QWidget#frame_13{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_13.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_13.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_13.setObjectName("frame_13")
@@ -1575,6 +1583,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_18.addLayout(self.horizontalLayout_39)
         self.verticalLayout_39.addWidget(self.frame_13)
         self.frame_14 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
+        self.frame_14.setStyleSheet("QWidget#frame_14{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_14.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_14.setObjectName("frame_14")
@@ -1646,6 +1655,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_17.addLayout(self.horizontalLayout_33)
         self.verticalLayout_39.addWidget(self.frame_14)
         self.frame_17 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
+        self.frame_17.setStyleSheet("QWidget#frame_17{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_17.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_17.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_17.setObjectName("frame_17")
@@ -1791,6 +1801,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_19.addLayout(self.horizontalLayout_14)
         self.verticalLayout_39.addWidget(self.frame_17)
         self.frame_19 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
+        self.frame_19.setStyleSheet("QWidget#frame_19{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_19.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_19.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_19.setObjectName("frame_19")
@@ -1824,6 +1835,7 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_23.addLayout(self.horizontalLayout_19)
         self.verticalLayout_39.addWidget(self.frame_19)
         self.frame_20 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
+        self.frame_20.setStyleSheet("QWidget#frame_20{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.frame_20.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_20.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_20.setObjectName("frame_20")
@@ -1922,88 +1934,6 @@ class Ui_door_close_main_window(object):
         self.label_10.setObjectName("label_10")
         self.gridLayout_20.addWidget(self.label_10, 0, 1, 1, 1)
         self.gridLayout_16.addWidget(self.frame_6, 4, 0, 1, 1)
-        self.frame_7 = QtWidgets.QFrame(self.passcodePage)
-        self.frame_7.setStyleSheet(".QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}")
-        self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_7.setObjectName("frame_7")
-        self.gridLayout_18 = QtWidgets.QGridLayout(self.frame_7)
-        self.gridLayout_18.setObjectName("gridLayout_18")
-        self.passcodeManual = QtWidgets.QTextEdit(self.frame_7)
-        self.passcodeManual.setStyleSheet("QScrollBar {\n"
-"        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
-"        border-color:rgb(50,50,50);\n"
-"        width:10\n"
-"    }\n"
-"QScrollBar::handle:vertical\n"
-"    {\n"
-"        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
-"    }\n"
-"QScrollBar::add-line:vertical {\n"
-"      border: none;\n"
-"      background: none;\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:vertical {\n"
-"      border: none;\n"
-"      background: none;\n"
-"}QTextEdit {\n"
-"    background-color: black;\n"
-"    color: white;\n"
-"}")
-        self.passcodeManual.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.passcodeManual.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-        self.passcodeManual.setObjectName("passcodeManual")
-        self.gridLayout_18.addWidget(self.passcodeManual, 0, 0, 1, 1)
-        self.gridLayout_16.addWidget(self.frame_7, 0, 1, 5, 1)
-        self.frame_3 = QtWidgets.QFrame(self.passcodePage)
-        self.frame_3.setAutoFillBackground(False)
-        self.frame_3.setStyleSheet(".QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}")
-        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.gridLayout_19 = QtWidgets.QGridLayout(self.frame_3)
-        self.gridLayout_19.setObjectName("gridLayout_19")
-        self.passcodeEnterLabel = QtWidgets.QLabel(self.frame_3)
-        font = QtGui.QFont()
-        font.setPointSize(24)
-        self.passcodeEnterLabel.setFont(font)
-        self.passcodeEnterLabel.setStyleSheet("color:white")
-        self.passcodeEnterLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.passcodeEnterLabel.setObjectName("passcodeEnterLabel")
-        self.gridLayout_19.addWidget(self.passcodeEnterLabel, 0, 0, 1, 2)
-        self.passcodeEnterPushButton = QtWidgets.QPushButton(self.frame_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.passcodeEnterPushButton.sizePolicy().hasHeightForWidth())
-        self.passcodeEnterPushButton.setSizePolicy(sizePolicy)
-        self.passcodeEnterPushButton.setMinimumSize(QtCore.QSize(200, 30))
-        self.passcodeEnterPushButton.setMaximumSize(QtCore.QSize(200, 30))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        font.setBold(False)
-        self.passcodeEnterPushButton.setFont(font)
-        self.passcodeEnterPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;\n"
-"")
-        self.passcodeEnterPushButton.setObjectName("passcodeEnterPushButton")
-        self.gridLayout_19.addWidget(self.passcodeEnterPushButton, 1, 1, 1, 1)
-        self.passcodeEnterLineEdit = QtWidgets.QLineEdit(self.frame_3)
-        self.passcodeEnterLineEdit.setMinimumSize(QtCore.QSize(200, 30))
-        self.passcodeEnterLineEdit.setMaximumSize(QtCore.QSize(200, 30))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.passcodeEnterLineEdit.setFont(font)
-        self.passcodeEnterLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;\n"
-"")
-        self.passcodeEnterLineEdit.setText("")
-        self.passcodeEnterLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.passcodeEnterLineEdit.setAlignment(QtCore.Qt.AlignCenter)
-        self.passcodeEnterLineEdit.setObjectName("passcodeEnterLineEdit")
-        self.gridLayout_19.addWidget(self.passcodeEnterLineEdit, 1, 0, 1, 1)
-        self.gridLayout_16.addWidget(self.frame_3, 0, 0, 1, 1)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.paramedic_frame = QtWidgets.QFrame(self.passcodePage)
@@ -2062,6 +1992,88 @@ class Ui_door_close_main_window(object):
         self.gridLayout_22.addWidget(self.label_26, 0, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.admin_only_frame)
         self.gridLayout_16.addLayout(self.verticalLayout_2, 1, 0, 3, 1)
+        self.frame_3 = QtWidgets.QFrame(self.passcodePage)
+        self.frame_3.setAutoFillBackground(False)
+        self.frame_3.setStyleSheet(".QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}")
+        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.gridLayout_19 = QtWidgets.QGridLayout(self.frame_3)
+        self.gridLayout_19.setObjectName("gridLayout_19")
+        self.passcodeEnterPushButton = QtWidgets.QPushButton(self.frame_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.passcodeEnterPushButton.sizePolicy().hasHeightForWidth())
+        self.passcodeEnterPushButton.setSizePolicy(sizePolicy)
+        self.passcodeEnterPushButton.setMinimumSize(QtCore.QSize(200, 30))
+        self.passcodeEnterPushButton.setMaximumSize(QtCore.QSize(200, 30))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        font.setBold(False)
+        self.passcodeEnterPushButton.setFont(font)
+        self.passcodeEnterPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;\n"
+"")
+        self.passcodeEnterPushButton.setObjectName("passcodeEnterPushButton")
+        self.gridLayout_19.addWidget(self.passcodeEnterPushButton, 1, 1, 1, 1)
+        self.passcodeEnterLabel = QtWidgets.QLabel(self.frame_3)
+        font = QtGui.QFont()
+        font.setPointSize(24)
+        self.passcodeEnterLabel.setFont(font)
+        self.passcodeEnterLabel.setStyleSheet("color:white")
+        self.passcodeEnterLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.passcodeEnterLabel.setObjectName("passcodeEnterLabel")
+        self.gridLayout_19.addWidget(self.passcodeEnterLabel, 0, 0, 1, 2)
+        self.passcodeEnterLineEdit = QtWidgets.QLineEdit(self.frame_3)
+        self.passcodeEnterLineEdit.setMinimumSize(QtCore.QSize(200, 30))
+        self.passcodeEnterLineEdit.setMaximumSize(QtCore.QSize(200, 30))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.passcodeEnterLineEdit.setFont(font)
+        self.passcodeEnterLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;\n"
+"")
+        self.passcodeEnterLineEdit.setText("")
+        self.passcodeEnterLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.passcodeEnterLineEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.passcodeEnterLineEdit.setObjectName("passcodeEnterLineEdit")
+        self.gridLayout_19.addWidget(self.passcodeEnterLineEdit, 1, 0, 1, 1)
+        self.gridLayout_16.addWidget(self.frame_3, 0, 0, 1, 1)
+        self.frame_7 = QtWidgets.QFrame(self.passcodePage)
+        self.frame_7.setStyleSheet(".QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 0.5px;border-style: solid;}")
+        self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_7.setObjectName("frame_7")
+        self.gridLayout_18 = QtWidgets.QGridLayout(self.frame_7)
+        self.gridLayout_18.setObjectName("gridLayout_18")
+        self.passcodeManual = QtWidgets.QTextEdit(self.frame_7)
+        self.passcodeManual.setStyleSheet("QScrollBar {\n"
+"        background: rgb(50,50,50);\n"
+"        border-radius: 3px;\n"
+"        border-color:rgb(50,50,50);\n"
+"        width:10\n"
+"    }\n"
+"QScrollBar::handle:vertical\n"
+"    {\n"
+"        background-color: rgb(65,65,65);\n"
+"        border-radius: 3px;\n"
+"    }\n"
+"QScrollBar::add-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical {\n"
+"      border: none;\n"
+"      background: none;\n"
+"}QTextEdit {\n"
+"    background-color: black;\n"
+"    color: white;\n"
+"}")
+        self.passcodeManual.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.passcodeManual.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.passcodeManual.setObjectName("passcodeManual")
+        self.gridLayout_18.addWidget(self.passcodeManual, 0, 0, 1, 1)
+        self.gridLayout_16.addWidget(self.frame_7, 0, 1, 5, 1)
         self.stackedWidget.addWidget(self.passcodePage)
         self.doorOpenPage = QtWidgets.QWidget()
         self.doorOpenPage.setObjectName("doorOpenPage")
@@ -2487,8 +2499,8 @@ class Ui_door_close_main_window(object):
         self.paramedicsLabel.setBuddy(self.paramedicsPhoneNumberLineEdit)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(3)
+        self.settingsTab.setCurrentIndex(6)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
 
@@ -2609,6 +2621,13 @@ class Ui_door_close_main_window(object):
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.help), _translate("door_close_main_window", "Help!"))
         self.forgotPasswordPushButton.setText(_translate("door_close_main_window", "Forgot Passcode"))
         self.label_10.setText(_translate("door_close_main_window", "FOR ADMIN ONLY:"))
+        self.getPasscodePushButton.setText(_translate("door_close_main_window", "Get Passcode"))
+        self.paramedicsLabel.setText(_translate("door_close_main_window", "FOR PARAMEDICS:"))
+        self.label_20.setText(_translate("door_close_main_window", "Warning: Format phone number as \"+1XXXXXXXXXX\".\n"
+"The phone number will be recorded."))
+        self.label_26.setText(_translate("door_close_main_window", "This device can only be accessed by admin."))
+        self.passcodeEnterPushButton.setText(_translate("door_close_main_window", "Unlock"))
+        self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
         self.passcodeManual.setHtml(_translate("door_close_main_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -2617,13 +2636,6 @@ class Ui_door_close_main_window(object):
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">MANUAL</p></body></html>"))
-        self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
-        self.passcodeEnterPushButton.setText(_translate("door_close_main_window", "Unlock"))
-        self.getPasscodePushButton.setText(_translate("door_close_main_window", "Get Passcode"))
-        self.paramedicsLabel.setText(_translate("door_close_main_window", "FOR PARAMEDICS:"))
-        self.label_20.setText(_translate("door_close_main_window", "Warning: Format phone number as \"+1XXXXXXXXXX\".\n"
-"The phone number will be recorded."))
-        self.label_26.setText(_translate("door_close_main_window", "This device can only be accessed by admin."))
         self.label_12.setText(_translate("door_close_main_window", "Status"))
         self.doorOpenLabel.setText(_translate("door_close_main_window", "Open"))
         self.doorOpenResetPushButton.setText(_translate("door_close_main_window", "Push to\n"
