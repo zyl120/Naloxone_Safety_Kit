@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>5</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2739,7 +2739,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-40</y>
+                 <y>-45</y>
                  <width>714</width>
                  <height>383</height>
                 </rect>
@@ -3124,7 +3124,7 @@ color:white;
                         <string notr="true">color:white</string>
                        </property>
                        <property name="text">
-                        <string>Fan &amp;Threshold Temperature</string>
+                        <string>&amp;Threshold Temperature</string>
                        </property>
                        <property name="alignment">
                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3243,7 +3243,7 @@ QSlider::handle:horizontal {
                       <string notr="true">color:lightgrey</string>
                      </property>
                      <property name="text">
-                      <string>Typical threshold temperature is 176℉.</string>
+                      <string>The starting temperature to start the fan. Typical threshold temperature is 176℉.</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -3314,7 +3314,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-352</y>
+                 <y>0</y>
                  <width>716</width>
                  <height>712</height>
                 </rect>
