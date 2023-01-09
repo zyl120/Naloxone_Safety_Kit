@@ -66,14 +66,14 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="1">
          <widget class="QFrame" name="frame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -97,7 +97,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -158,7 +158,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -219,7 +219,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width:1px;border-style: solid;}</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -280,7 +280,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+              <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -332,7 +332,7 @@
         <item row="1" column="1">
          <widget class="QFrame" name="frame_4">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -454,7 +454,7 @@ QR_CODE</string>
         <item row="0" column="0" rowspan="2">
          <widget class="QFrame" name="frame_2">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -491,7 +491,7 @@ QR_CODE</string>
         <item row="1" column="1">
          <widget class="QFrame" name="thermalFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -540,7 +540,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -587,7 +587,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -636,7 +636,7 @@ QR_CODE</string>
         <item row="3" column="1">
          <widget class="QFrame" name="naloxoneFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -688,7 +688,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 0, 255);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -737,7 +737,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -785,7 +785,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -834,7 +834,7 @@ QR_CODE</string>
         <item row="3" column="0">
          <widget class="QFrame" name="serverFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -913,7 +913,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -962,7 +962,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1008,7 +1008,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1026,7 +1026,7 @@ QR_CODE</string>
         <item row="1" column="0">
          <widget class="QFrame" name="doorFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -1076,7 +1076,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1129,7 +1129,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1205,9 +1205,9 @@ QR_CODE</string>
            <string notr="true">QTabWidget::tab-bar {
 alignment: center;
 }
-QTabWidget::pane{border-radius: 0px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}
+QTabWidget::pane{border-radius: 0px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}
 QTabBar::tab:selected {
-background: rgb(100,100,100);
+background: rgb(90,90,90);
 color:white;
 }
 QTabBar::tab:!selected {
@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>1</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1357,7 +1357,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_5">
                   <property name="styleSheet">
-                   <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -1429,7 +1429,7 @@ QScrollBar::sub-line:vertical {
                         </font>
                        </property>
                        <property name="styleSheet">
-                        <string notr="true">color: white; border-radius:3px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                        <string notr="true">color: white; border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                        </property>
                        <property name="text">
                         <string>104℉</string>
@@ -1496,7 +1496,7 @@ QSlider::handle:horizontal {
                 <item>
                  <widget class="QFrame" name="frame_8">
                   <property name="styleSheet">
-                   <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -1624,7 +1624,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_9">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_9{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_9{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -1727,7 +1727,7 @@ QScrollBar::sub-line:vertical {
                    <item>
                     <widget class="Line" name="line_8">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -1823,7 +1823,7 @@ QScrollBar::sub-line:vertical {
                    <item>
                     <widget class="Line" name="line_9">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -1988,7 +1988,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-94</y>
+                 <y>0</y>
                  <width>716</width>
                  <height>434</height>
                 </rect>
@@ -1997,7 +1997,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_12">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_12{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_12{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -2087,7 +2087,7 @@ QScrollBar::sub-line:vertical {
                    <item>
                     <widget class="Line" name="line_6">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -2185,7 +2185,7 @@ QScrollBar::sub-line:vertical {
                    <item>
                     <widget class="Line" name="line_7">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -2280,7 +2280,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_15">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_15{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_15{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -2386,7 +2386,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_16">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_16{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_16{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -2479,7 +2479,7 @@ QScrollBar::sub-line:vertical {
                       <bool>false</bool>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -2606,7 +2606,7 @@ QSlider::handle:horizontal {
                 <item>
                  <widget class="QFrame" name="frame_18">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_18{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_18{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -2748,7 +2748,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_10">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_10{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_10{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -2859,7 +2859,7 @@ color:white;
                    <item>
                     <widget class="Line" name="line_5">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -2990,7 +2990,7 @@ color:white;
                 <item>
                  <widget class="QFrame" name="frame_11">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_11{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_11{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -3101,7 +3101,7 @@ color:white;
                    <item>
                     <widget class="Line" name="line_10">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -3314,7 +3314,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-372</y>
+                 <y>0</y>
                  <width>716</width>
                  <height>712</height>
                 </rect>
@@ -3323,7 +3323,7 @@ QScrollBar::sub-line:vertical {
                 <item>
                  <widget class="QFrame" name="frame_13">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_13{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_13{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -3417,7 +3417,7 @@ QScrollBar::sub-line:vertical {
                    <item>
                     <widget class="Line" name="line_11">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -3567,7 +3567,7 @@ color:white;
                 <item>
                  <widget class="QFrame" name="frame_14">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_14{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_14{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -3633,7 +3633,7 @@ color:white;
                    <item>
                     <widget class="Line" name="line_2">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -3747,7 +3747,7 @@ color:white;
                 <item>
                  <widget class="QFrame" name="frame_17">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_17{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_17{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -3833,7 +3833,7 @@ color:white;
                    <item>
                     <widget class="Line" name="line">
                      <property name="styleSheet">
-                      <string notr="true">color:rgb(100,100,100)</string>
+                      <string notr="true">color:rgb(50,50,50)</string>
                      </property>
                      <property name="frameShadow">
                       <enum>QFrame::Plain</enum>
@@ -4056,7 +4056,7 @@ color:white;
                 <item>
                  <widget class="QFrame" name="frame_19">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_19{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_19{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -4140,7 +4140,7 @@ color:white;
                 <item>
                  <widget class="QFrame" name="frame_20">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_20{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_20{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -4289,7 +4289,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <item row="4" column="0">
          <widget class="QFrame" name="frame_6">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -4352,7 +4352,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <item>
            <widget class="QFrame" name="paramedic_frame">
             <property name="styleSheet">
-             <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+             <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -4449,7 +4449,7 @@ The phone number will be recorded.</string>
           <item>
            <widget class="QFrame" name="admin_only_frame">
             <property name="styleSheet">
-             <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+             <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -4487,7 +4487,7 @@ The phone number will be recorded.</string>
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -4589,7 +4589,7 @@ The phone number will be recorded.</string>
         <item row="0" column="1" rowspan="5">
          <widget class="QFrame" name="frame_7">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -4653,7 +4653,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <item row="0" column="1">
          <widget class="QFrame" name="doorOpenFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -4703,7 +4703,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>Open</string>
@@ -4787,7 +4787,7 @@ Reset</string>
         <item row="1" column="1">
          <widget class="QFrame" name="alarmFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -4870,7 +4870,7 @@ Reset</string>
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                  <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                  </property>
                  <property name="text">
                   <string>Waiting</string>
@@ -4925,7 +4925,7 @@ Mute</string>
         <item row="0" column="2" rowspan="2">
          <widget class="QFrame" name="emergencyCallFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -5000,7 +5000,7 @@ Mute</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>T-10s</string>
@@ -5077,7 +5077,7 @@ Mute</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>Waiting</string>
@@ -5154,7 +5154,7 @@ Mute</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(100,100,100);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -5465,7 +5465,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(100,100,100);border-width: 1px;border-style: solid;}
+          <string notr="true">QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: grey;border-width: 1px;border-style: solid;}
 
 QPushButton:disabled {
 background-color: rgb(20,20,20);
