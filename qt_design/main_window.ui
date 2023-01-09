@@ -4493,8 +4493,14 @@ The phone number will be recorded.</string>
                  <pointsize>16</pointsize>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">color:white</string>
+               </property>
                <property name="text">
                 <string>This device can only be accessed by admin.</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>

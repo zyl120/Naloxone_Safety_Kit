@@ -2004,6 +2004,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.label_26.setFont(font)
+        self.label_26.setStyleSheet("color:white")
+        self.label_26.setAlignment(QtCore.Qt.AlignCenter)
         self.label_26.setObjectName("label_26")
         self.gridLayout_22.addWidget(self.label_26, 0, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.admin_only_frame)
