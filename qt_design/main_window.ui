@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>7</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2508,7 +2508,7 @@ QScrollBar::sub-line:vertical {
                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                        </property>
                        <property name="buddy">
-                        <cstring>temperatureSlider</cstring>
+                        <cstring>voice_volume_slider</cstring>
                        </property>
                       </widget>
                      </item>
@@ -2631,7 +2631,7 @@ QSlider::handle:horizontal {
                         <string>&amp;Test Alarm</string>
                        </property>
                        <property name="buddy">
-                        <cstring>callTestPushButton</cstring>
+                        <cstring>test_alarm_pushbutton</cstring>
                        </property>
                       </widget>
                      </item>
@@ -2739,7 +2739,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
+                 <y>-40</y>
                  <width>714</width>
                  <height>383</height>
                 </rect>
@@ -3130,7 +3130,7 @@ color:white;
                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                        </property>
                        <property name="buddy">
-                        <cstring>temperatureSlider</cstring>
+                        <cstring>fan_temperature_slider</cstring>
                        </property>
                       </widget>
                      </item>
@@ -3314,7 +3314,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
+                 <y>-352</y>
                  <width>716</width>
                  <height>712</height>
                 </rect>
@@ -4373,9 +4373,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
                </property>
                <property name="text">
                 <string>FOR PARAMEDICS:</string>
-               </property>
-               <property name="buddy">
-                <cstring>paramedicsPhoneNumberLineEdit</cstring>
                </property>
               </widget>
              </item>
@@ -5539,6 +5536,62 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>settingsTab</tabstop>
+  <tabstop>unlockSettingsPushButton</tabstop>
+  <tabstop>lockSettingsPushButton</tabstop>
+  <tabstop>scrollArea_3</tabstop>
+  <tabstop>temperatureSlider</tabstop>
+  <tabstop>naloxoneExpirationDateEdit</tabstop>
+  <tabstop>scrollArea_4</tabstop>
+  <tabstop>twilioPhoneNumberLineEdit</tabstop>
+  <tabstop>twilioSIDLineEdit</tabstop>
+  <tabstop>twilioTokenLineEdit</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>emergencyPhoneNumberLineEdit</tabstop>
+  <tabstop>emergencyAddressLineEdit</tabstop>
+  <tabstop>emergencyMessageLineEdit</tabstop>
+  <tabstop>scrollArea_5</tabstop>
+  <tabstop>alarm_message_lineedit</tabstop>
+  <tabstop>voice_volume_slider</tabstop>
+  <tabstop>test_alarm_pushbutton</tabstop>
+  <tabstop>scrollArea_6</tabstop>
+  <tabstop>enablePowerSavingCheckBox</tabstop>
+  <tabstop>startTimeEdit</tabstop>
+  <tabstop>endTimeEdit</tabstop>
+  <tabstop>enableActiveCoolingCheckBox</tabstop>
+  <tabstop>fan_temperature_slider</tabstop>
+  <tabstop>adminScrollArea</tabstop>
+  <tabstop>passcodeLineEdit</tabstop>
+  <tabstop>naloxonePasscodeLineEdit</tabstop>
+  <tabstop>allowParamedicsCheckBox</tabstop>
+  <tabstop>adminPhoneNumberLineEdit</tabstop>
+  <tabstop>callTestPushButton</tabstop>
+  <tabstop>smsTestPushButton</tabstop>
+  <tabstop>enableSMSCheckBox</tabstop>
+  <tabstop>reportDoorOpenedCheckBox</tabstop>
+  <tabstop>reportEmergencyCalledCheckBox</tabstop>
+  <tabstop>reportNaloxoneDestroyedCheckBox</tabstop>
+  <tabstop>reportSettingsChangedCheckBox</tabstop>
+  <tabstop>disarmPushButton</tabstop>
+  <tabstop>exitPushButton</tabstop>
+  <tabstop>manual_textedit</tabstop>
+  <tabstop>passcodeEnterLineEdit</tabstop>
+  <tabstop>passcodeEnterPushButton</tabstop>
+  <tabstop>paramedicsPhoneNumberLineEdit</tabstop>
+  <tabstop>getPasscodePushButton</tabstop>
+  <tabstop>forgotPasswordPushButton</tabstop>
+  <tabstop>passcodeManual</tabstop>
+  <tabstop>doorOpenResetPushButton</tabstop>
+  <tabstop>alarmMutePushButton</tabstop>
+  <tabstop>stopCountdownPushButton</tabstop>
+  <tabstop>call911NowPushButton</tabstop>
+  <tabstop>dashboardPushButton</tabstop>
+  <tabstop>homePushButton</tabstop>
+  <tabstop>settingsPushButton</tabstop>
+  <tabstop>saveToFilePushButton</tabstop>
+  <tabstop>backPushButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
