@@ -120,7 +120,7 @@ class IOWorker(QtCore.QThread):
 
     def read_door_sensor(self):
         #self.door_opened = False
-        #return
+        # return
         if GPIO.input(DOOR_PIN):
             self.door_opened = True
         else:
@@ -316,7 +316,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_current_max_temperature)
         self.ui.fan_temperature_slider.valueChanged.connect(
             self.update_current_threshold_temperature)
-        self.ui.voice_volume_slider.valueChanged.connect(self.update_voice_volume)
+        self.ui.voice_volume_slider.valueChanged.connect(
+            self.update_voice_volume)
         self.ui.callTestPushButton.clicked.connect(
             self.call_test_pushbutton_clicked)
         self.ui.smsTestPushButton.clicked.connect(
@@ -335,12 +336,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.get_passcode_button_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
-        QtWidgets.QScroller.grabGesture(self.ui.adminScrollArea.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(self.ui.manual_textedit.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(self.ui.passcodeManual.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabGesture(
+            self.ui.adminScrollArea.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabGesture(
+            self.ui.manual_textedit.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabGesture(
+            self.ui.passcodeManual.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
 
         self.load_manual()
-
 
         self.generate_ui_qrcode()
 
@@ -352,7 +355,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.goto_home()
         self.lock_settings()
         self.load_settings()
-    
+
     def destroy_network_worker(self):
         if (self.network_worker is not None):
             self.network_worker.quit()
@@ -400,12 +403,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def create_countdown_worker(self, time):
         self.destroy_countdown_worker()
         self.countdown_worker = CountDownWorker(time)
-        self.countdown_worker.time_changed_signal.connect(self.update_emergency_call_countdown)
+        self.countdown_worker.time_changed_signal.connect(
+            self.update_emergency_call_countdown)
         self.countdown_worker.time_end_signal.connect(
-                self.call_emergency_now)
+            self.call_emergency_now)
         self.countdown_worker.time_end_signal.connect(self.speak_now)
         self.countdown_worker.start()
-    
+
     def load_manual(self):
         file = QtCore.QFile('../user_manual/gui_manual/lock_screen_manual.md')
         if not file.open(QtCore.QIODevice.ReadOnly):
@@ -426,7 +430,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "https://github.com/zyl120/Naloxone_Safety_Kit")
         github_qr_code.make(fit=True)
         img = github_qr_code.make_image(
-            fill_color="white", back_color=(50, 50, 50))
+            fill_color="white", back_color="black")
         img.save("github_qrcode.png")
         github_qrcode_pixmap = QtGui.QPixmap(
             "github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
@@ -497,7 +501,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["enable_active_cooling"] == "True")
             self.ui.alarm_message_lineedit.setText(
                 config["alarm"]["alarm_message"])
-            self.ui.voice_volume_slider.setValue(int(config["alarm"]["voice_volume"]))
+            self.ui.voice_volume_slider.setValue(
+                int(config["alarm"]["voice_volume"]))
         except Exception as e:
             return
         else:
@@ -577,7 +582,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.alarm_message_lineedit.setText(
                 config["alarm"]["alarm_message"])
             self.alarm_message = config["alarm"]["alarm_message"]
-            self.ui.voice_volume_slider.setValue(int(config["alarm"]["voice_volume"]))
+            self.ui.voice_volume_slider.setValue(
+                int(config["alarm"]["voice_volume"]))
             self.voice_volume = int(config["alarm"]["voice_volume"])
 
             admin_qr_code = qrcode.QRCode(
@@ -589,13 +595,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             admin_qr_code.add_data(config["admin"]["admin_phone_number"])
             admin_qr_code.make(fit=True)
             img = admin_qr_code.make_image(
-                fill_color="white", back_color=(50, 50, 50))
+                fill_color="white", back_color="black")
             img.save("admin_qrcode.png")
             admin_qrcode_pixmap = QtGui.QPixmap(
                 "admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
-            #self.create_io_worker()
+            # self.create_io_worker()
             self.create_network_worker()
 
         except Exception as e:
@@ -835,7 +841,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # Used to check whether the door is still opened
         if (self.door_opened):
             print("door is still opened")
-            self.display_messagebox("Critical", "Please close the door first.", "The system needs some time to detect the door status change.")
+            self.display_messagebox("Critical", "Please close the door first.",
+                                    "The system needs some time to detect the door status change.")
         else:
             self.goto_home()
             self.ui.homePushButton.setVisible(True)
@@ -883,7 +890,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def test_tts_engine(self):
-        self.create_alarm_worker(self.ui.alarm_message_lineedit.text(), self.ui.voice_volume_slider.value(), False)
+        self.create_alarm_worker(self.ui.alarm_message_lineedit.text(
+        ), self.ui.voice_volume_slider.value(), False)
 
     @QtCore.pyqtSlot()
     def speak_now(self):
@@ -1012,7 +1020,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         else:
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#AC193D")
-    
+
     @QtCore.pyqtSlot(int)
     def update_voice_volume(self, value):
         self.ui.voice_volume_label.setText(str(value) + "%")
@@ -1066,7 +1074,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         config["alarm"] = {
             "alarm_message": self.ui.alarm_message_lineedit.text(),
-            "voice_volume":self.ui.voice_volume_slider.value()
+            "voice_volume": self.ui.voice_volume_slider.value()
         }
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
