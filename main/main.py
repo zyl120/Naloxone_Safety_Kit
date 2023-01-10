@@ -332,8 +332,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.forgotPasswordPushButton.clicked.connect(
             self.forgot_password_button_pushed)
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
-        self.ui.getPasscodePushButton.clicked.connect(
-            self.get_passcode_button_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
         QtWidgets.QScroller.grabGesture(
@@ -547,6 +545,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.admin_passcode = config["admin"]["passcode"]
             self.ui.naloxonePasscodeLineEdit.setText(
                 config["admin"]["naloxone_passcode"])
+            self.ui.naloxone_passcode_label.setText(
+                config["admin"]["naloxone_passcode"])
             self.naloxone_passcode = config["admin"]["naloxone_passcode"]
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
@@ -738,7 +738,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def goto_passcode(self):
         self.ui.passcodeEnterLineEdit.clear()
         self.ui.passcodeEnterLabel.setText("Enter Passcode")
-        self.ui.paramedicsPhoneNumberLineEdit.clear()
         self.ui.stackedWidget.setCurrentIndex(3)
 
     def goto_settings(self):
@@ -876,17 +875,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
         self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
-
-    def get_passcode_button_pushed(self):
-        print("Enter function")
-        paramedic_phone_number = self.ui.paramedicsPhoneNumberLineEdit.text()
-        self.send_to_paramedic = SMSWorker(paramedic_phone_number, "The passcode of the naloxone safety box at " +
-                                           self.address + " is: " + self.naloxone_passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.send_to_paramedic.start()
-        print("sent to paramedics")
-        self.send_sms_using_config_file(
-            "Paramedics want to access the settings. The number is " + paramedic_phone_number + ".")
-        print("sent to admin")
 
     @QtCore.pyqtSlot()
     def test_tts_engine(self):
