@@ -287,7 +287,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.max_temp = 0
         self.fan_threshold_temp = 0
         self.admin_passcode = str()
-        self.naloxone_passcode = str()
         self.twilio_sid = str()
         self.twilio_token = str()
         self.twilio_phone_number = str()
@@ -334,6 +333,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
+        self.ui.replace_naloxone_pushbutton.clicked.connect(
+            self.replace_naloxone_button_pressed)
+        self.ui.replace_naloxone_button_2.clicked.connect(self.replace_naloxone_button_pressed)
+        self.ui.notify_admin_button.clicked.connect(self.notify_admin)
+        self.ui.notify_admin_button_2.clicked.connect(self.notify_admin)
         QtWidgets.QScroller.grabGesture(
             self.ui.adminScrollArea.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
         QtWidgets.QScroller.grabGesture(
@@ -475,8 +479,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.fan_temperature_slider.setValue(
                 int(config["power_management"]["threshold_temperature"]))
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
-            self.ui.naloxonePasscodeLineEdit.setText(
-                config["admin"]["naloxone_passcode"])
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
             self.ui.enableSMSCheckBox.setChecked(
@@ -543,11 +545,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["threshold_temperature"])
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
             self.admin_passcode = config["admin"]["passcode"]
-            self.ui.naloxonePasscodeLineEdit.setText(
-                config["admin"]["naloxone_passcode"])
-            self.ui.naloxone_passcode_label.setText(
-                config["admin"]["naloxone_passcode"])
-            self.naloxone_passcode = config["admin"]["naloxone_passcode"]
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
             self.admin_phone_number = config["admin"]["admin_phone_number"]
@@ -687,8 +684,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # 2: unlock naloxone settings
         if (self.admin_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.admin_passcode):
             return 1
-        elif (self.naloxone_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.naloxone_passcode):
-            return 2
         else:
             sleep(3)
             self.ui.passcodeEnterLabel.setText("Sorry, try again")
@@ -727,6 +722,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.alarmMutePushButton.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
             self.create_countdown_worker(10)
+
+    @QtCore.pyqtSlot()
+    def replace_naloxone_button_pressed(self):
+        self.goto_settings()
+        self.unlock_naloxone_settings()
 
     def back_pushbutton_pushed(self):
         self.ui.settingsPushButton.setChecked(False)
@@ -875,6 +875,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
         self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
+
+    @QtCore.pyqtSlot()
+    def notify_admin(self):
+        self.send_sms_using_config_file("Paramedics arrived!")
 
     @QtCore.pyqtSlot()
     def test_tts_engine(self):
@@ -1044,7 +1048,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         }
         config["admin"] = {
             "passcode": self.ui.passcodeLineEdit.text(),
-            "naloxone_passcode": self.ui.naloxonePasscodeLineEdit.text(),
             "admin_phone_number": self.ui.adminPhoneNumberLineEdit.text(),
             "enable_sms": self.ui.enableSMSCheckBox.isChecked(),
             "report_door_opened": self.ui.reportDoorOpenedCheckBox.isChecked(),
