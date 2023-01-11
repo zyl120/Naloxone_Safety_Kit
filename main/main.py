@@ -920,6 +920,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.call_911_using_config_file()
         self.ui.emergencyCallStatusLabel.setText("Requested")
         self.ui.settingsPushButton.setVisible(True)
+        self.ui.replace_naloxone_button_2.setVisible(True)
         self.ui.stopCountdownPushButton.setVisible(False)
         self.ui.countdownLabel.setVisible(False)
         self.ui.emergencyCallCountdownLabel.setVisible(False)
