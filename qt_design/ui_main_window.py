@@ -2708,7 +2708,7 @@ class Ui_door_close_main_window(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">PASSCODE_MANUAL</p></body></html>"))
         self.notify_admin_button.setText(_translate("door_close_main_window", "Notify Admin"))
         self.paramedicsLabel.setText(_translate("door_close_main_window", "FOR PARAMEDICS: Provide phone number"))
-        self.get_passcode_button.setText(_translate("door_close_main_window", "Get Passcode via SMS"))
+        self.get_passcode_button.setText(_translate("door_close_main_window", "Get Passcode"))
         self.label_14.setText(_translate("door_close_main_window", "Or alternatively,"))
         self.label_26.setText(_translate("door_close_main_window", "This device can only be accessed by admin."))
         self.label_10.setText(_translate("door_close_main_window", "FOR ADMIN ONLY:"))

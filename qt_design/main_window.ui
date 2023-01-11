@@ -4567,7 +4567,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; </string>
                </property>
                <property name="text">
-                <string>Get Passcode via SMS</string>
+                <string>Get Passcode</string>
                </property>
               </widget>
              </item>

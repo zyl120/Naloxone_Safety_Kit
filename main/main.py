@@ -10,9 +10,9 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -601,7 +601,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
-            # self.create_io_worker()
+            self.create_io_worker()
             self.create_network_worker()
 
         except Exception as e:
@@ -725,6 +725,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.settingsPushButton.setVisible(False)
             self.ui.backPushButton.setVisible(False)
             self.ui.alarmMutePushButton.setVisible(False)
+            self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
             self.create_countdown_worker(10)
 
@@ -858,6 +859,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.emergencyCallCountdownLabel.setVisible(True)
             self.ui.alarmStatusLabel.setText("Waiting")
             self.ui.alarmMutePushButton.setVisible(False)
+            self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
             self.ui.emergencyCallCountdownLabel.setText("T-10s")
@@ -874,6 +876,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.emergencyCallStatusLabel.setText("N/A")
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
+        self.ui.replace_naloxone_button_2.setVisible(True)
         self.ui.emergencyCallLastCallLabel.setText("N/A")
         self.destroy_countdown_worker()
 
