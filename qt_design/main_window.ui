@@ -4720,7 +4720,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <number>0</number>
           </property>
           <layout class="QGridLayout" name="gridLayout_14">
-           <item row="4" column="0" colspan="2">
+           <item row="5" column="0" colspan="2">
             <widget class="QPushButton" name="call911NowPushButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -5052,6 +5052,19 @@ Countdown</string>
               </widget>
              </item>
             </layout>
+           </item>
+           <item row="4" column="0" colspan="2">
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
