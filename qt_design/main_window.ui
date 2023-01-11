@@ -4737,7 +4737,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>80</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
@@ -4772,7 +4772,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>40</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
@@ -4811,7 +4811,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -4847,7 +4847,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -4886,7 +4886,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>80</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
@@ -4923,7 +4923,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -4959,7 +4959,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -4994,7 +4994,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -5031,7 +5031,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -5100,7 +5100,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -5130,7 +5130,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -5165,7 +5165,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -5195,7 +5195,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>40</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -5234,7 +5234,7 @@ Countdown</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>40</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
@@ -5292,7 +5292,7 @@ Countdown</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>80</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
@@ -5327,7 +5327,7 @@ Naloxone</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>80</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
@@ -5361,7 +5361,7 @@ Naloxone</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>80</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
@@ -5396,7 +5396,7 @@ Admin</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>80</height>
+               <height>16777215</height>
               </size>
              </property>
              <property name="font">
