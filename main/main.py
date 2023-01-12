@@ -723,7 +723,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(6, True)
         self.ui.settingsTab.setCurrentIndex(1)
         if not self.status_queue.full():
-            self.status_queue.put((1,"Settings Locked"))
+            self.status_queue.put((1,"Settings Unlocked"))
         print("All Settings unlocked")
 
     def check_passcode(self):
