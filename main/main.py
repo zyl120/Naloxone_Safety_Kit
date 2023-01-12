@@ -859,7 +859,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def reset_to_default(self):
         # Used to check whether the door is still opened
-        if (self.door_opened):
+        if (self.door_opened or not self.disarmed):
             print("door is still opened")
             self.display_messagebox("Critical", "Please close the door first.",
                                     "The system needs some time to detect the door status change.")
