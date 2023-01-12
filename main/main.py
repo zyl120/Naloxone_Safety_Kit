@@ -12,9 +12,9 @@ import qrcode
 import random
 from gtts import gTTS
 import phonenumbers
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -68,6 +68,7 @@ class CountDownWorker(QtCore.QThread):
     # signal to indicate the change of countdown time.
     time_changed_signal = QtCore.pyqtSignal(int)
 
+
     def __init__(self, time_in_sec):
         super(CountDownWorker, self).__init__()
         self.countdown_time_in_sec = time_in_sec
@@ -80,7 +81,7 @@ class CountDownWorker(QtCore.QThread):
             sleep(1)
             if (self.isInterruptionRequested()):
                 print("countdown timer terminated")
-                self.time_changed_signal.emit(self.countdown_time_in_sec)
+                #self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
 
         if(self.time_in_sec == -1):
@@ -637,7 +638,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
             self.create_time_worker()
-            #self.create_io_worker()
+            self.create_io_worker()
             self.create_network_worker()
 
         except Exception as e:
@@ -953,7 +954,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.time_label.setText(QtCore.QDateTime().currentDateTime().toString("ddd MMMM d h:m AP"))
         if(self.message_time_delay > 0):
             self.ui.status_bar.setVisible(True)
-            self.ui.status_bar.setText(str(self.message_time_delay) + " | " + self.message_to_display)
+            self.ui.status_bar.setText(self.message_to_display)
             self.message_time_delay -= 1
         elif (self.status_queue.empty()):
             self.ui.status_bar.setVisible(False)
@@ -962,7 +963,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.message_time_delay = msg[0]
             self.message_to_display = msg[1]
             self.ui.status_bar.setVisible(True)
-            self.ui.status_bar.setText(str(self.message_time_delay) + " | " + self.message_to_display)
+            self.ui.status_bar.setText(self.message_to_display)
             self.message_time_delay -= 1
             
 
