@@ -8,3 +8,6 @@ main/safety_kit.conf
 qt_design/qt_design.pyproject.user
 main/admin_qrcode.png
 main/github_qrcode.png
+main/res/admin_qrcode.png
+main/res/github_qrcode.png
+main/res/twilio_75.png

@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -1349,7 +1349,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>714</width>
+                 <width>649</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -1616,8 +1616,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>724</width>
-                 <height>338</height>
+                 <width>657</width>
+                 <height>308</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1989,7 +1989,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>716</width>
+                 <width>649</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2378,8 +2378,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>724</width>
-                 <height>338</height>
+                 <width>623</width>
+                 <height>266</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2739,7 +2739,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-45</y>
+                 <y>0</y>
                  <width>714</width>
                  <height>383</height>
                 </rect>
@@ -3314,8 +3314,8 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-366</y>
-                 <width>716</width>
+                 <y>0</y>
+                 <width>642</width>
                  <height>706</height>
                 </rect>
                </property>

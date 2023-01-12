@@ -11,9 +11,9 @@ import qrcode
 import random
 from gtts import gTTS
 import phonenumbers
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -163,7 +163,7 @@ class AlarmWorker(QtCore.QThread):
         self.voice_volume = voice_volume
         self.loop = loop
         self.tts = gTTS(self.alarm_message, lang="en")
-        self.tts.save("alarm.mp3")
+        self.tts.save("res/alarm.mp3")
         os.system("pactl set-sink-volume 0 {}%".format(self.voice_volume))
         print("alarm thread go.")
 
@@ -172,13 +172,13 @@ class AlarmWorker(QtCore.QThread):
             # loop until stopped by interruption
             while (True):
                 print("playing")
-                os.system("mpg123 -q alarm.mp3")
+                os.system("mpg123 -q res/alarm.mp3")
                 if (self.isInterruptionRequested()):
                     break
                 sleep(1)
         else:
             print("saying alarm now.")
-            os.system("mpg123 -q alarm.mp3")
+            os.system("mpg123 -q res/alarm.mp3")
             print("finish")
 
 
@@ -445,9 +445,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         github_qr_code.make(fit=True)
         img = github_qr_code.make_image(
             fill_color="white", back_color="black")
-        img.save("github_qrcode.png")
+        img.save("res/github_qrcode.png")
         github_qrcode_pixmap = QtGui.QPixmap(
-            "github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+            "res/github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
 
         twilio_75_qr_code = qrcode.QRCode(
@@ -461,9 +461,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         twilio_75_qr_code.make(fit=True)
         img = twilio_75_qr_code.make_image(
             fill_color="white", back_color="black")
-        img.save("twilio_75.png")
+        img.save("res/twilio_75.png")
         twilio_75_qrcode_pixmap = QtGui.QPixmap(
-            "twilio_75.png").scaledToWidth(100).scaledToHeight(100)
+            "res/twilio_75.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.twilioAddressWarningQrCode.setPixmap(
             (twilio_75_qrcode_pixmap))
 
@@ -610,12 +610,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             admin_qr_code.make(fit=True)
             img = admin_qr_code.make_image(
                 fill_color="white", back_color="black")
-            img.save("admin_qrcode.png")
+            img.save("res/admin_qrcode.png")
             admin_qrcode_pixmap = QtGui.QPixmap(
-                "admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
+                "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
-            self.create_io_worker()
+            #self.create_io_worker()
             self.create_network_worker()
 
         except Exception as e:
