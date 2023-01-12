@@ -4775,7 +4775,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <item row="2" column="1">
             <widget class="QPushButton" name="stopCountdownPushButton">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -4789,7 +4789,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>16777215</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
@@ -5009,7 +5009,7 @@ Countdown</string>
            <item row="6" column="0" colspan="2">
             <widget class="QPushButton" name="call911NowPushButton">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -5023,7 +5023,7 @@ Countdown</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>16777215</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
@@ -5065,7 +5065,7 @@ Countdown</string>
            <item row="1" column="0">
             <widget class="QPushButton" name="alarmMutePushButton">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -5079,7 +5079,7 @@ Countdown</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>16777215</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
@@ -5100,7 +5100,7 @@ Alarm</string>
            <item row="4" column="0">
             <widget class="QPushButton" name="replace_naloxone_button_2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -5114,7 +5114,7 @@ Alarm</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>16777215</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
@@ -5135,7 +5135,7 @@ Naloxone</string>
            <item row="1" column="1">
             <widget class="QPushButton" name="notify_admin_button_2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -5149,7 +5149,7 @@ Naloxone</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>16777215</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
@@ -5170,7 +5170,7 @@ Admin</string>
            <item row="4" column="1">
             <widget class="QPushButton" name="doorOpenResetPushButton">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -5184,7 +5184,7 @@ Admin</string>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>16777215</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
