@@ -2493,7 +2493,7 @@ class Ui_door_close_main_window(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../main/res/user-home.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.homePushButton.setIcon(icon)
-        self.homePushButton.setIconSize(QtCore.QSize(40, 40))
+        self.homePushButton.setIconSize(QtCore.QSize(32, 32))
         self.homePushButton.setCheckable(True)
         self.homePushButton.setObjectName("homePushButton")
         self.horizontalLayout.addWidget(self.homePushButton)
@@ -2550,6 +2550,11 @@ class Ui_door_close_main_window(object):
 "background-color: rgb(20,20,20);\n"
 "color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;border-style: solid;\n"
 "}")
+        self.backPushButton.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("../main/res/go-previous.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.backPushButton.setIcon(icon1)
+        self.backPushButton.setIconSize(QtCore.QSize(32, 32))
         self.backPushButton.setCheckable(False)
         self.backPushButton.setObjectName("backPushButton")
         self.horizontalLayout.addWidget(self.backPushButton)
@@ -2789,4 +2794,3 @@ class Ui_door_close_main_window(object):
         self.dashboardPushButton.setText(_translate("door_close_main_window", "Dashboard"))
         self.settingsPushButton.setText(_translate("door_close_main_window", "Settings"))
         self.saveToFilePushButton.setText(_translate("door_close_main_window", "Apply"))
-        self.backPushButton.setText(_translate("door_close_main_window", "Back"))
