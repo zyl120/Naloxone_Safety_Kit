@@ -2602,6 +2602,8 @@ class Ui_door_close_main_window(object):
         self.backPushButton.setCheckable(False)
         self.backPushButton.setObjectName("backPushButton")
         self.horizontalLayout.addWidget(self.backPushButton)
+        spacerItem30 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem30)
         self.time_label = QtWidgets.QLabel(self.shortcut_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
