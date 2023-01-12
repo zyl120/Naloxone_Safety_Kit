@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -570,7 +570,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -619,7 +619,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -665,7 +665,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -764,7 +764,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -817,7 +817,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -915,7 +915,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 170, 0);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -962,7 +962,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 170, 0);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1029,7 +1029,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(255, 0, 255);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1077,7 +1077,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(255, 0, 255);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1160,7 +1160,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 0, 255);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1349,7 +1349,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>714</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -1616,8 +1616,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>657</width>
-                 <height>308</height>
+                 <width>724</width>
+                 <height>338</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1989,7 +1989,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>716</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2378,8 +2378,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>623</width>
-                 <height>266</height>
+                 <width>724</width>
+                 <height>338</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -3315,7 +3315,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>642</width>
+                 <width>716</width>
                  <height>706</height>
                 </rect>
                </property>
@@ -4717,7 +4717,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4752,7 +4752,7 @@ Alarm</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4787,7 +4787,7 @@ Naloxone</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4822,7 +4822,7 @@ Admin</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4921,7 +4921,7 @@ Default</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;</string>
                </property>
                <property name="text">
                 <string>Waiting</string>
@@ -4955,7 +4955,7 @@ Default</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -5028,7 +5028,7 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;</string>
                </property>
                <property name="text">
                 <string>T-10s</string>
@@ -5155,7 +5155,7 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -5276,7 +5276,7 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);</string>
                </property>
                <property name="text">
                 <string>Open</string>
@@ -5341,7 +5341,7 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 170, 0);</string>
                </property>
                <property name="text">
                 <string>Waiting</string>
