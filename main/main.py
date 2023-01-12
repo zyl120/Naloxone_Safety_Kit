@@ -10,6 +10,7 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
+import phonenumbers
 from gpiozero import CPUTemperature
 import RPi.GPIO as GPIO
 import Adafruit_DHT as dht
@@ -337,7 +338,18 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.replace_naloxone_button_2.clicked.connect(self.goto_settings)
         self.ui.notify_admin_button.clicked.connect(self.notify_admin)
         self.ui.notify_admin_button_2.clicked.connect(self.notify_admin)
-        self.ui.get_passcode_button.clicked.connect(self.get_passcode_button_pressed)
+        self.ui.get_passcode_button.clicked.connect(
+            self.get_passcode_button_pressed)
+        self.ui.paramedic_phone_number_lineedit.textChanged.connect(
+            self.phone_number_validator)
+        self.ui.twilioPhoneNumberLineEdit.textChanged.connect(
+            self.phone_number_validator)
+        self.ui.emergencyPhoneNumberLineEdit.textChanged.connect(
+            self.phone_number_validator)
+        self.ui.adminPhoneNumberLineEdit.textChanged.connect(
+            self.phone_number_validator)
+        self.ui.twilioSIDLineEdit.textChanged.connect(
+            self.twilio_sid_validator)
         QtWidgets.QScroller.grabGesture(
             self.ui.adminScrollArea.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
         QtWidgets.QScroller.grabGesture(
@@ -479,7 +491,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.fan_temperature_slider.setValue(
                 int(config["power_management"]["threshold_temperature"]))
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
-            self.ui.naloxonePasscodeLineEdit.setText(config["admin"]["naloxone_passcode"])
+            self.ui.naloxonePasscodeLineEdit.setText(
+                config["admin"]["naloxone_passcode"])
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
             self.ui.enableSMSCheckBox.setChecked(
@@ -546,7 +559,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 config["power_management"]["threshold_temperature"])
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
             self.admin_passcode = config["admin"]["passcode"]
-            self.ui.naloxonePasscodeLineEdit.setText(config["admin"]["naloxone_passcode"])
+            self.ui.naloxonePasscodeLineEdit.setText(
+                config["admin"]["naloxone_passcode"])
             self.naloxone_passcode = config["admin"]["naloxone_passcode"]
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
@@ -884,10 +898,48 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
         self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
-    
+
+    @QtCore.pyqtSlot()
+    def twilio_sid_validator(self):
+        result = False
+        if(self.sender().text() == str()):
+            self.sender().setStyleSheet(
+                "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
+        elif(len(self.sender().text()) == 34 and self.sender().text().startswith("AC")):
+            self.sender().setStyleSheet(
+                "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;")
+        else:
+            self.sender().setStyleSheet(
+                "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: red;border-width: 1px;border-style: solid;")
+
+    @QtCore.pyqtSlot()
+    def phone_number_validator(self):
+        result = False
+        if(self.sender().text() == str()):
+            self.sender().setStyleSheet(
+                "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
+            return
+        try:
+            z = phonenumbers.parse(self.sender().text(), None)
+        except Exception as e:
+            if(self.sender().text() == "911"):
+                result = True
+            else:
+                result = False
+        else:
+            result = phonenumbers.is_valid_number(z)
+        finally:
+            if(result):
+                self.sender().setStyleSheet(
+                    "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;")
+            else:
+                self.sender().setStyleSheet(
+                    "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: red;border-width: 1px;border-style: solid;")
+
     @QtCore.pyqtSlot()
     def get_passcode_button_pressed(self):
-        self.paramedic_sms_worker = SMSWorker(self.ui.paramedic_phone_number_lineedit.text(), "The passcode is" + self.naloxone_passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+        self.paramedic_sms_worker = SMSWorker(self.ui.paramedic_phone_number_lineedit.text(
+        ), "The passcode is" + self.naloxone_passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.paramedic_sms_worker.start()
         self.send_sms_using_config_file("Passcode retrieved.")
 
