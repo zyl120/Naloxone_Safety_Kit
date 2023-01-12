@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -4833,6 +4833,16 @@ Admin</string>
               <string>Reset to
 Default</string>
              </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/edit-reset.svg</normaloff>../main/res/edit-reset.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
             </widget>
            </item>
           </layout>
@@ -5199,6 +5209,16 @@ Countdown</string>
              </property>
              <property name="text">
               <string>CALL 911 NOW</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/call-outgoing.svg</normaloff>../main/res/call-outgoing.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -5572,7 +5592,17 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
 }</string>
          </property>
          <property name="text">
-          <string>Settings</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../main/res/configure.svg</normaloff>../main/res/configure.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -5609,7 +5639,17 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
 </string>
          </property>
          <property name="text">
-          <string>Apply</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../main/res/dialog-ok-apply.svg</normaloff>../main/res/dialog-ok-apply.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
          </property>
         </widget>
        </item>

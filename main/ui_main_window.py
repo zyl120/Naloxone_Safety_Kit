@@ -2197,6 +2197,10 @@ class Ui_door_close_main_window(object):
         font.setBold(True)
         self.doorOpenResetPushButton.setFont(font)
         self.doorOpenResetPushButton.setStyleSheet("color:white;border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../main/res/edit-reset.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.doorOpenResetPushButton.setIcon(icon)
+        self.doorOpenResetPushButton.setIconSize(QtCore.QSize(32, 32))
         self.doorOpenResetPushButton.setObjectName("doorOpenResetPushButton")
         self.gridLayout_13.addWidget(self.doorOpenResetPushButton, 4, 1, 1, 1)
         self.gridLayout_7.addWidget(self.alarmFrame, 1, 0, 1, 1)
@@ -2354,6 +2358,10 @@ class Ui_door_close_main_window(object):
         self.call911NowPushButton.setFont(font)
         self.call911NowPushButton.setStyleSheet("color: white; background-color: red; border-radius:5px;border-color:red;border-width: 1px;border-style: solid;\n"
 "")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("../main/res/call-outgoing.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.call911NowPushButton.setIcon(icon1)
+        self.call911NowPushButton.setIconSize(QtCore.QSize(32, 32))
         self.call911NowPushButton.setObjectName("call911NowPushButton")
         self.gridLayout_14.addWidget(self.call911NowPushButton, 6, 0, 1, 2)
         self.gridLayout_7.addWidget(self.emergencyCallFrame, 0, 1, 2, 1)
@@ -2490,9 +2498,9 @@ class Ui_door_close_main_window(object):
 "color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;border-style: solid;\n"
 "}")
         self.homePushButton.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../main/res/user-home.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.homePushButton.setIcon(icon)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("../main/res/user-home.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.homePushButton.setIcon(icon2)
         self.homePushButton.setIconSize(QtCore.QSize(32, 32))
         self.homePushButton.setCheckable(True)
         self.homePushButton.setObjectName("homePushButton")
@@ -2514,6 +2522,11 @@ class Ui_door_close_main_window(object):
 "background-color: rgb(20,20,20);\n"
 "color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;border-style: solid;\n"
 "}")
+        self.settingsPushButton.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("../main/res/configure.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.settingsPushButton.setIcon(icon3)
+        self.settingsPushButton.setIconSize(QtCore.QSize(32, 32))
         self.settingsPushButton.setCheckable(True)
         self.settingsPushButton.setObjectName("settingsPushButton")
         self.horizontalLayout.addWidget(self.settingsPushButton)
@@ -2531,6 +2544,11 @@ class Ui_door_close_main_window(object):
 "color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;border-style: solid;\n"
 "}\n"
 "")
+        self.saveToFilePushButton.setText("")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("../main/res/dialog-ok-apply.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.saveToFilePushButton.setIcon(icon4)
+        self.saveToFilePushButton.setIconSize(QtCore.QSize(32, 32))
         self.saveToFilePushButton.setObjectName("saveToFilePushButton")
         self.horizontalLayout.addWidget(self.saveToFilePushButton)
         self.backPushButton = QtWidgets.QPushButton(self.shortcut_frame)
@@ -2551,9 +2569,9 @@ class Ui_door_close_main_window(object):
 "color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;border-style: solid;\n"
 "}")
         self.backPushButton.setText("")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../main/res/go-previous.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.backPushButton.setIcon(icon1)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("../main/res/go-previous.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.backPushButton.setIcon(icon5)
         self.backPushButton.setIconSize(QtCore.QSize(32, 32))
         self.backPushButton.setCheckable(False)
         self.backPushButton.setObjectName("backPushButton")
@@ -2588,7 +2606,7 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(4)
         self.settingsTab.setCurrentIndex(2)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
@@ -2792,5 +2810,3 @@ class Ui_door_close_main_window(object):
         self.status_label.setText(_translate("door_close_main_window", "STATUS"))
         self.time_label.setText(_translate("door_close_main_window", "time"))
         self.dashboardPushButton.setText(_translate("door_close_main_window", "Dashboard"))
-        self.settingsPushButton.setText(_translate("door_close_main_window", "Settings"))
-        self.saveToFilePushButton.setText(_translate("door_close_main_window", "Apply"))
