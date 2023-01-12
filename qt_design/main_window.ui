@@ -5528,8 +5528,8 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
          </property>
          <property name="iconSize">
           <size>
-           <width>40</width>
-           <height>40</height>
+           <width>32</width>
+           <height>32</height>
           </size>
          </property>
          <property name="checkable">
@@ -5648,7 +5648,17 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
 }</string>
          </property>
          <property name="text">
-          <string>Back</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../main/res/go-previous.svg</normaloff>../main/res/go-previous.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
          </property>
          <property name="checkable">
           <bool>false</bool>
