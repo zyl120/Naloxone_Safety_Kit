@@ -951,7 +951,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def update_time_status(self):
-        self.ui.time_label.setText(QtCore.QDateTime().currentDateTime().toString("ddd MMMM d h:m AP"))
+        self.ui.time_label.setText(QtCore.QDateTime().currentDateTime().toString("ddd MMMM d h:mm AP"))
         if(self.message_time_delay > 0):
             self.ui.status_bar.setVisible(True)
             self.ui.status_bar.setText(self.message_to_display)
