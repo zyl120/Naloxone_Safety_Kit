@@ -48,6 +48,17 @@ class GenericWorker(QtCore.QThread):
         if text:
             self.msg_info_signal.emit(icon, text, detailed_text)
 
+class TimeWorker(QtCore.QThread):
+    time_update_signal = QtCore.pyqtSignal()
+
+    def __init__(self):
+        super(TimeWorker, self).__init__()
+        
+    def run(self):
+        while True:
+            self.time_update_signal.emit()
+            sleep(60)
+
 
 class CountDownWorker(QtCore.QThread):
     # Used to record the countdown time before calling the emergency
@@ -365,6 +376,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.io_worker = None
         self.alarm_worker = None
         self.countdown_worker = None
+        self.time_worker = None
 
         self.goto_home()
         self.lock_settings()
@@ -397,6 +409,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
+    
+    def create_time_worker(self):
+        self.time_worker = TimeWorker()
+        self.time_worker.time_update_signal.connect(self.update_time)
+        self.time_worker.start()
 
     def destroy_alarm_worker(self):
         if (self.alarm_worker is not None):
@@ -615,6 +632,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
+            self.create_time_worker()
             self.create_io_worker()
             self.create_network_worker()
 
@@ -898,6 +916,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
         self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
+
+    @QtCore.pyqtSlot()
+    def update_time(self):
+        self.ui.time_label.setText(QtCore.QDateTime().currentDateTime.toString("ddd MMMM d h:m AP"))
 
     @QtCore.pyqtSlot()
     def twilio_sid_validator(self):

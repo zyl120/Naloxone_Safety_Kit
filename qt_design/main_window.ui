@@ -4773,6 +4773,16 @@ Alarm</string>
               <string>Replace
 Naloxone</string>
              </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/system-reboot.svg</normaloff>../main/res/system-reboot.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
             </widget>
            </item>
            <item row="1" column="1">
@@ -4998,7 +5008,7 @@ Countdown</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/media-playback-stop.svg</normaloff>../main/res/media-playback-stop.svg</iconset>
+               <normaloff>../main/res/media-playback-pause.svg</normaloff>../main/res/media-playback-pause.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5472,34 +5482,6 @@ Countdown</string>
         <number>5</number>
        </property>
        <item>
-        <widget class="QLabel" name="time_label">
-         <property name="font">
-          <font>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color:white</string>
-         </property>
-         <property name="text">
-          <string>time</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QPushButton" name="dashboardPushButton">
          <property name="minimumSize">
           <size>
@@ -5757,6 +5739,21 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="time_label">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color:white</string>
+         </property>
+         <property name="text">
+          <string>time</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
