@@ -5459,6 +5459,18 @@ Countdown</string>
     </item>
     <item row="2" column="0" colspan="2">
      <widget class="QFrame" name="shortcut_frame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
@@ -5784,7 +5796,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color:white</string>
+          <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
          </property>
          <property name="text">
           <string>time</string>
