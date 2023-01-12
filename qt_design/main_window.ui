@@ -5460,7 +5460,7 @@ Countdown</string>
     <item row="2" column="0" colspan="2">
      <widget class="QFrame" name="shortcut_frame">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -5468,7 +5468,7 @@ Countdown</string>
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>0</height>
+        <height>65</height>
        </size>
       </property>
       <property name="styleSheet">
