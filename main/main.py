@@ -49,12 +49,13 @@ class GenericWorker(QtCore.QThread):
         if text:
             self.msg_info_signal.emit(icon, text, detailed_text)
 
+
 class TimeWorker(QtCore.QThread):
     time_update_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super(TimeWorker, self).__init__()
-        
+
     def run(self):
         while True:
             self.time_update_signal.emit()
@@ -68,7 +69,6 @@ class CountDownWorker(QtCore.QThread):
     # signal to indicate the change of countdown time.
     time_changed_signal = QtCore.pyqtSignal(int)
 
-
     def __init__(self, time_in_sec):
         super(CountDownWorker, self).__init__()
         self.countdown_time_in_sec = time_in_sec
@@ -81,7 +81,7 @@ class CountDownWorker(QtCore.QThread):
             sleep(1)
             if (self.isInterruptionRequested()):
                 print("countdown timer terminated")
-                #self.time_changed_signal.emit(self.countdown_time_in_sec)
+                # self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
 
         if(self.time_in_sec == -1):
@@ -314,9 +314,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.alarm_message = str()
         self.voice_volume = 20
-        self.status_queue = queue.Queue(10)
+        self.status_queue = queue.PriorityQueue(100)
         self.message_to_display = str()
         self.message_time_delay = 0
+        self.message_level = 0
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
@@ -414,7 +415,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
-    
+
     def create_time_worker(self):
         self.time_worker = TimeWorker()
         self.time_worker.time_update_signal.connect(self.update_time_status)
@@ -643,7 +644,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         except Exception as e:
             if not self.status_queue.full():
-                self.status_queue.put((5, "Failed to load config file."))
+                self.status_queue.put((0, "Failed to load config file."))
             print("Failed to load config file")
             msg = QtWidgets.QMessageBox()
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
@@ -671,7 +672,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         else:
             if not self.status_queue.full():
-                self.status_queue.put((1,"Config File Loaded."))
+                self.status_queue.put((4, "Config File Loaded."))
             print("config file loaded")
 
     def lock_settings(self):
@@ -688,7 +689,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, False)
         self.ui.settingsTab.setTabVisible(6, False)
         if not self.status_queue.full():
-            self.status_queue.put((1,"Settings Locked."))
+            self.status_queue.put((4, "Settings Locked."))
         print("Settings locked")
 
     def unlock_naloxone_settings(self):
@@ -705,7 +706,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(6, False)
         self.ui.settingsTab.setCurrentIndex(1)
         if not self.status_queue.full():
-            self.status_queue.put((1,"Naloxone Settings Unlocked."))
+            self.status_queue.put((4, "Naloxone Settings Unlocked."))
         print("Naloxone Settings unlocked")
 
     def unlock_all_settings(self):
@@ -723,7 +724,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(6, True)
         self.ui.settingsTab.setCurrentIndex(1)
         if not self.status_queue.full():
-            self.status_queue.put((1,"Settings Unlocked"))
+            self.status_queue.put((4, "Settings Unlocked"))
         print("All Settings unlocked")
 
     def check_passcode(self):
@@ -831,7 +832,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                                 self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.sender.start()
         if not self.status_queue.full():
-            self.status_queue.put((2, "SMS Sent."))
+            self.status_queue.put((4, "SMS Sent."))
 
     def call_911_using_config_file(self):
         loop = "0"
@@ -848,7 +849,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.sender.call_thread_status.connect(self.update_phone_call_gui)
         self.sender.start()
         if not self.status_queue.full():
-            self.status_queue.put((2, "911 Called."))
+            self.status_queue.put((0, "911 Called."))
 
     def sms_test_pushbutton_clicked(self):
         # Use the info on the setting page to make sms test.
@@ -866,7 +867,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.sms_worker.sms_thread_status.connect(self.display_messagebox)
         self.sms_worker.start()
         if not self.status_queue.full():
-            self.status_queue.put((2, "SMS Sent."))
+            self.status_queue.put((4, "SMS Sent."))
 
     def call_test_pushbutton_clicked(self):
         # Use the info on the setting page to make phone call test
@@ -886,7 +887,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.call_worker.call_thread_status.connect(self.display_messagebox)
         self.call_worker.start()
         if not self.status_queue.full():
-            self.status_queue.put((2, "Call Sent."))
+            self.status_queue.put((4, "Call Sent."))
 
     def toggle_door_arm(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
@@ -894,15 +895,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.disarmed = True
             self.create_io_worker()
             if not self.status_queue.full():
-                self.status_queue.put((2, "Door Sensor OFF."))
+                self.status_queue.put((1, "Door Sensor OFF."))
             return "Information", "Door Disarmed.", "The door sensor is now off."
-            
+
         else:
             self.ui.disarmPushButton.setText("Disarm")
             self.disarmed = False
             self.create_io_worker()
             if not self.status_queue.full():
-                self.status_queue.put((2, "Door Sensor ON."))
+                self.status_queue.put((4, "Door Sensor ON."))
             return "Information", "Door Armed.", "The door sensor is now on."
 
     def reset_to_default(self):
@@ -928,7 +929,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.destroy_countdown_worker()
             self.destroy_alarm_worker()
             if not self.status_queue.full():
-                self.status_queue.put((2, "System Reset."))
+                self.status_queue.put((4, "System Reset."))
             return "Information", "System Reset to Default.", "N/A"
 
     def stop_countdown_button_pushed(self):
@@ -951,7 +952,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def update_time_status(self):
-        self.ui.time_label.setText(QtCore.QDateTime().currentDateTime().toString("ddd MMMM d h:mm AP"))
+        self.ui.time_label.setText(
+            QtCore.QDateTime().currentDateTime().toString("ddd MMMM d h:mm AP"))
         if(self.message_time_delay > 0):
             self.ui.status_bar.setVisible(True)
             self.ui.status_bar.setText(self.message_to_display)
@@ -960,13 +962,22 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.status_bar.setVisible(False)
         else:
             msg = self.status_queue.get()
-            self.message_time_delay = msg[0]
+            self.message_level = msg[0]
+            self.message_time_delay = int(
+                10/(msg[0]+1))  # max time delay is 10
             self.message_to_display = msg[1]
+            if(self.message_level == 0):
+                self.ui.status_bar.setStyleSheet(
+                    "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
+            elif(self.message_level == 1):
+                self.ui.status_bar.setStyleSheet(
+                    "color: white; background-color: yellow; border-radius:25px;border-color: yelloe;border-width: 1px;border-style: solid;")
+            else:
+                self.ui.status_bar.setStyleSheet(
+                    "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
             self.ui.status_bar.setVisible(True)
             self.ui.status_bar.setText(self.message_to_display)
             self.message_time_delay -= 1
-            
-
 
     @QtCore.pyqtSlot()
     def twilio_sid_validator(self):
@@ -1011,7 +1022,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         ), "The passcode is" + self.naloxone_passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.paramedic_sms_worker.start()
         if not self.status_queue.full():
-                self.status_queue.put((2, "Passcode Sent."))
+            self.status_queue.put((4, "Passcode Sent."))
         self.send_sms_using_config_file("Passcode retrieved.")
 
     @QtCore.pyqtSlot()
@@ -1064,13 +1075,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def update_phone_call_gui(self, icon, text, detailed_text):
         if (text == "Call Request Sent Successfully."):
             if not self.status_queue.full():
-                self.status_queue.put((2, "911 Placed."))
+                self.status_queue.put((0, "911 Placed."))
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
                 QtCore.QTime().currentTime().toString("h:mm AP"))
         else:
             if not self.status_queue.full():
-                self.status_queue.put((2, "911 Call Failed."))
+                self.status_queue.put((0, "911 Call Failed."))
             self.ui.emergencyCallStatusLabel.setText("Failed")
 
     @QtCore.pyqtSlot(str, str, str)
@@ -1122,7 +1133,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "color:#008A00")
         else:
             if not self.status_queue.full():
-                self.status_queue.put((10, "Naloxone Destroyed."))
+                self.status_queue.put((0, "Naloxone Destroyed."))
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
             self.ui.naloxoneStatusBox.setStyleSheet(
                 "color:#AC193D")
@@ -1138,7 +1149,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "color:#008A00")
         else:
             if not self.status_queue.full():
-                self.status_queue.put((10, "Server DOWN."))
+                self.status_queue.put((0, "Server DOWN."))
             self.ui.serverStatusLineEdit.setText("Down")
             self.ui.serverStatusBox.setStyleSheet(
                 "color:#AC193D")
@@ -1155,7 +1166,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.fanSpeedLineEdit.setText("OFF")
         else:
             if not self.status_queue.full():
-                self.status_queue.put((1, "CPU Fan ON."))
+                self.status_queue.put((4, "CPU Fan ON."))
             self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
         if (not over_temperature):
             self.ui.thermalStatusBox.setStyleSheet(
@@ -1231,7 +1242,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
         if not self.status_queue.full():
-                self.status_queue.put((1, "Settings Saved."))
+            self.status_queue.put((4, "Settings Saved."))
         print("INFO: save config file")
         self.load_settings()
 
