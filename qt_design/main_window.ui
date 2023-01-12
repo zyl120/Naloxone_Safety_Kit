@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -3691,6 +3691,10 @@ color:white;
                        <property name="text">
                         <string>Call</string>
                        </property>
+                       <property name="icon">
+                        <iconset>
+                         <normaloff>../main/res/call-outgoing.svg</normaloff>../main/res/call-outgoing.svg</iconset>
+                       </property>
                       </widget>
                      </item>
                      <item>
@@ -3720,6 +3724,10 @@ color:white;
                        </property>
                        <property name="text">
                         <string>SMS</string>
+                       </property>
+                       <property name="icon">
+                        <iconset>
+                         <normaloff>../main/res/mail-mark-read.svg</normaloff>../main/res/mail-mark-read.svg</iconset>
                        </property>
                       </widget>
                      </item>
@@ -4196,6 +4204,10 @@ color:white;
                        <property name="text">
                         <string>Exit</string>
                        </property>
+                       <property name="icon">
+                        <iconset>
+                         <normaloff>../main/res/system-shutdown.svg</normaloff>../main/res/system-shutdown.svg</iconset>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -4309,6 +4321,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
                </property>
                <property name="text">
                 <string>Notify Admin</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../main/res/smartphone.svg</normaloff>../main/res/smartphone.svg</iconset>
                </property>
               </widget>
              </item>
@@ -4728,6 +4744,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
               <string>Mute
 Alarm</string>
              </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/media-playback-stop.svg</normaloff>../main/res/media-playback-stop.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
             </widget>
            </item>
            <item row="4" column="0">
@@ -4797,6 +4823,16 @@ Naloxone</string>
              <property name="text">
               <string>Notify
 Admin</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/smartphone.png</normaloff>../main/res/smartphone.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -4975,6 +5011,16 @@ Default</string>
              <property name="text">
               <string>Stop
 Countdown</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/media-playback-stop.svg</normaloff>../main/res/media-playback-stop.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -5501,7 +5547,17 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
 }</string>
          </property>
          <property name="text">
-          <string>Dashboard</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../main/res/view-list-icons.svg</normaloff>../main/res/view-list-icons.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -5544,7 +5600,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../main/res/user-home.svg</normaloff>../main/res/user-home.svg</iconset>
+           <normaloff>../main/res/user-home.png</normaloff>../main/res/user-home.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -5643,7 +5699,7 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../main/res/dialog-ok-apply.svg</normaloff>../main/res/dialog-ok-apply.svg</iconset>
+           <normaloff>../main/res/system-save-session.svg</normaloff>../main/res/system-save-session.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
