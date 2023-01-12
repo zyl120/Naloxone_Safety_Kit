@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>7</number>
           </property>
           <property name="iconSize">
            <size>
@@ -3314,7 +3314,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
+                 <y>-384</y>
                  <width>716</width>
                  <height>706</height>
                 </rect>
@@ -3691,10 +3691,6 @@ color:white;
                        <property name="text">
                         <string>Call</string>
                        </property>
-                       <property name="icon">
-                        <iconset>
-                         <normaloff>../main/res/call-outgoing.svg</normaloff>../main/res/call-outgoing.svg</iconset>
-                       </property>
                       </widget>
                      </item>
                      <item>
@@ -3724,10 +3720,6 @@ color:white;
                        </property>
                        <property name="text">
                         <string>SMS</string>
-                       </property>
-                       <property name="icon">
-                        <iconset>
-                         <normaloff>../main/res/mail-mark-read.svg</normaloff>../main/res/mail-mark-read.svg</iconset>
                        </property>
                       </widget>
                      </item>
@@ -4204,10 +4196,6 @@ color:white;
                        <property name="text">
                         <string>Exit</string>
                        </property>
-                       <property name="icon">
-                        <iconset>
-                         <normaloff>../main/res/system-shutdown.svg</normaloff>../main/res/system-shutdown.svg</iconset>
-                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -4321,10 +4309,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
                </property>
                <property name="text">
                 <string>Notify Admin</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>../main/res/smartphone.svg</normaloff>../main/res/smartphone.svg</iconset>
                </property>
               </widget>
              </item>
