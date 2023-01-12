@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -487,11 +487,15 @@ QR_CODE</string>
        </layout>
       </widget>
       <widget class="QWidget" name="dashboardPage">
+       <property name="styleSheet">
+        <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(45,45,45);background-color:rgb(45,45,45);border-width: 1px;border-style: solid;}
+.QLabel{color:white;border-width: 0px;background-color:rgb(45,45,45);border-radius: 5px;border-width: 1px;}</string>
+       </property>
        <layout class="QGridLayout" name="gridLayout" rowstretch="1,1" columnstretch="1,1">
         <item row="1" column="0">
          <widget class="QFrame" name="serverFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -524,7 +528,7 @@ QR_CODE</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-width: 0px;</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>SERVER</string>
@@ -545,7 +549,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Status</string>
@@ -570,7 +574,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -593,7 +597,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Last Check</string>
@@ -619,7 +623,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -641,7 +645,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Balance</string>
@@ -665,7 +669,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 255, 0);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -683,7 +687,7 @@ QR_CODE</string>
         <item row="0" column="0">
          <widget class="QFrame" name="doorFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -719,7 +723,7 @@ QR_CODE</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-width: 0px;</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>DOOR</string>
@@ -739,7 +743,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Sensor</string>
@@ -764,7 +768,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -786,7 +790,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Status</string>
@@ -817,7 +821,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(85, 170, 255);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -835,7 +839,7 @@ QR_CODE</string>
         <item row="0" column="1">
          <widget class="QFrame" name="thermalFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -868,7 +872,7 @@ QR_CODE</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-width: 0px;</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>SYSTEM</string>
@@ -889,7 +893,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Fan</string>
@@ -915,7 +919,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 170, 0);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -937,7 +941,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>CPU Temp.</string>
@@ -962,7 +966,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 170, 0);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -980,7 +984,7 @@ QR_CODE</string>
         <item row="1" column="1">
          <widget class="QFrame" name="naloxoneFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -1001,9 +1005,6 @@ QR_CODE</string>
                  <pointsize>22</pointsize>
                  <bold>false</bold>
                 </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
                </property>
                <property name="text">
                 <string>Expiration</string>
@@ -1029,7 +1030,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(255, 0, 255);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1052,7 +1053,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Status</string>
@@ -1077,7 +1078,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:rgb(255, 0, 255);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -1110,7 +1111,7 @@ QR_CODE</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-width: 0px;</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>NALOXONE</string>
@@ -1129,9 +1130,6 @@ QR_CODE</string>
                  <pointsize>22</pointsize>
                  <bold>false</bold>
                 </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
                </property>
                <property name="text">
                 <string>Temp.</string>
@@ -1160,7 +1158,7 @@ QR_CODE</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 0, 255);border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color: rgb(255, 0, 255);border-color:rgb(70,70,70);background-color:rgb(70,70,70)</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -2740,7 +2738,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>690</width>
+                 <width>714</width>
                  <height>383</height>
                 </rect>
                </property>
