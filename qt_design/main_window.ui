@@ -4676,6 +4676,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </layout>
       </widget>
       <widget class="QWidget" name="doorOpenPage">
+       <property name="styleSheet">
+        <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(45,45,45);background-color:rgb(45,45,45);border-width: 1px;border-style: solid;}
+.QLabel{color:white;border-width: 0px;background-color:rgb(45,45,45);border-radius: 5px;border-width: 1px;}
+.QPushButton{border-radius: 5px;background-color:rgb(70,70,70);border-color:rgb(70,70,70);border-width: 1px;border-style: solid;}</string>
+       </property>
        <layout class="QGridLayout" name="gridLayout_7" rowstretch="1,1" columnstretch="1,1">
         <item row="1" column="0">
          <widget class="QFrame" name="alarmFrame">
@@ -4717,7 +4722,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4752,7 +4757,7 @@ Alarm</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4787,7 +4792,7 @@ Naloxone</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4822,7 +4827,7 @@ Admin</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
@@ -4921,7 +4926,7 @@ Default</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;border-color:rgb(70,70,70);background-color:rgb(70,70,70);</string>
                </property>
                <property name="text">
                 <string>Waiting</string>
@@ -4955,12 +4960,12 @@ Default</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>25</pointsize>
+               <pointsize>22</pointsize>
                <bold>true</bold>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 5px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+              <string notr="true">color:white;</string>
              </property>
              <property name="text">
               <string>Stop
@@ -5028,7 +5033,7 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;border-color:rgb(70,70,70);background-color:rgb(70,70,70);</string>
                </property>
                <property name="text">
                 <string>T-10s</string>
@@ -5155,7 +5160,7 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:red;border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                <string notr="true">color:red;border-color:rgb(70,70,70);background-color:rgb(70,70,70);</string>
                </property>
                <property name="text">
                 <string>N/A</string>
@@ -5194,7 +5199,7 @@ Countdown</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color: white; background-color: red; border-radius:5px;border-color:red;border-width: 1px;border-style: solid;
+              <string notr="true">color: white; background-color: red;border-color:red;
 </string>
              </property>
              <property name="text">
