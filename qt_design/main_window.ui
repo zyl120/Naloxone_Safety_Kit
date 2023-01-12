@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>2</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1617,7 +1617,7 @@ QScrollBar::sub-line:vertical {
                  <x>0</x>
                  <y>0</y>
                  <width>724</width>
-                 <height>338</height>
+                 <height>320</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2379,7 +2379,7 @@ QScrollBar::sub-line:vertical {
                  <x>0</x>
                  <y>0</y>
                  <width>724</width>
-                 <height>338</height>
+                 <height>320</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -5422,6 +5422,21 @@ Countdown</string>
         <number>5</number>
        </property>
        <item>
+        <widget class="QLabel" name="time_label">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color:white</string>
+         </property>
+         <property name="text">
+          <string>time</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -5438,14 +5453,14 @@ Countdown</string>
         <widget class="QPushButton" name="dashboardPushButton">
          <property name="minimumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
@@ -5477,14 +5492,14 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
         <widget class="QPushButton" name="homePushButton">
          <property name="minimumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
@@ -5505,12 +5520,16 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
 }</string>
          </property>
          <property name="text">
-          <string>Home</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../main/res/user-home.svg</normaloff>../main/res/user-home.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
-           <width>25</width>
-           <height>25</height>
+           <width>40</width>
+           <height>40</height>
           </size>
          </property>
          <property name="checkable">
@@ -5522,14 +5541,14 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
         <widget class="QPushButton" name="settingsPushButton">
          <property name="minimumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
@@ -5564,14 +5583,14 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
         <widget class="QPushButton" name="saveToFilePushButton">
          <property name="minimumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
@@ -5598,14 +5617,14 @@ color:darkgrey;border-radius:3px;border-color: rgb(20,20,20);border-width: 1px;b
         <widget class="QPushButton" name="backPushButton">
          <property name="minimumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>140</width>
-           <height>30</height>
+           <width>50</width>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
