@@ -4680,7 +4680,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <item row="1" column="0">
          <widget class="QFrame" name="alarmFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);background-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(45,45,45);background-color:rgb(45,45,45);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -4722,7 +4722,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 5px;background-color:rgb(75,75,75);border-color:rgb(75,75,75);border-width: 1px;border-style: solid;</string>
+              <string notr="true">color:white;border-radius: 5px;background-color:rgb(70,70,70);border-color:rgb(70,70,70);border-width: 1px;border-style: solid;</string>
              </property>
              <property name="text">
               <string>Mute
@@ -4757,7 +4757,7 @@ Alarm</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 5px;background-color:rgb(75,75,75);border-color:rgb(75,75,75);border-width: 1px;border-style: solid;</string>
+              <string notr="true">color:white;border-radius: 5px;background-color:rgb(70,70,70);border-color:rgb(70,70,70);border-width: 1px;border-style: solid;</string>
              </property>
              <property name="text">
               <string>Replace
@@ -4792,7 +4792,7 @@ Naloxone</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 5px;background-color:rgb(75,75,75);border-color:rgb(75,75,75);border-width: 1px;border-style: solid;</string>
+              <string notr="true">color:white;border-radius: 5px;background-color:rgb(70,70,70);border-color:rgb(70,70,70);border-width: 1px;border-style: solid;</string>
              </property>
              <property name="text">
               <string>Notify
@@ -4827,7 +4827,7 @@ Admin</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 5px;background-color:rgb(75,75,75);border-color:rgb(75,75,75);border-width: 1px;border-style: solid;</string>
+              <string notr="true">color:white;border-radius: 5px;background-color:rgb(70,70,70);border-color:rgb(70,70,70);border-width: 1px;border-style: solid;</string>
              </property>
              <property name="text">
               <string>Reset to
@@ -5208,7 +5208,7 @@ Countdown</string>
         <item row="0" column="0">
          <widget class="QFrame" name="doorOpenFrame">
           <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);background-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(45,45,45);background-color:rgb(45,45,45);border-width: 1px;border-style: solid;}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -5245,7 +5245,7 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;background-color:rgb(50,50,50)</string>
+                <string notr="true">color:white;border-width: 0px;background-color:rgb(45,45,45)</string>
                </property>
                <property name="text">
                 <string>Door</string>
@@ -5276,8 +5276,8 @@ Countdown</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(75,75,75);border-width: 1px;border-style: solid;
-background-color:rgb(75,75,75);</string>
+                <string notr="true">color:rgb(85, 170, 255);border-radius: 5px;border-color:rgb(70,70,70);border-width: 1px;border-style: solid;
+background-color:rgb(70,70,70);</string>
                </property>
                <property name="text">
                 <string>Open</string>
@@ -5311,7 +5311,7 @@ background-color:rgb(75,75,75);</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;background-color:rgb(50,50,50)</string>
+                <string notr="true">color:white;border-width: 0px;background-color:rgb(45,45,45)</string>
                </property>
                <property name="text">
                 <string>Alarm</string>
@@ -5342,7 +5342,7 @@ background-color:rgb(75,75,75);</string>
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(75,75,75);border-width: 1px;border-style: solid;background-color:rgb(75,75,75);</string>
+                <string notr="true">color: rgb(255, 170, 0);border-radius: 5px;border-color:rgb(70,70,70);border-width: 1px;border-style: solid;background-color:rgb(70,70,70);</string>
                </property>
                <property name="text">
                 <string>Waiting</string>
@@ -5381,7 +5381,7 @@ background-color:rgb(75,75,75);</string>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-width: 0px;background-color:rgb(50,50,50)</string>
+              <string notr="true">color:white;border-width: 0px;background-color:rgb(45,45,45)</string>
              </property>
              <property name="text">
               <string>STATUS</string>
