@@ -371,15 +371,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.manual_textedit.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
         QtWidgets.QScroller.grabGesture(
             self.ui.passcodeManual.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabbedGesture(self.ui.naloxone_scroll_area.viewport(
+        QtWidgets.QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
         ), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabbedGesture(
+        QtWidgets.QScroller.grabGesture(
             self.ui.twilio_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabbedGesture(
+        QtWidgets.QScroller.grabGesture(
             self.ui.call_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabbedGesture(
+        QtWidgets.QScroller.grabGesture(
             self.ui.alarm_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabbedGesture(
+        QtWidgets.QScroller.grabGesture(
             self.ui.power_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
         QtWidgets.QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
