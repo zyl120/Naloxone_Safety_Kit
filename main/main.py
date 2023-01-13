@@ -762,6 +762,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def goto_door_open(self):
         if (self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1):
             # Only go to the door open page when the user is not changing settings.
+            self.ui.doorOpenResetPushButton.setVisible(False)
             self.ui.homePushButton.setVisible(False)
             self.ui.dashboardPushButton.setVisible(False)
             self.ui.settingsPushButton.setVisible(False)
@@ -914,6 +915,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.emergencyCallCountdownLabel.setVisible(True)
             self.ui.alarmStatusLabel.setText("Waiting")
             self.ui.alarmMutePushButton.setVisible(False)
+            self.ui.doorOpenResetPushButton.setVisible(False)
             self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
@@ -927,6 +929,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def stop_countdown_button_pushed(self):
         # Stop the countdown timer by stop it.
         self.ui.settingsPushButton.setVisible(True)
+        self.ui.doorOpenResetPushButton.setVisible(True)
         self.ui.stopCountdownPushButton.setVisible(False)
         self.ui.countdownLabel.setVisible(False)
         self.ui.emergencyCallCountdownLabel.setVisible(False)
