@@ -314,7 +314,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.active_hour_end = QtCore.QTime(18, 0, 0)
         self.alarm_message = str()
         self.voice_volume = 20
-        self.status_queue = queue.PriorityQueue(9)
+        self.status_queue = queue.Queue(10)
         self.message_to_display = str()
         self.message_level = 0
         self.ui = Ui_door_close_main_window()
@@ -702,6 +702,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, False)
         self.ui.settingsTab.setTabVisible(6, False)
         self.ui.settingsTab.setCurrentIndex(1)
+        if(not self.status_queue.full()):
+            self.status_queue.put((2, "Settings Unlocked"))
         print("Naloxone Settings unlocked")
 
     def unlock_all_settings(self):
@@ -718,6 +720,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, True)
         self.ui.settingsTab.setTabVisible(6, True)
         self.ui.settingsTab.setCurrentIndex(1)
+        if(not self.status_queue.full()):
+            self.status_queue.put((2, "Settings Unlocked"))
         print("All Settings unlocked")
 
     def check_passcode(self):
@@ -950,7 +954,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.time_label.setText(
             QtCore.QDateTime().currentDateTime().toString("h:mm AP"))
         if (self.status_queue.empty()):
-            self.ui.status_bar.setVisible(False)
+            if(self.message_level > 1):
+                self.ui.status_bar.setVisible(False)
         else:
             msg = self.status_queue.get()
             self.message_level = msg[0]
@@ -965,10 +970,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
             self.ui.status_bar.setVisible(True)
-            if(self.status_queue.qsize() == 0):
-                self.ui.status_bar.setText(self.message_to_display)
-            else:
-                self.ui.status_bar.setText(self.message_to_display + "+" + str(self.status_queue.qsize()))
+            self.ui.status_bar.setText(self.message_to_display)
 
     @QtCore.pyqtSlot()
     def twilio_sid_validator(self):
