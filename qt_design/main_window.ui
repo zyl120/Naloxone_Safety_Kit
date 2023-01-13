@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1348,8 +1348,8 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
-                 <width>649</width>
+                 <y>-81</y>
+                 <width>714</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -1616,8 +1616,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>657</width>
-                 <height>308</height>
+                 <width>724</width>
+                 <height>314</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1989,7 +1989,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>716</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2378,8 +2378,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>623</width>
-                 <height>266</height>
+                 <width>724</width>
+                 <height>314</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2739,8 +2739,8 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
-                 <width>690</width>
+                 <y>-69</y>
+                 <width>714</width>
                  <height>383</height>
                 </rect>
                </property>
@@ -3315,7 +3315,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>642</width>
+                 <width>716</width>
                  <height>706</height>
                 </rect>
                </property>
@@ -4677,8 +4677,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </layout>
       </widget>
       <widget class="QWidget" name="doorOpenPage">
-       <layout class="QGridLayout" name="gridLayout_7" columnstretch="1,1">
-        <item row="3" column="0">
+       <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0" columnstretch="1,1">
+        <item row="1" column="0">
          <widget class="QFrame" name="alarmFrame">
           <property name="styleSheet">
            <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
@@ -4696,97 +4696,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <number>0</number>
           </property>
           <layout class="QGridLayout" name="gridLayout_13">
-           <item row="5" column="1">
-            <widget class="QPushButton" name="notify_admin_button_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>80</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>80</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>22</pointsize>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
-             </property>
-             <property name="text">
-              <string>Notify
-Admin</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../main/res/smartphone.png</normaloff>../main/res/smartphone.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="2">
-            <widget class="QPushButton" name="doorOpenResetPushButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>80</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>80</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>22</pointsize>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
-             </property>
-             <property name="text">
-              <string>Reset to
-Default</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../main/res/edit-reset.svg</normaloff>../main/res/edit-reset.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
+           <item row="4" column="0">
             <widget class="QPushButton" name="replace_naloxone_button_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -4808,7 +4718,7 @@ Default</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>22</pointsize>
+               <pointsize>20</pointsize>
                <bold>false</bold>
               </font>
              </property>
@@ -4831,7 +4741,51 @@ Naloxone</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="4" column="1">
+            <widget class="QPushButton" name="doorOpenResetPushButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>80</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>80</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+             </property>
+             <property name="text">
+              <string>Reset</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/edit-reset.svg</normaloff>../main/res/edit-reset.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
             <widget class="QPushButton" name="alarmMutePushButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -4853,7 +4807,7 @@ Naloxone</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>22</pointsize>
+               <pointsize>20</pointsize>
                <bold>false</bold>
               </font>
              </property>
@@ -4861,8 +4815,7 @@ Naloxone</string>
               <string notr="true">color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
              </property>
              <property name="text">
-              <string>Mute
-Alarm</string>
+              <string>Mute</string>
              </property>
              <property name="icon">
               <iconset>
@@ -4876,161 +4829,10 @@ Alarm</string>
              </property>
             </widget>
            </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QFrame" name="doorOpenFrame">
-          <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <property name="lineWidth">
-           <number>3</number>
-          </property>
-          <property name="midLineWidth">
-           <number>0</number>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_12">
-           <item row="1" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_32">
-             <item>
-              <widget class="QLabel" name="label_12">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>22</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
-               </property>
-               <property name="text">
-                <string>Door</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="doorOpenLabel">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>25</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(85, 170, 255);</string>
-               </property>
-               <property name="text">
-                <string>Open</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="1" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_25">
-             <item>
-              <widget class="QLabel" name="label_6">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>22</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
-               </property>
-               <property name="text">
-                <string>Alarm</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="alarmStatusLabel">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>25</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);</string>
-               </property>
-               <property name="text">
-                <string>Waiting</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="status_label">
+           <item row="3" column="1">
+            <widget class="QPushButton" name="notify_admin_button_2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -5038,36 +4840,47 @@ Alarm</string>
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>0</height>
+               <height>80</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>16777215</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
               <font>
-               <pointsize>30</pointsize>
+               <pointsize>20</pointsize>
                <bold>false</bold>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-width: 0px;</string>
+              <string notr="true">color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
              </property>
              <property name="text">
-              <string>STATUS</string>
+              <string>Notify
+Admin</string>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+             <property name="icon">
+              <iconset>
+               <normaloff>../main/res/smartphone.png</normaloff>../main/res/smartphone.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
-        <item row="2" column="1" rowspan="2">
+        <item row="0" column="1" rowspan="2">
          <widget class="QFrame" name="emergencyCallFrame">
           <property name="styleSheet">
            <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
@@ -5221,7 +5034,7 @@ Alarm</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>22</pointsize>
+               <pointsize>20</pointsize>
                <bold>false</bold>
               </font>
              </property>
@@ -5454,6 +5267,149 @@ Countdown</string>
           </layout>
          </widget>
         </item>
+        <item row="0" column="0">
+         <widget class="QFrame" name="doorOpenFrame">
+          <property name="styleSheet">
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <property name="lineWidth">
+           <number>3</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_12" rowstretch="1,1" columnstretch="1,1">
+           <item row="1" column="1">
+            <widget class="QLabel" name="alarmStatusLabel">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>30</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(255, 170, 0);</string>
+             </property>
+             <property name="text">
+              <string>Waiting</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>30</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:white;border-width: 0px;</string>
+             </property>
+             <property name="text">
+              <string>Door</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="doorOpenLabel">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>30</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:rgb(85, 170, 255);</string>
+             </property>
+             <property name="text">
+              <string>Open</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_6">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>30</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:white;border-width: 0px;</string>
+             </property>
+             <property name="text">
+              <string>Alarm</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
        </layout>
       </widget>
      </widget>
@@ -5521,15 +5477,11 @@ Countdown</string>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+          <string notr="true">QPushButton{color: white; border-color:black; border-radius:25px;border-width: 1px;border-style: solid;}
 
 QPushButton:checked{
-color: white;background-color: rgb(90, 90, 90);
-border-color: rgb(90,90,90);}
-QPushButton:disabled {
-background-color: rgb(20,20,20);
-color:darkgrey;border-color: rgb(20,20,20);
-}</string>
+color: white;background-color: rgb(50,50,50);
+border-color: rgb(50,50,50);}</string>
          </property>
          <property name="text">
           <string/>
@@ -5579,15 +5531,11 @@ color:darkgrey;border-color: rgb(20,20,20);
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+          <string notr="true">QPushButton{color: white; border-color:black; border-radius:25px;border-width: 1px;border-style: solid;}
 
 QPushButton:checked{
-color: white;background-color: rgb(90, 90, 90);
-border-color: rgb(90,90,90);}
-QPushButton:disabled {
-background-color: rgb(20,20,20);
-color:darkgrey;border-color: rgb(20,20,20);
-}</string>
+color: white;background-color: rgb(50,50,50);
+border-color: rgb(50,50,50);}</string>
          </property>
          <property name="text">
           <string/>
@@ -5637,15 +5585,11 @@ color:darkgrey;border-color: rgb(20,20,20);
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+          <string notr="true">QPushButton{color: white; border-color:black; border-radius:25px;border-width: 1px;border-style: solid;}
 
 QPushButton:checked{
-color: white;background-color: rgb(90, 90, 90);
-border-color: rgb(90,90,90);}
-QPushButton:disabled {
-background-color: rgb(20,20,20);
-color:darkgrey;border-color: rgb(20,20,20);
-}</string>
+color: white;background-color: rgb(50,50,50);
+border-color: rgb(50,50,50);}</string>
          </property>
          <property name="text">
           <string/>
@@ -5739,7 +5683,7 @@ color:darkgrey;border-color: rgb(20,20,20);
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+          <string notr="true">QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
          </property>
          <property name="text">
           <string>Back</string>
@@ -5834,7 +5778,7 @@ color:darkgrey;border-color: rgb(20,20,20);
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+          <string notr="true">color: white; background-color: black; border-radius:25px;border-color: black;border-width: 1px;border-style: solid;</string>
          </property>
          <property name="text">
           <string>time</string>
