@@ -366,12 +366,23 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.phone_number_validator)
         self.ui.twilioSIDLineEdit.textChanged.connect(
             self.twilio_sid_validator)
-        QtWidgets.QScroller.grabGesture(
-            self.ui.adminScrollArea.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+
         QtWidgets.QScroller.grabGesture(
             self.ui.manual_textedit.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
         QtWidgets.QScroller.grabGesture(
             self.ui.passcodeManual.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabbedGesture(self.ui.naloxone_scroll_area.viewport(
+        ), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabbedGesture(
+            self.ui.twilio_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabbedGesture(
+            self.ui.call_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabbedGesture(
+            self.ui.alarm_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabbedGesture(
+            self.ui.power_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QtWidgets.QScroller.grabGesture(
+            self.ui.admin_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
 
         self.load_manual()
 
@@ -1055,7 +1066,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.emergencyCallCountdownLabel.setVisible(False)
         self.ui.doorOpenResetPushButton.setVisible(True)
         self.ui.replace_naloxone_button_2.setVisible(True)
-        
 
     @QtCore.pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):

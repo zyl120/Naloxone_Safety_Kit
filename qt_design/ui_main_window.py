@@ -637,8 +637,8 @@ class Ui_door_close_main_window(object):
         self.naloxone_info.setObjectName("naloxone_info")
         self.verticalLayout_43 = QtWidgets.QVBoxLayout(self.naloxone_info)
         self.verticalLayout_43.setObjectName("verticalLayout_43")
-        self.scrollArea_3 = QtWidgets.QScrollArea(self.naloxone_info)
-        self.scrollArea_3.setStyleSheet("QScrollBar {\n"
+        self.naloxone_scroll_area = QtWidgets.QScrollArea(self.naloxone_info)
+        self.naloxone_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
@@ -661,10 +661,10 @@ class Ui_door_close_main_window(object):
 "\n"
 "\n"
 "")
-        self.scrollArea_3.setWidgetResizable(True)
-        self.scrollArea_3.setObjectName("scrollArea_3")
+        self.naloxone_scroll_area.setWidgetResizable(True)
+        self.naloxone_scroll_area.setObjectName("naloxone_scroll_area")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 649, 395))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 714, 395))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -757,15 +757,15 @@ class Ui_door_close_main_window(object):
         self.naloxoneExpirationDateEdit.setObjectName("naloxoneExpirationDateEdit")
         self.horizontalLayout_6.addWidget(self.naloxoneExpirationDateEdit)
         self.verticalLayout.addWidget(self.frame_8)
-        self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
-        self.verticalLayout_43.addWidget(self.scrollArea_3)
+        self.naloxone_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
+        self.verticalLayout_43.addWidget(self.naloxone_scroll_area)
         self.settingsTab.addTab(self.naloxone_info, "")
         self.twilio = QtWidgets.QWidget()
         self.twilio.setObjectName("twilio")
         self.verticalLayout_48 = QtWidgets.QVBoxLayout(self.twilio)
         self.verticalLayout_48.setObjectName("verticalLayout_48")
-        self.scrollArea_4 = QtWidgets.QScrollArea(self.twilio)
-        self.scrollArea_4.setStyleSheet("QScrollBar {\n"
+        self.twilio_scroll_area = QtWidgets.QScrollArea(self.twilio)
+        self.twilio_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
@@ -786,10 +786,10 @@ class Ui_door_close_main_window(object):
 "      background: none;\n"
 "}\n"
 "")
-        self.scrollArea_4.setWidgetResizable(True)
-        self.scrollArea_4.setObjectName("scrollArea_4")
+        self.twilio_scroll_area.setWidgetResizable(True)
+        self.twilio_scroll_area.setObjectName("twilio_scroll_area")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 657, 308))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 724, 314))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
@@ -906,20 +906,20 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_12.addWidget(self.frame_9)
         spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_12.addItem(spacerItem6)
-        self.scrollArea_4.setWidget(self.scrollAreaWidgetContents_4)
-        self.verticalLayout_48.addWidget(self.scrollArea_4)
+        self.twilio_scroll_area.setWidget(self.scrollAreaWidgetContents_4)
+        self.verticalLayout_48.addWidget(self.twilio_scroll_area)
         self.settingsTab.addTab(self.twilio, "")
         self.emergency_info = QtWidgets.QWidget()
         self.emergency_info.setObjectName("emergency_info")
         self.gridLayout_8 = QtWidgets.QGridLayout(self.emergency_info)
         self.gridLayout_8.setObjectName("gridLayout_8")
-        self.scrollArea_2 = QtWidgets.QScrollArea(self.emergency_info)
+        self.call_scroll_area = QtWidgets.QScrollArea(self.emergency_info)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.scrollArea_2.sizePolicy().hasHeightForWidth())
-        self.scrollArea_2.setSizePolicy(sizePolicy)
-        self.scrollArea_2.setStyleSheet("QScrollBar {\n"
+        sizePolicy.setHeightForWidth(self.call_scroll_area.sizePolicy().hasHeightForWidth())
+        self.call_scroll_area.setSizePolicy(sizePolicy)
+        self.call_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
@@ -939,12 +939,12 @@ class Ui_door_close_main_window(object):
 "      border: none;\n"
 "      background: none;\n"
 "}")
-        self.scrollArea_2.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.scrollArea_2.setLineWidth(0)
-        self.scrollArea_2.setWidgetResizable(True)
-        self.scrollArea_2.setObjectName("scrollArea_2")
+        self.call_scroll_area.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.call_scroll_area.setLineWidth(0)
+        self.call_scroll_area.setWidgetResizable(True)
+        self.call_scroll_area.setObjectName("call_scroll_area")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 649, 434))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 716, 434))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -1075,15 +1075,15 @@ class Ui_door_close_main_window(object):
         self.twilioAddressWarningQrCode.setObjectName("twilioAddressWarningQrCode")
         self.horizontalLayout_7.addWidget(self.twilioAddressWarningQrCode)
         self.verticalLayout_44.addWidget(self.frame_15)
-        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
-        self.gridLayout_8.addWidget(self.scrollArea_2, 0, 0, 1, 1)
+        self.call_scroll_area.setWidget(self.scrollAreaWidgetContents_2)
+        self.gridLayout_8.addWidget(self.call_scroll_area, 0, 0, 1, 1)
         self.settingsTab.addTab(self.emergency_info, "")
         self.alarm = QtWidgets.QWidget()
         self.alarm.setObjectName("alarm")
         self.verticalLayout_36 = QtWidgets.QVBoxLayout(self.alarm)
         self.verticalLayout_36.setObjectName("verticalLayout_36")
-        self.scrollArea_5 = QtWidgets.QScrollArea(self.alarm)
-        self.scrollArea_5.setStyleSheet("QScrollBar {\n"
+        self.alarm_scroll_area = QtWidgets.QScrollArea(self.alarm)
+        self.alarm_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
@@ -1102,10 +1102,10 @@ class Ui_door_close_main_window(object):
 "      border: none;\n"
 "      background: none;\n"
 "}")
-        self.scrollArea_5.setWidgetResizable(True)
-        self.scrollArea_5.setObjectName("scrollArea_5")
+        self.alarm_scroll_area.setWidgetResizable(True)
+        self.alarm_scroll_area.setObjectName("alarm_scroll_area")
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 623, 266))
+        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 724, 314))
         self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_5)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
@@ -1233,15 +1233,15 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_14.addWidget(self.frame_18)
         spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_14.addItem(spacerItem13)
-        self.scrollArea_5.setWidget(self.scrollAreaWidgetContents_5)
-        self.verticalLayout_36.addWidget(self.scrollArea_5)
+        self.alarm_scroll_area.setWidget(self.scrollAreaWidgetContents_5)
+        self.verticalLayout_36.addWidget(self.alarm_scroll_area)
         self.settingsTab.addTab(self.alarm, "")
         self.power_management = QtWidgets.QWidget()
         self.power_management.setObjectName("power_management")
         self.verticalLayout_21 = QtWidgets.QVBoxLayout(self.power_management)
         self.verticalLayout_21.setObjectName("verticalLayout_21")
-        self.scrollArea_6 = QtWidgets.QScrollArea(self.power_management)
-        self.scrollArea_6.setStyleSheet("QScrollBar {\n"
+        self.power_scroll_area = QtWidgets.QScrollArea(self.power_management)
+        self.power_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
@@ -1262,10 +1262,10 @@ class Ui_door_close_main_window(object):
 "      background: none;\n"
 "}\n"
 "")
-        self.scrollArea_6.setWidgetResizable(True)
-        self.scrollArea_6.setObjectName("scrollArea_6")
+        self.power_scroll_area.setWidgetResizable(True)
+        self.power_scroll_area.setObjectName("power_scroll_area")
         self.scrollAreaWidgetContents_6 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 690, 383))
+        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 714, 383))
         self.scrollAreaWidgetContents_6.setObjectName("scrollAreaWidgetContents_6")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_6)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
@@ -1479,15 +1479,15 @@ class Ui_door_close_main_window(object):
         self.verticalLayout_22.addWidget(self.frame_11)
         spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_22.addItem(spacerItem18)
-        self.scrollArea_6.setWidget(self.scrollAreaWidgetContents_6)
-        self.verticalLayout_21.addWidget(self.scrollArea_6)
+        self.power_scroll_area.setWidget(self.scrollAreaWidgetContents_6)
+        self.verticalLayout_21.addWidget(self.power_scroll_area)
         self.settingsTab.addTab(self.power_management, "")
         self.admin = QtWidgets.QWidget()
         self.admin.setObjectName("admin")
         self.gridLayout_9 = QtWidgets.QGridLayout(self.admin)
         self.gridLayout_9.setObjectName("gridLayout_9")
-        self.adminScrollArea = QtWidgets.QScrollArea(self.admin)
-        self.adminScrollArea.setStyleSheet("QScrollBar {\n"
+        self.admin_scroll_area = QtWidgets.QScrollArea(self.admin)
+        self.admin_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
 "        border-radius: 3px;\n"
 "        border-color:rgb(50,50,50);\n"
@@ -1507,12 +1507,12 @@ class Ui_door_close_main_window(object):
 "      border: none;\n"
 "      background: none;\n"
 "}")
-        self.adminScrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.adminScrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
-        self.adminScrollArea.setWidgetResizable(True)
-        self.adminScrollArea.setObjectName("adminScrollArea")
+        self.admin_scroll_area.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.admin_scroll_area.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
+        self.admin_scroll_area.setWidgetResizable(True)
+        self.admin_scroll_area.setObjectName("admin_scroll_area")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 642, 706))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 716, 706))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -1896,8 +1896,8 @@ class Ui_door_close_main_window(object):
         self.horizontalLayout_20.addWidget(self.exitPushButton)
         self.verticalLayout_28.addLayout(self.horizontalLayout_20)
         self.verticalLayout_39.addWidget(self.frame_20)
-        self.adminScrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout_9.addWidget(self.adminScrollArea, 0, 0, 1, 1)
+        self.admin_scroll_area.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout_9.addWidget(self.admin_scroll_area, 0, 0, 1, 1)
         self.settingsTab.addTab(self.admin, "")
         self.help = QtWidgets.QWidget()
         self.help.setObjectName("help")
@@ -2657,35 +2657,35 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(4)
-        self.settingsTab.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
+        self.settingsTab.setCurrentIndex(6)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.unlockSettingsPushButton)
         door_close_main_window.setTabOrder(self.unlockSettingsPushButton, self.lockSettingsPushButton)
-        door_close_main_window.setTabOrder(self.lockSettingsPushButton, self.scrollArea_3)
-        door_close_main_window.setTabOrder(self.scrollArea_3, self.temperatureSlider)
+        door_close_main_window.setTabOrder(self.lockSettingsPushButton, self.naloxone_scroll_area)
+        door_close_main_window.setTabOrder(self.naloxone_scroll_area, self.temperatureSlider)
         door_close_main_window.setTabOrder(self.temperatureSlider, self.naloxoneExpirationDateEdit)
-        door_close_main_window.setTabOrder(self.naloxoneExpirationDateEdit, self.scrollArea_4)
-        door_close_main_window.setTabOrder(self.scrollArea_4, self.twilioPhoneNumberLineEdit)
+        door_close_main_window.setTabOrder(self.naloxoneExpirationDateEdit, self.twilio_scroll_area)
+        door_close_main_window.setTabOrder(self.twilio_scroll_area, self.twilioPhoneNumberLineEdit)
         door_close_main_window.setTabOrder(self.twilioPhoneNumberLineEdit, self.twilioSIDLineEdit)
         door_close_main_window.setTabOrder(self.twilioSIDLineEdit, self.twilioTokenLineEdit)
-        door_close_main_window.setTabOrder(self.twilioTokenLineEdit, self.scrollArea_2)
-        door_close_main_window.setTabOrder(self.scrollArea_2, self.emergencyPhoneNumberLineEdit)
+        door_close_main_window.setTabOrder(self.twilioTokenLineEdit, self.call_scroll_area)
+        door_close_main_window.setTabOrder(self.call_scroll_area, self.emergencyPhoneNumberLineEdit)
         door_close_main_window.setTabOrder(self.emergencyPhoneNumberLineEdit, self.emergencyAddressLineEdit)
         door_close_main_window.setTabOrder(self.emergencyAddressLineEdit, self.emergencyMessageLineEdit)
-        door_close_main_window.setTabOrder(self.emergencyMessageLineEdit, self.scrollArea_5)
-        door_close_main_window.setTabOrder(self.scrollArea_5, self.alarm_message_lineedit)
+        door_close_main_window.setTabOrder(self.emergencyMessageLineEdit, self.alarm_scroll_area)
+        door_close_main_window.setTabOrder(self.alarm_scroll_area, self.alarm_message_lineedit)
         door_close_main_window.setTabOrder(self.alarm_message_lineedit, self.voice_volume_slider)
         door_close_main_window.setTabOrder(self.voice_volume_slider, self.test_alarm_pushbutton)
-        door_close_main_window.setTabOrder(self.test_alarm_pushbutton, self.scrollArea_6)
-        door_close_main_window.setTabOrder(self.scrollArea_6, self.enablePowerSavingCheckBox)
+        door_close_main_window.setTabOrder(self.test_alarm_pushbutton, self.power_scroll_area)
+        door_close_main_window.setTabOrder(self.power_scroll_area, self.enablePowerSavingCheckBox)
         door_close_main_window.setTabOrder(self.enablePowerSavingCheckBox, self.startTimeEdit)
         door_close_main_window.setTabOrder(self.startTimeEdit, self.endTimeEdit)
         door_close_main_window.setTabOrder(self.endTimeEdit, self.enableActiveCoolingCheckBox)
         door_close_main_window.setTabOrder(self.enableActiveCoolingCheckBox, self.fan_temperature_slider)
-        door_close_main_window.setTabOrder(self.fan_temperature_slider, self.adminScrollArea)
-        door_close_main_window.setTabOrder(self.adminScrollArea, self.passcodeLineEdit)
+        door_close_main_window.setTabOrder(self.fan_temperature_slider, self.admin_scroll_area)
+        door_close_main_window.setTabOrder(self.admin_scroll_area, self.passcodeLineEdit)
         door_close_main_window.setTabOrder(self.passcodeLineEdit, self.allowParamedicsCheckBox)
         door_close_main_window.setTabOrder(self.allowParamedicsCheckBox, self.adminPhoneNumberLineEdit)
         door_close_main_window.setTabOrder(self.adminPhoneNumberLineEdit, self.callTestPushButton)

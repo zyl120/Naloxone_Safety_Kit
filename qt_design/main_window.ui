@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -1227,7 +1227,7 @@ color:darkgrey
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>6</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1315,7 +1315,7 @@ color:darkgrey
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_43">
             <item>
-             <widget class="QScrollArea" name="scrollArea_3">
+             <widget class="QScrollArea" name="naloxone_scroll_area">
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
@@ -1349,7 +1349,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>714</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -1584,7 +1584,7 @@ QSlider::handle:horizontal {
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_48">
             <item>
-             <widget class="QScrollArea" name="scrollArea_4">
+             <widget class="QScrollArea" name="twilio_scroll_area">
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
@@ -1616,8 +1616,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>657</width>
-                 <height>308</height>
+                 <width>724</width>
+                 <height>314</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1946,7 +1946,7 @@ QScrollBar::sub-line:vertical {
            </attribute>
            <layout class="QGridLayout" name="gridLayout_8">
             <item row="0" column="0">
-             <widget class="QScrollArea" name="scrollArea_2">
+             <widget class="QScrollArea" name="call_scroll_area">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1989,7 +1989,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>716</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2348,7 +2348,7 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_36">
             <item>
-             <widget class="QScrollArea" name="scrollArea_5">
+             <widget class="QScrollArea" name="alarm_scroll_area">
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
@@ -2378,8 +2378,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>623</width>
-                 <height>266</height>
+                 <width>724</width>
+                 <height>314</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2708,7 +2708,7 @@ QSlider::handle:horizontal {
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_21">
             <item>
-             <widget class="QScrollArea" name="scrollArea_6">
+             <widget class="QScrollArea" name="power_scroll_area">
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
@@ -2740,7 +2740,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>690</width>
+                 <width>714</width>
                  <height>383</height>
                 </rect>
                </property>
@@ -3278,7 +3278,7 @@ QSlider::handle:horizontal {
            </attribute>
            <layout class="QGridLayout" name="gridLayout_9">
             <item row="0" column="0">
-             <widget class="QScrollArea" name="adminScrollArea">
+             <widget class="QScrollArea" name="admin_scroll_area">
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
@@ -3315,7 +3315,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>642</width>
+                 <width>716</width>
                  <height>706</height>
                 </rect>
                </property>
@@ -5832,28 +5832,28 @@ border-color: rgb(50,50,50);}</string>
   <tabstop>settingsTab</tabstop>
   <tabstop>unlockSettingsPushButton</tabstop>
   <tabstop>lockSettingsPushButton</tabstop>
-  <tabstop>scrollArea_3</tabstop>
+  <tabstop>naloxone_scroll_area</tabstop>
   <tabstop>temperatureSlider</tabstop>
   <tabstop>naloxoneExpirationDateEdit</tabstop>
-  <tabstop>scrollArea_4</tabstop>
+  <tabstop>twilio_scroll_area</tabstop>
   <tabstop>twilioPhoneNumberLineEdit</tabstop>
   <tabstop>twilioSIDLineEdit</tabstop>
   <tabstop>twilioTokenLineEdit</tabstop>
-  <tabstop>scrollArea_2</tabstop>
+  <tabstop>call_scroll_area</tabstop>
   <tabstop>emergencyPhoneNumberLineEdit</tabstop>
   <tabstop>emergencyAddressLineEdit</tabstop>
   <tabstop>emergencyMessageLineEdit</tabstop>
-  <tabstop>scrollArea_5</tabstop>
+  <tabstop>alarm_scroll_area</tabstop>
   <tabstop>alarm_message_lineedit</tabstop>
   <tabstop>voice_volume_slider</tabstop>
   <tabstop>test_alarm_pushbutton</tabstop>
-  <tabstop>scrollArea_6</tabstop>
+  <tabstop>power_scroll_area</tabstop>
   <tabstop>enablePowerSavingCheckBox</tabstop>
   <tabstop>startTimeEdit</tabstop>
   <tabstop>endTimeEdit</tabstop>
   <tabstop>enableActiveCoolingCheckBox</tabstop>
   <tabstop>fan_temperature_slider</tabstop>
-  <tabstop>adminScrollArea</tabstop>
+  <tabstop>admin_scroll_area</tabstop>
   <tabstop>passcodeLineEdit</tabstop>
   <tabstop>allowParamedicsCheckBox</tabstop>
   <tabstop>adminPhoneNumberLineEdit</tabstop>
