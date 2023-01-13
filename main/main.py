@@ -81,7 +81,7 @@ class CountDownWorker(QtCore.QThread):
             sleep(1)
             if (self.isInterruptionRequested()):
                 print("countdown timer terminated")
-                # self.time_changed_signal.emit(self.countdown_time_in_sec)
+                self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
 
         if(self.time_in_sec == -1):
@@ -323,6 +323,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
         self.ui.homePushButton.clicked.connect(self.goto_home)
         self.ui.settingsPushButton.clicked.connect(self.goto_settings)
+        self.ui.replace_naloxone_button_2.clicked.connect(self.goto_settings)
         self.ui.dashboardPushButton.clicked.connect(self.goto_dashboard)
         self.ui.unlockSettingsPushButton.clicked.connect(
             self.lock_unlock_settings)
@@ -763,6 +764,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             # Only go to the door open page when the user is not changing settings.
             self.ui.doorOpenResetPushButton.setVisible(False)
             self.ui.homePushButton.setVisible(False)
+            self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.dashboardPushButton.setVisible(False)
             self.ui.settingsPushButton.setVisible(False)
             self.ui.backPushButton.setVisible(False)
@@ -905,6 +907,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                                     "The system needs some time to detect the door status change.")
         else:
             self.goto_home()
+            self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.homePushButton.setVisible(True)
             self.ui.dashboardPushButton.setVisible(True)
             self.ui.settingsPushButton.setVisible(True)
@@ -930,6 +933,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.stopCountdownPushButton.setVisible(False)
         self.ui.countdownLabel.setVisible(False)
         self.ui.emergencyCallCountdownLabel.setVisible(False)
+        self.ui.replace_naloxone_button_2.setVisible(True)
         self.ui.emergencyCallStatusLabel.setText("N/A")
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
@@ -1038,6 +1042,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     # Used to communicate with the shm to make phone calls.
     def call_emergency_now(self):
         print("call 911 now pushed")
+        if (self.ui.stopCountdownPushButton.isVisible()):
+            self.ui.stopCountdownPushButton.setVisible(False)
+            self.destroy_countdown_worker()
         self.call_911_using_config_file()
         self.ui.emergencyCallStatusLabel.setText("Requested")
         self.ui.settingsPushButton.setVisible(True)
@@ -1045,9 +1052,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.countdownLabel.setVisible(False)
         self.ui.emergencyCallCountdownLabel.setVisible(False)
         self.ui.doorOpenResetPushButton.setVisible(True)
-        if (self.ui.stopCountdownPushButton.isVisible()):
-            self.ui.stopCountdownPushButton.setVisible(False)
-            self.destroy_countdown_worker()
+        self.ui.replace_naloxone_button_2.setVisible(True)
+        
 
     @QtCore.pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
