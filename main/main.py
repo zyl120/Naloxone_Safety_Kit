@@ -351,7 +351,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
-        self.ui.replace_naloxone_button_2.clicked.connect(self.goto_settings)
         self.ui.notify_admin_button.clicked.connect(self.notify_admin)
         self.ui.notify_admin_button_2.clicked.connect(self.notify_admin)
         self.ui.get_passcode_button.clicked.connect(
@@ -768,14 +767,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.settingsPushButton.setVisible(False)
             self.ui.backPushButton.setVisible(False)
             self.ui.alarmMutePushButton.setVisible(False)
-            self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
             self.create_countdown_worker(10)
 
-    @QtCore.pyqtSlot()
-    def replace_naloxone_button_pressed(self):
-        self.goto_settings()
-        self.unlock_naloxone_settings()
+    # @QtCore.pyqtSlot()
+    # def replace_naloxone_button_pressed(self):
+    #     self.goto_settings()
+    #     self.unlock_naloxone_settings()
 
     def back_pushbutton_pushed(self):
         self.ui.settingsPushButton.setChecked(False)
@@ -916,7 +914,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.alarmStatusLabel.setText("Waiting")
             self.ui.alarmMutePushButton.setVisible(False)
             self.ui.doorOpenResetPushButton.setVisible(False)
-            self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
             self.ui.emergencyCallCountdownLabel.setText("T-10s")
@@ -936,7 +933,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.emergencyCallStatusLabel.setText("N/A")
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
-        self.ui.replace_naloxone_button_2.setVisible(True)
         self.ui.emergencyCallLastCallLabel.setText("N/A")
         self.destroy_countdown_worker()
 
@@ -1045,10 +1041,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.call_911_using_config_file()
         self.ui.emergencyCallStatusLabel.setText("Requested")
         self.ui.settingsPushButton.setVisible(True)
-        self.ui.replace_naloxone_button_2.setVisible(True)
         self.ui.stopCountdownPushButton.setVisible(False)
         self.ui.countdownLabel.setVisible(False)
         self.ui.emergencyCallCountdownLabel.setVisible(False)
+        self.ui.doorOpenResetPushButton.setVisible(True)
         if (self.ui.stopCountdownPushButton.isVisible()):
             self.ui.stopCountdownPushButton.setVisible(False)
             self.destroy_countdown_worker()
