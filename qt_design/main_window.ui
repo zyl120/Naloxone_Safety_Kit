@@ -4898,6 +4898,83 @@ Admin</string>
            <number>0</number>
           </property>
           <layout class="QGridLayout" name="gridLayout_14">
+           <item row="4" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_24">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>22</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:white;border-width: 0px;</string>
+               </property>
+               <property name="text">
+                <string>Call Status</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="emergencyCallStatusLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>25</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:red;</string>
+               </property>
+               <property name="text">
+                <string>Waiting</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
            <item row="0" column="0" colspan="2">
             <widget class="QLabel" name="doorLabel_3">
              <property name="sizePolicy">
@@ -4935,87 +5012,10 @@ Admin</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_27">
-             <item>
-              <widget class="QLabel" name="label_8">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>40</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>22</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
-               </property>
-               <property name="text">
-                <string>Last Req.</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="emergencyCallLastCallLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>40</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>25</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:red;</string>
-               </property>
-               <property name="text">
-                <string>N/A</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item row="2" column="1">
             <widget class="QPushButton" name="stopCountdownPushButton">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -5057,12 +5057,12 @@ Countdown</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_24">
+           <item row="4" column="1">
+            <layout class="QVBoxLayout" name="verticalLayout_27">
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="label_8">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -5076,7 +5076,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>16777215</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -5088,7 +5088,7 @@ Countdown</string>
                 <string notr="true">color:white;border-width: 0px;</string>
                </property>
                <property name="text">
-                <string>Call Status</string>
+                <string>Last Req.</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -5096,9 +5096,9 @@ Countdown</string>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="emergencyCallStatusLabel">
+              <widget class="QLabel" name="emergencyCallLastCallLabel">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -5112,7 +5112,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>16777215</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -5125,7 +5125,7 @@ Countdown</string>
                 <string notr="true">color:red;</string>
                </property>
                <property name="text">
-                <string>Waiting</string>
+                <string>N/A</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -5138,6 +5138,12 @@ Countdown</string>
             <layout class="QVBoxLayout" name="verticalLayout_46">
              <item>
               <widget class="QLabel" name="countdownLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -5147,7 +5153,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>16777215</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -5170,7 +5176,7 @@ Countdown</string>
              <item>
               <widget class="QLabel" name="emergencyCallCountdownLabel">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -5184,7 +5190,7 @@ Countdown</string>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>16777215</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -5206,20 +5212,7 @@ Countdown</string>
              </item>
             </layout>
            </item>
-           <item row="6" column="0" colspan="2">
-            <spacer name="verticalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="7" column="0" colspan="2">
+           <item row="5" column="0" colspan="2">
             <widget class="QPushButton" name="call911NowPushButton">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
