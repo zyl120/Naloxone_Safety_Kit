@@ -700,7 +700,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, False)
         self.ui.settingsTab.setTabVisible(6, False)
         self.ui.settingsTab.setCurrentIndex(1)
-        self.send_notification(4, "Settings Unlocked")
 
     def unlock_all_settings(self):
         # unlock the whole setting page. Should only be called after the user enter the correct passcode.
@@ -716,7 +715,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, True)
         self.ui.settingsTab.setTabVisible(6, True)
         self.ui.settingsTab.setCurrentIndex(1)
-        self.send_notification(4, "Settings Unlocked")
 
     def check_passcode(self):
         # First read from the conf file
