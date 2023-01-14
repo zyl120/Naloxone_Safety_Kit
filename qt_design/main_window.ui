@@ -66,7 +66,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -537,25 +537,6 @@ QR_CODE</string>
            <item row="0" column="1">
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
-              <widget class="QLabel" name="serverStatusLabel">
-               <property name="font">
-                <font>
-                 <pointsize>22</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
-               </property>
-               <property name="text">
-                <string>Status</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QLabel" name="serverStatusLineEdit">
                <property name="minimumSize">
                 <size>
@@ -565,7 +546,7 @@ QR_CODE</string>
                </property>
                <property name="font">
                 <font>
-                 <pointsize>22</pointsize>
+                 <pointsize>30</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1044,25 +1025,6 @@ QR_CODE</string>
            <item row="0" column="1">
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
-              <widget class="QLabel" name="naloxoneStatusLabel">
-               <property name="font">
-                <font>
-                 <pointsize>22</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
-               </property>
-               <property name="text">
-                <string>Status</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QLabel" name="naloxoneStatusLineEdit">
                <property name="minimumSize">
                 <size>
@@ -1072,7 +1034,7 @@ QR_CODE</string>
                </property>
                <property name="font">
                 <font>
-                 <pointsize>22</pointsize>
+                 <pointsize>30</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5466,7 +5428,7 @@ Countdown</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -5789,7 +5751,7 @@ border-color: rgb(50,50,50);}</string>
           <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
          </property>
          <property name="text">
-          <string>OK</string>
+          <string>Status</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
