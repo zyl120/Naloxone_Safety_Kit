@@ -64,8 +64,6 @@ if __name__ == "__main__":
     QT_PREFIX_PATH = QLibraryInfo.location(QLibraryInfo.PrefixPath)
     print("[I] QT_PREFIX_PATH={}".format(QT_PREFIX_PATH))
 
-    sys.exit(0)
-
     print("[I] Downloading Qt Virtual Keyboard from GitHub...")
     try:
         subprocess.check_call(["git", "clone", "-b", "5.15",
