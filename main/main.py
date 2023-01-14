@@ -76,13 +76,18 @@ class CountDownWorker(QtCore.QThread):
 
     def run(self):
         while (self.time_in_sec >= 0):
-            self.time_changed_signal.emit(self.time_in_sec)
-            self.time_in_sec = self.time_in_sec - 1
-            sleep(1)
             if (self.isInterruptionRequested()):
                 print("countdown timer terminated")
                 self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
+            self.time_changed_signal.emit(self.time_in_sec)
+            self.time_in_sec = self.time_in_sec - 1
+            
+            if (self.isInterruptionRequested()):
+                print("countdown timer terminated")
+                self.time_changed_signal.emit(self.countdown_time_in_sec)
+                break
+            sleep(1)
 
         if(self.time_in_sec == -1):
             self.time_end_signal.emit()
@@ -150,6 +155,8 @@ class IOWorker(QtCore.QThread):
 
     def run(self):
         while True:
+            if (self.isInterruptionRequested()):
+                break
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
@@ -165,9 +172,10 @@ class IOWorker(QtCore.QThread):
             self.update_door.emit(self.door_opened, not self.disarmed)
             self.update_naloxone.emit(
                 not self.is_overheat() and not self.is_expiry(), self.expiration_date)
-            sleep(1)
+            
             if (self.isInterruptionRequested()):
                 break
+            sleep(1)
 
 
 class AlarmWorker(QtCore.QThread):
@@ -185,6 +193,8 @@ class AlarmWorker(QtCore.QThread):
         if(self.loop):
             # loop until stopped by interruption
             while (True):
+                if (self.isInterruptionRequested()):
+                    break
                 print("playing")
                 os.system("mpg123 -q res/alarm.mp3")
                 if (self.isInterruptionRequested()):
@@ -209,6 +219,8 @@ class NetworkWorker(QtCore.QThread):
 
     def run(self):
         while True:
+            if (self.isInterruptionRequested()):
+                break
             client = Client(self.twilio_sid, self.twilio_token)
 
             response = os.system("ping -c 1 " + self.hostname)
@@ -220,9 +232,9 @@ class NetworkWorker(QtCore.QThread):
                 currency = client.api.v2010.balance.fetch().currency
                 self.update_server.emit(True, float(
                     balance), currency, self.currentTime.currentTime())
-            sleep(600)
             if (self.isInterruptionRequested()):
                 break
+            sleep(600)
 
 
 class CallWorker(QtCore.QThread):
@@ -400,6 +412,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.network_worker is not None):
             self.network_worker.quit()
             self.network_worker.requestInterruption()
+            self.network_worker.wait()
 
     def create_network_worker(self):
         self.destroy_network_worker()
@@ -412,6 +425,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.io_worker is not None):
             self.io_worker.quit()
             self.io_worker.requestInterruption()
+            self.io_worker.wait()
 
     def create_io_worker(self):
         self.destroy_io_worker()
@@ -433,6 +447,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.alarm_worker is not None):
             self.alarm_worker.quit()
             self.alarm_worker.requestInterruption()
+            self.alarm_worker.wait()
 
     def create_alarm_worker(self, alarm_message, voice_volume, loop):
         self.destroy_alarm_worker()
@@ -444,6 +459,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if(self.countdown_worker is not None):
             self.countdown_worker.quit()
             self.countdown_worker.requestInterruption()
+            self.countdown_worker.wait()
 
     def create_countdown_worker(self, time):
         self.destroy_countdown_worker()
@@ -874,16 +890,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def toggle_door_arm(self):
         if (self.ui.disarmPushButton.text() == "Disarm"):
+            self.send_notification(1, "Door Sensor OFF")
             self.ui.disarmPushButton.setText("Arm")
             self.disarmed = True
             self.create_io_worker()
-            self.send_notification(1, "Door Sensor OFF")
-
         else:
+            self.send_notification(4, "Door Sensor ON")
             self.ui.disarmPushButton.setText("Disarm")
             self.disarmed = False
             self.create_io_worker()
-            self.send_notification(4, "Door Sensor ON")
 
     def reset_to_default(self):
         # Used to check whether the door is still opened
