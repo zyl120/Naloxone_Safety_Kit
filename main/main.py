@@ -238,7 +238,7 @@ class CallWorker(QtCore.QThread):
             # if successful, return True
             print(call.sid)
             print("INFO: Twilio Call: Call ID: %s", call.sid)
-            self.call_thread_status.emit(4, "Call Successfully")
+            self.call_thread_status.emit(4, "Call Delivered")
 
 
 class SMSWorker(QtCore.QThread):
@@ -271,7 +271,7 @@ class SMSWorker(QtCore.QThread):
             # if successful, return True
             print(sms.sid)
             print("INFO: Twilio SMS: SMS ID: {}".format(str(sms.sid)))
-            self.sms_thread_status.emit(4, "SMS Successfully")
+            self.sms_thread_status.emit(4, "SMS Delivered")
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
@@ -386,6 +386,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.status_bar_timer.timeout.connect(self.update_time_status)
         self.update_time_status()
         self.status_bar_timer.start(2000)
+
+        self.dashboard_timer = QtCore.QTimer()
+        self.dashboard_timer.timeout.connect(self.goto_home)
 
         self.goto_home()
         self.lock_settings()
@@ -832,6 +835,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.setVisible(False)
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(1)
+        self.dashboard_timer.start(60000) # wait for 5 min before going back to home
 
     def goto_home(self):
         self.ui.homePushButton.setChecked(True)
@@ -845,7 +849,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # Used to contact the admin via the info in the conf file
         self.create_sms_worker(self.admin_phone_number, "The naloxone safety box at " +
                                 self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.send_notification(4, "SMS Sent")
+        self.send_notification(4, "SMS Requested")
 
     def call_911_using_config_file(self):
         loop = "0"
