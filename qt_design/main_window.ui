@@ -122,7 +122,7 @@ border-color: rgb(50,50,50);}</string>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../main/res/view-list-icons.svg</normaloff>../main/res/view-list-icons.svg</iconset>
+           <normaloff>../main/res/dashboard.png</normaloff>../main/res/dashboard.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -176,7 +176,7 @@ border-color: rgb(50,50,50);}</string>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../main/res/user-home.png</normaloff>../main/res/user-home.png</iconset>
+           <normaloff>../main/res/user_home.png</normaloff>../main/res/user_home.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -230,7 +230,7 @@ border-color: rgb(50,50,50);}</string>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../main/res/configure.svg</normaloff>../main/res/configure.svg</iconset>
+           <normaloff>../main/res/settings.png</normaloff>../main/res/settings.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -277,7 +277,7 @@ border-color: rgb(50,50,50);}</string>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../main/res/system-save-session.svg</normaloff>../main/res/system-save-session.svg</iconset>
+           <normaloff>../main/res/save.png</normaloff>../main/res/save.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -324,7 +324,7 @@ border-color: rgb(50,50,50);}</string>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../main/res/go-previous.svg</normaloff>../main/res/go-previous.svg</iconset>
+           <normaloff>../main/res/back.png</normaloff>../main/res/back.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -608,7 +608,7 @@ border-color: rgb(50,50,50);}</string>
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -2263,7 +2263,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-113</y>
+                 <y>0</y>
                  <width>716</width>
                  <height>434</height>
                 </rect>
@@ -3014,7 +3014,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-64</y>
+                 <y>0</y>
                  <width>714</width>
                  <height>383</height>
                 </rect>
@@ -3589,7 +3589,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-360</y>
+                 <y>0</y>
                  <width>716</width>
                  <height>706</height>
                 </rect>
@@ -5006,7 +5006,7 @@ Naloxone</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/system-reboot.svg</normaloff>../main/res/system-reboot.svg</iconset>
+               <normaloff>../main/res/exchange.png</normaloff>../main/res/exchange.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5050,7 +5050,7 @@ Naloxone</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/edit-reset.svg</normaloff>../main/res/edit-reset.svg</iconset>
+               <normaloff>../main/res/reset.png</normaloff>../main/res/reset.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5094,7 +5094,7 @@ Naloxone</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/media-playback-stop.svg</normaloff>../main/res/media-playback-stop.svg</iconset>
+               <normaloff>../main/res/mute.png</normaloff>../main/res/mute.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5139,7 +5139,7 @@ Admin</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/smartphone.png</normaloff>../main/res/smartphone.png</iconset>
+               <normaloff>../main/res/notify.png</normaloff>../main/res/notify.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5440,7 +5440,7 @@ Admin</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/call-outgoing.svg</normaloff>../main/res/call-outgoing.svg</iconset>
+               <normaloff>../main/res/phone_call.png</normaloff>../main/res/phone_call.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5485,7 +5485,7 @@ Countdown</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/media-playback-pause.svg</normaloff>../main/res/media-playback-pause.svg</iconset>
+               <normaloff>../main/res/stop sign.png</normaloff>../main/res/stop sign.png</iconset>
              </property>
              <property name="iconSize">
               <size>
