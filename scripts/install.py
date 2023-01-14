@@ -33,19 +33,18 @@ if __name__ == "__main__":
                      "libxcb-record0-dev", "libxcb-render-util0-dev", "libxcb-render0-dev", "libxcb-res0-dev", "libxcb-screensaver0-dev", "libxcb-shape0-dev", "libxcb-shm0-dev", "libxcb-sync-dev", "libxcb-util-dev", "libxcb-util0-dev", "libxcb-xf86dri0-dev", "libxcb-xfixes0-dev", "libxcb-xinerama0-dev", "libxcb-xinput-dev", "libxcb-xkb-dev", "libxcb-xrm-dev", "libxcb-xtest0-dev", "libxcb-xv0-dev", "libxcb-xvmc0-dev", "libxcb1-dev", "libx11-xcb-dev", "libglu1-mesa-dev", "libxrender-dev", "libxi-dev", "libxkbcommon-dev", "libxkbcommon-x11-dev"]
     for pkg_name in pkg_name_list:
         pkg = cache[pkg_name]
-        print("[I] Installing {pkg_name}...".format(pkg_name=pkg_name))
         if pkg.is_installed:
             print("[I] {pkg_name} already installed".format(pkg_name=pkg_name))
         else:
             pkg.mark_install()
-            try:
-                cache.commit()
-            except Exception as e:
-                sys.exit(
-                    "[E] Sorry, package installation failed [{}]".format(str(e)))
-            else:
-                print("[i] {pkg_name} installed successfully".format(
-                    pkg_name=pkg_name))
+
+    print("[I] Installing packages...")
+    try:
+        cache.commit()
+    except Exception as e:
+        sys.exit("[E] Sorry, package installation failed [{}]".format(str(e)))
+    else:
+        print("[I] apt installation completes successfully")
 
     pip_list = ["twilio", "qrcode", "Adafruit-DHT", "gtts", "phonenumbers"]
     for pip_pkg in pip_list:
