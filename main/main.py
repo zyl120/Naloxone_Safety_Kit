@@ -115,7 +115,7 @@ class IOWorker(QtCore.QThread):
 
     def read_naloxone_sensor(self):
         _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
-        self.naloxone_temp = self.naloxone_temp * 1.8 + 32
+        self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
         #self.temperature = 77
 
     def calculate_pwm(self):
