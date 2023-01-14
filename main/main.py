@@ -12,9 +12,9 @@ import qrcode
 import random
 from gtts import gTTS
 import phonenumbers
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -114,7 +114,8 @@ class IOWorker(QtCore.QThread):
         self.expiration_date = expiration_date
 
     def read_naloxone_sensor(self):
-        _, self.temperature = dht.read_retry(dht.DHT22, DHT_PIN)
+        _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
+        self.naloxone_temp = self.naloxone_temp * 1.8 + 32
         #self.temperature = 77
 
     def calculate_pwm(self):
@@ -413,7 +414,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.io_worker.requestInterruption()
 
     def create_io_worker(self):
-        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(
             self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
