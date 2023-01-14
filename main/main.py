@@ -397,6 +397,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         self.generate_ui_qrcode()
 
+        self.call_worker = None
+        self.sms_worker = None
         self.network_worker = None
         self.io_worker = None
         self.alarm_worker = None
@@ -407,6 +409,31 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.goto_home()
         self.lock_settings()
         self.load_settings()
+    
+    def destroy_call_worker(self):
+        if(self.call_worker is not None):
+            # wait for the call worker to stop. Do not terminate
+            self.call_worker.wait()
+    
+    def create_call_worker(self, number, body, t_sid, t_token, t_number):
+        self.ui.wait_icon.setVisible(True)
+        self.destroy_call_worker()
+        self.call_worker = CallWorker(number, body, t_sid, t_token, t_number)
+        self.call_worker.call_thread_status.connect(self.send_notification)
+        self.call_worker.start()
+        self.ui.wait_icon.setVisible(True)
+
+    def destroy_sms_worker(self):
+        if(self.sms_worker is not None):
+            self.sms_worker.wait()
+    
+    def create_sms_worker(self, number, body, t_sid, t_token, t_number):
+        self.ui.wait_icon.setVisible(True)
+        self.destroy_sms_worker()
+        self.sms_worker = SMSWorker(number, body, t_sid, t_token, t_number)
+        self.sms_worker.sms_thread_status.connect(self.send_notification)
+        self.sms_worker.start()
+        self.ui.wait_icon.setVisible(True)
 
     def destroy_network_worker(self):
         if (self.network_worker is not None):
@@ -437,6 +464,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
+
+    def destroy_time_worker(self):
+        if(self.time_worker is not None):
+            self.time_worker.quit()
+            self.time_worker.wait()
 
     def create_time_worker(self):
         self.time_worker = TimeWorker()
@@ -665,8 +697,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
+            self.ui.wait_icon.setVisible(True)
             self.create_io_worker()
             self.create_network_worker()
+            self.ui.wait_icon.setVisible(False)
 
         except Exception as e:
             self.send_notification(0, "Failed to load config file")
@@ -831,9 +865,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def send_sms_using_config_file(self, msg):
         # Used to contact the admin via the info in the conf file
-        self.sms_sender = SMSWorker(self.admin_phone_number, "The naloxone safety box at " +
+        self.create_sms_worker(self.admin_phone_number, "The naloxone safety box at " +
                                 self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.sms_sender.start()
         self.send_notification(4, "SMS Sent")
 
     def call_911_using_config_file(self):
@@ -846,10 +879,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                      self.address + ".", voice=voice, loop=loop)
         print("INFO: resonse: " + str(response))
 
-        self.call_sender = CallWorker(
-            self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.call_sender.call_thread_status.connect(self.update_phone_call_gui)
-        self.call_sender.start()
+        self.create_call_worker(self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
@@ -863,10 +893,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
                 self.ui.emergencyAddressLineEdit.text() +
                 ". If the words sound good, you can save the settings. Thank you.")
-        self.sms_worker = SMSWorker(
-            phone_number, body, t_sid, t_token, t_number)
-        self.sms_worker.sms_thread_status.connect(self.send_notification)
-        self.sms_worker.start()
+        self.create_sms_worker(phone_number, body, t_sid, t_token, t_number)
         self.send_notification(4, "SMS Requested")
 
     def call_test_pushbutton_clicked(self):
@@ -881,11 +908,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                      " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
                      self.ui.emergencyAddressLineEdit.text() +
                      ". If the call sounds good, you can save the settings. Thank you.", voice="woman", loop=3)
-
-        self.call_worker = CallWorker(
-            phone_number, response, t_sid, t_token, t_number)
-        self.call_worker.call_thread_status.connect(self.send_notification)
-        self.call_worker.start()
+        
+        self.create_call_worker(phone_number, response, t_sid, t_token, t_number)
         self.send_notification(4, "Call Requested")
 
     def toggle_door_arm(self):
@@ -1003,9 +1027,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def get_passcode_button_pressed(self):
-        self.paramedic_sms_worker = SMSWorker(self.ui.paramedic_phone_number_lineedit.text(
+        self.create_sms_worker(self.ui.paramedic_phone_number_lineedit.text(
         ), "The passcode is " + self.naloxone_passcode + ".", self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.paramedic_sms_worker.start()
         self.send_notification(4, "Passcode Sent")
         self.send_sms_using_config_file("Passcode retrieved.")
 
@@ -1205,6 +1228,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.load_settings()
 
     def exit_program(self):
+        self.destroy_call_worker()
+        self.destroy_sms_worker()
+        self.destroy_network_worker()
+        self.destroy_io_worker()
+        self.destroy_alarm_worker()
+        self.destroy_countdown_worker()
+        self.destroy_time_worker()
         self.close()
 
 
