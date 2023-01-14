@@ -961,6 +961,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             msg = self.status_queue.get()
             self.message_level = msg[0]
             self.message_to_display = msg[1]
+            self.ui.status_bar.setText(self.message_to_display)
             if(self.message_level == 0):
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
@@ -971,7 +972,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
             self.ui.status_bar.setVisible(True)
-            self.ui.status_bar.setText(self.message_to_display)
 
     @QtCore.pyqtSlot()
     def twilio_sid_validator(self):
