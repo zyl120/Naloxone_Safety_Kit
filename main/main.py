@@ -1081,12 +1081,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         else:
             self.ui.door_sensor_icon.setVisible(True)
             self.ui.doorArmedLineEdit.setText("Disarmed")
-        if (not door and armed):
-            self.ui.doorStatusBox.setStyleSheet(
-                "color:#008A00")
-        else:
-            self.ui.doorStatusBox.setStyleSheet(
-                "color:#AC193D")
 
     @QtCore.pyqtSlot(bool, QtCore.QDate)
     def update_naloxone_ui(self, naloxone_good, naloxone_expiration_date):
@@ -1096,13 +1090,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (naloxone_good):
             self.ui.naloxone_destroyed_icon.setVisible(False)
             self.ui.naloxoneStatusLineEdit.setText("OK")
-            self.ui.naloxoneStatusBox.setStyleSheet(
-                "color:#008A00")
         else:
             self.ui.naloxone_destroyed_icon.setVisible(True)
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
-            self.ui.naloxoneStatusBox.setStyleSheet(
-                "color:#AC193D")
 
     @QtCore.pyqtSlot(bool, float, str, QtCore.QTime)
     def update_server_ui(self, server, balance, currency, server_check_time):
@@ -1112,13 +1102,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (server):
             self.ui.no_connection_icon.setVisible(False)
             self.ui.serverStatusLineEdit.setText("OK")
-            self.ui.serverStatusBox.setStyleSheet(
-                "color:#008A00")
         else:
             self.ui.no_connection_icon.setVisible(True)
             self.ui.serverStatusLineEdit.setText("Down")
-            self.ui.serverStatusBox.setStyleSheet(
-                "color:#AC193D")
         self.ui.accountBalanceLineEdit.setText(
             str(round(balance, 2)) + " " + currency)
         if(balance < 5):
@@ -1135,13 +1121,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if(pwm == 0):
             self.ui.fan_icon.setVisible(False)
             self.ui.fanSpeedLineEdit.setText("OFF")
-            self.ui.thermalStatusBox.setStyleSheet(
-                "color:#008A00")
         else:
             self.ui.fan_icon.setVisible(True)
             self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
-            self.ui.thermalStatusBox.setStyleSheet(
-                "color:#AC193D")
 
     @QtCore.pyqtSlot(int)
     def update_voice_volume(self, value):
