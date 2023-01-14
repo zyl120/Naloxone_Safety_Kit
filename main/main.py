@@ -12,9 +12,9 @@ import qrcode
 import random
 from gtts import gTTS
 import phonenumbers
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -413,6 +413,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.io_worker.requestInterruption()
 
     def create_io_worker(self):
+        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(
             self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
@@ -558,7 +559,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def load_settings(self):
         # load the settings from the conf file.
-        print("loading settings")
         try:
             config = configparser.ConfigParser()
             config.read("safety_kit.conf")
@@ -654,7 +654,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         except Exception as e:
             self.send_notification(0, "Failed to load config file")
-            print("Failed to load config file")
             self.ui.unlockSettingsPushButton.setVisible(False)
             self.ui.lockSettingsPushButton.setVisible(True)
             self.ui.saveToFilePushButton.setVisible(True)
@@ -672,8 +671,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(2)
 
         else:
-            self.send_notification(4, "Config File Loaded")
-            print("config file loaded")
+            self.send_notification(4, "Config File Reloaded")
 
     def lock_settings(self):
         # lock the whole setting page.
@@ -688,7 +686,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(4, False)
         self.ui.settingsTab.setTabVisible(5, False)
         self.ui.settingsTab.setTabVisible(6, False)
-        print("Settings locked")
 
     def unlock_naloxone_settings(self):
         self.ui.unlockSettingsPushButton.setVisible(False)
@@ -703,8 +700,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, False)
         self.ui.settingsTab.setTabVisible(6, False)
         self.ui.settingsTab.setCurrentIndex(1)
-        self.send_notification(2, "Settings Unlocked")
-        print("Naloxone Settings unlocked")
+        self.send_notification(4, "Settings Unlocked")
 
     def unlock_all_settings(self):
         # unlock the whole setting page. Should only be called after the user enter the correct passcode.
@@ -720,8 +716,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(5, True)
         self.ui.settingsTab.setTabVisible(6, True)
         self.ui.settingsTab.setCurrentIndex(1)
-        self.send_notification(2, "Settings Unlocked")
-        print("All Settings unlocked")
+        self.send_notification(4, "Settings Unlocked")
 
     def check_passcode(self):
         # First read from the conf file
@@ -773,11 +768,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.alarmMutePushButton.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
             self.create_countdown_worker(10)
-
-    # @QtCore.pyqtSlot()
-    # def replace_naloxone_button_pressed(self):
-    #     self.goto_settings()
-    #     self.unlock_naloxone_settings()
 
     def back_pushbutton_pushed(self):
         self.ui.settingsPushButton.setChecked(False)
@@ -859,7 +849,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             phone_number, body, t_sid, t_token, t_number)
         self.sms_worker.sms_thread_status.connect(self.send_notification)
         self.sms_worker.start()
-        self.send_notification(4, "SMS Sent")
+        self.send_notification(4, "SMS Requested")
 
     def call_test_pushbutton_clicked(self):
         # Use the info on the setting page to make phone call test
@@ -885,18 +875,17 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.disarmPushButton.setText("Arm")
             self.disarmed = True
             self.create_io_worker()
-            self.send_notification(1, "Door Sensor Off")
+            self.send_notification(1, "Door Sensor OFF")
 
         else:
             self.ui.disarmPushButton.setText("Disarm")
             self.disarmed = False
             self.create_io_worker()
-            self.send_notification(4, "Door Sensor On")
+            self.send_notification(4, "Door Sensor ON")
 
     def reset_to_default(self):
         # Used to check whether the door is still opened
         if (self.door_opened and not self.disarmed):
-            print("door is still opened")
             self.send_notification(1, "Close Door First")
         else:
             self.goto_home()
@@ -998,7 +987,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     @QtCore.pyqtSlot()
     def get_passcode_button_pressed(self):
         self.paramedic_sms_worker = SMSWorker(self.ui.paramedic_phone_number_lineedit.text(
-        ), "The passcode is" + self.naloxone_passcode, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+        ), "The passcode is " + self.naloxone_passcode + ".", self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.paramedic_sms_worker.start()
         self.send_notification(4, "Passcode Sent")
         self.send_sms_using_config_file("Passcode retrieved.")
@@ -1087,8 +1076,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.doorOpenLabel.setText("Open")
             self.door_opened = True
         if (armed):
+            self.ui.door_sensor_icon.setVisible(False)
             self.ui.doorArmedLineEdit.setText("Armed")
         else:
+            self.ui.door_sensor_icon.setVisible(True)
             self.ui.doorArmedLineEdit.setText("Disarmed")
         if (not door and armed):
             self.ui.doorStatusBox.setStyleSheet(
@@ -1103,10 +1094,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.naloxoneExpirationDateLineEdit.setText(
             naloxone_expiration_date.toString("MMM dd, yy"))
         if (naloxone_good):
+            self.ui.naloxone_destroyed_icon.setVisible(False)
             self.ui.naloxoneStatusLineEdit.setText("OK")
             self.ui.naloxoneStatusBox.setStyleSheet(
                 "color:#008A00")
         else:
+            self.ui.naloxone_destroyed_icon.setVisible(True)
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
             self.ui.naloxoneStatusBox.setStyleSheet(
                 "color:#AC193D")
@@ -1117,15 +1110,21 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.serverCheckLineEdit.setText(
             server_check_time.toString("h:mm AP"))
         if (server):
+            self.ui.no_connection_icon.setVisible(False)
             self.ui.serverStatusLineEdit.setText("OK")
             self.ui.serverStatusBox.setStyleSheet(
                 "color:#008A00")
         else:
+            self.ui.no_connection_icon.setVisible(True)
             self.ui.serverStatusLineEdit.setText("Down")
             self.ui.serverStatusBox.setStyleSheet(
                 "color:#AC193D")
         self.ui.accountBalanceLineEdit.setText(
             str(round(balance, 2)) + " " + currency)
+        if(balance < 5):
+            self.ui.low_charge_icon.setVisible(True)
+        else:
+            self.ui.low_charge_icon.setVisible(False)
 
     @QtCore.pyqtSlot(int, int, int, bool)
     def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
@@ -1134,13 +1133,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             str(temperature) + "℉")
         self.ui.cpuTemperatureLineEdit.setText(str(cpu_temperature) + "℉")
         if(pwm == 0):
+            self.ui.fan_icon.setVisible(False)
             self.ui.fanSpeedLineEdit.setText("OFF")
-        else:
-            self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
-        if (not over_temperature):
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#008A00")
         else:
+            self.ui.fan_icon.setVisible(True)
+            self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
             self.ui.thermalStatusBox.setStyleSheet(
                 "color:#AC193D")
 
@@ -1204,7 +1203,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
         self.send_notification(4, "Settings Saved")
-        print("INFO: save config file")
         self.load_settings()
 
     def exit_program(self):
