@@ -84,7 +84,7 @@ if __name__ == "__main__":
     else:
         print("[I] qmake Successfully")
 
-    print("[I] Running make...")
+    print("[I] Running make, it will take ~30 minutes...")
     try:
         subprocess.check_call(["make"], stdout=subprocess.DEVNULL)
     except Exception as e:
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
     print("[I] Moving Files...")
     try:
-        subprocess.check_call(["cp", "{}/lib/libQt5VirtualKeyboard.so.5.15.8".format(new_path),
+        subprocess.check_call(["cp", "-L", "{}/lib/libQt5VirtualKeyboard.so.5".format(new_path),
                               "{}/lib/libQt5VirtualKeyboard.so.5".format(QT_PREFIX_PATH)], stdout=subprocess.DEVNULL)
         subprocess.check_call(
             ["mkdir", "{}/plugins".format(QT_PREFIX_PATH)], stdout=subprocess.DEVNULL)
