@@ -1081,7 +1081,7 @@ QR_CODE</string>
                <property name="font">
                 <font>
                  <pointsize>25</pointsize>
-                 <bold>false</bold>
+                 <bold>true</bold>
                  <underline>false</underline>
                 </font>
                </property>
@@ -1129,6 +1129,7 @@ QR_CODE</string>
                <property name="font">
                 <font>
                  <pointsize>25</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -1434,7 +1435,7 @@ QR_CODE</string>
                <property name="font">
                 <font>
                  <pointsize>25</pointsize>
-                 <bold>false</bold>
+                 <bold>true</bold>
                  <underline>false</underline>
                 </font>
                </property>
@@ -1484,7 +1485,7 @@ QR_CODE</string>
                 <font>
                  <pointsize>25</pointsize>
                  <italic>false</italic>
-                 <bold>false</bold>
+                 <bold>true</bold>
                  <underline>false</underline>
                  <strikeout>false</strikeout>
                  <kerning>true</kerning>
@@ -1680,7 +1681,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>714</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -1947,8 +1948,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>657</width>
-                 <height>308</height>
+                 <width>724</width>
+                 <height>319</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2320,7 +2321,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>716</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2709,8 +2710,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>623</width>
-                 <height>266</height>
+                 <width>724</width>
+                 <height>319</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -3646,7 +3647,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>642</width>
+                 <width>716</width>
                  <height>706</height>
                 </rect>
                </property>
@@ -5303,7 +5304,7 @@ Admin</string>
                <property name="font">
                 <font>
                  <pointsize>25</pointsize>
-                 <bold>false</bold>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -5330,27 +5331,26 @@ Admin</string>
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>70</height>
+               <height>80</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>16777215</width>
-               <height>70</height>
+               <height>80</height>
               </size>
              </property>
              <property name="font">
               <font>
-               <pointsize>16</pointsize>
+               <pointsize>28</pointsize>
                <bold>true</bold>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+              <string notr="true">color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;</string>
              </property>
              <property name="text">
-              <string>Stop
-Countdown</string>
+              <string>Stop</string>
              </property>
              <property name="icon">
               <iconset>
@@ -5425,7 +5425,7 @@ Countdown</string>
                <property name="font">
                 <font>
                  <pointsize>25</pointsize>
-                 <bold>false</bold>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
