@@ -813,9 +813,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def send_sms_using_config_file(self, msg):
         # Used to contact the admin via the info in the conf file
-        self.sender = SMSWorker(self.admin_phone_number, "The naloxone safety box at " +
+        self.sms_sender = SMSWorker(self.admin_phone_number, "The naloxone safety box at " +
                                 self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.sender.start()
+        self.sms_sender.start()
         self.send_notification(4, "SMS Sent")
 
     def call_911_using_config_file(self):
@@ -828,10 +828,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                      self.address + ".", voice=voice, loop=loop)
         print("INFO: resonse: " + str(response))
 
-        self.sender = CallWorker(
+        self.call_sender = CallWorker(
             self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.sender.call_thread_status.connect(self.update_phone_call_gui)
-        self.sender.start()
+        self.call_sender.call_thread_status.connect(self.update_phone_call_gui)
+        self.call_sender.start()
         self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
