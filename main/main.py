@@ -49,21 +49,6 @@ class GenericWorker(QtCore.QThread):
         if text:
             self.msg_info_signal.emit(icon, text, detailed_text)
 
-
-class TimeWorker(QtCore.QThread):
-    time_update_signal = QtCore.pyqtSignal()
-    check_network_signal = QtCore.pyqtSignal()
-
-    def __init__(self):
-        super(TimeWorker, self).__init__()
-
-    def run(self):
-        counter = 0
-        while True:
-            self.time_update_signal.emit()
-            sleep(1)
-
-
 class CountDownWorker(QtCore.QThread):
     # Used to record the countdown time before calling the emergency
     # signal to indicate end of countdown time.
@@ -393,8 +378,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.io_worker = None
         self.alarm_worker = None
         self.countdown_worker = None
-        self.time_worker = None
-        self.create_time_worker()
+
+        self.network_timer = QtCore.QTimer()
+        self.network_timer.timeout.connect(self.create_network_worker)
+
+        self.status_bar_timer = QtCore.QTimer()
+        self.status_bar_timer.timeout.connect(self.update_time_status)
+        self.update_time_status()
+        self.status_bar_timer.start(2000)
 
         self.goto_home()
         self.lock_settings()
@@ -410,8 +401,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.destroy_call_worker()
         self.call_worker = CallWorker(number, body, t_sid, t_token, t_number)
         self.call_worker.call_thread_status.connect(self.send_notification)
-        if(need_feedback):
-            self.call_worker.call_thread_status.connect(self.update_phone_call_gui)
         self.call_worker.start()
         self.ui.wait_icon.setVisible(False)
 
@@ -456,16 +445,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()
-
-    def destroy_time_worker(self):
-        if(self.time_worker is not None):
-            self.time_worker.quit()
-            self.time_worker.wait()
-
-    def create_time_worker(self):
-        self.time_worker = TimeWorker()
-        self.time_worker.time_update_signal.connect(self.update_time_status)
-        self.time_worker.start()
 
     def destroy_alarm_worker(self):
         if (self.alarm_worker is not None):
@@ -700,7 +679,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         except Exception as e:
             self.send_notification(0, "Failed to load config file")
-            self.ui.lock_icon.setVisible(False)
+            self.ui.unlock_icon.setVisible(True)
             self.ui.unlockSettingsPushButton.setVisible(False)
             self.ui.lockSettingsPushButton.setVisible(True)
             self.ui.saveToFilePushButton.setVisible(True)
@@ -722,7 +701,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def lock_settings(self):
         # lock the whole setting page.
-        self.ui.lock_icon.setVisible(True)
+        self.ui.unlock_icon.setVisible(False)
         self.ui.unlockSettingsPushButton.setVisible(True)
         self.ui.lockSettingsPushButton.setVisible(False)
         self.ui.saveToFilePushButton.setVisible(False)
@@ -736,7 +715,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(6, False)
 
     def unlock_naloxone_settings(self):
-        self.ui.lock_icon.setVisible(False)
+        self.ui.unlock_icon.setVisible(True)
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
@@ -752,7 +731,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def unlock_all_settings(self):
         # unlock the whole setting page. Should only be called after the user enter the correct passcode.
-        self.ui.lock_icon.setVisible(False)
+        self.ui.unlock_icon.setVisible(True)
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
@@ -1216,13 +1195,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         print("settings reloaded")
 
     def exit_program(self):
+        self.network_timer.stop()
+        self.status_bar_timer.stop()
         self.destroy_call_worker()
         self.destroy_sms_worker()
         self.destroy_network_worker()
         self.destroy_io_worker()
         self.destroy_alarm_worker()
         self.destroy_countdown_worker()
-        self.destroy_time_worker()
         self.close()
 
 

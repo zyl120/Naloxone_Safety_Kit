@@ -583,7 +583,7 @@ border-color: rgb(50,50,50);}</string>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="lock_icon">
+        <widget class="QLabel" name="unlock_icon">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -606,7 +606,7 @@ border-color: rgb(50,50,50);}</string>
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../main/res/lock.png</pixmap>
+          <pixmap>../main/res/unlock.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
