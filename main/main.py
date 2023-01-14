@@ -842,7 +842,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.sender.call_thread_status.connect(self.update_phone_call_gui)
         self.sender.start()
-        self.send_notification(0, "911 Called")
+        self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
         # Use the info on the setting page to make sms test.
@@ -1050,9 +1050,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.stop_countdown_button_pushed()
             self.reset_to_default()
 
-    @QtCore.pyqtSlot(str, str, str)
-    def update_phone_call_gui(self, icon, text, detailed_text):
-        if (text == "Call Request Sent Successfully."):
+    @QtCore.pyqtSlot(int, str)
+    def update_phone_call_gui(self, priority, message):
+        if (priority == 4):
             self.send_notification(0, "911 Placed")
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
