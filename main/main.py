@@ -654,6 +654,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         except Exception as e:
             self.send_notification(0, "Failed to load config file")
+            self.ui.lock_icon.setVisible(False)
             self.ui.unlockSettingsPushButton.setVisible(False)
             self.ui.lockSettingsPushButton.setVisible(True)
             self.ui.saveToFilePushButton.setVisible(True)
@@ -675,6 +676,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def lock_settings(self):
         # lock the whole setting page.
+        self.ui.lock_icon.setVisible(True)
         self.ui.unlockSettingsPushButton.setVisible(True)
         self.ui.lockSettingsPushButton.setVisible(False)
         self.ui.saveToFilePushButton.setVisible(False)
@@ -688,6 +690,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingsTab.setTabVisible(6, False)
 
     def unlock_naloxone_settings(self):
+        self.ui.lock_icon.setVisible(False)
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)
@@ -703,6 +706,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def unlock_all_settings(self):
         # unlock the whole setting page. Should only be called after the user enter the correct passcode.
+        self.ui.lock_icon.setVisible(False)
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
         self.ui.saveToFilePushButton.setVisible(True)

@@ -419,6 +419,9 @@ border-color: rgb(50,50,50);}</string>
          <property name="pixmap">
           <pixmap>../main/res/wallet.png</pixmap>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
        <item>
@@ -549,6 +552,37 @@ border-color: rgb(50,50,50);}</string>
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="lock_icon">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>32</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../main/res/lock.png</pixmap>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="time_label">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -608,7 +642,7 @@ border-color: rgb(50,50,50);}</string>
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -785,6 +819,9 @@ QR_CODE</string>
               <font>
                <pointsize>60</pointsize>
               </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:white</string>
              </property>
              <property name="text">
               <string>???</string>
@@ -1681,7 +1718,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>714</width>
+                 <width>649</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -1948,8 +1985,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>724</width>
-                 <height>319</height>
+                 <width>657</width>
+                 <height>308</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2321,7 +2358,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>716</width>
+                 <width>649</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2710,8 +2747,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>724</width>
-                 <height>319</height>
+                 <width>623</width>
+                 <height>266</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -3647,7 +3684,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>716</width>
+                 <width>642</width>
                  <height>706</height>
                 </rect>
                </property>
