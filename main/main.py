@@ -400,7 +400,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.wait_icon.setVisible(True)
         self.destroy_call_worker()
         self.call_worker = CallWorker(number, body, t_sid, t_token, t_number)
-        self.call_worker.call_thread_status.connect(self.send_notification)
+        if(need_feedback == False):
+            self.call_worker.call_thread_status.connect(self.send_notification)
+        else:
+            self.call_worker.call_thread_status.connect(self.update_phone_call_gui)
         self.call_worker.start()
         self.ui.wait_icon.setVisible(False)
 
