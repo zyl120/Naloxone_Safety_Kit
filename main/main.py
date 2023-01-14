@@ -52,11 +52,13 @@ class GenericWorker(QtCore.QThread):
 
 class TimeWorker(QtCore.QThread):
     time_update_signal = QtCore.pyqtSignal()
+    check_network_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super(TimeWorker, self).__init__()
 
     def run(self):
+        counter = 0
         while True:
             self.time_update_signal.emit()
             sleep(1)
@@ -76,10 +78,6 @@ class CountDownWorker(QtCore.QThread):
 
     def run(self):
         while (self.time_in_sec >= 0):
-            if (self.isInterruptionRequested()):
-                print("countdown timer terminated")
-                self.time_changed_signal.emit(self.countdown_time_in_sec)
-                break
             self.time_changed_signal.emit(self.time_in_sec)
             self.time_in_sec = self.time_in_sec - 1
             
@@ -155,8 +153,6 @@ class IOWorker(QtCore.QThread):
 
     def run(self):
         while True:
-            if (self.isInterruptionRequested()):
-                break
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
@@ -193,8 +189,6 @@ class AlarmWorker(QtCore.QThread):
         if(self.loop):
             # loop until stopped by interruption
             while (True):
-                if (self.isInterruptionRequested()):
-                    break
                 print("playing")
                 os.system("mpg123 -q res/alarm.mp3")
                 if (self.isInterruptionRequested()):
@@ -218,23 +212,16 @@ class NetworkWorker(QtCore.QThread):
         self.twilio_token = twilio_token
 
     def run(self):
-        while True:
-            if (self.isInterruptionRequested()):
-                break
-            client = Client(self.twilio_sid, self.twilio_token)
-
-            response = os.system("ping -c 1 " + self.hostname)
-            if (response == 1):
-                self.update_server.emit(
-                    False, 0, self.currentTime.currentTime())
-            else:
-                balance = client.api.v2010.balance.fetch().balance
-                currency = client.api.v2010.balance.fetch().currency
-                self.update_server.emit(True, float(
-                    balance), currency, self.currentTime.currentTime())
-            if (self.isInterruptionRequested()):
-                break
-            sleep(600)
+        client = Client(self.twilio_sid, self.twilio_token)
+        response = os.system("ping -c 1 " + self.hostname)
+        if (response == 1):
+            self.update_server.emit(
+                False, 0, self.currentTime.currentTime())
+        else:
+            balance = client.api.v2010.balance.fetch().balance
+            currency = client.api.v2010.balance.fetch().currency
+            self.update_server.emit(True, float(
+                balance), currency, self.currentTime.currentTime())
 
 
 class CallWorker(QtCore.QThread):
@@ -397,6 +384,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         self.generate_ui_qrcode()
 
+        self.network_timer = QtCore.QTimer()
+        self.network_timer.timeout.connect(self.create_network_worker)
+
         self.call_worker = None
         self.sms_worker = None
         self.network_worker = None
@@ -415,13 +405,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             # wait for the call worker to stop. Do not terminate
             self.call_worker.wait()
     
-    def create_call_worker(self, number, body, t_sid, t_token, t_number):
+    def create_call_worker(self, number, body, t_sid, t_token, t_number, need_feedback=False):
         self.ui.wait_icon.setVisible(True)
         self.destroy_call_worker()
         self.call_worker = CallWorker(number, body, t_sid, t_token, t_number)
         self.call_worker.call_thread_status.connect(self.send_notification)
+        if(need_feedback):
+            self.call_worker.call_thread_status.connect(self.update_phone_call_gui)
         self.call_worker.start()
-        self.ui.wait_icon.setVisible(True)
+        self.ui.wait_icon.setVisible(False)
 
     def destroy_sms_worker(self):
         if(self.sms_worker is not None):
@@ -433,7 +425,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.sms_worker = SMSWorker(number, body, t_sid, t_token, t_number)
         self.sms_worker.sms_thread_status.connect(self.send_notification)
         self.sms_worker.start()
-        self.ui.wait_icon.setVisible(True)
+        self.ui.wait_icon.setVisible(False)
 
     def destroy_network_worker(self):
         if (self.network_worker is not None):
@@ -698,8 +690,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
             self.ui.wait_icon.setVisible(True)
+            print("generate threads")
             self.create_io_worker()
-            self.create_network_worker()
+            print("io created")
+            self.create_network_worker() # initialize the network checker.
+            self.network_timer.start(600000)
+            print("timer set")
             self.ui.wait_icon.setVisible(False)
 
         except Exception as e:
@@ -879,7 +875,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                      self.address + ".", voice=voice, loop=loop)
         print("INFO: resonse: " + str(response))
 
-        self.create_call_worker(self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+        self.create_call_worker(self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number, True)
         self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
@@ -966,10 +962,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # the passcode
         self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
 
+    
+
     @QtCore.pyqtSlot()
     def update_time_status(self):
+        time = QtCore.QDateTime()
         self.ui.time_label.setText(
-            QtCore.QDateTime().currentDateTime().toString("h:mm AP"))
+            time.currentDateTime().toString("h:mm AP"))
         if (self.status_queue.empty()):
             self.ui.status_bar.setVisible(False)
         else:
@@ -1090,20 +1089,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.send_notification(0, "911 Call Failed")
             self.ui.emergencyCallStatusLabel.setText("Failed")
 
-    # @QtCore.pyqtSlot(str, str, str)
-    # def display_messagebox(self, icon, text, detailed_text):
-    #     # Used to show messagebox above the main window.
-    #     msg = QtWidgets.QMessageBox()
-    #     msg.setText(text)
-    #     msg.setDetailedText(detailed_text)
-    #     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-    #     if (icon == "Information"):
-    #         msg.setIcon(QtWidgets.QMessageBox.Information)
-    #     elif (icon == "Critical"):
-    #         msg.setIcon(QtWidgets.QMessageBox.Critical)
-    #     msg.setStyleSheet("QMessageBox{background-color: black}QLabel{color: white;font-size:16px}QPushButton{ color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; height:30;width:140; font-size:16px}")
-    #     msg.exec_()
-
     @QtCore.pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
         # Update the door ui of the main window.
@@ -1141,10 +1126,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             server_check_time.toString("h:mm AP"))
         if (server):
             self.ui.no_connection_icon.setVisible(False)
-            self.ui.serverStatusLineEdit.setText("OK")
+            self.ui.serverStatusLineEdit.setText("ONLINE")
         else:
             self.ui.no_connection_icon.setVisible(True)
-            self.ui.serverStatusLineEdit.setText("Down")
+            self.ui.serverStatusLineEdit.setText("OFFLINE")
         self.ui.accountBalanceLineEdit.setText(
             str(round(balance, 2)) + " " + currency)
         if(balance < 5):
@@ -1224,8 +1209,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             config.write(configfile)
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
+        print("setting file written")
         self.send_notification(4, "Settings Saved")
+        print("notification sent")
         self.load_settings()
+        print("settings reloaded")
 
     def exit_program(self):
         self.destroy_call_worker()
