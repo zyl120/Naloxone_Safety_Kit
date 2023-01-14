@@ -800,8 +800,182 @@ QR_CODE</string>
        </layout>
       </widget>
       <widget class="QWidget" name="dashboardPage">
-       <layout class="QGridLayout" name="gridLayout" rowstretch="1,1" columnstretch="1,1">
-        <item row="1" column="0">
+       <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,1,1">
+        <item row="0" column="1" rowspan="2">
+         <widget class="QFrame" name="thermalFrame">
+          <property name="styleSheet">
+           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <property name="lineWidth">
+           <number>3</number>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_38">
+           <item>
+            <widget class="QLabel" name="thermalLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>30</pointsize>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:white;border-width: 0px;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>../main/res/system.png</pixmap>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QLabel" name="fanSpeedLabel">
+               <property name="font">
+                <font>
+                 <pointsize>22</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:white;border-width: 0px;</string>
+               </property>
+               <property name="text">
+                <string>CPU Fan</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="fanSpeedLineEdit">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>25</pointsize>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 170, 0);</string>
+               </property>
+               <property name="text">
+                <string>N/A</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_31">
+             <item>
+              <widget class="QLabel" name="label_11">
+               <property name="font">
+                <font>
+                 <pointsize>22</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:white;border-width: 0px;</string>
+               </property>
+               <property name="text">
+                <string>CPU Temp.</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="cpuTemperatureLineEdit">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>25</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 170, 0);</string>
+               </property>
+               <property name="text">
+                <string>N/A</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="2" rowspan="2">
          <widget class="QFrame" name="serverFrame">
           <property name="styleSheet">
            <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
@@ -815,8 +989,8 @@ QR_CODE</string>
           <property name="lineWidth">
            <number>3</number>
           </property>
-          <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,1" columnstretch="1,1">
-           <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
             <widget class="QLabel" name="serverLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -840,43 +1014,55 @@ QR_CODE</string>
               <string notr="true">color:white;border-width: 0px;</string>
              </property>
              <property name="text">
-              <string>SERVER</string>
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>../main/res/www.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QLabel" name="serverStatusLineEdit">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>30</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(85, 255, 0);</string>
-               </property>
-               <property name="text">
-                <string>N/A</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <item>
+            <spacer name="verticalSpacer_12">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
-           <item row="1" column="0">
+           <item>
+            <widget class="QLabel" name="serverStatusLineEdit">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>30</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:rgb(85, 255, 0);</string>
+             </property>
+             <property name="text">
+              <string>N/A</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
               <widget class="QLabel" name="serverCheckLabel">
@@ -925,7 +1111,7 @@ QR_CODE</string>
              </item>
             </layout>
            </item>
-           <item row="1" column="1">
+           <item>
             <layout class="QVBoxLayout" name="verticalLayout_47">
              <item>
               <widget class="QLabel" name="accountBalanceLabel">
@@ -971,10 +1157,23 @@ QR_CODE</string>
              </item>
             </layout>
            </item>
+           <item>
+            <spacer name="verticalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </widget>
         </item>
-        <item row="0" column="0">
+        <item row="0" column="0" rowspan="2">
          <widget class="QFrame" name="doorFrame">
           <property name="styleSheet">
            <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
@@ -991,8 +1190,8 @@ QR_CODE</string>
           <property name="midLineWidth">
            <number>0</number>
           </property>
-          <layout class="QGridLayout" name="gridLayout_10" rowstretch="1,1" columnstretch="1,1">
-           <item row="0" column="0" colspan="2">
+          <layout class="QVBoxLayout" name="verticalLayout_35">
+           <item>
             <widget class="QLabel" name="doorLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1016,14 +1215,30 @@ QR_CODE</string>
               <string notr="true">color:white;border-width: 0px;</string>
              </property>
              <property name="text">
-              <string>DOOR</string>
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>../main/res/door_display.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignBottom|Qt::AlignHCenter</set>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item>
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <layout class="QVBoxLayout" name="verticalLayout_30">
              <item>
               <widget class="QLabel" name="label_18">
@@ -1070,7 +1285,7 @@ QR_CODE</string>
              </item>
             </layout>
            </item>
-           <item row="1" column="0">
+           <item>
             <layout class="QVBoxLayout" name="verticalLayout_29">
              <item>
               <widget class="QLabel" name="label_17">
@@ -1123,11 +1338,24 @@ QR_CODE</string>
              </item>
             </layout>
            </item>
+           <item>
+            <spacer name="verticalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QFrame" name="thermalFrame">
+        <item row="0" column="3" rowspan="2">
+         <widget class="QFrame" name="naloxoneFrame">
           <property name="styleSheet">
            <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
@@ -1140,9 +1368,9 @@ QR_CODE</string>
           <property name="lineWidth">
            <number>3</number>
           </property>
-          <layout class="QGridLayout" name="gridLayout_11" rowstretch="1,1" columnstretch="1,1">
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="thermalLabel">
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QLabel" name="naloxoneLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1165,128 +1393,55 @@ QR_CODE</string>
               <string notr="true">color:white;border-width: 0px;</string>
              </property>
              <property name="text">
-              <string>SYSTEM</string>
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>../main/res/pill_display.png</pixmap>
              </property>
              <property name="alignment">
-              <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QLabel" name="fanSpeedLabel">
-               <property name="font">
-                <font>
-                 <pointsize>22</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
-               </property>
-               <property name="text">
-                <string>Fan</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="fanSpeedLineEdit">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>25</pointsize>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);</string>
-               </property>
-               <property name="text">
-                <string>N/A</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <item>
+            <spacer name="verticalSpacer_13">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
-           <item row="1" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_31">
-             <item>
-              <widget class="QLabel" name="label_11">
-               <property name="font">
-                <font>
-                 <pointsize>22</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white;border-width: 0px;</string>
-               </property>
-               <property name="text">
-                <string>CPU Temp.</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="cpuTemperatureLineEdit">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>25</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 170, 0);</string>
-               </property>
-               <property name="text">
-                <string>N/A</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <item>
+            <widget class="QLabel" name="naloxoneStatusLineEdit">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>30</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:rgb(255, 0, 255);</string>
+             </property>
+             <property name="text">
+              <string>N/A</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QFrame" name="naloxoneFrame">
-          <property name="styleSheet">
-           <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <property name="lineWidth">
-           <number>3</number>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_3" rowstretch="1,1" columnstretch="1,1">
-           <item row="1" column="0">
+           <item>
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
               <widget class="QLabel" name="naloxoneExpirationDateLabel">
@@ -1335,67 +1490,7 @@ QR_CODE</string>
              </item>
             </layout>
            </item>
-           <item row="0" column="1">
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <item>
-              <widget class="QLabel" name="naloxoneStatusLineEdit">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>30</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(255, 0, 255);</string>
-               </property>
-               <property name="text">
-                <string>N/A</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="naloxoneLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>50</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>30</pointsize>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:white;border-width: 0px;</string>
-             </property>
-             <property name="text">
-              <string>NALOXONE</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
+           <item>
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <widget class="QLabel" name="temperatureLabel">
@@ -1446,6 +1541,19 @@ QR_CODE</string>
               </widget>
              </item>
             </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_10">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -5485,7 +5593,7 @@ Countdown</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/stop sign.png</normaloff>../main/res/stop sign.png</iconset>
+               <normaloff>../main/res/stop_sign.png</normaloff>../main/res/stop_sign.png</iconset>
              </property>
              <property name="iconSize">
               <size>
