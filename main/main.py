@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QFile, QTime, QDateTime, QTimer, QTextStream, QIODevice
-from PyQt5.QtGui import QPixmap, QGuiApplication
+from PyQt5.QtGui import QPixmap, QGuiApplication, QRegion
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.base.exceptions import TwilioRestException
@@ -26,15 +26,15 @@ DHT_PIN = 27
 
 def handleVisibleChanged():
     # control the position of the virtual keyboard
-    if not QtGui.QGuiApplication.inputMethod().isVisible():
+    if not QGuiApplication.inputMethod().isVisible():
         return
-    for w in QtGui.QGuiApplication.allWindows():
+    for w in QGuiApplication.allWindows():
         if w.metaObject().className() == "QtVirtualKeyboard::InputView":
             keyboard = w.findChild(QObject, "keyboard")
             if keyboard is not None:
                 r = w.geometry()
                 r.moveTop(int(keyboard.property("y")))
-                w.setMask(QtGui.QRegion(r))
+                w.setMask(QRegion(r))
                 return
 
 
