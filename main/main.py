@@ -1015,7 +1015,6 @@ class ApplicationWindow(QMainWindow):
     def get_passcode_button_pressed(self):
         self.create_sms_worker(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
             ["The passcode is", self.naloxone_passcode]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.send_notification(4, "Passcode Sent")
         self.send_sms_using_config_file("Passcode retrieved.")
 
     @pyqtSlot()
