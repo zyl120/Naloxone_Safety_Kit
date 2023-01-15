@@ -1769,7 +1769,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>714</width>
+                 <width>649</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -2036,8 +2036,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>724</width>
-                 <height>319</height>
+                 <width>657</width>
+                 <height>308</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2409,7 +2409,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>716</width>
+                 <width>649</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2798,8 +2798,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>724</width>
-                 <height>319</height>
+                 <width>623</width>
+                 <height>266</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -3160,7 +3160,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>714</width>
+                 <width>690</width>
                  <height>383</height>
                 </rect>
                </property>
@@ -3735,7 +3735,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>716</width>
+                 <width>642</width>
                  <height>706</height>
                 </rect>
                </property>
@@ -4689,8 +4689,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
        </layout>
       </widget>
       <widget class="QWidget" name="passcodePage">
-       <layout class="QGridLayout" name="gridLayout_16" columnstretch="0">
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_40">
+        <item>
          <widget class="QFrame" name="frame_3">
           <property name="autoFillBackground">
            <bool>false</bool>
@@ -4704,84 +4704,15 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <item row="1" column="2">
-            <widget class="QPushButton" name="passcodeEnterPushButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-               <bold>false</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-             </property>
-             <property name="text">
-              <string>Unlock</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="passcodeEnterLineEdit">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="echoMode">
-              <enum>QLineEdit::Password</enum>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" rowspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
             <widget class="QLabel" name="passcodeEnterLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="font">
               <font>
                <pointsize>30</pointsize>
@@ -4799,10 +4730,67 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QLineEdit" name="passcodeEnterLineEdit">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:5px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+             </property>
+             <property name="echoMode">
+              <enum>QLineEdit::Password</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="passcodeEnterPushButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+</string>
+             </property>
+             <property name="text">
+              <string>Unlock</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
-        <item row="1" column="0" rowspan="2">
+        <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QFrame" name="paramedic_frame">
@@ -4821,13 +4809,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <property name="minimumSize">
                 <size>
                  <width>200</width>
-                 <height>30</height>
+                 <height>50</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>200</width>
-                 <height>30</height>
+                 <height>50</height>
                 </size>
                </property>
                <property name="font">
@@ -4836,7 +4824,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
 </string>
                </property>
                <property name="text">
@@ -4844,33 +4832,18 @@ li.checked::marker { content: &quot;\2612&quot;; }
                </property>
               </widget>
              </item>
-             <item row="2" column="3">
-              <widget class="QLabel" name="label_14">
-               <property name="font">
-                <font>
-                 <pointsize>16</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:white</string>
-               </property>
-               <property name="text">
-                <string>Or alternatively,</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="3">
-              <widget class="QPushButton" name="notify_admin_button">
+             <item row="3" column="0">
+              <widget class="QLineEdit" name="paramedic_phone_number_lineedit">
                <property name="minimumSize">
                 <size>
-                 <width>200</width>
-                 <height>30</height>
+                 <width>0</width>
+                 <height>50</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>200</width>
-                 <height>30</height>
+                 <width>16777215</width>
+                 <height>50</height>
                 </size>
                </property>
                <property name="font">
@@ -4879,11 +4852,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-               </property>
-               <property name="text">
-                <string>Notify Admin</string>
+                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:5px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
               </widget>
              </item>
@@ -4902,30 +4871,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
-              <widget class="QLineEdit" name="paramedic_phone_number_lineedit">
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>16</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
-               </property>
-              </widget>
-             </item>
              <item row="2" column="2" rowspan="2">
               <widget class="Line" name="line_4">
                <property name="styleSheet">
@@ -4936,6 +4881,49 @@ li.checked::marker { content: &quot;\2612&quot;; }
                </property>
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QPushButton" name="notify_admin_button">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+</string>
+               </property>
+               <property name="text">
+                <string>Notify Admin</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QLabel" name="label_14">
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:white</string>
+               </property>
+               <property name="text">
+                <string>Or alternatively,</string>
                </property>
               </widget>
              </item>
@@ -5010,13 +4998,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <property name="minimumSize">
                 <size>
                  <width>200</width>
-                 <height>30</height>
+                 <height>50</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>200</width>
-                 <height>30</height>
+                 <height>50</height>
                 </size>
                </property>
                <property name="font">
@@ -5025,7 +5013,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
 </string>
                </property>
                <property name="text">
@@ -5543,6 +5531,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
         </item>
         <item row="1" column="0" colspan="2">
          <widget class="QFrame" name="alarmFrame">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="styleSheet">
            <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
           </property>
@@ -5790,7 +5784,6 @@ Admin</string>
   <tabstop>disarmPushButton</tabstop>
   <tabstop>exitPushButton</tabstop>
   <tabstop>manual_textedit</tabstop>
-  <tabstop>passcodeEnterPushButton</tabstop>
   <tabstop>forgotPasswordPushButton</tabstop>
   <tabstop>alarmMutePushButton</tabstop>
   <tabstop>notify_admin_button_2</tabstop>
@@ -5803,22 +5796,5 @@ Admin</string>
   <tabstop>backPushButton</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>passcodeEnterLineEdit</sender>
-   <signal>returnPressed()</signal>
-   <receiver>passcodeEnterPushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>474</x>
-     <y>186</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>622</x>
-     <y>188</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
