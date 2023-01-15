@@ -5345,6 +5345,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </item>
             </layout>
            </item>
+           <item row="4" column="0" colspan="2">
+            <spacer name="verticalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item row="5" column="0" colspan="2">
             <widget class="QPushButton" name="call911NowPushButton">
              <property name="sizePolicy">
@@ -5544,8 +5557,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </item>
             </layout>
            </item>
-           <item row="4" column="0" colspan="2">
-            <spacer name="verticalSpacer_7">
+           <item row="0" column="0" colspan="2">
+            <spacer name="verticalSpacer_8">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
