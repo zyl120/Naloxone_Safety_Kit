@@ -339,6 +339,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
         self.ui.notify_admin_button.clicked.connect(self.notify_admin)
         self.ui.notify_admin_button_2.clicked.connect(self.notify_admin)
+        self.ui.notify_admin_button_3.clicked.connect(self.notify_admin)
         self.ui.get_passcode_button.clicked.connect(
             self.get_passcode_button_pressed)
         self.ui.paramedic_phone_number_lineedit.textChanged.connect(
