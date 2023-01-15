@@ -10,7 +10,7 @@ from queue import Queue
 from configparser import ConfigParser
 from ui_main_window import Ui_door_close_main_window
 from time import sleep
-from qrcode import Qrcode
+from qrcode import QRCode
 from qrcode.constants import ERROR_CORRECT_M
 from random import choice
 from gtts import gTTS
