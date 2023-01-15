@@ -1618,8 +1618,8 @@ height:50px;
 border-radius:25px;
 border-width:1px;
 border-color:black;
-margin-left:5px;
-margin-right:5px;}
+margin-left:4px;
+margin-right:4px;}
 QTabBar::tab:selected {
 background: rgb(50,50,50);
 border-color:rgb(50,50,50);
