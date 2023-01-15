@@ -49,6 +49,7 @@ class GenericWorker(QtCore.QThread):
         if text:
             self.msg_info_signal.emit(icon, text, detailed_text)
 
+
 class CountDownWorker(QtCore.QThread):
     # Used to record the countdown time before calling the emergency
     # signal to indicate end of countdown time.
@@ -65,7 +66,7 @@ class CountDownWorker(QtCore.QThread):
         while (self.time_in_sec >= 0):
             self.time_changed_signal.emit(self.time_in_sec)
             self.time_in_sec = self.time_in_sec - 1
-            
+
             if (self.isInterruptionRequested()):
                 print("countdown timer terminated")
                 self.time_changed_signal.emit(self.countdown_time_in_sec)
@@ -153,7 +154,7 @@ class IOWorker(QtCore.QThread):
             self.update_door.emit(self.door_opened, not self.disarmed)
             self.update_naloxone.emit(
                 not self.is_overheat() and not self.is_expiry(), self.expiration_date)
-            
+
             if (self.isInterruptionRequested()):
                 break
             sleep(1)
@@ -394,12 +395,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.goto_home()
         self.lock_settings()
         self.load_settings()
-    
+
     def destroy_call_worker(self):
         if(self.call_worker is not None):
             # wait for the call worker to stop. Do not terminate
             self.call_worker.wait()
-    
+
     def create_call_worker(self, number, body, t_sid, t_token, t_number, need_feedback=False):
         self.ui.wait_icon.setVisible(True)
         self.destroy_call_worker()
@@ -407,14 +408,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if(need_feedback == False):
             self.call_worker.call_thread_status.connect(self.send_notification)
         else:
-            self.call_worker.call_thread_status.connect(self.update_phone_call_gui)
+            self.call_worker.call_thread_status.connect(
+                self.update_phone_call_gui)
         self.call_worker.start()
         self.ui.wait_icon.setVisible(False)
 
     def destroy_sms_worker(self):
         if(self.sms_worker is not None):
             self.sms_worker.wait()
-    
+
     def create_sms_worker(self, number, body, t_sid, t_token, t_number):
         self.ui.wait_icon.setVisible(True)
         self.destroy_sms_worker()
@@ -677,7 +679,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
             self.ui.wait_icon.setVisible(True)
             self.create_io_worker()
-            self.create_network_worker() # initialize the network checker.
+            self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
             self.ui.wait_icon.setVisible(False)
 
@@ -835,7 +837,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.backPushButton.setVisible(False)
         self.lock_settings()
         self.ui.stackedWidget.setCurrentIndex(1)
-        self.dashboard_timer.start(60000) # wait for 5 min before going back to home
+        # wait for 1 min before going back to home
+        self.dashboard_timer.start(60000)
 
     def goto_home(self):
         self.dashboard_timer.stop()
@@ -849,7 +852,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def send_sms_using_config_file(self, msg):
         # Used to contact the admin via the info in the conf file
         self.create_sms_worker(self.admin_phone_number, "The naloxone safety box at " +
-                                self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+                               self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_notification(4, "SMS Requested")
 
     def call_911_using_config_file(self):
@@ -862,7 +865,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                      self.address + ".", voice=voice, loop=loop)
         print("INFO: resonse: " + str(response))
 
-        self.create_call_worker(self.to_phone_number, response, self.twilio_sid, self.twilio_token, self.twilio_phone_number, True)
+        self.create_call_worker(self.to_phone_number, response, self.twilio_sid,
+                                self.twilio_token, self.twilio_phone_number, True)
         self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
@@ -891,8 +895,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                      " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
                      self.ui.emergencyAddressLineEdit.text() +
                      ". If the call sounds good, you can save the settings. Thank you.", voice="woman", loop=3)
-        
-        self.create_call_worker(phone_number, response, t_sid, t_token, t_number)
+
+        self.create_call_worker(phone_number, response,
+                                t_sid, t_token, t_number)
         self.send_notification(4, "Call Requested")
 
     def toggle_door_arm(self):
@@ -948,8 +953,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
         self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
-
-    
 
     @QtCore.pyqtSlot()
     def update_time_status(self):
