@@ -38,21 +38,6 @@ def handleVisibleChanged():
                 return
 
 
-class GenericWorker(QThread):
-    # Generic worker thread that used to run a function that may block the GUI
-    # Will emit a signal to show a message box if the slot is defined
-    msg_info_signal = pyqtSignal(str, str, str)
-
-    def __init__(self, fn):
-        super(GenericWorker, self).__init__()
-        self.fn = fn
-
-    def run(self):
-        icon, text, detailed_text = self.fn()
-        if text:
-            self.msg_info_signal.emit(icon, text, detailed_text)
-
-
 class CountDownWorker(QThread):
     # Used to record the countdown time before calling the emergency
     # signal to indicate end of countdown time.
@@ -67,9 +52,12 @@ class CountDownWorker(QThread):
 
     def run(self):
         while (self.time_in_sec >= 0):
+            if (self.isInterruptionRequested()):
+                print("countdown timer terminated")
+                self.time_changed_signal.emit(self.countdown_time_in_sec)
+                break
             self.time_changed_signal.emit(self.time_in_sec)
             self.time_in_sec = self.time_in_sec - 1
-
             if (self.isInterruptionRequested()):
                 print("countdown timer terminated")
                 self.time_changed_signal.emit(self.countdown_time_in_sec)
@@ -142,6 +130,8 @@ class IOWorker(QThread):
 
     def run(self):
         while True:
+            if (self.isInterruptionRequested()):
+                break
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
@@ -178,6 +168,8 @@ class AlarmWorker(QThread):
         if(self.loop):
             # loop until stopped by interruption
             while (True):
+                if (self.isInterruptionRequested()):
+                    break
                 print("playing")
                 os.system("mpg123 -q res/alarm.mp3")
                 if (self.isInterruptionRequested()):
