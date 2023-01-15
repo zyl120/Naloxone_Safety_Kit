@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QFile, QTime, QDateTime, QTimer, QTextStream, QIODevice
 from PyQt5.QtGui import QPixmap, QGuiApplication
 from twilio.rest import Client
@@ -6,12 +6,13 @@ from twilio.twiml.voice_response import VoiceResponse
 from twilio.base.exceptions import TwilioRestException
 import os
 import sys
-import queue
-import configparser
+from queue import Queue
+from configparser import ConfigParser
 from ui_main_window import Ui_door_close_main_window
 from time import sleep
-import qrcode
-import random
+from qrcode import Qrcode
+from qrcode.constants import ERROR_CORRECT_M
+from random import choice
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from gpiozero import CPUTemperature
@@ -115,7 +116,7 @@ class IOWorker(QThread):
         if(self.cpu_temp < self.fan_threshold_temp):
             self.fan_pwm = 0
         else:
-            self.fan_pwm = random.choice(list1)
+            self.fan_pwm = choice(list1)
 
     def send_pwm(self):
         return
@@ -277,7 +278,7 @@ class SMSWorker(QThread):
             self.sms_thread_status.emit(4, "SMS Delivered")
 
 
-class ApplicationWindow(QtWidgets.QMainWindow):
+class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
         self.door_opened = False
@@ -298,7 +299,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.active_hour_end = QTime(18, 0, 0)
         self.alarm_message = str()
         self.voice_volume = 20
-        self.status_queue = queue.Queue(10)
+        self.status_queue = Queue(10)
         self.message_to_display = str()
         self.message_level = 0
         self.ui = Ui_door_close_main_window()
@@ -351,22 +352,22 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.twilioSIDLineEdit.textChanged.connect(
             self.twilio_sid_validator)
 
-        QtWidgets.QScroller.grabGesture(
-            self.ui.manual_textedit.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(
-            self.ui.passcodeManual.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
-        ), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(
-            self.ui.twilio_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(
-            self.ui.call_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(
-            self.ui.alarm_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(
-            self.ui.power_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
-        QtWidgets.QScroller.grabGesture(
-            self.ui.admin_scroll_area.viewport(), QtWidgets.QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(
+            self.ui.manual_textedit.viewport(), QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(
+            self.ui.passcodeManual.viewport(), QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
+        ), QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(
+            self.ui.twilio_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(
+            self.ui.call_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(
+            self.ui.alarm_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(
+            self.ui.power_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
+        QScroller.grabGesture(
+            self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
 
         self.load_manual()
 
@@ -499,9 +500,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.passcodeManual.setMarkdown(stream.readAll())
 
     def generate_ui_qrcode(self):
-        github_qr_code = qrcode.QRCode(
+        github_qr_code = QRCode(
             version=None,
-            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            error_correction=ERROR_CORRECT_M,
             box_size=10,
             border=0
         )
@@ -515,9 +516,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             "res/github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
 
-        twilio_75_qr_code = qrcode.QRCode(
+        twilio_75_qr_code = QRCode(
             version=None,
-            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            error_correction=ERROR_CORRECT_M,
             box_size=10,
             border=0
         )
@@ -536,7 +537,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         try:
             # Load the settings from the conf file, will not handle exceptions.
             # Should be used when it is absolutely safe to do so.
-            config = configparser.ConfigParser()
+            config = ConfigParser()
             config.read("safety_kit.conf")
             self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
             self.ui.twilioTokenLineEdit.setText(
@@ -590,7 +591,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def load_settings(self):
         # load the settings from the conf file.
         try:
-            config = configparser.ConfigParser()
+            config = ConfigParser()
             config.read("safety_kit.conf")
             self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
             self.twilio_sid = config["twilio"]["twilio_sid"]
@@ -664,9 +665,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 int(config["alarm"]["voice_volume"]))
             self.voice_volume = int(config["alarm"]["voice_volume"])
 
-            admin_qr_code = qrcode.QRCode(
+            admin_qr_code = QRCode(
                 version=None,
-                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                error_correction=ERROR_CORRECT_M,
                 box_size=10,
                 border=0
             )
@@ -1158,7 +1159,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # save the config file
         self.active_hour_start = self.ui.startTimeEdit.time()
         self.active_hour_end = self.ui.endTimeEdit.time()
-        config = configparser.ConfigParser()
+        config = ConfigParser()
         config["twilio"] = {
             "twilio_sid": self.ui.twilioSIDLineEdit.text(),
             "twilio_token": self.ui.twilioTokenLineEdit.text(),
@@ -1216,7 +1217,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
 def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
-    app = QtWidgets.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     app.setStyle("Fusion")
     QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow()
