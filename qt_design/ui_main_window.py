@@ -739,26 +739,23 @@ class Ui_door_close_main_window(object):
         self.settingsTab.setStyleSheet("QTabWidget::tab-bar {\n"
 "alignment: center;\n"
 "}\n"
-"QTabWidget::pane{border-radius: 0px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QTabWidget::pane{border-radius: 0px;border-color:rgb(50,50,50);border-width: 0px;border-style: solid;}\n"
 "QTabBar::tab{\n"
 "padding-left: 9px;\n"
 "padding-right: -9px;\n"
 "width:50px;\n"
-"height:50px}\n"
+"height:50px;\n"
+"border-radius:25px}\n"
 "QTabBar::tab:selected {\n"
-"background: rgb(90,90,90);\n"
+"background: rgb(50,50,50);\n"
 "color:white;\n"
 "}\n"
 "QTabBar::tab:!selected {\n"
-"background: rgb(50,50,50);\n"
+"background: black;\n"
 "color: white;\n"
 "}\n"
-"QTabBar::tab:disabled {\n"
-"background: rgb(20,20,20);\n"
-"color:darkgrey\n"
-"}\n"
 "")
-        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.South)
+        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.North)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(32, 32))
         self.settingsTab.setDocumentMode(False)
@@ -832,7 +829,7 @@ class Ui_door_close_main_window(object):
         self.naloxone_scroll_area.setWidgetResizable(True)
         self.naloxone_scroll_area.setObjectName("naloxone_scroll_area")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 714, 395))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 716, 395))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -959,7 +956,7 @@ class Ui_door_close_main_window(object):
         self.twilio_scroll_area.setWidgetResizable(True)
         self.twilio_scroll_area.setObjectName("twilio_scroll_area")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 714, 308))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 716, 308))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
@@ -1116,7 +1113,7 @@ class Ui_door_close_main_window(object):
         self.call_scroll_area.setWidgetResizable(True)
         self.call_scroll_area.setObjectName("call_scroll_area")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 716, 434))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 718, 434))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -1280,7 +1277,7 @@ class Ui_door_close_main_window(object):
         self.alarm_scroll_area.setWidgetResizable(True)
         self.alarm_scroll_area.setObjectName("alarm_scroll_area")
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 724, 284))
+        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 726, 292))
         self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_5)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
@@ -1442,7 +1439,7 @@ class Ui_door_close_main_window(object):
         self.power_scroll_area.setWidgetResizable(True)
         self.power_scroll_area.setObjectName("power_scroll_area")
         self.scrollAreaWidgetContents_6 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 714, 383))
+        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 716, 383))
         self.scrollAreaWidgetContents_6.setObjectName("scrollAreaWidgetContents_6")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_6)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
@@ -1691,7 +1688,7 @@ class Ui_door_close_main_window(object):
         self.admin_scroll_area.setWidgetResizable(True)
         self.admin_scroll_area.setObjectName("admin_scroll_area")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 716, 706))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 718, 706))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
