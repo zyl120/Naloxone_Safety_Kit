@@ -354,8 +354,6 @@ class ApplicationWindow(QMainWindow):
 
         QScroller.grabGesture(
             self.ui.manual_textedit.viewport(), QScroller.LeftMouseButtonGesture)
-        QScroller.grabGesture(
-            self.ui.passcodeManual.viewport(), QScroller.LeftMouseButtonGesture)
         QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
         ), QScroller.LeftMouseButtonGesture)
         QScroller.grabGesture(
@@ -496,8 +494,6 @@ class ApplicationWindow(QMainWindow):
             self.send_notification(0, "Manual File Missing")
         stream = QTextStream(file)
         self.ui.manual_textedit.setMarkdown(stream.readAll())
-        stream.seek(0)
-        self.ui.passcodeManual.setMarkdown(stream.readAll())
 
     def generate_ui_qrcode(self):
         github_qr_code = QRCode(
