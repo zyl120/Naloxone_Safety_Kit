@@ -673,7 +673,7 @@ border-color: rgb(50,50,50);}</string>
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -1621,7 +1621,7 @@ color:darkgrey
 </string>
           </property>
           <property name="tabPosition">
-           <enum>QTabWidget::North</enum>
+           <enum>QTabWidget::South</enum>
           </property>
           <property name="tabShape">
            <enum>QTabWidget::Rounded</enum>
@@ -1739,14 +1739,14 @@ color:darkgrey
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
-        border-radius: 3px;
+        border-radius: 5px;
         border-color:rgb(50,50,50);
         width:10
     }
 QScrollBar::handle:vertical
     {
         background-color: rgb(65,65,65);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 QScrollBar::add-line:vertical {
       border: none;
@@ -1758,7 +1758,6 @@ QScrollBar::sub-line:vertical {
       background: none;
 }
 
-
 </string>
               </property>
               <property name="widgetResizable">
@@ -1769,7 +1768,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>714</width>
                  <height>395</height>
                 </rect>
                </property>
@@ -2008,14 +2007,14 @@ QSlider::handle:horizontal {
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
-        border-radius: 3px;
+        border-radius: 5px;
         border-color:rgb(50,50,50);
         width:10
     }
 QScrollBar::handle:vertical
     {
         background-color: rgb(65,65,65);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 QScrollBar::add-line:vertical {
       border: none;
@@ -2036,8 +2035,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>657</width>
-                 <height>308</height>
+                 <width>724</width>
+                 <height>313</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2376,14 +2375,14 @@ QScrollBar::sub-line:vertical {
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
-        border-radius: 3px;
+        border-radius: 5px;
         border-color:rgb(50,50,50);
         width:10
     }
 QScrollBar::handle:vertical
     {
         background-color: rgb(65,65,65);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 QScrollBar::add-line:vertical {
       border: none;
@@ -2409,7 +2408,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
+                 <width>716</width>
                  <height>434</height>
                 </rect>
                </property>
@@ -2772,19 +2771,20 @@ Otherwise each emergency call will cost $75. Details =&gt;</string>
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
-        border-radius: 3px;
+        border-radius: 5px;
         border-color:rgb(50,50,50);
         width:10
     }
 QScrollBar::handle:vertical
     {
         background-color: rgb(65,65,65);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 QScrollBar::add-line:vertical {
       border: none;
       background: none;
 }
+
 QScrollBar::sub-line:vertical {
       border: none;
       background: none;
@@ -2798,8 +2798,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>623</width>
-                 <height>266</height>
+                 <width>724</width>
+                 <height>313</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -3132,14 +3132,14 @@ QSlider::handle:horizontal {
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
-        border-radius: 3px;
+        border-radius: 5px;
         border-color:rgb(50,50,50);
         width:10
     }
 QScrollBar::handle:vertical
     {
         background-color: rgb(65,65,65);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 QScrollBar::add-line:vertical {
       border: none;
@@ -3160,7 +3160,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>690</width>
+                 <width>714</width>
                  <height>383</height>
                 </rect>
                </property>
@@ -3702,14 +3702,14 @@ QSlider::handle:horizontal {
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
-        border-radius: 3px;
+        border-radius: 5px;
         border-color:rgb(50,50,50);
         width:10
     }
 QScrollBar::handle:vertical
     {
         background-color: rgb(65,65,65);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 QScrollBar::add-line:vertical {
       border: none;
@@ -3735,7 +3735,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>642</width>
+                 <width>716</width>
                  <height>706</height>
                 </rect>
                </property>
@@ -3851,7 +3851,10 @@ QScrollBar::sub-line:vertical {
                         <string notr="true">color:white</string>
                        </property>
                        <property name="text">
-                        <string>Naloxone Passcode</string>
+                        <string>&amp;Naloxone Passcode</string>
+                       </property>
+                       <property name="buddy">
+                        <cstring>naloxonePasscodeLineEdit</cstring>
                        </property>
                       </widget>
                      </item>
@@ -4642,14 +4645,14 @@ color:white;
               <property name="styleSheet">
                <string notr="true">QScrollBar {
         background: rgb(50,50,50);
-        border-radius: 3px;
+        border-radius: 5px;
         border-color:rgb(50,50,50);
         width:10
     }
 QScrollBar::handle:vertical
     {
         background-color: rgb(65,65,65);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 QScrollBar::add-line:vertical {
       border: none;

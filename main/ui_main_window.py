@@ -753,7 +753,7 @@ class Ui_door_close_main_window(object):
 "color:darkgrey\n"
 "}\n"
 "")
-        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.North)
+        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.South)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(16, 16))
         self.settingsTab.setDocumentMode(False)
@@ -802,14 +802,14 @@ class Ui_door_close_main_window(object):
         self.naloxone_scroll_area = QtWidgets.QScrollArea(self.naloxone_info)
         self.naloxone_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "        border-color:rgb(50,50,50);\n"
 "        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
 "        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "    }\n"
 "QScrollBar::add-line:vertical {\n"
 "      border: none;\n"
@@ -821,12 +821,11 @@ class Ui_door_close_main_window(object):
 "      background: none;\n"
 "}\n"
 "\n"
-"\n"
 "")
         self.naloxone_scroll_area.setWidgetResizable(True)
         self.naloxone_scroll_area.setObjectName("naloxone_scroll_area")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 649, 395))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 714, 395))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -929,14 +928,14 @@ class Ui_door_close_main_window(object):
         self.twilio_scroll_area = QtWidgets.QScrollArea(self.twilio)
         self.twilio_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "        border-color:rgb(50,50,50);\n"
 "        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
 "        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "    }\n"
 "QScrollBar::add-line:vertical {\n"
 "      border: none;\n"
@@ -951,7 +950,7 @@ class Ui_door_close_main_window(object):
         self.twilio_scroll_area.setWidgetResizable(True)
         self.twilio_scroll_area.setObjectName("twilio_scroll_area")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 657, 308))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 724, 313))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
@@ -1083,14 +1082,14 @@ class Ui_door_close_main_window(object):
         self.call_scroll_area.setSizePolicy(sizePolicy)
         self.call_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "        border-color:rgb(50,50,50);\n"
 "        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
 "        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "    }\n"
 "QScrollBar::add-line:vertical {\n"
 "      border: none;\n"
@@ -1106,7 +1105,7 @@ class Ui_door_close_main_window(object):
         self.call_scroll_area.setWidgetResizable(True)
         self.call_scroll_area.setObjectName("call_scroll_area")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 649, 434))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 716, 434))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -1247,19 +1246,20 @@ class Ui_door_close_main_window(object):
         self.alarm_scroll_area = QtWidgets.QScrollArea(self.alarm)
         self.alarm_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "        border-color:rgb(50,50,50);\n"
 "        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
 "        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "    }\n"
 "QScrollBar::add-line:vertical {\n"
 "      border: none;\n"
 "      background: none;\n"
 "}\n"
+"\n"
 "QScrollBar::sub-line:vertical {\n"
 "      border: none;\n"
 "      background: none;\n"
@@ -1267,7 +1267,7 @@ class Ui_door_close_main_window(object):
         self.alarm_scroll_area.setWidgetResizable(True)
         self.alarm_scroll_area.setObjectName("alarm_scroll_area")
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 623, 266))
+        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 724, 313))
         self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_5)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
@@ -1405,14 +1405,14 @@ class Ui_door_close_main_window(object):
         self.power_scroll_area = QtWidgets.QScrollArea(self.power_management)
         self.power_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "        border-color:rgb(50,50,50);\n"
 "        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
 "        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "    }\n"
 "QScrollBar::add-line:vertical {\n"
 "      border: none;\n"
@@ -1427,7 +1427,7 @@ class Ui_door_close_main_window(object):
         self.power_scroll_area.setWidgetResizable(True)
         self.power_scroll_area.setObjectName("power_scroll_area")
         self.scrollAreaWidgetContents_6 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 690, 383))
+        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 714, 383))
         self.scrollAreaWidgetContents_6.setObjectName("scrollAreaWidgetContents_6")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_6)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
@@ -1651,14 +1651,14 @@ class Ui_door_close_main_window(object):
         self.admin_scroll_area = QtWidgets.QScrollArea(self.admin)
         self.admin_scroll_area.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "        border-color:rgb(50,50,50);\n"
 "        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
 "        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "    }\n"
 "QScrollBar::add-line:vertical {\n"
 "      border: none;\n"
@@ -1674,7 +1674,7 @@ class Ui_door_close_main_window(object):
         self.admin_scroll_area.setWidgetResizable(True)
         self.admin_scroll_area.setObjectName("admin_scroll_area")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 642, 706))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 716, 706))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -2069,14 +2069,14 @@ class Ui_door_close_main_window(object):
         self.manual_textedit.setAutoFillBackground(False)
         self.manual_textedit.setStyleSheet("QScrollBar {\n"
 "        background: rgb(50,50,50);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "        border-color:rgb(50,50,50);\n"
 "        width:10\n"
 "    }\n"
 "QScrollBar::handle:vertical\n"
 "    {\n"
 "        background-color: rgb(65,65,65);\n"
-"        border-radius: 3px;\n"
+"        border-radius: 5px;\n"
 "    }\n"
 "QScrollBar::add-line:vertical {\n"
 "      border: none;\n"
@@ -2646,6 +2646,7 @@ class Ui_door_close_main_window(object):
         self.active_cooling_label.setBuddy(self.enableActiveCoolingCheckBox)
         self.fan_temperature_label.setBuddy(self.fan_temperature_slider)
         self.passcodeLabel.setBuddy(self.passcodeLineEdit)
+        self.label_20.setBuddy(self.naloxonePasscodeLineEdit)
         self.label_29.setBuddy(self.allowParamedicsCheckBox)
         self.adminPhoneNumberLabel.setBuddy(self.adminPhoneNumberLineEdit)
         self.label_23.setBuddy(self.callTestPushButton)
@@ -2656,7 +2657,7 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
         self.settingsTab.setCurrentIndex(7)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
@@ -2791,7 +2792,7 @@ class Ui_door_close_main_window(object):
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.power_management), _translate("door_close_main_window", "Power"))
         self.passcodeLabel.setText(_translate("door_close_main_window", "&Admin Passcode"))
         self.label_27.setText(_translate("door_close_main_window", "Warning: Leave admin passcode empty will nullify naloxone passcode."))
-        self.label_20.setText(_translate("door_close_main_window", "Naloxone Passcode"))
+        self.label_20.setText(_translate("door_close_main_window", "&Naloxone Passcode"))
         self.label_29.setText(_translate("door_close_main_window", "Allow Paramedics to Get Naloxone Passcode"))
         self.adminPhoneNumberLabel.setText(_translate("door_close_main_window", "Admin Phone &Number"))
         self.label_23.setText(_translate("door_close_main_window", "&Test Setup with Admin Phone Number"))
