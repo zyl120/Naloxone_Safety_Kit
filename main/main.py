@@ -675,12 +675,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
             self.ui.wait_icon.setVisible(True)
-            print("generate threads")
             self.create_io_worker()
-            print("io created")
             self.create_network_worker() # initialize the network checker.
             self.network_timer.start(600000)
-            print("timer set")
             self.ui.wait_icon.setVisible(False)
 
         except Exception as e:
@@ -1040,9 +1037,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.alarmMutePushButton.setVisible(False)
 
     @QtCore.pyqtSlot()
-    # Used to communicate with the shm to make phone calls.
     def call_emergency_now(self):
-        print("call 911 now pushed")
         if (self.ui.stopCountdownPushButton.isVisible()):
             self.ui.stopCountdownPushButton.setVisible(False)
             self.destroy_countdown_worker()
@@ -1195,11 +1190,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             config.write(configfile)
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
-        print("setting file written")
         self.send_notification(4, "Settings Saved")
-        print("notification sent")
         self.load_settings()
-        print("settings reloaded")
 
     def exit_program(self):
         self.network_timer.stop()
