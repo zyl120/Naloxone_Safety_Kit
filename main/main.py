@@ -1,5 +1,6 @@
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QFile, QTime, QDateTime, QTimer, QTextStream, QIODevice
+from PyQt5.QtGui import QPixmap, QGuiApplication
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.base.exceptions import TwilioRestException
@@ -510,7 +511,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         img = github_qr_code.make_image(
             fill_color="white", back_color="black")
         img.save("res/github_qrcode.png")
-        github_qrcode_pixmap = QtGui.QPixmap(
+        github_qrcode_pixmap = QPixmap(
             "res/github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
 
@@ -526,7 +527,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         img = twilio_75_qr_code.make_image(
             fill_color="white", back_color="black")
         img.save("res/twilio_75.png")
-        twilio_75_qrcode_pixmap = QtGui.QPixmap(
+        twilio_75_qrcode_pixmap = QPixmap(
             "res/twilio_75.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.twilioAddressWarningQrCode.setPixmap(
             (twilio_75_qrcode_pixmap))
@@ -674,7 +675,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             img = admin_qr_code.make_image(
                 fill_color="white", back_color="black")
             img.save("res/admin_qrcode.png")
-            admin_qrcode_pixmap = QtGui.QPixmap(
+            admin_qrcode_pixmap = QPixmap(
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
@@ -1217,7 +1218,7 @@ def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
-    QtGui.QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
+    QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
     application = ApplicationWindow()
     application.show()
     sys.exit(app.exec_())
