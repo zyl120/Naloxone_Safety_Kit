@@ -94,7 +94,7 @@ class IOWorker(QThread):
         super(IOWorker, self).__init__()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(DOOR_PIN, GPIO.IN)
-        print("gpio thread go " + str(disarmed) + " " + str(max_temp))
+        print(" ".join(["GPIO thread go", str(disarmed), str(max_temp)]))
         self.naloxone_counter = 9
         self.naloxone_temp = 25
         self.fan_threshold_temp = fan_threshold_temp
@@ -202,7 +202,7 @@ class NetworkWorker(QThread):
 
     def run(self):
         client = Client(self.twilio_sid, self.twilio_token)
-        response = os.system("ping -c 1 " + self.hostname)
+        response = os.system(" ".join(["ping -c 1", self.hostname]))
         if (response == 1):
             self.update_server.emit(
                 False, 0, self.currentTime.currentTime())
@@ -854,8 +854,8 @@ class ApplicationWindow(QMainWindow):
 
     def send_sms_using_config_file(self, msg):
         # Used to contact the admin via the info in the conf file
-        self.create_sms_worker(self.admin_phone_number, "The naloxone safety box at " +
-                               self.address + " sent the following information: " + msg, self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+        self.create_sms_worker(self.admin_phone_number, " ".join(
+            ["The naloxone safety box at", self.address, "sent the following information:", msg]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_notification(4, "SMS Requested")
 
     def call_911_using_config_file(self):
@@ -864,9 +864,9 @@ class ApplicationWindow(QMainWindow):
 
         # create the response
         response = VoiceResponse()
-        response.say("Message: " + self.message + ". Address: " +
-                     self.address + ".", voice=voice, loop=loop)
-        print("INFO: resonse: " + str(response))
+        response.say(" ".join(
+            ["Message:", self.message, "Address:", self.address]), voice=voice, loop=loop)
+        print(str(response))
 
         self.create_call_worker(self.to_phone_number, response, self.twilio_sid,
                                 self.twilio_token, self.twilio_phone_number, True)
@@ -878,11 +878,8 @@ class ApplicationWindow(QMainWindow):
         t_sid = self.ui.twilioSIDLineEdit.text()
         t_token = self.ui.twilioTokenLineEdit.text()
         t_number = self.ui.twilioPhoneNumberLineEdit.text()
-        body = ("Internet-based Naloxone Safety Kit. " +
-                "These are the words that will be heard by " + self.ui.emergencyPhoneNumberLineEdit.text() +
-                " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
-                self.ui.emergencyAddressLineEdit.text() +
-                ". If the words sound good, you can save the settings. Thank you.")
+        body = " ".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by", self.ui.emergencyPhoneNumberLineEdit.text(), "when the door is opened: Message:",
+                        self.ui.emergencyMessageLineEdit.text(), "Address:", self.ui.emergencyAddressLineEdit.text(), "If the message sounds good, you can save the settings. Thank you."])
         self.create_sms_worker(phone_number, body, t_sid, t_token, t_number)
         self.send_notification(4, "SMS Requested")
 
@@ -893,12 +890,8 @@ class ApplicationWindow(QMainWindow):
         t_token = self.ui.twilioTokenLineEdit.text()
         t_number = self.ui.twilioPhoneNumberLineEdit.text()
         response = VoiceResponse()
-        response.say("Internet-based Naloxone Safety Kit. " +
-                     "These are the words that will be heard by " + " ".join(self.ui.emergencyPhoneNumberLineEdit.text()) +
-                     " when the door is opened: Message: " + self.ui.emergencyMessageLineEdit.text() + ". Address: " +
-                     self.ui.emergencyAddressLineEdit.text() +
-                     ". If the call sounds good, you can save the settings. Thank you.", voice="woman", loop=3)
-
+        response.say(" ".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by", self.ui.emergencyPhoneNumberLineEdit.text(), "when the door is opened: Message:",
+                     self.ui.emergencyMessageLineEdit.text(), "Address:", self.ui.emergencyAddressLineEdit.text(), "If the call sounds good, you can save the settings. Thank you."]), voice="woman", loop=3)
         self.create_call_worker(phone_number, response,
                                 t_sid, t_token, t_number)
         self.send_notification(4, "Call Requested")
@@ -955,7 +948,8 @@ class ApplicationWindow(QMainWindow):
     def forgot_password_button_pushed(self):
         # when the forgot password button is pushed, use the conf file to send
         # the passcode
-        self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
+        self.send_sms_using_config_file(
+            " ".join(["Passcode is ", self.admin_passcode]))
 
     @pyqtSlot()
     def update_time_status(self):
@@ -1019,8 +1013,8 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def get_passcode_button_pressed(self):
-        self.create_sms_worker(self.ui.paramedic_phone_number_lineedit.text(
-        ), "The passcode is " + self.naloxone_passcode + ".", self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+        self.create_sms_worker(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
+            ["The passcode is", self.naloxone_passcode]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_notification(4, "Passcode Sent")
         self.send_sms_using_config_file("Passcode retrieved.")
 
@@ -1063,7 +1057,8 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
         # Used to update the GUI for the countdown time.
-        self.ui.emergencyCallCountdownLabel.setText("T-" + str(sec) + "s")
+        self.ui.emergencyCallCountdownLabel.setText(
+            "".join(["T-", str(sec), "s"]))
         if (not self.door_opened):
             # when the door is closed within the countdown time, auto reset it.
             self.stop_countdown_button_pushed()
@@ -1122,7 +1117,7 @@ class ApplicationWindow(QMainWindow):
             self.ui.no_connection_icon.setVisible(True)
             self.ui.serverStatusLineEdit.setText("OFFLINE")
         self.ui.accountBalanceLineEdit.setText(
-            str(round(balance, 2)) + " " + currency)
+            " ".join([str(round(balance, 2)), currency]))
         if(balance < 5):
             self.ui.low_charge_icon.setVisible(True)
         else:
@@ -1132,28 +1127,29 @@ class ApplicationWindow(QMainWindow):
     def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
         # update the temperature of the main window.
         self.ui.temperatureLineEdit.setText(
-            str(temperature) + "℉")
-        self.ui.cpuTemperatureLineEdit.setText(str(cpu_temperature) + "℉")
+            "".join([str(temperature), "℉"]))
+        self.ui.cpuTemperatureLineEdit.setText(
+            "".join([str(cpu_temperature), "℉"]))
         if(pwm == 0):
             self.ui.fan_icon.setVisible(False)
             self.ui.fanSpeedLineEdit.setText("OFF")
         else:
             self.ui.fan_icon.setVisible(True)
-            self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
+            self.ui.fanSpeedLineEdit.setText(" ".join([str(pwm), "RPM"]))
 
     @pyqtSlot(int)
     def update_voice_volume(self, value):
-        self.ui.voice_volume_label.setText(str(value) + "%")
+        self.ui.voice_volume_label.setText("".join([str(value), "%"]))
 
     @pyqtSlot(int)
     def update_current_max_temperature(self, value):
         # Used to update the current temperature selection when the user uses
         # the slider on the setting page.
-        self.ui.CurrentTemperatureLabel.setText(str(value)+"℉")
+        self.ui.CurrentTemperatureLabel.setText("".join([str(value), "℉"]))
 
     @pyqtSlot(int)
     def update_current_threshold_temperature(self, value):
-        self.ui.current_fan_temperature.setText(str(value)+"℉")
+        self.ui.current_fan_temperature.setText("".join([str(value), "℉"]))
 
     def save_config_file(self):
         # save the config file
