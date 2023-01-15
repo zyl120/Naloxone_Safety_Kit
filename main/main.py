@@ -1,4 +1,5 @@
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QFile, QTime, QDateTime, QTimer, QTextStream, QIODevice
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.base.exceptions import TwilioRestException
@@ -11,7 +12,7 @@ from time import sleep
 import qrcode
 import random
 from gtts import gTTS
-import phonenumbers
+from phonenumbers import parse, is_valid_number
 from gpiozero import CPUTemperature
 import RPi.GPIO as GPIO
 import Adafruit_DHT as dht
@@ -27,7 +28,7 @@ def handleVisibleChanged():
         return
     for w in QtGui.QGuiApplication.allWindows():
         if w.metaObject().className() == "QtVirtualKeyboard::InputView":
-            keyboard = w.findChild(QtCore.QObject, "keyboard")
+            keyboard = w.findChild(QObject, "keyboard")
             if keyboard is not None:
                 r = w.geometry()
                 r.moveTop(int(keyboard.property("y")))
@@ -35,10 +36,10 @@ def handleVisibleChanged():
                 return
 
 
-class GenericWorker(QtCore.QThread):
+class GenericWorker(QThread):
     # Generic worker thread that used to run a function that may block the GUI
     # Will emit a signal to show a message box if the slot is defined
-    msg_info_signal = QtCore.pyqtSignal(str, str, str)
+    msg_info_signal = pyqtSignal(str, str, str)
 
     def __init__(self, fn):
         super(GenericWorker, self).__init__()
@@ -50,12 +51,12 @@ class GenericWorker(QtCore.QThread):
             self.msg_info_signal.emit(icon, text, detailed_text)
 
 
-class CountDownWorker(QtCore.QThread):
+class CountDownWorker(QThread):
     # Used to record the countdown time before calling the emergency
     # signal to indicate end of countdown time.
-    time_end_signal = QtCore.pyqtSignal()
+    time_end_signal = pyqtSignal()
     # signal to indicate the change of countdown time.
-    time_changed_signal = QtCore.pyqtSignal(int)
+    time_changed_signal = pyqtSignal(int)
 
     def __init__(self, time_in_sec):
         super(CountDownWorker, self).__init__()
@@ -81,11 +82,11 @@ class CountDownWorker(QtCore.QThread):
         self.terminate()
 
 
-class IOWorker(QtCore.QThread):
-    update_door = QtCore.pyqtSignal(bool, bool)
-    update_temperature = QtCore.pyqtSignal(int, int, int, bool)
-    update_naloxone = QtCore.pyqtSignal(bool, QtCore.QDate)
-    go_to_door_open_signal = QtCore.pyqtSignal()
+class IOWorker(QThread):
+    update_door = pyqtSignal(bool, bool)
+    update_temperature = pyqtSignal(int, int, int, bool)
+    update_naloxone = pyqtSignal(bool, QDate)
+    go_to_door_open_signal = pyqtSignal()
 
     def __init__(self, disarmed, max_temp, fan_threshold_temp, expiration_date):
         super(IOWorker, self).__init__()
@@ -131,7 +132,7 @@ class IOWorker(QtCore.QThread):
             self.door_opened = False
 
     def is_expiry(self):
-        today = QtCore.QDate().currentDate()
+        today = QDate().currentDate()
         return today > self.expiration_date
 
     def is_overheat(self):
@@ -160,7 +161,7 @@ class IOWorker(QtCore.QThread):
             sleep(1)
 
 
-class AlarmWorker(QtCore.QThread):
+class AlarmWorker(QThread):
     def __init__(self, alarm_message, voice_volume, loop):
         super(AlarmWorker, self).__init__()
         self.alarm_message = alarm_message
@@ -186,14 +187,14 @@ class AlarmWorker(QtCore.QThread):
             print("finish")
 
 
-class NetworkWorker(QtCore.QThread):
-    update_server = QtCore.pyqtSignal(bool, float, str, QtCore.QTime)
+class NetworkWorker(QThread):
+    update_server = pyqtSignal(bool, float, str, QTime)
 
     def __init__(self, twilio_sid, twilio_token):
         super(NetworkWorker, self).__init__()
         self.hostname = "www.twilio.com"  # ping twilio directly
         print("network thread go.")
-        self.currentTime = QtCore.QTime()
+        self.currentTime = QTime()
         self.twilio_sid = twilio_sid
         self.twilio_token = twilio_token
 
@@ -210,10 +211,10 @@ class NetworkWorker(QtCore.QThread):
                 balance), currency, self.currentTime.currentTime())
 
 
-class CallWorker(QtCore.QThread):
+class CallWorker(QThread):
     # Worker thread to make the phone call
     # The status signal can be used to determine the calling result.
-    call_thread_status = QtCore.pyqtSignal(int, str)
+    call_thread_status = pyqtSignal(int, str)
 
     def __init__(self, number, body, t_sid, t_token, t_number):
         super(CallWorker, self).__init__()
@@ -242,10 +243,10 @@ class CallWorker(QtCore.QThread):
             self.call_thread_status.emit(4, "Call Delivered")
 
 
-class SMSWorker(QtCore.QThread):
+class SMSWorker(QThread):
     # Worker thread to send the sms
     # The status signal can be used to determine the calling result.
-    sms_thread_status = QtCore.pyqtSignal(int, str)
+    sms_thread_status = pyqtSignal(int, str)
 
     def __init__(self, number, body, t_sid, t_token, t_number):
         super(SMSWorker, self).__init__()
@@ -291,9 +292,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.address = str()
         self.to_phone_number = str()
         self.message = str()
-        self.naloxone_expiration_date = QtCore.QDate().currentDate()
-        self.active_hour_start = QtCore.QTime(8, 0, 0)
-        self.active_hour_end = QtCore.QTime(18, 0, 0)
+        self.naloxone_expiration_date = QDate().currentDate()
+        self.active_hour_start = QTime(8, 0, 0)
+        self.active_hour_end = QTime(18, 0, 0)
         self.alarm_message = str()
         self.voice_volume = 20
         self.status_queue = queue.Queue(10)
@@ -370,7 +371,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         self.generate_ui_qrcode()
 
-        self.network_timer = QtCore.QTimer()
+        self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
         self.call_worker = None
@@ -380,15 +381,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.alarm_worker = None
         self.countdown_worker = None
 
-        self.network_timer = QtCore.QTimer()
+        self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
-        self.status_bar_timer = QtCore.QTimer()
+        self.status_bar_timer = QTimer()
         self.status_bar_timer.timeout.connect(self.update_time_status)
         self.update_time_status()
         self.status_bar_timer.start(2000)
 
-        self.dashboard_timer = QtCore.QTimer()
+        self.dashboard_timer = QTimer()
         self.dashboard_timer.timeout.connect(self.goto_home)
         self.dashboard_timer.setSingleShot(True)
 
@@ -488,10 +489,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.status_queue.put((priority, message))
 
     def load_manual(self):
-        file = QtCore.QFile('../user_manual/gui_manual/lock_screen_manual.md')
-        if not file.open(QtCore.QIODevice.ReadOnly):
+        file = QFile('../user_manual/gui_manual/lock_screen_manual.md')
+        if not file.open(QIODevice.ReadOnly):
             self.send_notification(0, "Manual File Missing")
-        stream = QtCore.QTextStream(file)
+        stream = QTextStream(file)
         self.ui.manual_textedit.setMarkdown(stream.readAll())
         stream.seek(0)
         self.ui.passcodeManual.setMarkdown(stream.readAll())
@@ -607,7 +608,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.emergencyMessageLineEdit.setText(
                 config["emergency_info"]["emergency_message"])
             self.message = config["emergency_info"]["emergency_message"]
-            self.naloxone_expiration_date = QtCore.QDate.fromString(
+            self.naloxone_expiration_date = QDate.fromString(
                 config["naloxone_info"]["naloxone_expiration_date"])
             self.ui.naloxoneExpirationDateEdit.setSelectedDate(
                 self.naloxone_expiration_date)
@@ -645,10 +646,10 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             else:
                 self.ui.paramedic_frame.setVisible(True)
                 self.ui.admin_only_frame.setVisible(False)
-            self.active_hour_start = QtCore.QTime.fromString(
+            self.active_hour_start = QTime.fromString(
                 config["power_management"]["active_hours_start_at"], "hh:mm")
             self.ui.startTimeEdit.setTime(self.active_hour_start)
-            self.active_hour_end = QtCore.QTime.fromString(
+            self.active_hour_end = QTime.fromString(
                 config["power_management"]["active_hours_end_at"], "hh:mm")
             self.ui.endTimeEdit.setTime(self.active_hour_end)
             self.ui.enablePowerSavingCheckBox.setChecked(
@@ -788,7 +789,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         else:
             self.goto_passcode()
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def goto_door_open(self):
         self.dashboard_timer.stop()
         if (self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1):
@@ -954,9 +955,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         # the passcode
         self.send_sms_using_config_file("Passcode is " + self.admin_passcode)
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def update_time_status(self):
-        time = QtCore.QDateTime()
+        time = QDateTime()
         self.ui.time_label.setText(
             time.currentDateTime().toString("h:mm AP"))
         if (self.status_queue.empty()):
@@ -977,7 +978,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                     "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
             self.ui.status_bar.setVisible(True)
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def twilio_sid_validator(self):
         result = False
         if(self.sender().text() == str()):
@@ -990,7 +991,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.sender().setStyleSheet(
                 "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: red;border-width: 1px;border-style: solid;")
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def phone_number_validator(self):
         result = False
         if(self.sender().text() == str()):
@@ -998,14 +999,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
             return
         try:
-            z = phonenumbers.parse(self.sender().text(), None)
+            z = parse(self.sender().text(), None)
         except Exception as e:
             if(self.sender().text() == "911"):
                 result = True
             else:
                 result = False
         else:
-            result = phonenumbers.is_valid_number(z)
+            result = is_valid_number(z)
         finally:
             if(result):
                 self.sender().setStyleSheet(
@@ -1014,36 +1015,36 @@ class ApplicationWindow(QtWidgets.QMainWindow):
                 self.sender().setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: red;border-width: 1px;border-style: solid;")
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def get_passcode_button_pressed(self):
         self.create_sms_worker(self.ui.paramedic_phone_number_lineedit.text(
         ), "The passcode is " + self.naloxone_passcode + ".", self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_notification(4, "Passcode Sent")
         self.send_sms_using_config_file("Passcode retrieved.")
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def notify_admin(self):
         self.send_sms_using_config_file("Paramedics arrived!")
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def test_tts_engine(self):
         self.create_alarm_worker(self.ui.alarm_message_lineedit.text(
         ), self.ui.voice_volume_slider.value(), False)
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def speak_now(self):
         print("speak now")
         self.create_alarm_worker(self.alarm_message, self.voice_volume, True)
         self.ui.alarmStatusLabel.setText("Speaking")
         self.ui.alarmMutePushButton.setVisible(True)
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def stop_alarm(self):
         self.destroy_alarm_worker()
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def call_emergency_now(self):
         if (self.ui.stopCountdownPushButton.isVisible()):
             self.ui.stopCountdownPushButton.setVisible(False)
@@ -1057,7 +1058,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.doorOpenResetPushButton.setVisible(True)
         self.ui.replace_naloxone_button_2.setVisible(True)
 
-    @QtCore.pyqtSlot(int)
+    @pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
         # Used to update the GUI for the countdown time.
         self.ui.emergencyCallCountdownLabel.setText("T-" + str(sec) + "s")
@@ -1066,18 +1067,18 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.stop_countdown_button_pushed()
             self.reset_to_default()
 
-    @QtCore.pyqtSlot(int, str)
+    @pyqtSlot(int, str)
     def update_phone_call_gui(self, priority, message):
         if (priority == 4):
             self.send_notification(0, "911 Placed")
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
-                QtCore.QTime().currentTime().toString("h:mm AP"))
+                QTime().currentTime().toString("h:mm AP"))
         else:
             self.send_notification(0, "911 Call Failed")
             self.ui.emergencyCallStatusLabel.setText("Failed")
 
-    @QtCore.pyqtSlot(bool, bool)
+    @pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
         # Update the door ui of the main window.
         if (not door):
@@ -1095,7 +1096,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.door_sensor_icon.setVisible(True)
             self.ui.doorArmedLineEdit.setText("Disarmed")
 
-    @QtCore.pyqtSlot(bool, QtCore.QDate)
+    @pyqtSlot(bool, QDate)
     def update_naloxone_ui(self, naloxone_good, naloxone_expiration_date):
         # update the naloxone of the main window.
         self.ui.naloxoneExpirationDateLineEdit.setText(
@@ -1107,7 +1108,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.naloxone_destroyed_icon.setVisible(True)
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
 
-    @QtCore.pyqtSlot(bool, float, str, QtCore.QTime)
+    @pyqtSlot(bool, float, str, QTime)
     def update_server_ui(self, server, balance, currency, server_check_time):
         # update the server of the main window
         self.ui.serverCheckLineEdit.setText(
@@ -1125,7 +1126,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         else:
             self.ui.low_charge_icon.setVisible(False)
 
-    @QtCore.pyqtSlot(int, int, int, bool)
+    @pyqtSlot(int, int, int, bool)
     def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
         # update the temperature of the main window.
         self.ui.temperatureLineEdit.setText(
@@ -1138,17 +1139,17 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.fan_icon.setVisible(True)
             self.ui.fanSpeedLineEdit.setText(str(pwm) + " RPM")
 
-    @QtCore.pyqtSlot(int)
+    @pyqtSlot(int)
     def update_voice_volume(self, value):
         self.ui.voice_volume_label.setText(str(value) + "%")
 
-    @QtCore.pyqtSlot(int)
+    @pyqtSlot(int)
     def update_current_max_temperature(self, value):
         # Used to update the current temperature selection when the user uses
         # the slider on the setting page.
         self.ui.CurrentTemperatureLabel.setText(str(value)+"℉")
 
-    @QtCore.pyqtSlot(int)
+    @pyqtSlot(int)
     def update_current_threshold_temperature(self, value):
         self.ui.current_fan_temperature.setText(str(value)+"℉")
 
