@@ -3862,7 +3862,7 @@ QScrollBar::sub-line:vertical {
                         </font>
                        </property>
                        <property name="styleSheet">
-                        <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; </string>
+                        <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                        </property>
                        <property name="echoMode">
                         <enum>QLineEdit::Password</enum>
@@ -4732,7 +4732,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; </string>
+                <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
                </property>
               </widget>
              </item>

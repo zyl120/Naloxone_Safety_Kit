@@ -1727,7 +1727,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.naloxonePasscodeLineEdit.setFont(font)
-        self.naloxonePasscodeLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; ")
+        self.naloxonePasscodeLineEdit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.naloxonePasscodeLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.naloxonePasscodeLineEdit.setObjectName("naloxonePasscodeLineEdit")
         self.horizontalLayout_2.addWidget(self.naloxonePasscodeLineEdit)
@@ -2118,7 +2118,7 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.paramedic_phone_number_lineedit.setFont(font)
-        self.paramedic_phone_number_lineedit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid; ")
+        self.paramedic_phone_number_lineedit.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
         self.paramedic_phone_number_lineedit.setObjectName("paramedic_phone_number_lineedit")
         self.gridLayout_18.addWidget(self.paramedic_phone_number_lineedit, 1, 0, 1, 1)
         self.paramedicsLabel = QtWidgets.QLabel(self.paramedic_frame)
