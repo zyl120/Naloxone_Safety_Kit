@@ -389,6 +389,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
         self.dashboard_timer = QtCore.QTimer()
         self.dashboard_timer.timeout.connect(self.goto_home)
+        self.dashboard_timer.setSingleShot(True)
 
         self.goto_home()
         self.lock_settings()
@@ -787,6 +788,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def goto_door_open(self):
+        self.dashboard_timer.stop()
         if (self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1):
             # Only go to the door open page when the user is not changing settings.
             self.ui.doorOpenResetPushButton.setVisible(False)
@@ -813,6 +815,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(3)
 
     def goto_settings(self):
+        self.dashboard_timer.stop()
         self.ui.homePushButton.setChecked(False)
         self.ui.dashboardPushButton.setChecked(False)
         self.ui.settingsPushButton.setChecked(True)
@@ -835,6 +838,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.dashboard_timer.start(60000) # wait for 5 min before going back to home
 
     def goto_home(self):
+        self.dashboard_timer.stop()
         self.ui.homePushButton.setChecked(True)
         self.ui.dashboardPushButton.setChecked(False)
         self.ui.settingsPushButton.setChecked(False)
