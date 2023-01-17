@@ -251,6 +251,9 @@ class TwilioWorker(QThread):
     def run(self):
         while True:
             request = self.in_queue.get()  # blocking
+            if(request.request_type == "exit"):
+                # used to exit the thread
+                break
             client = Client(request.twilio_sid, request.twilio_token)
             if(request.request_type == "call"):
                 try:
@@ -1221,6 +1224,7 @@ class ApplicationWindow(QMainWindow):
         print("exit 0")
         self.status_bar_timer.stop()
         print("exit 1")
+        self.request_queue.put(RequestItem(0, "exit", str(), str(), str(), str(), str()))
         self.destroy_twilio_worker()
         print("exit 2")
         self.destroy_network_worker()
