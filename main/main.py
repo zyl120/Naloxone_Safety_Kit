@@ -150,6 +150,8 @@ class IOWorker(QThread):
 
     def run(self):
         while True:
+            if (self.isInterruptionRequested()):
+                break
             if(not self.initialized or not self.in_queue.empty()):
                 config = self.in_queue.get()
                 self.disarmed = config.disarmed
@@ -1214,13 +1216,21 @@ class ApplicationWindow(QMainWindow):
         self.load_settings()
 
     def exit_program(self):
+        print("exit begin")
         self.network_timer.stop()
+        print("exit 0")
         self.status_bar_timer.stop()
+        print("exit 1")
         self.destroy_twilio_worker()
+        print("exit 2")
         self.destroy_network_worker()
+        print("exit 3")
         self.destroy_io_worker()
+        print("exit 4")
         self.destroy_alarm_worker()
+        print("exit 5")
         self.destroy_countdown_worker()
+        print("exit 6")
         self.close()
 
 
