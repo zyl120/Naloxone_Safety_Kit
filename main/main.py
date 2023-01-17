@@ -981,7 +981,7 @@ class ApplicationWindow(QMainWindow):
         time = QDateTime()
         self.ui.time_label.setText(
             time.currentDateTime().toString("h:mm AP"))
-        if(self.request_queue.qsize() is not 0):
+        if(self.request_queue.qsize() != 0):
             self.ui.wait_icon.setVisible(True)
         else:
             self.ui.wait_icon.setVisible(False)
