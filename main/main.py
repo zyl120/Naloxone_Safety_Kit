@@ -6,7 +6,7 @@ from twilio.twiml.voice_response import VoiceResponse
 from twilio.base.exceptions import TwilioRestException
 import os
 import sys
-from queue import Queue
+from queue import Queue, PriorityQueue
 from configparser import ConfigParser
 from ui_main_window import Ui_door_close_main_window
 from time import sleep
@@ -15,13 +15,32 @@ from qrcode.constants import ERROR_CORRECT_M
 from random import choice
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+from dataclasses import dataclass, field
+from typing import Any
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
 DHT_PIN = 27
+
+
+@dataclass(order=True)
+class RequestItem:
+    priority: int
+    request_type: str = field(compare=False)
+    destination_number: str = field(compare=False)
+    message: str = field(compare=False)
+    twilio_sid: str = field(compare=False)
+    twilio_token: str = field(compare=False)
+    twilio_number: str = field(compare=False)
+
+
+@dataclass(order=True)
+class NotificationItem:
+    priority: int
+    message: str = field(compare=False)
 
 
 def handleVisibleChanged():
@@ -84,6 +103,7 @@ class IOWorker(QThread):
         GPIO.setup(DOOR_PIN, GPIO.IN)
         print(" ".join(["GPIO thread go", str(disarmed), str(max_temp)]))
         self.naloxone_counter = 9
+
         self.naloxone_temp = 25
         self.fan_threshold_temp = fan_threshold_temp
         self.fan_pwm = 0
@@ -205,69 +225,113 @@ class NetworkWorker(QThread):
                 balance), currency, self.currentTime.currentTime())
 
 
-class CallWorker(QThread):
-    # Worker thread to make the phone call
-    # The status signal can be used to determine the calling result.
-    call_thread_status = pyqtSignal(int, str)
+class TwilioWorker(QThread):
+    twilio_thread_status = pyqtSignal(int, str)
+    emergency_call_status = pyqtSignal(int, str)
 
-    def __init__(self, number, body, t_sid, t_token, t_number):
-        super(CallWorker, self).__init__()
-        self.number = number
-        self.body = body
-        self.twilio_sid = t_sid
-        self.twilio_token = t_token
-        self.twilio_phone_number = t_number
+    def __init__(self, in_queue, out_queue):
+        super(TwilioWorker, self).__init__()
+        self.in_queue = in_queue
+        self.out_queue = out_queue
 
     def run(self):
-        client = Client(self.twilio_sid, self.twilio_token)
-        try:
-            call = client.calls.create(
-                twiml=self.body,
-                to=self.number,
-                from_=self.twilio_phone_number
-            )
-        except TwilioRestException as e:
-            # if not successful, return False
-            print("ERROR: Twilio Call: ERROR - {}".format(str(e)))
-            self.call_thread_status.emit(0, "Call Failed")
-        else:
-            # if successful, return True
-            print(call.sid)
-            print("INFO: Twilio Call: Call ID: %s", call.sid)
-            self.call_thread_status.emit(4, "Call Delivered")
+        while True:
+            request = self.in_queue.get()  # blocking
+            client = Client(request.twilio_sid, request.twilio_token)
+            if(request.request_type == "call"):
+                try:
+                    call = client.calls.create(
+                        twiml=request.message, to=request.destination_number, from_=request.twilio_number)
+                except TwilioRestException as e:
+                    print("ERROR: {}".format(str(e)))
+                    self.out_queue.put(NotificationItem(request.priority, "Call Failed"))
+                    if(request.priority == 0):
+                        self.emergency_call_status.emit(0, "Call Failed")
+                else:
+                    print(call.sid)
+                    self.out_queue.put(NotificationItem(request.priority, "Call Delivered"))
+                    if(request.priority == 0):
+                        self.emergency_call_status.emit(0, "Call Delivered")
+            else:
+                try:
+                    sms = client.messages.create(
+                        body=request.message,
+                        to=request.destination_number,
+                        from_=request.twilio_number
+                    )
+                except TwilioRestException as e:
+                    # if not successful, return False
+                    print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
+                    self.out_queue.put(NotificationItem(request.priority, "SMS Failed"))
+                else:
+                    # if successful, return True
+                    print(sms.sid)
+                    self.out_queue.put(NotificationItem(request.priority, "SMS Delivered"))
 
 
-class SMSWorker(QThread):
-    # Worker thread to send the sms
-    # The status signal can be used to determine the calling result.
-    sms_thread_status = pyqtSignal(int, str)
+# class CallWorker(QThread):
+#     # Worker thread to make the phone call
+#     # The status signal can be used to determine the calling result.
+#     call_thread_status = pyqtSignal(int, str)
 
-    def __init__(self, number, body, t_sid, t_token, t_number):
-        super(SMSWorker, self).__init__()
-        self.number = number
-        self.body = body
-        self.twilio_sid = t_sid
-        self.twilio_token = t_token
-        self.twilio_phone_number = t_number
+#     def __init__(self, number, body, t_sid, t_token, t_number):
+#         super(CallWorker, self).__init__()
+#         self.number = number
+#         self.body = body
+#         self.twilio_sid = t_sid
+#         self.twilio_token = t_token
+#         self.twilio_phone_number = t_number
 
-    def run(self):
-        client = Client(self.twilio_sid,
-                        self.twilio_token)
-        try:
-            sms = client.messages.create(
-                body=self.body,
-                to=self.number,
-                from_=self.twilio_phone_number
-            )
-        except TwilioRestException as e:
-            # if not successful, return False
-            print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
-            self.sms_thread_status.emit(0, "SMS Failed")
-        else:
-            # if successful, return True
-            print(sms.sid)
-            print("INFO: Twilio SMS: SMS ID: {}".format(str(sms.sid)))
-            self.sms_thread_status.emit(4, "SMS Delivered")
+#     def run(self):
+#         client = Client(self.twilio_sid, self.twilio_token)
+#         try:
+#             call = client.calls.create(
+#                 twiml=self.body,
+#                 to=self.number,
+#                 from_=self.twilio_phone_number
+#             )
+#         except TwilioRestException as e:
+#             # if not successful, return False
+#             print("ERROR: Twilio Call: ERROR - {}".format(str(e)))
+#             self.call_thread_status.emit(0, "Call Failed")
+#         else:
+#             # if successful, return True
+#             print(call.sid)
+#             print("INFO: Twilio Call: Call ID: %s", call.sid)
+#             self.call_thread_status.emit(4, "Call Delivered")
+
+
+# class SMSWorker(QThread):
+#     # Worker thread to send the sms
+#     # The status signal can be used to determine the calling result.
+#     sms_thread_status = pyqtSignal(int, str)
+
+#     def __init__(self, number, body, t_sid, t_token, t_number):
+#         super(SMSWorker, self).__init__()
+#         self.number = number
+#         self.body = body
+#         self.twilio_sid = t_sid
+#         self.twilio_token = t_token
+#         self.twilio_phone_number = t_number
+
+#     def run(self):
+#         client = Client(self.twilio_sid,
+#                         self.twilio_token)
+#         try:
+#             sms = client.messages.create(
+#                 body=self.body,
+#                 to=self.number,
+#                 from_=self.twilio_phone_number
+#             )
+#         except TwilioRestException as e:
+#             # if not successful, return False
+#             print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
+#             self.sms_thread_status.emit(0, "SMS Failed")
+#         else:
+#             # if successful, return True
+#             print(sms.sid)
+#             print("INFO: Twilio SMS: SMS ID: {}".format(str(sms.sid)))
+#             self.sms_thread_status.emit(4, "SMS Delivered")
 
 
 class ApplicationWindow(QMainWindow):
@@ -291,7 +355,8 @@ class ApplicationWindow(QMainWindow):
         self.active_hour_end = QTime(18, 0, 0)
         self.alarm_message = str()
         self.voice_volume = 20
-        self.status_queue = Queue(10)
+        self.status_queue = PriorityQueue()
+        self.request_queue = PriorityQueue()
         self.message_to_display = str()
         self.message_level = 0
         self.ui = Ui_door_close_main_window()
@@ -367,12 +432,15 @@ class ApplicationWindow(QMainWindow):
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
-        self.call_worker = None
-        self.sms_worker = None
+        #self.call_worker = None
+        #self.sms_worker = None
+        self.twilio_worker = None
         self.network_worker = None
         self.io_worker = None
         self.alarm_worker = None
         self.countdown_worker = None
+        self.create_twilio_worker()
+        self.twilio_worker.emergency_call_status.connect(self.update_phone_call_gui)
 
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
@@ -390,33 +458,56 @@ class ApplicationWindow(QMainWindow):
         self.lock_settings()
         self.load_settings()
 
+    def destroy_twilio_worker(self):
+        if(self.twilio_worker is not None):
+            self.twilio_worker.quit()
+            self.twilio_worker.requestInterruption()
+            self.twilio_worker.wait()
+
+    def create_twilio_worker(self):
+        self.destroy_twilio_worker()
+        self.twilio_worker = TwilioWorker(
+            self.request_queue, self.status_queue)
+        self.twilio_worker.start()
+
+    def destroy_io_worker(self):
+        if (self.io_worker is not None):
+            self.io_worker.quit()
+            self.io_worker.requestInterruption()
+            self.io_worker.wait()
+
+    def create_io_worker(self):
+        return
+        self.destroy_io_worker()
+        self.io_worker = IOWorker(
+            self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
+        self.io_worker.update_door.connect(self.update_door_ui)
+        self.io_worker.go_to_door_open_signal.connect(self.goto_door_open)
+        self.io_worker.update_temperature.connect(
+            self.update_temperature_ui)
+        self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
+        self.io_worker.start()
+
     def destroy_call_worker(self):
         if(self.call_worker is not None):
             # wait for the call worker to stop. Do not terminate
             self.call_worker.wait()
 
-    def create_call_worker(self, number, body, t_sid, t_token, t_number, need_feedback=False):
+    def create_call_request(self, number, body, t_sid, t_token, t_number, priority=4):
         self.ui.wait_icon.setVisible(True)
-        self.destroy_call_worker()
-        self.call_worker = CallWorker(number, body, t_sid, t_token, t_number)
-        if(need_feedback == False):
-            self.call_worker.call_thread_status.connect(self.send_notification)
-        else:
-            self.call_worker.call_thread_status.connect(
-                self.update_phone_call_gui)
-        self.call_worker.start()
+        request = RequestItem(priority, "call", number, body,
+                              t_sid, t_token, t_number)
+        self.request_queue.put(request)  # blocking
         self.ui.wait_icon.setVisible(False)
 
     def destroy_sms_worker(self):
         if(self.sms_worker is not None):
             self.sms_worker.wait()
 
-    def create_sms_worker(self, number, body, t_sid, t_token, t_number):
+    def create_sms_request(self, number, body, t_sid, t_token, t_number, priority=4):
         self.ui.wait_icon.setVisible(True)
-        self.destroy_sms_worker()
-        self.sms_worker = SMSWorker(number, body, t_sid, t_token, t_number)
-        self.sms_worker.sms_thread_status.connect(self.send_notification)
-        self.sms_worker.start()
+        request = RequestItem(priority, "SMS", number, body, t_sid, t_token, t_number)
+        self.request_queue.put(request)  # blocking
         self.ui.wait_icon.setVisible(False)
 
     def destroy_network_worker(self):
@@ -431,23 +522,6 @@ class ApplicationWindow(QMainWindow):
         self.network_worker.update_server.connect(
             self.update_server_ui)
         self.network_worker.start()
-
-    def destroy_io_worker(self):
-        if (self.io_worker is not None):
-            self.io_worker.quit()
-            self.io_worker.requestInterruption()
-            self.io_worker.wait()
-
-    def create_io_worker(self):
-        self.destroy_io_worker()
-        self.io_worker = IOWorker(
-            self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
-        self.io_worker.update_door.connect(self.update_door_ui)
-        self.io_worker.go_to_door_open_signal.connect(self.goto_door_open)
-        self.io_worker.update_temperature.connect(
-            self.update_temperature_ui)
-        self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
-        self.io_worker.start()
 
     def destroy_alarm_worker(self):
         if (self.alarm_worker is not None):
@@ -478,8 +552,7 @@ class ApplicationWindow(QMainWindow):
         self.countdown_worker.start()
 
     def send_notification(self, priority, message):
-        if(not self.status_queue.full()):
-            self.status_queue.put((priority, message))
+        self.status_queue.put(NotificationItem(priority, message)) # blocking
 
     def load_manual(self):
         file = QFile('../user_manual/gui_manual/lock_screen_manual.md')
@@ -843,7 +916,7 @@ class ApplicationWindow(QMainWindow):
 
     def send_sms_using_config_file(self, msg):
         # Used to contact the admin via the info in the conf file
-        self.create_sms_worker(self.admin_phone_number, " ".join(
+        self.create_sms_request(self.admin_phone_number, " ".join(
             ["The naloxone safety box at", self.address, "sent the following information:", msg]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_notification(4, "SMS Requested")
 
@@ -857,8 +930,8 @@ class ApplicationWindow(QMainWindow):
             ["Message:", self.message, "Address:", self.address]), voice=voice, loop=loop)
         print(str(response))
 
-        self.create_call_worker(self.to_phone_number, response, self.twilio_sid,
-                                self.twilio_token, self.twilio_phone_number, True)
+        self.create_call_request(self.to_phone_number, response, self.twilio_sid,
+                                 self.twilio_token, self.twilio_phone_number, 0)
         self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
@@ -869,7 +942,7 @@ class ApplicationWindow(QMainWindow):
         t_number = self.ui.twilioPhoneNumberLineEdit.text()
         body = " ".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by", self.ui.emergencyPhoneNumberLineEdit.text(), "when the door is opened: Message:",
                         self.ui.emergencyMessageLineEdit.text(), "Address:", self.ui.emergencyAddressLineEdit.text(), "If the message sounds good, you can save the settings. Thank you."])
-        self.create_sms_worker(phone_number, body, t_sid, t_token, t_number)
+        self.create_sms_request(phone_number, body, t_sid, t_token, t_number)
         self.send_notification(4, "SMS Requested")
 
     def call_test_pushbutton_clicked(self):
@@ -881,8 +954,8 @@ class ApplicationWindow(QMainWindow):
         response = VoiceResponse()
         response.say(" ".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by", self.ui.emergencyPhoneNumberLineEdit.text(), "when the door is opened: Message:",
                      self.ui.emergencyMessageLineEdit.text(), "Address:", self.ui.emergencyAddressLineEdit.text(), "If the call sounds good, you can save the settings. Thank you."]), voice="woman", loop=3)
-        self.create_call_worker(phone_number, response,
-                                t_sid, t_token, t_number)
+        self.create_call_request(phone_number, response,
+                                 t_sid, t_token, t_number)
         self.send_notification(4, "Call Requested")
 
     def toggle_door_arm(self):
@@ -949,8 +1022,8 @@ class ApplicationWindow(QMainWindow):
             self.ui.status_bar.setVisible(False)
         else:
             msg = self.status_queue.get()
-            self.message_level = msg[0]
-            self.message_to_display = msg[1]
+            self.message_level = msg.priority
+            self.message_to_display = msg.message
             self.ui.status_bar.setText(self.message_to_display)
             if(self.message_level == 0):
                 self.ui.status_bar.setStyleSheet(
@@ -1002,7 +1075,7 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def get_passcode_button_pressed(self):
-        self.create_sms_worker(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
+        self.create_sms_request(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
             ["The passcode is", self.naloxone_passcode]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_sms_using_config_file("Passcode retrieved.")
 
@@ -1054,7 +1127,7 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(int, str)
     def update_phone_call_gui(self, priority, message):
-        if (priority == 4):
+        if (priority == 0):
             self.send_notification(0, "911 Placed")
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
@@ -1190,8 +1263,9 @@ class ApplicationWindow(QMainWindow):
     def exit_program(self):
         self.network_timer.stop()
         self.status_bar_timer.stop()
-        self.destroy_call_worker()
-        self.destroy_sms_worker()
+        # self.destroy_call_worker()
+        # self.destroy_sms_worker()
+        self.destroy_twilio_worker()
         self.destroy_network_worker()
         self.destroy_io_worker()
         self.destroy_alarm_worker()

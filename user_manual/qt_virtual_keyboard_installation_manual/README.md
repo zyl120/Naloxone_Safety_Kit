@@ -111,12 +111,12 @@
 
 - In the terminal window, enter the following command:
 
-        sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8  
+        sudo cp -L ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5  
         QT_PREFIX_PATH/lib/libQt5VirtualKeyboard.so.5
 
 - If your QT_PREFIX_PATH is `/usr`, the command will be
 
-        sudo cp ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5.15.8  
+        sudo cp -L ~/qtvirtualkeyboard/lib/libQt5VirtualKeyboard.so.5  
         /usr/lib/libQt5VirtualKeyboard.so.5
 
 - If your compiled version is 5.15.8, you need to adjust the command to match the version number.
