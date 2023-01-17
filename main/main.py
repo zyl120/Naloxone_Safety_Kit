@@ -17,9 +17,9 @@ from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from typing import Any
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -91,7 +91,7 @@ class CountDownWorker(QThread):
                 break
             sleep(1)
 
-        if(self.time_in_sec == -1):
+        if (self.time_in_sec == -1):
             self.time_end_signal.emit()
 
     def stop(self):
@@ -117,12 +117,12 @@ class IOWorker(QThread):
     def read_naloxone_sensor(self):
         _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
         self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
-        #self.temperature = 77
+        # self.temperature = 77
 
     def calculate_pwm(self):
         # print("control pwm")
         list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
-        if(self.cpu_temp < self.fan_threshold_temp):
+        if (self.cpu_temp < self.fan_threshold_temp):
             self.fan_pwm = 0
         else:
             self.fan_pwm = choice(list1)
@@ -132,10 +132,10 @@ class IOWorker(QThread):
 
     def read_cpu_sensor(self):
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
-        #self.cpu_temp = 100
+        # self.cpu_temp = 100
 
     def read_door_sensor(self):
-        #self.door_opened = False
+        # self.door_opened = False
         # return
         if GPIO.input(DOOR_PIN):
             self.door_opened = True
@@ -153,7 +153,7 @@ class IOWorker(QThread):
         while True:
             if (self.isInterruptionRequested()):
                 break
-            if(not self.initialized or not self.in_queue.empty()):
+            if (not self.initialized or not self.in_queue.empty()):
                 config = self.in_queue.get()
                 self.disarmed = config.disarmed
                 self.max_temp = config.max_temp
@@ -161,8 +161,6 @@ class IOWorker(QThread):
                 self.expiration_date = config.expiration_date
                 self.naloxone_counter = 9
                 self.initialized = True
-                print(" ".join(["GPIO thread go", str(
-                    self.disarmed), str(self.max_temp)]))
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
@@ -196,7 +194,7 @@ class AlarmWorker(QThread):
         print("alarm thread go.")
 
     def run(self):
-        if(self.loop):
+        if (self.loop):
             # loop until stopped by interruption
             while (True):
                 if (self.isInterruptionRequested()):
@@ -252,11 +250,11 @@ class TwilioWorker(QThread):
     def run(self):
         while True:
             request = self.in_queue.get()  # blocking
-            if(request.request_type == "exit"):
+            if (request.request_type == "exit"):
                 # used to exit the thread
                 break
             client = Client(request.twilio_sid, request.twilio_token)
-            if(request.request_type == "call"):
+            if (request.request_type == "call"):
                 try:
                     call = client.calls.create(
                         twiml=request.message, to=request.destination_number, from_=request.twilio_number)
@@ -264,13 +262,13 @@ class TwilioWorker(QThread):
                     print("ERROR: {}".format(str(e)))
                     self.out_queue.put(NotificationItem(
                         request.priority, "Call Failed"))
-                    if(request.priority == 0):
+                    if (request.priority == 0):
                         self.emergency_call_status.emit(0, "Call Failed")
                 else:
                     print(call.sid)
                     self.out_queue.put(NotificationItem(
                         request.priority, "Call Delivered"))
-                    if(request.priority == 0):
+                    if (request.priority == 0):
                         self.emergency_call_status.emit(0, "Call Delivered")
             else:
                 try:
@@ -368,7 +366,8 @@ class ApplicationWindow(QMainWindow):
             self.phone_number_validator)
         self.ui.twilioSIDLineEdit.textChanged.connect(
             self.twilio_sid_validator)
-        self.ui.home_frame.setStyleSheet("QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/background.jpg) 0 0 0 0 stretch stretch}")
+        self.ui.home_frame.setStyleSheet(
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/background.jpg) 0 0 0 0 stretch stretch}")
 
         QScroller.grabGesture(
             self.ui.manual_textedit.viewport(), QScroller.LeftMouseButtonGesture)
@@ -392,7 +391,6 @@ class ApplicationWindow(QMainWindow):
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
-        print("P0")
         self.twilio_worker = None
         self.network_worker = None
         self.io_worker = None
@@ -414,14 +412,13 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer = QTimer()
         self.dashboard_timer.timeout.connect(self.goto_home)
         self.dashboard_timer.setSingleShot(True)
-        print("P1")
 
         self.goto_home()
         self.lock_settings()
         self.load_settings()
 
     def destroy_twilio_worker(self):
-        if(self.twilio_worker is not None):
+        if (self.twilio_worker is not None):
             self.twilio_worker.quit()
             self.twilio_worker.requestInterruption()
             self.twilio_worker.wait()
@@ -439,7 +436,6 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
-        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
         self.io_worker.update_door.connect(self.update_door_ui)
@@ -450,7 +446,7 @@ class ApplicationWindow(QMainWindow):
         self.io_worker.start()  # will be blocked when no config is sent
 
     def destroy_call_worker(self):
-        if(self.call_worker is not None):
+        if (self.call_worker is not None):
             # wait for the call worker to stop. Do not terminate
             self.call_worker.wait()
 
@@ -460,7 +456,7 @@ class ApplicationWindow(QMainWindow):
         self.request_queue.put(request)  # blocking
 
     def destroy_sms_worker(self):
-        if(self.sms_worker is not None):
+        if (self.sms_worker is not None):
             self.sms_worker.wait()
 
     def create_sms_request(self, number, body, t_sid, t_token, t_number, priority=4):
@@ -494,7 +490,7 @@ class ApplicationWindow(QMainWindow):
         self.alarm_worker.start()
 
     def destroy_countdown_worker(self):
-        if(self.countdown_worker is not None):
+        if (self.countdown_worker is not None):
             self.countdown_worker.quit()
             self.countdown_worker.requestInterruption()
             self.countdown_worker.wait()
@@ -662,7 +658,7 @@ class ApplicationWindow(QMainWindow):
                 config["admin"]["report_settings_changed"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
-            if(config["admin"]["allow_paramedics"] == "False"):
+            if (config["admin"]["allow_paramedics"] == "False"):
                 self.ui.paramedic_frame.setVisible(False)
                 self.ui.admin_only_frame.setVisible(True)
             else:
@@ -700,12 +696,10 @@ class ApplicationWindow(QMainWindow):
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
-            print("io config sent.")
             self.io_queue.put(IOItem(
                 False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
-            print("network timer go.")
             self.arm_door_sensor()
 
         except Exception as e:
@@ -785,7 +779,7 @@ class ApplicationWindow(QMainWindow):
         # 2: unlock naloxone settings
         if (self.admin_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.admin_passcode):
             return 1
-        if(self.ui.passcodeEnterLineEdit.text() == self.naloxone_passcode):
+        if (self.ui.passcodeEnterLineEdit.text() == self.naloxone_passcode):
             return 2
         else:
             self.send_notification(0, "Wrong Passcode")
@@ -887,8 +881,8 @@ class ApplicationWindow(QMainWindow):
 
         # create the response
         response = VoiceResponse()
-        response.say(" ".join(
-            ["Message:", self.message, "Address:", self.address]), voice=voice, loop=loop)
+        response.say("".join(["Someone has overdosed at ",
+                     self.address, ". ", self.message]), voice=voice, loop=loop)
         print(str(response))
 
         self.create_call_request(self.to_phone_number, response, self.twilio_sid,
@@ -901,8 +895,8 @@ class ApplicationWindow(QMainWindow):
         t_sid = self.ui.twilioSIDLineEdit.text()
         t_token = self.ui.twilioTokenLineEdit.text()
         t_number = self.ui.twilioPhoneNumberLineEdit.text()
-        body = " ".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by", self.ui.emergencyPhoneNumberLineEdit.text(), "when the door is opened: Message:",
-                        self.ui.emergencyMessageLineEdit.text(), "Address:", self.ui.emergencyAddressLineEdit.text(), "If the message sounds good, you can save the settings. Thank you."])
+        body = "".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by ", self.ui.emergencyPhoneNumberLineEdit.text(), " when the door is opened: Someone has overdosed at ",
+                       self.ui.emergencyAddressLineEdit.text(), ". ", self.ui.emergencyMessageLineEdit.text(), " If the message sounds good, you can save the settings. Thank you."])
         self.create_sms_request(phone_number, body, t_sid, t_token, t_number)
         self.send_notification(4, "SMS Requested")
 
@@ -913,8 +907,8 @@ class ApplicationWindow(QMainWindow):
         t_token = self.ui.twilioTokenLineEdit.text()
         t_number = self.ui.twilioPhoneNumberLineEdit.text()
         response = VoiceResponse()
-        response.say(" ".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by", self.ui.emergencyPhoneNumberLineEdit.text(), "when the door is opened: Message:",
-                     self.ui.emergencyMessageLineEdit.text(), "Address:", self.ui.emergencyAddressLineEdit.text(), "If the call sounds good, you can save the settings. Thank you."]), voice="woman", loop=3)
+        response.say("".join(["Internet-based Naloxone Safety Kit. These are the words that will be heard by ", self.ui.emergencyPhoneNumberLineEdit.text(), " when the door is opened: Someone has overdosed at ",
+                     self.ui.emergencyAddressLineEdit.text(), ". ", self.ui.emergencyMessageLineEdit.text(), " If the message sounds good, you can save the settings. Thank you."]), voice="woman", loop=3)
         self.create_call_request(phone_number, response,
                                  t_sid, t_token, t_number)
         self.send_notification(4, "Call Requested")
@@ -983,7 +977,7 @@ class ApplicationWindow(QMainWindow):
         time = QDateTime()
         self.ui.time_label.setText(
             time.currentDateTime().toString("h:mm AP"))
-        if(self.request_queue.qsize() != 0):
+        if (self.request_queue.qsize() != 0):
             self.ui.wait_icon.setVisible(True)
         else:
             self.ui.wait_icon.setVisible(False)
@@ -994,10 +988,10 @@ class ApplicationWindow(QMainWindow):
             self.message_level = msg.priority
             self.message_to_display = msg.message
             self.ui.status_bar.setText(self.message_to_display)
-            if(self.message_level == 0):
+            if (self.message_level == 0):
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
-            elif(self.message_level == 1):
+            elif (self.message_level == 1):
                 self.ui.status_bar.setStyleSheet(
                     "color: black; background-color: yellow; border-radius:25px;border-color: yellow;border-width: 1px;border-style: solid;")
             else:
@@ -1008,10 +1002,10 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot()
     def twilio_sid_validator(self):
         result = False
-        if(self.sender().text() == str()):
+        if (self.sender().text() == str()):
             self.sender().setStyleSheet(
                 "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-        elif(len(self.sender().text()) == 34 and self.sender().text().startswith("AC")):
+        elif (len(self.sender().text()) == 34 and self.sender().text().startswith("AC")):
             self.sender().setStyleSheet(
                 "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;")
         else:
@@ -1021,21 +1015,21 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot()
     def phone_number_validator(self):
         result = False
-        if(self.sender().text() == str()):
+        if (self.sender().text() == str()):
             self.sender().setStyleSheet(
                 "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
             return
         try:
             z = parse(self.sender().text(), None)
         except Exception as e:
-            if(self.sender().text() == "911"):
+            if (self.sender().text() == "911"):
                 result = True
             else:
                 result = False
         else:
             result = is_valid_number(z)
         finally:
-            if(result):
+            if (result):
                 self.sender().setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: green;border-width: 1px;border-style: solid;")
             else:
@@ -1059,7 +1053,6 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def speak_now(self):
-        print("speak now")
         self.create_alarm_worker(self.alarm_message, self.voice_volume, True)
         self.ui.alarmStatusLabel.setText("Speaking")
         self.ui.alarmMutePushButton.setVisible(True)
@@ -1146,7 +1139,7 @@ class ApplicationWindow(QMainWindow):
             self.ui.serverStatusLineEdit.setText("OFFLINE")
         self.ui.accountBalanceLineEdit.setText(
             " ".join([str(round(balance, 2)), currency]))
-        if(balance < 5):
+        if (balance < 5):
             self.ui.low_charge_icon.setVisible(True)
         else:
             self.ui.low_charge_icon.setVisible(False)
@@ -1158,7 +1151,7 @@ class ApplicationWindow(QMainWindow):
             "".join([str(temperature), "℉"]))
         self.ui.cpuTemperatureLineEdit.setText(
             "".join([str(cpu_temperature), "℉"]))
-        if(pwm == 0):
+        if (pwm == 0):
             self.ui.fan_icon.setVisible(False)
             self.ui.fanSpeedLineEdit.setText("OFF")
         else:
@@ -1228,23 +1221,15 @@ class ApplicationWindow(QMainWindow):
         self.load_settings()
 
     def exit_program(self):
-        print("exit begin")
         self.network_timer.stop()
-        print("exit 0")
         self.status_bar_timer.stop()
-        print("exit 1")
         self.request_queue.put(RequestItem(
             0, "exit", str(), str(), str(), str(), str()))
         self.destroy_twilio_worker()
-        print("exit 2")
         self.destroy_network_worker()
-        print("exit 3")
         self.destroy_io_worker()
-        print("exit 4")
         self.destroy_alarm_worker()
-        print("exit 5")
         self.destroy_countdown_worker()
-        print("exit 6")
         self.close()
 
 
