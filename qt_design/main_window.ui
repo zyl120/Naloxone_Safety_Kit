@@ -1639,7 +1639,7 @@ color: white;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>6</number>
           </property>
           <property name="iconSize">
            <size>
@@ -3774,7 +3774,7 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
+                 <y>-412</y>
                  <width>718</width>
                  <height>706</height>
                 </rect>
@@ -4544,6 +4544,42 @@ color:white;
                         </size>
                        </property>
                       </spacer>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="armPushButton">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+
+
+</string>
+                       </property>
+                       <property name="text">
+                        <string>Arm</string>
+                       </property>
+                      </widget>
                      </item>
                      <item>
                       <widget class="QPushButton" name="disarmPushButton">

@@ -274,71 +274,6 @@ class TwilioWorker(QThread):
                     self.out_queue.put(NotificationItem(request.priority, "SMS Delivered"))
 
 
-# class CallWorker(QThread):
-#     # Worker thread to make the phone call
-#     # The status signal can be used to determine the calling result.
-#     call_thread_status = pyqtSignal(int, str)
-
-#     def __init__(self, number, body, t_sid, t_token, t_number):
-#         super(CallWorker, self).__init__()
-#         self.number = number
-#         self.body = body
-#         self.twilio_sid = t_sid
-#         self.twilio_token = t_token
-#         self.twilio_phone_number = t_number
-
-#     def run(self):
-#         client = Client(self.twilio_sid, self.twilio_token)
-#         try:
-#             call = client.calls.create(
-#                 twiml=self.body,
-#                 to=self.number,
-#                 from_=self.twilio_phone_number
-#             )
-#         except TwilioRestException as e:
-#             # if not successful, return False
-#             print("ERROR: Twilio Call: ERROR - {}".format(str(e)))
-#             self.call_thread_status.emit(0, "Call Failed")
-#         else:
-#             # if successful, return True
-#             print(call.sid)
-#             print("INFO: Twilio Call: Call ID: %s", call.sid)
-#             self.call_thread_status.emit(4, "Call Delivered")
-
-
-# class SMSWorker(QThread):
-#     # Worker thread to send the sms
-#     # The status signal can be used to determine the calling result.
-#     sms_thread_status = pyqtSignal(int, str)
-
-#     def __init__(self, number, body, t_sid, t_token, t_number):
-#         super(SMSWorker, self).__init__()
-#         self.number = number
-#         self.body = body
-#         self.twilio_sid = t_sid
-#         self.twilio_token = t_token
-#         self.twilio_phone_number = t_number
-
-#     def run(self):
-#         client = Client(self.twilio_sid,
-#                         self.twilio_token)
-#         try:
-#             sms = client.messages.create(
-#                 body=self.body,
-#                 to=self.number,
-#                 from_=self.twilio_phone_number
-#             )
-#         except TwilioRestException as e:
-#             # if not successful, return False
-#             print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
-#             self.sms_thread_status.emit(0, "SMS Failed")
-#         else:
-#             # if successful, return True
-#             print(sms.sid)
-#             print("INFO: Twilio SMS: SMS ID: {}".format(str(sms.sid)))
-#             self.sms_thread_status.emit(4, "SMS Delivered")
-
-
 class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
@@ -367,7 +302,8 @@ class ApplicationWindow(QMainWindow):
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
-        self.ui.disarmPushButton.clicked.connect(self.toggle_door_arm)
+        self.ui.disarmPushButton.clicked.connect(self.disarm_door_sensor)
+        self.ui.armPushButton.clicked.connect(self.arm_door_sensor)
         self.ui.homePushButton.clicked.connect(self.goto_home)
         self.ui.settingsPushButton.clicked.connect(self.goto_settings)
         self.ui.replace_naloxone_button_2.clicked.connect(self.goto_settings)
@@ -437,8 +373,6 @@ class ApplicationWindow(QMainWindow):
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
-        #self.call_worker = None
-        #self.sms_worker = None
         self.twilio_worker = None
         self.network_worker = None
         self.io_worker = None
@@ -962,17 +896,20 @@ class ApplicationWindow(QMainWindow):
                                  t_sid, t_token, t_number)
         self.send_notification(4, "Call Requested")
 
-    def toggle_door_arm(self):
-        if (self.ui.disarmPushButton.text() == "Disarm"):
-            self.send_notification(1, "Door Sensor OFF")
-            self.ui.disarmPushButton.setText("Arm")
-            self.disarmed = True
-            self.create_io_worker()
-        else:
-            self.send_notification(4, "Door Sensor ON")
-            self.ui.disarmPushButton.setText("Disarm")
-            self.disarmed = False
-            self.create_io_worker()
+    def disarm_door_sensor(self):
+        self.ui.disarmPushButton.setVisible(False)
+        self.ui.armPushButton.setVisible(True)
+        self.send_notification(1, "Door Sensor OFF")
+        self.disarmed = True
+        self.create_io_worker()
+
+    
+    def arm_door_sensor(self):
+        self.ui.armPushButton.setVisible(False)
+        self.ui.disarmPushButton.setVisible(True)
+        self.send_notification(4, "Door Sensor ON")
+        self.disarmed = False
+        self.create_io_worker()
 
     def reset_to_default(self):
         # Used to check whether the door is still opened
@@ -1265,8 +1202,6 @@ class ApplicationWindow(QMainWindow):
     def exit_program(self):
         self.network_timer.stop()
         self.status_bar_timer.stop()
-        # self.destroy_call_worker()
-        # self.destroy_sms_worker()
         self.destroy_twilio_worker()
         self.destroy_network_worker()
         self.destroy_io_worker()
