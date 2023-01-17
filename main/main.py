@@ -42,6 +42,13 @@ class NotificationItem:
     priority: int
     message: str = field(compare=False)
 
+@dataclass
+class IOItem:
+    disarmed: bool
+    max_temp: int
+    fan_threshold_temp: int
+    expiration_date: QDate
+
 
 def handleVisibleChanged():
     # control the position of the virtual keyboard
@@ -97,21 +104,14 @@ class IOWorker(QThread):
     update_naloxone = pyqtSignal(bool, QDate)
     go_to_door_open_signal = pyqtSignal()
 
-    def __init__(self, disarmed, max_temp, fan_threshold_temp, expiration_date):
+    def __init__(self, in_queue):
         super(IOWorker, self).__init__()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(DOOR_PIN, GPIO.IN)
-        print(" ".join(["GPIO thread go", str(disarmed), str(max_temp)]))
+        
         self.naloxone_counter = 9
-
-        self.naloxone_temp = 25
-        self.fan_threshold_temp = fan_threshold_temp
-        self.fan_pwm = 0
-        self.cpu_temp = 50
-        self.door_opened = False
-        self.disarmed = disarmed
-        self.max_temp = max_temp
-        self.expiration_date = expiration_date
+        self.in_queue = in_queue
+        self.initialized = False
 
     def read_naloxone_sensor(self):
         _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
@@ -150,8 +150,15 @@ class IOWorker(QThread):
 
     def run(self):
         while True:
-            if (self.isInterruptionRequested()):
-                break
+            if(not self.initialized or not self.in_queue.empty()):
+                config = self.in_queue.get()
+                self.disarmed = config.disarmed
+                self.max_temp = config.max_temp
+                self.fan_threshold_temp = config.fan_threshold_temp
+                self.expiration_date = config.expiration_date
+                self.naloxone_counter = 9
+                self.initialized = True
+                print(" ".join(["GPIO thread go", str(self.disarmed), str(self.max_temp)]))
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
@@ -162,6 +169,8 @@ class IOWorker(QThread):
                 self.naloxone_counter = 0
             self.send_pwm()
             self.read_door_sensor()
+            print(self.door_opened)
+            print(self.disarmed)
             if (self.door_opened and not self.disarmed):  # if door opened and the switch is armed
                 self.go_to_door_open_signal.emit()
             self.update_door.emit(self.door_opened, not self.disarmed)
@@ -297,6 +306,7 @@ class ApplicationWindow(QMainWindow):
         self.voice_volume = 20
         self.status_queue = PriorityQueue()
         self.request_queue = PriorityQueue()
+        self.io_queue = Queue()
         self.message_to_display = str()
         self.message_level = 0
         self.ui = Ui_door_close_main_window()
@@ -373,11 +383,13 @@ class ApplicationWindow(QMainWindow):
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
+        print("P0")
         self.twilio_worker = None
         self.network_worker = None
         self.io_worker = None
         self.alarm_worker = None
         self.countdown_worker = None
+        self.create_io_worker()
         self.create_twilio_worker()
         self.twilio_worker.emergency_call_status.connect(self.update_phone_call_gui)
 
@@ -392,6 +404,7 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer = QTimer()
         self.dashboard_timer.timeout.connect(self.goto_home)
         self.dashboard_timer.setSingleShot(True)
+        print("P1")
 
         self.goto_home()
         self.lock_settings()
@@ -417,14 +430,13 @@ class ApplicationWindow(QMainWindow):
 
     def create_io_worker(self):
         self.destroy_io_worker()
-        self.io_worker = IOWorker(
-            self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
+        self.io_worker = IOWorker(self.io_queue)
         self.io_worker.update_door.connect(self.update_door_ui)
         self.io_worker.go_to_door_open_signal.connect(self.goto_door_open)
         self.io_worker.update_temperature.connect(
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
-        self.io_worker.start()
+        self.io_worker.start() # will be blocked when no config is sent
 
     def destroy_call_worker(self):
         if(self.call_worker is not None):
@@ -681,10 +693,13 @@ class ApplicationWindow(QMainWindow):
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
             self.ui.wait_icon.setVisible(True)
-            self.create_io_worker()
+            print("io config sent.")
+            self.io_queue.put(IOItem(False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
+            print("network timer go.")
             self.ui.wait_icon.setVisible(False)
+            self.arm_door_sensor()
 
         except Exception as e:
             self.send_notification(0, "Failed to load config file")
@@ -704,9 +719,10 @@ class ApplicationWindow(QMainWindow):
             self.ui.dashboardPushButton.setChecked(False)
             self.ui.settingsPushButton.setChecked(True)
             self.ui.stackedWidget.setCurrentIndex(2)
+            self.disarm_door_sensor()
 
         else:
-            self.send_notification(4, "Config File Reloaded")
+            self.send_notification(4, "Config Reloaded")
 
     def lock_settings(self):
         # lock the whole setting page.
@@ -901,7 +917,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.armPushButton.setVisible(True)
         self.send_notification(1, "Door Sensor OFF")
         self.disarmed = True
-        self.create_io_worker()
+        self.io_queue.put(IOItem(True, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
 
     
     def arm_door_sensor(self):
@@ -909,7 +925,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.disarmPushButton.setVisible(True)
         self.send_notification(4, "Door Sensor ON")
         self.disarmed = False
-        self.create_io_worker()
+        self.io_queue.put(IOItem(False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
 
     def reset_to_default(self):
         # Used to check whether the door is still opened
