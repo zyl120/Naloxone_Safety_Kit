@@ -17,9 +17,9 @@ from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from typing import Any
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -368,6 +368,7 @@ class ApplicationWindow(QMainWindow):
             self.phone_number_validator)
         self.ui.twilioSIDLineEdit.textChanged.connect(
             self.twilio_sid_validator)
+        self.ui.home_frame.setStyleSheet("QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/background.jpg) 0 0 0 0 stretch stretch}")
 
         QScroller.grabGesture(
             self.ui.manual_textedit.viewport(), QScroller.LeftMouseButtonGesture)
@@ -438,6 +439,7 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
+        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
         self.io_worker.update_door.connect(self.update_door_ui)
