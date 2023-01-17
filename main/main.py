@@ -42,6 +42,7 @@ class NotificationItem:
     priority: int
     message: str = field(compare=False)
 
+
 @dataclass
 class IOItem:
     disarmed: bool
@@ -108,7 +109,7 @@ class IOWorker(QThread):
         super(IOWorker, self).__init__()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(DOOR_PIN, GPIO.IN)
-        
+
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.initialized = False
@@ -160,7 +161,8 @@ class IOWorker(QThread):
                 self.expiration_date = config.expiration_date
                 self.naloxone_counter = 9
                 self.initialized = True
-                print(" ".join(["GPIO thread go", str(self.disarmed), str(self.max_temp)]))
+                print(" ".join(["GPIO thread go", str(
+                    self.disarmed), str(self.max_temp)]))
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
@@ -235,8 +237,7 @@ class NetworkWorker(QThread):
                     balance), currency, self.currentTime.currentTime())
         except Exception as e:
             self.update_server.emit(
-                    False, 0, self.currentTime.currentTime())
-            
+                False, 0, self.currentTime.currentTime())
 
 
 class TwilioWorker(QThread):
@@ -261,12 +262,14 @@ class TwilioWorker(QThread):
                         twiml=request.message, to=request.destination_number, from_=request.twilio_number)
                 except TwilioRestException as e:
                     print("ERROR: {}".format(str(e)))
-                    self.out_queue.put(NotificationItem(request.priority, "Call Failed"))
+                    self.out_queue.put(NotificationItem(
+                        request.priority, "Call Failed"))
                     if(request.priority == 0):
                         self.emergency_call_status.emit(0, "Call Failed")
                 else:
                     print(call.sid)
-                    self.out_queue.put(NotificationItem(request.priority, "Call Delivered"))
+                    self.out_queue.put(NotificationItem(
+                        request.priority, "Call Delivered"))
                     if(request.priority == 0):
                         self.emergency_call_status.emit(0, "Call Delivered")
             else:
@@ -279,11 +282,13 @@ class TwilioWorker(QThread):
                 except TwilioRestException as e:
                     # if not successful, return False
                     print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
-                    self.out_queue.put(NotificationItem(request.priority, "SMS Failed"))
+                    self.out_queue.put(NotificationItem(
+                        request.priority, "SMS Failed"))
                 else:
                     # if successful, return True
                     print(sms.sid)
-                    self.out_queue.put(NotificationItem(request.priority, "SMS Delivered"))
+                    self.out_queue.put(NotificationItem(
+                        request.priority, "SMS Delivered"))
 
 
 class ApplicationWindow(QMainWindow):
@@ -394,7 +399,8 @@ class ApplicationWindow(QMainWindow):
         self.countdown_worker = None
         self.create_io_worker()
         self.create_twilio_worker()
-        self.twilio_worker.emergency_call_status.connect(self.update_phone_call_gui)
+        self.twilio_worker.emergency_call_status.connect(
+            self.update_phone_call_gui)
 
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
@@ -439,7 +445,7 @@ class ApplicationWindow(QMainWindow):
         self.io_worker.update_temperature.connect(
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
-        self.io_worker.start() # will be blocked when no config is sent
+        self.io_worker.start()  # will be blocked when no config is sent
 
     def destroy_call_worker(self):
         if(self.call_worker is not None):
@@ -447,21 +453,18 @@ class ApplicationWindow(QMainWindow):
             self.call_worker.wait()
 
     def create_call_request(self, number, body, t_sid, t_token, t_number, priority=4):
-        self.ui.wait_icon.setVisible(True)
         request = RequestItem(priority, "call", number, body,
                               t_sid, t_token, t_number)
         self.request_queue.put(request)  # blocking
-        self.ui.wait_icon.setVisible(False)
 
     def destroy_sms_worker(self):
         if(self.sms_worker is not None):
             self.sms_worker.wait()
 
     def create_sms_request(self, number, body, t_sid, t_token, t_number, priority=4):
-        self.ui.wait_icon.setVisible(True)
-        request = RequestItem(priority, "SMS", number, body, t_sid, t_token, t_number)
+        request = RequestItem(priority, "SMS", number,
+                              body, t_sid, t_token, t_number)
         self.request_queue.put(request)  # blocking
-        self.ui.wait_icon.setVisible(False)
 
     def destroy_network_worker(self):
         if (self.network_worker is not None):
@@ -505,7 +508,7 @@ class ApplicationWindow(QMainWindow):
         self.countdown_worker.start()
 
     def send_notification(self, priority, message):
-        self.status_queue.put(NotificationItem(priority, message)) # blocking
+        self.status_queue.put(NotificationItem(priority, message))  # blocking
 
     def load_manual(self):
         file = QFile('../user_manual/gui_manual/lock_screen_manual.md')
@@ -695,13 +698,12 @@ class ApplicationWindow(QMainWindow):
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
 
-            self.ui.wait_icon.setVisible(True)
             print("io config sent.")
-            self.io_queue.put(IOItem(False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+            self.io_queue.put(IOItem(
+                False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
             print("network timer go.")
-            self.ui.wait_icon.setVisible(False)
             self.arm_door_sensor()
 
         except Exception as e:
@@ -920,15 +922,16 @@ class ApplicationWindow(QMainWindow):
         self.ui.armPushButton.setVisible(True)
         self.send_notification(1, "Door Sensor OFF")
         self.disarmed = True
-        self.io_queue.put(IOItem(True, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+        self.io_queue.put(IOItem(
+            True, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
 
-    
     def arm_door_sensor(self):
         self.ui.armPushButton.setVisible(False)
         self.ui.disarmPushButton.setVisible(True)
         self.send_notification(4, "Door Sensor ON")
         self.disarmed = False
-        self.io_queue.put(IOItem(False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+        self.io_queue.put(IOItem(
+            False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
 
     def reset_to_default(self):
         # Used to check whether the door is still opened
@@ -978,6 +981,10 @@ class ApplicationWindow(QMainWindow):
         time = QDateTime()
         self.ui.time_label.setText(
             time.currentDateTime().toString("h:mm AP"))
+        if(self.request_queue.qsize() is not 0):
+            self.ui.wait_icon.setVisible(True)
+        else:
+            self.ui.wait_icon.setVisible(False)
         if (self.status_queue.empty()):
             self.ui.status_bar.setVisible(False)
         else:
@@ -1224,7 +1231,8 @@ class ApplicationWindow(QMainWindow):
         print("exit 0")
         self.status_bar_timer.stop()
         print("exit 1")
-        self.request_queue.put(RequestItem(0, "exit", str(), str(), str(), str(), str()))
+        self.request_queue.put(RequestItem(
+            0, "exit", str(), str(), str(), str(), str()))
         self.destroy_twilio_worker()
         print("exit 2")
         self.destroy_network_worker()
