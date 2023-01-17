@@ -17,9 +17,9 @@ from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from typing import Any
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -482,7 +482,6 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
-        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(
             self.disarmed, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date)
@@ -1133,12 +1132,10 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot(int, str)
     def update_phone_call_gui(self, priority, message):
         if (priority == 0):
-            self.send_notification(0, "911 Placed")
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
                 QTime().currentTime().toString("h:mm AP"))
         else:
-            self.send_notification(0, "911 Call Failed")
             self.ui.emergencyCallStatusLabel.setText("Failed")
 
     @pyqtSlot(bool, bool)
