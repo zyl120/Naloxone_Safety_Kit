@@ -169,8 +169,6 @@ class IOWorker(QThread):
                 self.naloxone_counter = 0
             self.send_pwm()
             self.read_door_sensor()
-            print(self.door_opened)
-            print(self.disarmed)
             if (self.door_opened and not self.disarmed):  # if door opened and the switch is armed
                 self.go_to_door_open_signal.emit()
             self.update_door.emit(self.door_opened, not self.disarmed)
