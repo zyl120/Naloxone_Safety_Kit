@@ -213,16 +213,21 @@ class NetworkWorker(QThread):
         self.twilio_token = twilio_token
 
     def run(self):
-        client = Client(self.twilio_sid, self.twilio_token)
-        response = os.system(" ".join(["ping -c 1", self.hostname]))
-        if (response == 1):
+        try:
+            client = Client(self.twilio_sid, self.twilio_token)
+            response = os.system(" ".join(["ping -c 1", self.hostname]))
+            if (response == 1):
+                self.update_server.emit(
+                    False, 0, self.currentTime.currentTime())
+            else:
+                balance = client.api.v2010.balance.fetch().balance
+                currency = client.api.v2010.balance.fetch().currency
+                self.update_server.emit(True, float(
+                    balance), currency, self.currentTime.currentTime())
+        except Exception as e:
             self.update_server.emit(
-                False, 0, self.currentTime.currentTime())
-        else:
-            balance = client.api.v2010.balance.fetch().balance
-            currency = client.api.v2010.balance.fetch().currency
-            self.update_server.emit(True, float(
-                balance), currency, self.currentTime.currentTime())
+                    False, 0, self.currentTime.currentTime())
+            
 
 
 class TwilioWorker(QThread):
