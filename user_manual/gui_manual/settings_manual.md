@@ -1,6 +1,6 @@
 # Settings Manual v0.1
 
-***Always remember to save the settings after modifications!***
+***Always remember to save the settings after making modifications!***
 
 ## Security
 
