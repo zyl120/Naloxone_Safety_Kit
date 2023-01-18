@@ -502,7 +502,7 @@ class ApplicationWindow(QMainWindow):
             self.update_emergency_call_countdown)
         self.countdown_worker.time_end_signal.connect(
             self.call_emergency_now)
-        self.countdown_worker.time_end_signal.connect(self.speak_now)
+        #self.countdown_worker.time_end_signal.connect(self.speak_now)
         self.countdown_worker.start()
 
     def send_notification(self, priority, message):
@@ -1072,12 +1072,13 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(int, str)
     def update_phone_call_gui(self, priority, message):
-        if (priority == 0):
+        if (priority == 0 and message == "Call Delivered"):
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
                 QTime().currentTime().toString("h:mm AP"))
         else:
             self.ui.emergencyCallStatusLabel.setText("Failed")
+            self.speak_now()
 
     @pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
