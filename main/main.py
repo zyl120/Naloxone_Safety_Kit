@@ -509,7 +509,7 @@ class ApplicationWindow(QMainWindow):
         self.status_queue.put(NotificationItem(priority, message))  # blocking
 
     def load_manual(self):
-        file = QFile('../user_manual/gui_manual/lock_screen_manual.md')
+        file = QFile('../user_manual/gui_manual/settings_manual.md')
         if not file.open(QIODevice.ReadOnly):
             self.send_notification(0, "Manual File Missing")
         stream = QTextStream(file)
