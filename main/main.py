@@ -258,7 +258,7 @@ class TwilioWorker(QThread):
                 try:
                     call = client.calls.create(
                         twiml=request.message, to=request.destination_number, from_=request.twilio_number)
-                except TwilioRestException as e:
+                except Exception as e:
                     print("ERROR: {}".format(str(e)))
                     self.out_queue.put(NotificationItem(
                         request.priority, "Call Failed"))
@@ -277,7 +277,7 @@ class TwilioWorker(QThread):
                         to=request.destination_number,
                         from_=request.twilio_number
                     )
-                except TwilioRestException as e:
+                except Exception as e:
                     # if not successful, return False
                     print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
                     self.out_queue.put(NotificationItem(
