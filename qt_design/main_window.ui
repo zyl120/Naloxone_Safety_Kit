@@ -673,7 +673,7 @@ border-color: rgb(50,50,50);}</string>
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -1652,7 +1652,7 @@ color: white;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>3</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1802,7 +1802,7 @@ QScrollBar::sub-line:vertical {
                  <x>0</x>
                  <y>0</y>
                  <width>716</width>
-                 <height>395</height>
+                 <height>369</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1818,19 +1818,6 @@ QScrollBar::sub-line:vertical {
                    <enum>QFrame::Raised</enum>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_23">
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_19">
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>Typical max temperature of Naloxone is 104℉.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="0" column="0">
                     <layout class="QHBoxLayout" name="horizontalLayout_43">
                      <item>
@@ -2072,8 +2059,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>716</width>
-                 <height>308</height>
+                 <width>726</width>
+                 <height>292</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2150,37 +2137,6 @@ QScrollBar::sub-line:vertical {
                     </layout>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_22">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>The virtual phone number purchased from Twilio. Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
-                     </property>
-                     <property name="textFormat">
-                      <enum>Qt::PlainText</enum>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>false</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="Line" name="line_8">
                      <property name="styleSheet">
                       <string notr="true">color:rgb(50,50,50)</string>
@@ -2250,31 +2206,6 @@ QScrollBar::sub-line:vertical {
                       </widget>
                      </item>
                     </layout>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_4">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>The Twilio account string identifier. Start with &quot;AC&quot;.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
                    </item>
                    <item>
                     <widget class="Line" name="line_9">
@@ -2348,31 +2279,6 @@ QScrollBar::sub-line:vertical {
                       </widget>
                      </item>
                     </layout>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_21">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>The auth token provided by Twilio to access your account.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
                    </item>
                   </layout>
                  </widget>
@@ -2449,8 +2355,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>718</width>
-                 <height>434</height>
+                 <width>728</width>
+                 <height>294</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2518,31 +2424,6 @@ QScrollBar::sub-line:vertical {
                       </widget>
                      </item>
                     </layout>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_5">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>The phone number used to call emergency service. Formatted as &quot;+1XXXXXXXXXX&quot;.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
                    </item>
                    <item>
                     <widget class="Line" name="line_6">
@@ -2618,31 +2499,6 @@ QScrollBar::sub-line:vertical {
                     </layout>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_7">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>The location of the safety kit. This info will be included in the emergency call.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="Line" name="line_7">
                      <property name="styleSheet">
                       <string notr="true">color:rgb(50,50,50)</string>
@@ -2709,92 +2565,21 @@ QScrollBar::sub-line:vertical {
                      </item>
                     </layout>
                    </item>
-                   <item>
-                    <widget class="QLabel" name="label_9">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>The message to describe nature of the emergency. This info will be included in the emergency call.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_15">
-                  <property name="styleSheet">
-                   <string notr="true">QWidget#frame_15{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                 <spacer name="verticalSpacer_15">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
                   </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_7">
-                   <item>
-                    <widget class="QLabel" name="twilioAddressWarning">
-                     <property name="font">
-                      <font>
-                       <pointsize>16</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:yellow</string>
-                     </property>
-                     <property name="text">
-                      <string>Warning: Remember to set the emergency address in Twilio.
-Otherwise each emergency call will cost $75. Details =&gt;</string>
-                     </property>
-                     <property name="textFormat">
-                      <enum>Qt::AutoText</enum>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="twilioAddressWarningQrCode">
-                     <property name="minimumSize">
-                      <size>
-                       <width>100</width>
-                       <height>100</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>100</width>
-                       <height>100</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>75_QR_CODE</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
+                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -2912,31 +2697,6 @@ QScrollBar::sub-line:vertical {
                       </widget>
                      </item>
                     </layout>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_15">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>This message will be processed by TTS engine and output to the speaker.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
                    </item>
                    <item>
                     <widget class="Line" name="line_3">
@@ -3209,8 +2969,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>716</width>
-                 <height>383</height>
+                 <width>726</width>
+                 <height>292</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_22" stretch="0,0,0">
@@ -3299,31 +3059,6 @@ color:white;
                       </widget>
                      </item>
                     </layout>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_16">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>Turn off the display outside active hours. Display will be turned on automatically when door opens.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
                    </item>
                    <item>
                     <widget class="Line" name="line_5">
@@ -3543,31 +3278,6 @@ color:white;
                     </layout>
                    </item>
                    <item>
-                    <widget class="QLabel" name="active_cooling_info">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>Use fan to cool down the CPU for better performance.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="Line" name="line_10">
                      <property name="styleSheet">
                       <string notr="true">color:rgb(50,50,50)</string>
@@ -3694,31 +3404,6 @@ QSlider::handle:horizontal {
                      </item>
                     </layout>
                    </item>
-                   <item>
-                    <widget class="QLabel" name="fan_temperature_info">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>22</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color:lightgrey</string>
-                     </property>
-                     <property name="text">
-                      <string>The starting temperature to start the fan. Typical threshold temperature is 176℉.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -3789,7 +3474,7 @@ QScrollBar::sub-line:vertical {
                  <x>0</x>
                  <y>0</y>
                  <width>718</width>
-                 <height>706</height>
+                 <height>680</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -3864,19 +3549,6 @@ QScrollBar::sub-line:vertical {
                       </widget>
                      </item>
                     </layout>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_27">
-                     <property name="styleSheet">
-                      <string notr="true">color:yellow</string>
-                     </property>
-                     <property name="text">
-                      <string>Warning: Leave admin passcode empty will nullify naloxone passcode.</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                     </property>
-                    </widget>
                    </item>
                    <item>
                     <widget class="Line" name="line_11">
@@ -4328,19 +4000,6 @@ color:white;
                          </property>
                          <property name="buddy">
                           <cstring>reportDoorOpenedCheckBox</cstring>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="smsReportingWarning">
-                         <property name="styleSheet">
-                          <string notr="true">color:yellow</string>
-                         </property>
-                         <property name="text">
-                          <string>Warning: SMS Reporting only works with a network connection.</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                          </property>
                         </widget>
                        </item>

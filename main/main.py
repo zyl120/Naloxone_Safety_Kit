@@ -532,23 +532,6 @@ class ApplicationWindow(QMainWindow):
             "res/github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
         self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
 
-        twilio_75_qr_code = QRCode(
-            version=None,
-            error_correction=ERROR_CORRECT_M,
-            box_size=10,
-            border=0
-        )
-        twilio_75_qr_code.add_data(
-            "https://www.twilio.com/docs/voice/tutorials/emergency-calling-for-programmable-voice#:~:text=When%20placing%20an%20emergency%20call,for%20a%20test%20emergency%20call.")
-        twilio_75_qr_code.make(fit=True)
-        img = twilio_75_qr_code.make_image(
-            fill_color="white", back_color="black")
-        img.save("res/twilio_75.png")
-        twilio_75_qrcode_pixmap = QPixmap(
-            "res/twilio_75.png").scaledToWidth(100).scaledToHeight(100)
-        self.ui.twilioAddressWarningQrCode.setPixmap(
-            (twilio_75_qrcode_pixmap))
-
     def load_settings_ui(self):
         try:
             # Load the settings from the conf file, will not handle exceptions.
