@@ -24,6 +24,8 @@ import Adafruit_DHT as dht
 
 DOOR_PIN = 17
 DHT_PIN = 27
+FAN_PIN = 12
+RESET_PIN = 22
 
 
 @dataclass(order=True)
@@ -502,7 +504,6 @@ class ApplicationWindow(QMainWindow):
             self.update_emergency_call_countdown)
         self.countdown_worker.time_end_signal.connect(
             self.call_emergency_now)
-        #self.countdown_worker.time_end_signal.connect(self.speak_now)
         self.countdown_worker.start()
 
     def send_notification(self, priority, message):
