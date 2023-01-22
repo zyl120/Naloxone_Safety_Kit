@@ -229,7 +229,7 @@ class NetworkWorker(QThread):
             response = os.system(" ".join(["ping -c 1", self.hostname]))
             if (response == 1):
                 self.update_server.emit(
-                    False, 0, self.currentTime.currentTime())
+                    False, 0, "USD", self.currentTime.currentTime())
             else:
                 balance = client.api.v2010.balance.fetch().balance
                 currency = client.api.v2010.balance.fetch().currency
