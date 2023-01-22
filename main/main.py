@@ -17,9 +17,9 @@ from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from typing import Any
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
 
 
 DOOR_PIN = 17
@@ -237,7 +237,7 @@ class NetworkWorker(QThread):
                     balance), currency, self.currentTime.currentTime())
         except Exception as e:
             self.update_server.emit(
-                False, 0, self.currentTime.currentTime())
+                False, 0, "USD", self.currentTime.currentTime())
 
 
 class TwilioWorker(QThread):
@@ -438,6 +438,7 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
+        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
         self.io_worker.update_door.connect(self.update_door_ui)
