@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication
-from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QFile, QTime, QDateTime, QTimer, QTextStream, QIODevice
+from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QFile, QTime, QDateTime, QTimer, QTextStream, QIODevice, Qt
 from PyQt5.QtGui import QPixmap, QGuiApplication, QRegion
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
@@ -1221,9 +1221,12 @@ class ApplicationWindow(QMainWindow):
 
 def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
+    
     application = ApplicationWindow()
     application.show()
     sys.exit(app.exec_())
