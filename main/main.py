@@ -706,9 +706,13 @@ class ApplicationWindow(QMainWindow):
             self.ui.settingsPushButton.setChecked(True)
             self.ui.stackedWidget.setCurrentIndex(2)
             self.disarm_door_sensor()
+            self.ui.homePushButton.setVisible(False)
+            self.ui.dashboardPushButton.setVisible(False)
 
         else:
             self.send_notification(4, "Config Reloaded")
+            self.ui.homePushButton.setVisible(True)
+            self.ui.dashboardPushButton.setVisible(True)
 
     def lock_settings(self):
         # lock the whole setting page.
