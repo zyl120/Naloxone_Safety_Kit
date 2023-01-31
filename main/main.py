@@ -255,9 +255,9 @@ class TwilioWorker(QThread):
             if (request.request_type == "exit"):
                 # used to exit the thread
                 break
-            client = Client(request.twilio_sid, request.twilio_token)
             if (request.request_type == "call"):
                 try:
+                    client = Client(request.twilio_sid, request.twilio_token)
                     call = client.calls.create(
                         twiml=request.message, to=request.destination_number, from_=request.twilio_number)
                 except Exception as e:
@@ -274,6 +274,7 @@ class TwilioWorker(QThread):
                         self.emergency_call_status.emit(0, "Call Delivered")
             else:
                 try:
+                    client = Client(request.twilio_sid, request.twilio_token)
                     sms = client.messages.create(
                         body=request.message,
                         to=request.destination_number,
@@ -689,6 +690,7 @@ class ApplicationWindow(QMainWindow):
 
         except Exception as e:
             self.send_notification(0, "Failed to load config file")
+            self.send_notification(4, "Enter OOBE Mode")
             self.ui.unlock_icon.setVisible(True)
             self.ui.unlockSettingsPushButton.setVisible(False)
             self.ui.lockSettingsPushButton.setVisible(True)
