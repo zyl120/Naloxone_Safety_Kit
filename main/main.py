@@ -686,7 +686,6 @@ class ApplicationWindow(QMainWindow):
                 False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
-            self.arm_door_sensor()
 
         except Exception as e:
             self.send_notification(0, "Failed to load config file")
