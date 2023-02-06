@@ -81,10 +81,25 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <property name="spacing">
+         <number>5</number>
+        </property>
         <item row="0" column="0" rowspan="2" colspan="2">
          <widget class="QFrame" name="home_frame">
           <property name="autoFillBackground">
@@ -290,6 +305,21 @@ Own Kit</string>
       </widget>
       <widget class="QWidget" name="dashboardPage">
        <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,1,1">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <property name="spacing">
+         <number>5</number>
+        </property>
         <item row="0" column="1" rowspan="2">
          <widget class="QFrame" name="thermalFrame">
           <property name="styleSheet">
@@ -1000,6 +1030,21 @@ Own Kit</string>
       </widget>
       <widget class="QWidget" name="settingsPage">
        <layout class="QGridLayout" name="gridLayout_15">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <property name="spacing">
+         <number>5</number>
+        </property>
         <item row="0" column="0">
          <widget class="QTabWidget" name="settingsTab">
           <property name="enabled">
@@ -1209,7 +1254,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>734</width>
+                 <width>750</width>
                  <height>336</height>
                 </rect>
                </property>
@@ -1467,8 +1512,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>744</width>
-                 <height>308</height>
+                 <width>760</width>
+                 <height>330</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1763,8 +1808,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>746</width>
-                 <height>310</height>
+                 <width>762</width>
+                 <height>332</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2036,8 +2081,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>744</width>
-                 <height>308</height>
+                 <width>760</width>
+                 <height>330</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2377,8 +2422,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>744</width>
-                 <height>308</height>
+                 <width>760</width>
+                 <height>330</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_22" stretch="0,0,0">
@@ -2881,7 +2926,7 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>736</width>
+                 <width>752</width>
                  <height>591</height>
                 </rect>
                </property>
@@ -3853,6 +3898,21 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </widget>
       <widget class="QWidget" name="passcodePage">
        <layout class="QVBoxLayout" name="verticalLayout_40">
+        <property name="spacing">
+         <number>5</number>
+        </property>
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
         <item>
          <widget class="QFrame" name="frame_3">
           <property name="sizePolicy">
@@ -4331,6 +4391,21 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </widget>
       <widget class="QWidget" name="doorOpenPage">
        <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0" columnstretch="1,1">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <property name="spacing">
+         <number>5</number>
+        </property>
         <item row="0" column="0">
          <widget class="QFrame" name="doorOpenFrame">
           <property name="styleSheet">
