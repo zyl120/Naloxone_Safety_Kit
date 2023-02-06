@@ -973,8 +973,10 @@ class ApplicationWindow(QMainWindow):
         else:
             self.ui.wait_icon.setVisible(False)
         if (self.status_queue.empty()):
+            self.ui.time_label.setVisible(True)
             self.ui.status_bar.setVisible(False)
         else:
+            self.ui.time_label.setVisible(False)
             msg = self.status_queue.get()
             self.message_level = msg.priority
             self.message_to_display = msg.message
