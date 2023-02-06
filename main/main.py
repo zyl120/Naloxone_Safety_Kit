@@ -714,6 +714,7 @@ class ApplicationWindow(QMainWindow):
             self.send_notification(4, "Config Reloaded")
             self.ui.homePushButton.setVisible(True)
             self.ui.dashboardPushButton.setVisible(True)
+            self.arm_door_sensor()
 
     def lock_settings(self):
         # lock the whole setting page.
