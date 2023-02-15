@@ -6,25 +6,25 @@ import apt
 if __name__ == "__main__":
     if os.geteuid() != 0:
         sys.exit(
-            "[E] You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting.")
-    print("[I] Checking OS...")
+            "You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting.")
+    print("Checking OS...")
     with subprocess.Popen(["uname", "-o"], stdout=subprocess.PIPE) as process:
         output = process.communicate()[0].decode("utf-8").rstrip()
         if(output != "GNU/Linux"):
-            sys.exit("[E] Wrong OS Type, exit.")
+            sys.exit("Wrong OS Type, exit.")
 
     username = input("Enter your user name: ")
-    print("[I] Current working directory is {}".format(os.getcwd()))
+    print("Current working directory is {}".format(os.getcwd()))
     try:
         home_dir = os.path.expanduser("~"+username)
-        print("[I] It will now be changed to your home directory {}".format(home_dir))
+        print("It will now be changed to your home directory {}".format(home_dir))
         os.chdir(os.path.expanduser("~"+username))
     except Exception as e:
-        sys.exit("[E] Invalid user name.")
+        sys.exit("Invalid user name.")
     else:
-        print("[I] Current working directory is {}".format(os.getcwd()))
+        print("Current working directory is {}".format(os.getcwd()))
 
-    print("[I] Refresh repo list...")
+    print("Refresh repo list...")
     cache = apt.cache.Cache()
     cache.update()
     cache.open()
@@ -34,73 +34,73 @@ if __name__ == "__main__":
     for pkg_name in pkg_name_list:
         pkg = cache[pkg_name]
         if pkg.is_installed:
-            print("[I] {pkg_name} already installed".format(pkg_name=pkg_name))
+            print("{pkg_name} already installed".format(pkg_name=pkg_name))
         else:
             pkg.mark_install()
 
-    print("[I] Installing packages...")
+    print("Installing packages...")
     try:
         cache.commit()
     except Exception as e:
-        sys.exit("[E] Sorry, package installation failed [{}]".format(str(e)))
+        sys.exit("Sorry, package installation failed [{}]".format(str(e)))
     else:
-        print("[I] apt installation completes successfully")
+        print("apt installation completes successfully")
 
     pip_list = ["twilio", "qrcode", "Adafruit-DHT", "gtts", "phonenumbers"]
     for pip_pkg in pip_list:
-        print("[I] Installing {} using pip...".format(pip_pkg))
+        print("Installing {} using pip...".format(pip_pkg))
         try:
             subprocess.check_call(
                 [sys.executable, "-m", "pip", "install", pip_pkg], stdout=subprocess.DEVNULL)
         except Exception as e:
-            sys.exit("[E] Sorry, package installation of {} failed [{}]".format(
+            sys.exit("Sorry, package installation of {} failed [{}]".format(
                 pip_pkg, str(e)))
         else:
-            print("[I] {} installed successfully".format(pip_pkg))
+            print("{} installed successfully".format(pip_pkg))
 
-    print("[I] Probing QT_PREFIX_PATH...")
+    print("Probing QT_PREFIX_PATH...")
     from PyQt5.QtCore import QLibraryInfo
     QT_PREFIX_PATH = QLibraryInfo.location(QLibraryInfo.PrefixPath)
-    print("[I] QT_PREFIX_PATH={}".format(QT_PREFIX_PATH))
+    print("QT_PREFIX_PATH={}".format(QT_PREFIX_PATH))
 
-    print("[I] Downloading Qt Virtual Keyboard from GitHub...")
+    print("Downloading Qt Virtual Keyboard from GitHub...")
     try:
         subprocess.check_call(["git", "clone", "-b", "5.15",
                               "https://github.com/qt/qtvirtualkeyboard.git"], stdout=subprocess.DEVNULL)
     except Exception as e:
         sys.exit("Failed to download Qt Virtual Keyboard [{}]".format(str(e)))
     else:
-        print("[I] Download Successfully")
+        print("Download Successfully")
 
     new_path = os.getcwd() + "/qtvirtualkeyboard"
-    print("[I] Change directory to {}".format(new_path))
+    print("Change directory to {}".format(new_path))
     os.chdir(new_path)
 
-    print("[I] Running qmake...")
+    print("Running qmake...")
     try:
         subprocess.check_call(["qmake"], stdout=subprocess.DEVNULL)
     except Exception as e:
         sys.exit("Failed to run qmake [{}]".format(str(e)))
     else:
-        print("[I] qmake Successfully")
+        print("qmake Successfully")
 
-    print("[I] Running make, it will take ~30 minutes...")
+    print("Running make, it will take ~30 minutes...")
     try:
         subprocess.check_call(["make"], stdout=subprocess.DEVNULL)
     except Exception as e:
         sys.exit("Failed to run make [{}]".format(str(e)))
     else:
-        print("[I] make Successfully")
+        print("make Successfully")
 
-    print("[I] Running make install...")
+    print("Running make install...")
     try:
         subprocess.check_call(["make", "install"], stdout=subprocess.DEVNULL)
     except Exception as e:
         sys.exit("Failed to run make install [{}]".format(str(e)))
     else:
-        print("[I] make install Successfully")
+        print("make install Successfully")
 
-    print("[I] Moving Files...")
+    print("Moving Files...")
     try:
         subprocess.check_call(["cp", "-L", "{}/lib/libQt5VirtualKeyboard.so.5".format(new_path),
                               "{}/lib/libQt5VirtualKeyboard.so.5".format(QT_PREFIX_PATH)], stdout=subprocess.DEVNULL)
@@ -119,9 +119,39 @@ if __name__ == "__main__":
         subprocess.check_call(["cp", "-r", "{}/qml/QtQuick/VirtualKeyboard/".format(
             new_path), "{}/qml/QtQuick/".format(QT_PREFIX_PATH)], stdout=subprocess.DEVNULL)
     except Exception as e:
-        sys.exit("[E] Failed to move files. [{}]".format(str(e)))
+        sys.exit("Failed to move files. [{}]".format(str(e)))
     else:
-        print("[I] Moving Files Successfully")
+        print("Moving Files Successfully")
 
-    print("[I] Install Successfully")
+    print("Changing to home directory")
+    os.chdir(os.path.expanduser("~"+username))
+
+    print("Cloning Software from GitHub")
+    clone = "git clone https://github.com/zyl120/Naloxone_Safety_Kit"
+    os.system(clone)
+    print("The software is license under LGPL-3. Please read the license before using.")
+
+    print("Creating systemd service file")
+    L = [
+        "[Unit]\n",
+        "Description=Internet-Based Naloxone Safety Kit\n",
+        "After=network.target\n\n",
+        "[Service]\n",
+        "Type=idle\n",
+        "Restart=on-failure\n",
+        "User={}\n".format(username),
+        "ExecStart=/usr/bin/python {}/main.py\n\n".format(os.getcwd() + "/Naloxone_Safety_Kit/main"),
+        "[Install]\n",
+        "WantedBy=graphical.target"]
+
+    with open("/etc/systemd/system/naloxone_safety_kit.service", "w") as s_file:
+        s_file.writelines(L)
+
+    print("Enabling Service")
+    os.system("systemctl enable naloxone_safety_kit.service")
+
+    print("Starting Service")
+    os.system("systemctl start naloxone_safety_kit.service")
+
+    print("Install Successfully")
     sys.exit(0)
