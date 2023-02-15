@@ -7,5 +7,4 @@ main/safety_kit.conf
 *.mp3
 qt_design/qt_design.pyproject.user
 archive
-res/admin_qrcode.png
-
+main/res/admin_qrcode.png
