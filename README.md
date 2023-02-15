@@ -32,4 +32,3 @@ An internet-connected enclosure for a naloxone safety kit will solve these probl
 
 ## Credits
 - Icons in the software come from <a target="_blank" href="https://icons8.com">Icons8</a>
-- Qt is used under the LGPL v3. 
