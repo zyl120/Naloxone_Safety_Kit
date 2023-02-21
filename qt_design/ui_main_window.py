@@ -2249,7 +2249,7 @@ class Ui_door_close_main_window(object):
         self.alarmMutePushButton.setFont(font)
         self.alarmMutePushButton.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
         icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap("../main/res/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon15.addPixmap(QtGui.QPixmap("../main/res/mute.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.alarmMutePushButton.setIcon(icon15)
         self.alarmMutePushButton.setIconSize(QtCore.QSize(48, 48))
         self.alarmMutePushButton.setObjectName("alarmMutePushButton")
@@ -2600,7 +2600,7 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(4)
         self.settingsTab.setCurrentIndex(3)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)

@@ -81,7 +81,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -4994,7 +4994,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../main/res/pause.png</normaloff>../main/res/pause.png</iconset>
+               <normaloff>../main/res/mute.png</normaloff>../main/res/mute.png</iconset>
              </property>
              <property name="iconSize">
               <size>

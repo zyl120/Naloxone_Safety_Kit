@@ -17,15 +17,12 @@ from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from typing import Any
-# from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
-
 
 DOOR_PIN = 17
 DHT_PIN = 27
 FAN_PIN = 12
 RESET_PIN = 22
+RASPBERRY = True
 
 
 @dataclass(order=True)
@@ -419,6 +416,8 @@ class ApplicationWindow(QMainWindow):
         self.goto_home()
         self.lock_settings()
         self.load_settings()
+        self.door_opened = True
+        self.goto_door_open()
 
     def destroy_twilio_worker(self):
         if (self.twilio_worker is not None):
@@ -439,7 +438,8 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
-        return
+        if(not RASPBERRY):
+            return
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
         self.io_worker.update_door.connect(self.update_door_ui)
@@ -500,6 +500,7 @@ class ApplicationWindow(QMainWindow):
             self.countdown_worker.wait()
 
     def create_countdown_worker(self, time):
+        print("creating countdown worker...")
         self.destroy_countdown_worker()
         self.countdown_worker = CountDownWorker(time)
         self.countdown_worker.time_changed_signal.connect(
@@ -1033,7 +1034,8 @@ class ApplicationWindow(QMainWindow):
     def get_passcode_button_pressed(self):
         self.create_sms_request(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
             ["The passcode is", self.naloxone_passcode]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.send_sms_using_config_file("Passcode retrieved. The phone number is {}".format(self.ui.paramedic_phone_number_lineedit.text()))
+        self.send_sms_using_config_file("Passcode retrieved. The phone number is {}".format(
+            self.ui.paramedic_phone_number_lineedit.text()))
 
     @pyqtSlot()
     def notify_admin(self):
@@ -1229,16 +1231,32 @@ class ApplicationWindow(QMainWindow):
 
 def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons
+    # enable highdpi scaling
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps,
+                              True)  # use highdpi icons
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
-    
+
     application = ApplicationWindow()
     application.show()
     sys.exit(app.exec_())
 
 
 if __name__ == "__main__":
+    if(len(sys.argv) == 1):
+        print(sys.argv[0])
+        RASPBERRY = True
+    elif(len(sys.argv) >= 2):
+        if(sys.argv[1] == 'D'):
+            RASPBERRY = False
+        else:
+            RASPBERRY = True
+    print("DEBUG MODE: " + str(not RASPBERRY))
+    if(RASPBERRY):
+        from gpiozero import CPUTemperature
+        import RPi.GPIO as GPIO
+        import Adafruit_DHT as dht
+
     gui_manager()
