@@ -416,8 +416,6 @@ class ApplicationWindow(QMainWindow):
         self.goto_home()
         self.lock_settings()
         self.load_settings()
-        self.door_opened = True
-        self.goto_door_open()
 
     def destroy_twilio_worker(self):
         if (self.twilio_worker is not None):
