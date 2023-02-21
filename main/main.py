@@ -1033,7 +1033,7 @@ class ApplicationWindow(QMainWindow):
     def get_passcode_button_pressed(self):
         self.create_sms_request(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
             ["The passcode is", self.naloxone_passcode]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
-        self.send_sms_using_config_file("Passcode retrieved.")
+        self.send_sms_using_config_file("Passcode retrieved. The phone number is {}".format(self.ui.paramedic_phone_number_lineedit.text()))
 
     @pyqtSlot()
     def notify_admin(self):
