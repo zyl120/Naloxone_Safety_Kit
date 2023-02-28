@@ -1342,7 +1342,7 @@ class Ui_door_close_main_window(object):
         self.admin_scroll_area.setWidgetResizable(True)
         self.admin_scroll_area.setObjectName("admin_scroll_area")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 746, 680))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -326, 746, 711))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -1647,6 +1647,24 @@ class Ui_door_close_main_window(object):
 "")
         self.reportSettingsChangedCheckBox.setObjectName("reportSettingsChangedCheckBox")
         self.verticalLayout_37.addWidget(self.reportSettingsChangedCheckBox)
+        self.reportLowAccountBalanceCheckBox = QtWidgets.QCheckBox(self.frame_17)
+        self.reportLowAccountBalanceCheckBox.setMinimumSize(QtCore.QSize(0, 30))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.reportLowAccountBalanceCheckBox.setFont(font)
+        self.reportLowAccountBalanceCheckBox.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.reportLowAccountBalanceCheckBox.setStyleSheet("QCheckBox::indicator{\n"
+"border-color:rgb(50,50,50);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}\n"
+"QCheckBox::indicator:unchecked{\n"
+"background-color : rgb(50,50,50);}\n"
+"QCheckBox::indicator:checked{\n"
+"background-color : white;}\n"
+"QCheckBox{\n"
+"color:white;\n"
+"}\n"
+"")
+        self.reportLowAccountBalanceCheckBox.setObjectName("reportLowAccountBalanceCheckBox")
+        self.verticalLayout_37.addWidget(self.reportLowAccountBalanceCheckBox)
         self.horizontalLayout_14.addLayout(self.verticalLayout_37)
         self.verticalLayout_19.addLayout(self.horizontalLayout_14)
         self.verticalLayout_39.addWidget(self.frame_17)
@@ -2600,8 +2618,8 @@ class Ui_door_close_main_window(object):
         self.label_10.setBuddy(self.forgotPasswordPushButton)
 
         self.retranslateUi(door_close_main_window)
-        self.stackedWidget.setCurrentIndex(4)
-        self.settingsTab.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
+        self.settingsTab.setCurrentIndex(6)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.unlockSettingsPushButton)
@@ -2721,6 +2739,7 @@ class Ui_door_close_main_window(object):
         self.reportEmergencyCalledCheckBox.setText(_translate("door_close_main_window", "Emergency Called"))
         self.reportNaloxoneDestroyedCheckBox.setText(_translate("door_close_main_window", "Naloxone Destroyed"))
         self.reportSettingsChangedCheckBox.setText(_translate("door_close_main_window", "Settings Changed"))
+        self.reportLowAccountBalanceCheckBox.setText(_translate("door_close_main_window", "Low Account Balance"))
         self.label_2.setText(_translate("door_close_main_window", "Toggle &Door Switch"))
         self.armPushButton.setText(_translate("door_close_main_window", "Arm"))
         self.disarmPushButton.setText(_translate("door_close_main_window", "Disarm"))

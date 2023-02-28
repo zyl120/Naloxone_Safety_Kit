@@ -81,7 +81,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -1105,7 +1105,7 @@ color: white;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>6</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2925,9 +2925,9 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
+                 <y>-326</y>
                  <width>746</width>
-                 <height>680</height>
+                 <height>711</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -3615,6 +3615,39 @@ color:white;
                          </property>
                          <property name="text">
                           <string>Settings Changed</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="reportLowAccountBalanceCheckBox">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>16</pointsize>
+                          </font>
+                         </property>
+                         <property name="layoutDirection">
+                          <enum>Qt::RightToLeft</enum>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QCheckBox::indicator{
+border-color:rgb(50,50,50);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}
+QCheckBox::indicator:unchecked{
+background-color : rgb(50,50,50);}
+QCheckBox::indicator:checked{
+background-color : white;}
+QCheckBox{
+color:white;
+}
+</string>
+                         </property>
+                         <property name="text">
+                          <string>Low Account Balance</string>
                          </property>
                         </widget>
                        </item>

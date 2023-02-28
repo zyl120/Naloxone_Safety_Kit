@@ -49,6 +49,7 @@ class IOItem:
     fan_threshold_temp: int
     expiration_date: QDate
 
+
 @dataclass
 class EventItem:
     # [0] report_door_opened
@@ -603,6 +604,8 @@ class ApplicationWindow(QMainWindow):
                 config["admin"]["report_naloxone_destroyed"] == "True")
             self.ui.reportSettingsChangedCheckBox.setChecked(
                 config["admin"]["report_settings_changed"] == "True")
+            self.ui.reportLowAccountBalanceCheckBox.setChecked(
+                config["admin"]["report_low_account_balance"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
             self.ui.startTimeEdit.setTime(self.active_hour_start)
@@ -623,12 +626,6 @@ class ApplicationWindow(QMainWindow):
     def load_settings(self):
         # load the settings from the conf file.
         try:
-        #     self.sms_reporting = False
-        # self.report_door_opened = False
-        # self.report_emergency_called = False
-        # self.report_naloxone_destroyed = False
-        # self.report_settings_changed = False
-        # self.report_low_balance = False
             config = ConfigParser()
             config.read("safety_kit.conf")
             self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
@@ -690,7 +687,11 @@ class ApplicationWindow(QMainWindow):
             self.report_settings_changed = (
                 config["admin"]["report_settings_changed"] == "True"
             )
-            self.report_low_balance = False
+            self.ui.reportLowAccountBalanceCheckBox.setChecked(
+                config["admin"]["report_low_account_balance"] == "True"
+            )
+            self.report_low_balance = (
+                config["admin"]["report_low_account_balance"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
             if (config["admin"]["allow_paramedics"] == "False"):
@@ -737,6 +738,7 @@ class ApplicationWindow(QMainWindow):
             self.network_timer.start(600000)
 
         except Exception as e:
+            print(e)
             self.send_notification(0, "Failed to load config file")
             self.send_notification(4, "Enter OOBE Mode")
             self.ui.unlock_icon.setVisible(True)
@@ -1069,8 +1071,8 @@ class ApplicationWindow(QMainWindow):
         if(self.naloxone_destroyed):
             self.reporting_queue.put(EventItem(2, "Naloxone Destroyed"))
         if(self.low_account_balance):
-            self.reporting_queue.put(EventItem(4, "Low Twilio Account Balance"))
-
+            self.reporting_queue.put(
+                EventItem(4, "Low Twilio Account Balance"))
 
     @pyqtSlot()
     def twilio_sid_validator(self):
@@ -1169,7 +1171,8 @@ class ApplicationWindow(QMainWindow):
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
                 QTime().currentTime().toString("h:mm AP"))
-            self.reporting_queue.put(EventItem(1, "Emergency Call Placed Successfully"))
+            self.reporting_queue.put(
+                EventItem(1, "Emergency Call Placed Successfully"))
         else:
             self.ui.emergencyCallStatusLabel.setText("Failed")
             self.reporting_queue.put(EventItem(1, "Emergency Call Failed"))
@@ -1283,6 +1286,7 @@ class ApplicationWindow(QMainWindow):
             "report_emergency_called": self.ui.reportEmergencyCalledCheckBox.isChecked(),
             "report_naloxone_destroyed": self.ui.reportNaloxoneDestroyedCheckBox.isChecked(),
             "report_settings_changed": self.ui.reportSettingsChangedCheckBox.isChecked(),
+            "report_low_account_balance": self.ui.reportLowAccountBalanceCheckBox.isChecked(),
             "allow_paramedics": self.ui.allowParamedicsCheckBox.isChecked()
         }
         config["power_management"] = {
