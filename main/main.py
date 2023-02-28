@@ -310,6 +310,9 @@ class ApplicationWindow(QMainWindow):
         self.report_naloxone_destroyed = False
         self.report_settings_changed = False
         self.report_low_balance = False
+        self.reporting_cat = 0
+        self.reporting_message = str()
+        self.reporting_item = None
         self.max_temp = 0
         self.fan_threshold_temp = 0
         self.admin_passcode = str()
@@ -432,6 +435,7 @@ class ApplicationWindow(QMainWindow):
 
         self.reporting_timer = QTimer()
         self.reporting_timer.timeout.connect(self.reporting_handling)
+        self.reporting_handling()
         self.reporting_timer.start(10000)
 
         self.goto_home()
@@ -1039,19 +1043,20 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def reporting_handling(self):
-        event = self.reporting_queue.get()
-        cat = event.cat
-        message = event.message
-        if(self.sms_reporting and self.report_door_opened and cat == 0):
-            self.send_sms_using_config_file(message)
-        elif(self.sms_reporting and self.report_emergency_called and cat == 1):
-            self.send_sms_using_config_file(message)
-        elif(self.sms_reporting and self.report_naloxone_destroyed and cat == 2):
-            self.send_sms_using_config_file(message)
-        elif(self.sms_reporting and self.report_settings_changed and cat == 3):
-            self.send_sms_using_config_file(message)
-        elif(self.sms_reporting and self.report_low_balance and cat == 4):
-            self.send_sms_using_config_file(message)
+        if(not self.reporting_queue.empty()):
+            self.reporting_event = self.reporting_queue.get()
+            self.reporting_cat = self.reporting_event.cat
+            self.reporting_message = self.reporting_event.message
+            if(self.sms_reporting and self.report_door_opened and self.reporting_cat == 0):
+                self.send_sms_using_config_file(self.reporting_message)
+            elif(self.sms_reporting and self.report_emergency_called and self.reporting_cat == 1):
+                self.send_sms_using_config_file(self.reporting_message)
+            elif(self.sms_reporting and self.report_naloxone_destroyed and self.reporting_cat == 2):
+                self.send_sms_using_config_file(self.reporting_message)
+            elif(self.sms_reporting and self.report_settings_changed and self.reporting_cat == 3):
+                self.send_sms_using_config_file(self.reporting_message)
+            elif(self.sms_reporting and self.report_low_balance and self.reporting_cat == 4):
+                self.send_sms_using_config_file(self.reporting_message)
 
 
     @pyqtSlot()
