@@ -487,15 +487,17 @@ class Ui_door_close_main_window(object):
 "border-width: 0px;\n"
 "border-style: solid;}\n"
 "QTabBar::tab{\n"
-"padding-left: 9px;\n"
-"padding-right: -9px;\n"
+"padding-left: 1px;\n"
+"padding-right: -1px;\n"
+"padding-top: -9px;\n"
+"padding-bottom:9px;\n"
 "width:50px;\n"
 "height:50px;\n"
 "border-radius:25px;\n"
 "border-width:1px;\n"
 "border-color:black;\n"
-"margin-left:4px;\n"
-"margin-right:4px;}\n"
+"margin-top:2px;\n"
+"margin-bottom:2px;}\n"
 "QTabBar::tab:selected {\n"
 "background: rgb(50,50,50);\n"
 "border-color:rgb(50,50,50);\n"
@@ -507,7 +509,7 @@ class Ui_door_close_main_window(object):
 "color: white;\n"
 "}\n"
 "")
-        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.North)
+        self.settingsTab.setTabPosition(QtWidgets.QTabWidget.West)
         self.settingsTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.settingsTab.setIconSize(QtCore.QSize(32, 32))
         self.settingsTab.setDocumentMode(False)
@@ -581,7 +583,7 @@ class Ui_door_close_main_window(object):
         self.naloxone_scroll_area.setWidgetResizable(True)
         self.naloxone_scroll_area.setObjectName("naloxone_scroll_area")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 744, 369))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 704, 374))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -703,7 +705,7 @@ class Ui_door_close_main_window(object):
         self.twilio_scroll_area.setWidgetResizable(True)
         self.twilio_scroll_area.setObjectName("twilio_scroll_area")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 754, 329))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 704, 374))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
@@ -837,7 +839,7 @@ class Ui_door_close_main_window(object):
         self.call_scroll_area.setWidgetResizable(True)
         self.call_scroll_area.setObjectName("call_scroll_area")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 756, 331))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 706, 376))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_44 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_44.setObjectName("verticalLayout_44")
@@ -959,7 +961,7 @@ class Ui_door_close_main_window(object):
         self.alarm_scroll_area.setWidgetResizable(True)
         self.alarm_scroll_area.setObjectName("alarm_scroll_area")
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 754, 329))
+        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 704, 374))
         self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_5)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
@@ -1114,7 +1116,7 @@ class Ui_door_close_main_window(object):
         self.power_scroll_area.setWidgetResizable(True)
         self.power_scroll_area.setObjectName("power_scroll_area")
         self.scrollAreaWidgetContents_6 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 754, 329))
+        self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 704, 374))
         self.scrollAreaWidgetContents_6.setObjectName("scrollAreaWidgetContents_6")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_6)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
@@ -1342,7 +1344,7 @@ class Ui_door_close_main_window(object):
         self.admin_scroll_area.setWidgetResizable(True)
         self.admin_scroll_area.setObjectName("admin_scroll_area")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -326, 746, 711))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 696, 711))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -1756,42 +1758,6 @@ class Ui_door_close_main_window(object):
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap("../main/res/admin.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.settingsTab.addTab(self.admin, icon8, "")
-        self.help = QtWidgets.QWidget()
-        self.help.setObjectName("help")
-        self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.help)
-        self.verticalLayout_20.setObjectName("verticalLayout_20")
-        self.manual_textedit = QtWidgets.QTextEdit(self.help)
-        self.manual_textedit.setAutoFillBackground(False)
-        self.manual_textedit.setStyleSheet("QScrollBar {\n"
-"        background: rgb(50,50,50);\n"
-"        border-radius: 5px;\n"
-"        border-color:rgb(50,50,50);\n"
-"        width:10\n"
-"    }\n"
-"QScrollBar::handle:vertical\n"
-"    {\n"
-"        background-color: rgb(65,65,65);\n"
-"        border-radius: 5px;\n"
-"    }\n"
-"QScrollBar::add-line:vertical {\n"
-"      border: none;\n"
-"      background: none;\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:vertical {\n"
-"      border: none;\n"
-"      background: none;\n"
-"}QTextEdit {\n"
-"    background-color: black;\n"
-"    color: white;\n"
-"}")
-        self.manual_textedit.setReadOnly(True)
-        self.manual_textedit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-        self.manual_textedit.setObjectName("manual_textedit")
-        self.verticalLayout_20.addWidget(self.manual_textedit)
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("../main/res/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.settingsTab.addTab(self.help, icon9, "")
         self.gridLayout_15.addWidget(self.settingsTab, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.settingsPage)
         self.passcodePage = QtWidgets.QWidget()
@@ -1906,9 +1872,9 @@ class Ui_door_close_main_window(object):
         self.get_passcode_button.setFont(font)
         self.get_passcode_button.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("../main/res/get_passcode.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.get_passcode_button.setIcon(icon10)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("../main/res/get_passcode.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.get_passcode_button.setIcon(icon9)
         self.get_passcode_button.setIconSize(QtCore.QSize(32, 32))
         self.get_passcode_button.setObjectName("get_passcode_button")
         self.gridLayout_2.addWidget(self.get_passcode_button, 2, 1, 1, 1)
@@ -1920,9 +1886,9 @@ class Ui_door_close_main_window(object):
         self.notify_admin_button.setFont(font)
         self.notify_admin_button.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
-        icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap("../main/res/notify.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.notify_admin_button.setIcon(icon11)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap("../main/res/notify.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.notify_admin_button.setIcon(icon10)
         self.notify_admin_button.setIconSize(QtCore.QSize(32, 32))
         self.notify_admin_button.setObjectName("notify_admin_button")
         self.gridLayout_2.addWidget(self.notify_admin_button, 2, 3, 1, 1)
@@ -1964,7 +1930,7 @@ class Ui_door_close_main_window(object):
         self.notify_admin_button_3.setFont(font)
         self.notify_admin_button_3.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
-        self.notify_admin_button_3.setIcon(icon11)
+        self.notify_admin_button_3.setIcon(icon10)
         self.notify_admin_button_3.setIconSize(QtCore.QSize(32, 32))
         self.notify_admin_button_3.setObjectName("notify_admin_button_3")
         self.horizontalLayout_11.addWidget(self.notify_admin_button_3)
@@ -2005,9 +1971,9 @@ class Ui_door_close_main_window(object):
         self.forgotPasswordPushButton.setFont(font)
         self.forgotPasswordPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
 "")
-        icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap("../main/res/forgot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.forgotPasswordPushButton.setIcon(icon12)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap("../main/res/forgot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.forgotPasswordPushButton.setIcon(icon11)
         self.forgotPasswordPushButton.setIconSize(QtCore.QSize(32, 32))
         self.forgotPasswordPushButton.setObjectName("forgotPasswordPushButton")
         self.horizontalLayout_9.addWidget(self.forgotPasswordPushButton)
@@ -2103,9 +2069,9 @@ class Ui_door_close_main_window(object):
         font.setBold(True)
         self.stopCountdownPushButton.setFont(font)
         self.stopCountdownPushButton.setStyleSheet("color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
-        icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap("../main/res/stop_sign.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.stopCountdownPushButton.setIcon(icon13)
+        icon12 = QtGui.QIcon()
+        icon12.addPixmap(QtGui.QPixmap("../main/res/stop_sign.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.stopCountdownPushButton.setIcon(icon12)
         self.stopCountdownPushButton.setIconSize(QtCore.QSize(48, 48))
         self.stopCountdownPushButton.setObjectName("stopCountdownPushButton")
         self.gridLayout_14.addWidget(self.stopCountdownPushButton, 1, 1, 1, 1)
@@ -2160,9 +2126,9 @@ class Ui_door_close_main_window(object):
         self.call911NowPushButton.setFont(font)
         self.call911NowPushButton.setStyleSheet("color: white; background-color: red; border-radius:40px;border-color:red;border-width: 1px;border-style: solid;\n"
 "")
-        icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap("../main/res/phone_call.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.call911NowPushButton.setIcon(icon14)
+        icon13 = QtGui.QIcon()
+        icon13.addPixmap(QtGui.QPixmap("../main/res/phone_call.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.call911NowPushButton.setIcon(icon13)
         self.call911NowPushButton.setIconSize(QtCore.QSize(48, 48))
         self.call911NowPushButton.setObjectName("call911NowPushButton")
         self.gridLayout_14.addWidget(self.call911NowPushButton, 5, 0, 1, 2)
@@ -2266,9 +2232,9 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.alarmMutePushButton.setFont(font)
         self.alarmMutePushButton.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
-        icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap("../main/res/mute.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.alarmMutePushButton.setIcon(icon15)
+        icon14 = QtGui.QIcon()
+        icon14.addPixmap(QtGui.QPixmap("../main/res/mute.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.alarmMutePushButton.setIcon(icon14)
         self.alarmMutePushButton.setIconSize(QtCore.QSize(48, 48))
         self.alarmMutePushButton.setObjectName("alarmMutePushButton")
         self.horizontalLayout_5.addWidget(self.alarmMutePushButton)
@@ -2285,9 +2251,9 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.replace_naloxone_button_2.setFont(font)
         self.replace_naloxone_button_2.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
-        icon16 = QtGui.QIcon()
-        icon16.addPixmap(QtGui.QPixmap("../main/res/exchange.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.replace_naloxone_button_2.setIcon(icon16)
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap("../main/res/exchange.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.replace_naloxone_button_2.setIcon(icon15)
         self.replace_naloxone_button_2.setIconSize(QtCore.QSize(48, 48))
         self.replace_naloxone_button_2.setObjectName("replace_naloxone_button_2")
         self.horizontalLayout_5.addWidget(self.replace_naloxone_button_2)
@@ -2304,7 +2270,7 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.notify_admin_button_2.setFont(font)
         self.notify_admin_button_2.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
-        self.notify_admin_button_2.setIcon(icon11)
+        self.notify_admin_button_2.setIcon(icon10)
         self.notify_admin_button_2.setIconSize(QtCore.QSize(48, 48))
         self.notify_admin_button_2.setFlat(False)
         self.notify_admin_button_2.setObjectName("notify_admin_button_2")
@@ -2322,9 +2288,9 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.doorOpenResetPushButton.setFont(font)
         self.doorOpenResetPushButton.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
-        icon17 = QtGui.QIcon()
-        icon17.addPixmap(QtGui.QPixmap("../main/res/reset.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.doorOpenResetPushButton.setIcon(icon17)
+        icon16 = QtGui.QIcon()
+        icon16.addPixmap(QtGui.QPixmap("../main/res/reset.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.doorOpenResetPushButton.setIcon(icon16)
         self.doorOpenResetPushButton.setIconSize(QtCore.QSize(48, 48))
         self.doorOpenResetPushButton.setObjectName("doorOpenResetPushButton")
         self.horizontalLayout_5.addWidget(self.doorOpenResetPushButton)
@@ -2366,9 +2332,9 @@ class Ui_door_close_main_window(object):
 "color: white;background-color: rgb(50,50,50);\n"
 "border-color: rgb(50,50,50);}")
         self.dashboardPushButton.setText("")
-        icon18 = QtGui.QIcon()
-        icon18.addPixmap(QtGui.QPixmap("../main/res/dashboard.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.dashboardPushButton.setIcon(icon18)
+        icon17 = QtGui.QIcon()
+        icon17.addPixmap(QtGui.QPixmap("../main/res/dashboard.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.dashboardPushButton.setIcon(icon17)
         self.dashboardPushButton.setIconSize(QtCore.QSize(32, 32))
         self.dashboardPushButton.setCheckable(True)
         self.dashboardPushButton.setChecked(False)
@@ -2392,9 +2358,9 @@ class Ui_door_close_main_window(object):
 "color: white;background-color: rgb(50,50,50);\n"
 "border-color: rgb(50,50,50);}")
         self.homePushButton.setText("")
-        icon19 = QtGui.QIcon()
-        icon19.addPixmap(QtGui.QPixmap("../main/res/user_home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.homePushButton.setIcon(icon19)
+        icon18 = QtGui.QIcon()
+        icon18.addPixmap(QtGui.QPixmap("../main/res/user_home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.homePushButton.setIcon(icon18)
         self.homePushButton.setIconSize(QtCore.QSize(32, 32))
         self.homePushButton.setCheckable(True)
         self.homePushButton.setObjectName("homePushButton")
@@ -2418,9 +2384,9 @@ class Ui_door_close_main_window(object):
 "color: white;background-color: rgb(50,50,50);\n"
 "border-color: rgb(50,50,50);}")
         self.settingsPushButton.setText("")
-        icon20 = QtGui.QIcon()
-        icon20.addPixmap(QtGui.QPixmap("../main/res/settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.settingsPushButton.setIcon(icon20)
+        icon19 = QtGui.QIcon()
+        icon19.addPixmap(QtGui.QPixmap("../main/res/settings.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.settingsPushButton.setIcon(icon19)
         self.settingsPushButton.setIconSize(QtCore.QSize(32, 32))
         self.settingsPushButton.setCheckable(True)
         self.settingsPushButton.setObjectName("settingsPushButton")
@@ -2438,9 +2404,9 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.saveToFilePushButton.setFont(font)
         self.saveToFilePushButton.setStyleSheet("QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}")
-        icon21 = QtGui.QIcon()
-        icon21.addPixmap(QtGui.QPixmap("../main/res/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.saveToFilePushButton.setIcon(icon21)
+        icon20 = QtGui.QIcon()
+        icon20.addPixmap(QtGui.QPixmap("../main/res/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.saveToFilePushButton.setIcon(icon20)
         self.saveToFilePushButton.setIconSize(QtCore.QSize(32, 32))
         self.saveToFilePushButton.setObjectName("saveToFilePushButton")
         self.horizontalLayout.addWidget(self.saveToFilePushButton)
@@ -2458,9 +2424,9 @@ class Ui_door_close_main_window(object):
         self.backPushButton.setFont(font)
         self.backPushButton.setAutoFillBackground(False)
         self.backPushButton.setStyleSheet("QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}")
-        icon22 = QtGui.QIcon()
-        icon22.addPixmap(QtGui.QPixmap("../main/res/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.backPushButton.setIcon(icon22)
+        icon21 = QtGui.QIcon()
+        icon21.addPixmap(QtGui.QPixmap("../main/res/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.backPushButton.setIcon(icon21)
         self.backPushButton.setIconSize(QtCore.QSize(32, 32))
         self.backPushButton.setCheckable(False)
         self.backPushButton.setObjectName("backPushButton")
@@ -2619,7 +2585,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(6)
+        self.settingsTab.setCurrentIndex(0)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.unlockSettingsPushButton)
@@ -2659,8 +2625,7 @@ class Ui_door_close_main_window(object):
         door_close_main_window.setTabOrder(self.reportNaloxoneDestroyedCheckBox, self.reportSettingsChangedCheckBox)
         door_close_main_window.setTabOrder(self.reportSettingsChangedCheckBox, self.disarmPushButton)
         door_close_main_window.setTabOrder(self.disarmPushButton, self.exitPushButton)
-        door_close_main_window.setTabOrder(self.exitPushButton, self.manual_textedit)
-        door_close_main_window.setTabOrder(self.manual_textedit, self.forgotPasswordPushButton)
+        door_close_main_window.setTabOrder(self.exitPushButton, self.forgotPasswordPushButton)
         door_close_main_window.setTabOrder(self.forgotPasswordPushButton, self.alarmMutePushButton)
         door_close_main_window.setTabOrder(self.alarmMutePushButton, self.notify_admin_button_2)
         door_close_main_window.setTabOrder(self.notify_admin_button_2, self.replace_naloxone_button_2)
@@ -2745,14 +2710,6 @@ class Ui_door_close_main_window(object):
         self.disarmPushButton.setText(_translate("door_close_main_window", "Disarm"))
         self.closeSoftwareLabel.setText(_translate("door_close_main_window", "&Exit"))
         self.exitPushButton.setText(_translate("door_close_main_window", "Exit"))
-        self.manual_textedit.setHtml(_translate("door_close_main_window", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">MANUAL</p></body></html>"))
         self.passcodeEnterLabel.setText(_translate("door_close_main_window", "Enter Passcode"))
         self.passcodeEnterPushButton.setText(_translate("door_close_main_window", "Unlock"))
         self.paramedicsLabel.setText(_translate("door_close_main_window", "For Paramedics"))

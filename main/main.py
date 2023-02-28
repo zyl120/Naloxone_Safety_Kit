@@ -392,8 +392,6 @@ class ApplicationWindow(QMainWindow):
         self.ui.home_frame.setStyleSheet(
             "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/background.jpg) 0 0 0 0 stretch stretch}")
 
-        QScroller.grabGesture(
-            self.ui.manual_textedit.viewport(), QScroller.LeftMouseButtonGesture)
         QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
         ), QScroller.LeftMouseButtonGesture)
         QScroller.grabGesture(
@@ -407,7 +405,6 @@ class ApplicationWindow(QMainWindow):
         QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
 
-        self.load_manual()
 
         self.generate_ui_qrcode()
 
@@ -541,13 +538,6 @@ class ApplicationWindow(QMainWindow):
 
     def send_notification(self, priority, message):
         self.status_queue.put(NotificationItem(priority, message))  # blocking
-
-    def load_manual(self):
-        file = QFile('../user_manual/gui_manual/settings_manual.md')
-        if not file.open(QIODevice.ReadOnly):
-            self.send_notification(0, "Manual File Missing")
-        stream = QTextStream(file)
-        self.ui.manual_textedit.setMarkdown(stream.readAll())
 
     def generate_ui_qrcode(self):
         github_qr_code = QRCode(
