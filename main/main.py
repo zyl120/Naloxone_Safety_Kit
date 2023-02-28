@@ -49,6 +49,16 @@ class IOItem:
     fan_threshold_temp: int
     expiration_date: QDate
 
+@dataclass
+class EventItem:
+    # [0] report_door_opened
+    # [1] report_emergency_called
+    # [2] report_naloxone_destroyed
+    # [3] report_settings_changed
+    # [4] report_low_balance
+    cat: int
+    message: str
+
 
 def handleVisibleChanged():
     # control the position of the virtual keyboard
@@ -294,6 +304,12 @@ class ApplicationWindow(QMainWindow):
         super(ApplicationWindow, self).__init__()
         self.door_opened = False
         self.disarmed = False
+        self.sms_reporting = False
+        self.report_door_opened = False
+        self.report_emergency_called = False
+        self.report_naloxone_destroyed = False
+        self.report_settings_changed = False
+        self.report_low_balance = False
         self.max_temp = 0
         self.fan_threshold_temp = 0
         self.admin_passcode = str()
@@ -312,6 +328,7 @@ class ApplicationWindow(QMainWindow):
         self.voice_volume = 20
         self.status_queue = PriorityQueue()
         self.request_queue = PriorityQueue()
+        self.reporting_queue = Queue()
         self.io_queue = Queue()
         self.message_to_display = str()
         self.message_level = 0
@@ -412,6 +429,10 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer = QTimer()
         self.dashboard_timer.timeout.connect(self.goto_home)
         self.dashboard_timer.setSingleShot(True)
+
+        self.reporting_timer = QTimer()
+        self.reporting_timer.timeout.connect(self.reporting_handling)
+        self.reporting_timer.start(10000)
 
         self.goto_home()
         self.lock_settings()
@@ -592,6 +613,12 @@ class ApplicationWindow(QMainWindow):
     def load_settings(self):
         # load the settings from the conf file.
         try:
+        #     self.sms_reporting = False
+        # self.report_door_opened = False
+        # self.report_emergency_called = False
+        # self.report_naloxone_destroyed = False
+        # self.report_settings_changed = False
+        # self.report_low_balance = False
             config = ConfigParser()
             config.read("safety_kit.conf")
             self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
@@ -633,14 +660,27 @@ class ApplicationWindow(QMainWindow):
             self.admin_phone_number = config["admin"]["admin_phone_number"]
             self.ui.enableSMSCheckBox.setChecked(
                 config["admin"]["enable_sms"] == "True")
+            self.sms_reporting = (
+                config["admin"]["enable_sms"] == "True")
             self.ui.reportDoorOpenedCheckBox.setChecked(
+                config["admin"]["report_door_opened"] == "True")
+            self.report_door_opened = (
                 config["admin"]["report_door_opened"] == "True")
             self.ui.reportEmergencyCalledCheckBox.setChecked(
                 config["admin"]["report_emergency_called"] == "True")
+            self.report_emergency_called = (
+                config["admin"]["report_emergency_called"] == "True")
             self.ui.reportNaloxoneDestroyedCheckBox.setChecked(
                 config["admin"]["report_naloxone_destroyed"] == "True")
+            self.report_naloxone_destroyed = (
+                config["admin"]["report_naloxone_destroyed"] == "True"
+            )
             self.ui.reportSettingsChangedCheckBox.setChecked(
                 config["admin"]["report_settings_changed"] == "True")
+            self.report_settings_changed = (
+                config["admin"]["report_settings_changed"] == "True"
+            )
+            self.report_low_balance = False
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
             if (config["admin"]["allow_paramedics"] == "False"):
@@ -803,6 +843,7 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer.stop()
         if (self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1):
             # Only go to the door open page when the user is not changing settings.
+            self.reporting_queue.put(EventItem(0, "Door Opened"))
             self.ui.doorOpenResetPushButton.setVisible(False)
             self.ui.homePushButton.setVisible(False)
             self.ui.replace_naloxone_button_2.setVisible(False)
@@ -997,6 +1038,23 @@ class ApplicationWindow(QMainWindow):
             self.ui.status_bar.setVisible(True)
 
     @pyqtSlot()
+    def reporting_handling(self):
+        event = self.reporting_queue.get()
+        cat = event.cat
+        message = event.message
+        if(self.sms_reporting and self.report_door_opened and cat == 0):
+            self.send_sms_using_config_file(message)
+        elif(self.sms_reporting and self.report_emergency_called and cat == 1):
+            self.send_sms_using_config_file(message)
+        elif(self.sms_reporting and self.report_naloxone_destroyed and cat == 2):
+            self.send_sms_using_config_file(message)
+        elif(self.sms_reporting and self.report_settings_changed and cat == 3):
+            self.send_sms_using_config_file(message)
+        elif(self.sms_reporting and self.report_low_balance and cat == 4):
+            self.send_sms_using_config_file(message)
+
+
+    @pyqtSlot()
     def twilio_sid_validator(self):
         result = False
         if (self.sender().text() == str()):
@@ -1093,8 +1151,10 @@ class ApplicationWindow(QMainWindow):
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
                 QTime().currentTime().toString("h:mm AP"))
+            self.reporting_queue.put(EventItem(1, "Emergency Call Placed Successfully"))
         else:
             self.ui.emergencyCallStatusLabel.setText("Failed")
+            self.reporting_queue.put(EventItem(1, "Emergency Call Failed"))
             self.speak_now()
 
     @pyqtSlot(bool, bool)
