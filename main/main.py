@@ -405,9 +405,6 @@ class ApplicationWindow(QMainWindow):
         QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
 
-
-        self.generate_ui_qrcode()
-
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
@@ -538,23 +535,6 @@ class ApplicationWindow(QMainWindow):
 
     def send_notification(self, priority, message):
         self.status_queue.put(NotificationItem(priority, message))  # blocking
-
-    def generate_ui_qrcode(self):
-        github_qr_code = QRCode(
-            version=None,
-            error_correction=ERROR_CORRECT_M,
-            box_size=10,
-            border=0
-        )
-        github_qr_code.add_data(
-            "https://github.com/zyl120/Naloxone_Safety_Kit")
-        github_qr_code.make(fit=True)
-        img = github_qr_code.make_image(
-            fill_color="white", back_color="black")
-        img.save("res/github_qrcode.png")
-        github_qrcode_pixmap = QPixmap(
-            "res/github_qrcode.png").scaledToWidth(100).scaledToHeight(100)
-        self.ui.github_qrcode.setPixmap(github_qrcode_pixmap)
 
     def load_settings_ui(self):
         try:

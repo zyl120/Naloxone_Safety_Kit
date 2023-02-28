@@ -81,7 +81,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -131,7 +131,13 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_30">
+              <widget class="QLabel" name="home_text">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="font">
                 <font>
                  <pointsize>30</pointsize>
@@ -178,65 +184,6 @@
                </property>
                <layout class="QGridLayout" name="gridLayout_5">
                 <item row="2" column="0">
-                 <widget class="QLabel" name="donation_qrcode">
-                  <property name="minimumSize">
-                   <size>
-                    <width>100</width>
-                    <height>100</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color:white;border-width: 0px;background-color:rgba(0,0,0,0)</string>
-                  </property>
-                  <property name="text">
-                   <string>DONATION_
- QR_CODE</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_25">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color:white;border-width: 0px;background-color:rgba(0,0,0,0)</string>
-                  </property>
-                  <property name="text">
-                   <string>Contact
-Admin</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLabel" name="github_qrcode">
-                  <property name="minimumSize">
-                   <size>
-                    <width>100</width>
-                    <height>100</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color:white;border-width: 0px;background-color:rgba(0,0,0,0)</string>
-                  </property>
-                  <property name="text">
-                   <string>GITHUB_
-QR_CODE</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="2">
                  <widget class="QLabel" name="admin_qrcode">
                   <property name="minimumSize">
                    <size>
@@ -256,27 +203,8 @@ QR_CODE</string>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
-                 <widget class="QLabel" name="label_3">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color:white;border-width: 0px;background-color:rgba(0,0,0,0)</string>
-                  </property>
-                  <property name="text">
-                   <string>Build Your
-Own Kit</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_31">
+                 <widget class="QLabel" name="label_25">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -286,7 +214,8 @@ Own Kit</string>
                    <string notr="true">color:white;border-width: 0px;background-color:rgba(0,0,0,0)</string>
                   </property>
                   <property name="text">
-                   <string>Donation</string>
+                   <string>Contact
+Admin</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
