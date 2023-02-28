@@ -705,9 +705,9 @@ class ApplicationWindow(QMainWindow):
             self.ui.dashboardPushButton.setChecked(False)
             self.ui.settingsPushButton.setChecked(True)
             self.ui.stackedWidget.setCurrentIndex(2)
-            self.disarm_door_sensor()
             self.ui.homePushButton.setVisible(False)
             self.ui.dashboardPushButton.setVisible(False)
+            self.disarm_door_sensor()
 
         else:
             self.send_notification(4, "Config Reloaded")
@@ -810,6 +810,8 @@ class ApplicationWindow(QMainWindow):
             self.ui.settingsPushButton.setVisible(False)
             self.ui.backPushButton.setVisible(False)
             self.ui.alarmMutePushButton.setVisible(False)
+            self.ui.notify_admin_button_2.setVisible(False)
+            self.ui.alarmFrame.setVisible(False)
             self.ui.stackedWidget.setCurrentIndex(4)
             self.create_countdown_worker(10)
 
@@ -914,7 +916,6 @@ class ApplicationWindow(QMainWindow):
     def arm_door_sensor(self):
         self.ui.armPushButton.setVisible(False)
         self.ui.disarmPushButton.setVisible(True)
-        self.send_notification(4, "Door Sensor ON")
         self.disarmed = False
         self.io_queue.put(IOItem(
             False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
@@ -935,6 +936,8 @@ class ApplicationWindow(QMainWindow):
             self.ui.alarmStatusLabel.setText("Waiting")
             self.ui.alarmMutePushButton.setVisible(False)
             self.ui.doorOpenResetPushButton.setVisible(False)
+            self.ui.notify_admin_button_2.setVisible(False)
+            self.ui.alarmFrame.setVisible(False)
             self.ui.emergencyCallStatusLabel.setText("Waiting")
             self.ui.emergencyCallLastCallLabel.setText("N/A")
             self.ui.emergencyCallCountdownLabel.setText("T-10s")
@@ -945,11 +948,13 @@ class ApplicationWindow(QMainWindow):
     def stop_countdown_button_pushed(self):
         # Stop the countdown timer by stop it.
         self.ui.settingsPushButton.setVisible(True)
+        self.ui.alarmFrame.setVisible(True)
         self.ui.doorOpenResetPushButton.setVisible(True)
         self.ui.stopCountdownPushButton.setVisible(False)
         self.ui.countdownLabel.setVisible(False)
         self.ui.emergencyCallCountdownLabel.setVisible(False)
         self.ui.replace_naloxone_button_2.setVisible(True)
+        self.ui.notify_admin_button_2.setVisible(True)
         self.ui.emergencyCallStatusLabel.setText("N/A")
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
@@ -1067,8 +1072,10 @@ class ApplicationWindow(QMainWindow):
         self.ui.stopCountdownPushButton.setVisible(False)
         self.ui.countdownLabel.setVisible(False)
         self.ui.emergencyCallCountdownLabel.setVisible(False)
+        self.ui.alarmFrame.setVisible(True)
         self.ui.doorOpenResetPushButton.setVisible(True)
         self.ui.replace_naloxone_button_2.setVisible(True)
+        self.ui.notify_admin_button_2.setVisible(True)
 
     @pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
