@@ -302,6 +302,8 @@ class TwilioWorker(QThread):
 class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
+        self.naloxone_destroyed = False
+        self.low_account_balance = False
         self.door_opened = False
         self.disarmed = False
         self.sms_reporting = False
@@ -437,6 +439,10 @@ class ApplicationWindow(QMainWindow):
         self.reporting_timer.timeout.connect(self.reporting_handling)
         self.reporting_handling()
         self.reporting_timer.start(10000)
+
+        self.daily_reporting_timer = QTimer()
+        self.daily_reporting_timer.timeout.connect(self.daily_reporting)
+        self.daily_reporting_timer.start(86400000)
 
         self.goto_home()
         self.lock_settings()
@@ -1058,6 +1064,13 @@ class ApplicationWindow(QMainWindow):
             elif(self.sms_reporting and self.report_low_balance and self.reporting_cat == 4):
                 self.send_sms_using_config_file(self.reporting_message)
 
+    @pyqtSlot()
+    def daily_reporting(self):
+        if(self.naloxone_destroyed):
+            self.reporting_queue.put(EventItem(2, "Naloxone Destroyed"))
+        if(self.low_account_balance):
+            self.reporting_queue.put(EventItem(4, "Low Twilio Account Balance"))
+
 
     @pyqtSlot()
     def twilio_sid_validator(self):
@@ -1186,9 +1199,11 @@ class ApplicationWindow(QMainWindow):
         self.ui.naloxoneExpirationDateLineEdit.setText(
             naloxone_expiration_date.toString("MMM dd, yy"))
         if (naloxone_good):
+            self.naloxone_destroyed = False
             self.ui.naloxone_destroyed_icon.setVisible(False)
             self.ui.naloxoneStatusLineEdit.setText("OK")
         else:
+            self.naloxone_destroyed = True
             self.ui.naloxone_destroyed_icon.setVisible(True)
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
 
@@ -1206,8 +1221,10 @@ class ApplicationWindow(QMainWindow):
         self.ui.accountBalanceLineEdit.setText(
             " ".join([str(round(balance, 2)), currency]))
         if (balance < 5):
+            self.low_account_balance = True
             self.ui.low_charge_icon.setVisible(True)
         else:
+            self.low_account_balance = False
             self.ui.low_charge_icon.setVisible(False)
 
     @pyqtSlot(int, int, int, bool)
