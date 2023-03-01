@@ -823,7 +823,7 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot()
     def goto_door_open(self):
         self.dashboard_timer.stop()
-        if (self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1):
+        if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
             # Only go to the door open page when the user is not changing settings.
             self.reporting_queue.put(EventItem(0, "Door Opened"))
             self.ui.doorOpenResetPushButton.setVisible(False)
