@@ -1,9 +1,8 @@
 from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication
-from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QFile, QTime, QDateTime, QTimer, QTextStream, QIODevice, Qt
+from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QTime, QDateTime, QTimer, Qt
 from PyQt5.QtGui import QPixmap, QGuiApplication, QRegion
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
-from twilio.base.exceptions import TwilioRestException
 import os
 import sys
 from queue import Queue, PriorityQueue
@@ -16,7 +15,6 @@ from random import choice
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
-from typing import Any
 import logging
 
 DOOR_PIN = 17
