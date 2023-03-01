@@ -17,6 +17,7 @@ from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from typing import Any
+import logging
 
 DOOR_PIN = 17
 DHT_PIN = 27
@@ -90,13 +91,13 @@ class CountDownWorker(QThread):
     def run(self):
         while (self.time_in_sec >= 0):
             if (self.isInterruptionRequested()):
-                print("countdown timer terminated")
+                logging.debug("countdown timer terminated")
                 self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
             self.time_changed_signal.emit(self.time_in_sec)
             self.time_in_sec = self.time_in_sec - 1
             if (self.isInterruptionRequested()):
-                print("countdown timer terminated")
+                logging.debug("countdown timer terminated")
                 self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
             sleep(1)
@@ -105,7 +106,7 @@ class CountDownWorker(QThread):
             self.time_end_signal.emit()
 
     def stop(self):
-        print("countdown timer terminated")
+        logging.debug("countdown timer terminated")
         self.terminate()
 
 
@@ -130,7 +131,6 @@ class IOWorker(QThread):
         # self.temperature = 77
 
     def calculate_pwm(self):
-        # print("control pwm")
         list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
         if (self.cpu_temp < self.fan_threshold_temp):
             self.fan_pwm = 0
@@ -201,7 +201,7 @@ class AlarmWorker(QThread):
         self.tts = gTTS(self.alarm_message, lang="en")
         self.tts.save("res/alarm.mp3")
         os.system("pactl set-sink-volume 0 {}%".format(self.voice_volume))
-        print("alarm thread go.")
+        logging.debug("alarm thread go.")
 
     def run(self):
         if (self.loop):
@@ -209,15 +209,15 @@ class AlarmWorker(QThread):
             while (True):
                 if (self.isInterruptionRequested()):
                     break
-                print("playing")
+                logging.debug("playing")
                 os.system("mpg123 -q res/alarm.mp3")
                 if (self.isInterruptionRequested()):
                     break
                 sleep(1)
         else:
-            print("saying alarm now.")
+            logging.debug("saying alarm now.")
             os.system("mpg123 -q res/alarm.mp3")
-            print("finish")
+            logging.debug("finish")
 
 
 class NetworkWorker(QThread):
@@ -226,7 +226,7 @@ class NetworkWorker(QThread):
     def __init__(self, twilio_sid, twilio_token):
         super(NetworkWorker, self).__init__()
         self.hostname = "www.twilio.com"  # ping twilio directly
-        print("network thread go.")
+        logging.debug("network thread go.")
         self.currentTime = QTime()
         self.twilio_sid = twilio_sid
         self.twilio_token = twilio_token
@@ -236,6 +236,7 @@ class NetworkWorker(QThread):
             client = Client(self.twilio_sid, self.twilio_token)
             response = os.system(" ".join(["ping -c 1", self.hostname]))
             if (response == 1):
+                logging.error("Internet failed.")
                 self.update_server.emit(
                     False, 0, "USD", self.currentTime.currentTime())
             else:
@@ -243,9 +244,11 @@ class NetworkWorker(QThread):
                 currency = client.api.v2010.balance.fetch().currency
                 self.update_server.emit(True, float(
                     balance), currency, self.currentTime.currentTime())
+                logging.info("Twilio account balance updated.")
         except Exception as e:
             self.update_server.emit(
                 False, 0, "USD", self.currentTime.currentTime())
+            logging.error("Failed to retrieve Twilio account balance.")
 
 
 class TwilioWorker(QThread):
@@ -269,13 +272,13 @@ class TwilioWorker(QThread):
                     call = client.calls.create(
                         twiml=request.message, to=request.destination_number, from_=request.twilio_number)
                 except Exception as e:
-                    print("ERROR: {}".format(str(e)))
+                    logging.error("ERROR: {}".format(str(e)))
                     self.out_queue.put(NotificationItem(
                         request.priority, "Call Failed"))
                     if (request.priority == 0):
                         self.emergency_call_status.emit(0, "Call Failed")
                 else:
-                    print(call.sid)
+                    logging.debug(call.sid)
                     self.out_queue.put(NotificationItem(
                         request.priority, "Call Delivered"))
                     if (request.priority == 0):
@@ -290,12 +293,13 @@ class TwilioWorker(QThread):
                     )
                 except Exception as e:
                     # if not successful, return False
-                    print("ERROR: Twilio SMS: ERROR - {}".format(str(e)))
+                    logging.error(
+                        "ERROR: Twilio SMS: ERROR - {}".format(str(e)))
                     self.out_queue.put(NotificationItem(
                         request.priority, "SMS Failed"))
                 else:
                     # if successful, return True
-                    print(sms.sid)
+                    logging.debug(sms.sid)
                     self.out_queue.put(NotificationItem(
                         request.priority, "SMS Delivered"))
 
@@ -462,7 +466,7 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
-        if(not RASPBERRY):
+        if (not RASPBERRY):
             return
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
@@ -524,7 +528,7 @@ class ApplicationWindow(QMainWindow):
             self.countdown_worker.wait()
 
     def create_countdown_worker(self, time):
-        print("creating countdown worker...")
+        logging.debug("creating countdown worker...")
         self.destroy_countdown_worker()
         self.countdown_worker = CountDownWorker(time)
         self.countdown_worker.time_changed_signal.connect(
@@ -708,7 +712,7 @@ class ApplicationWindow(QMainWindow):
             self.network_timer.start(600000)
 
         except Exception as e:
-            print(e)
+            logging.error(e)
             self.send_notification(0, "Failed to load config file")
             self.send_notification(4, "Enter OOBE Mode")
             self.ui.unlock_icon.setVisible(True)
@@ -790,8 +794,10 @@ class ApplicationWindow(QMainWindow):
         # 1: unlock all settings
         # 2: unlock naloxone settings
         if (self.admin_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.admin_passcode):
+            logging.debug("admin passcode detected.")
             return 1
         if (self.ui.passcodeEnterLineEdit.text() == self.naloxone_passcode):
+            logging.debug("naloxone passcode detected.")
             return 2
         else:
             self.send_notification(0, "Wrong Passcode")
@@ -822,6 +828,7 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def goto_door_open(self):
+        logging.debug("door opened.")
         self.dashboard_timer.stop()
         if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
             # Only go to the door open page when the user is not changing settings.
@@ -898,7 +905,7 @@ class ApplicationWindow(QMainWindow):
         response = VoiceResponse()
         response.say("".join(["Someone has overdosed at ",
                      self.address, ". ", self.message]), voice=voice, loop=loop)
-        print(str(response))
+        logging.debug(str(response))
 
         self.create_call_request(self.to_phone_number, response, self.twilio_sid,
                                  self.twilio_token, self.twilio_phone_number, 0)
@@ -935,6 +942,7 @@ class ApplicationWindow(QMainWindow):
         self.disarmed = True
         self.io_queue.put(IOItem(
             True, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+        logging.info("door sensor disarmed.")
 
     def arm_door_sensor(self):
         self.ui.armPushButton.setVisible(False)
@@ -942,6 +950,7 @@ class ApplicationWindow(QMainWindow):
         self.disarmed = False
         self.io_queue.put(IOItem(
             False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+        logging.info("door sensor armed.")
 
     def reset_to_default(self):
         # Used to check whether the door is still opened
@@ -1011,36 +1020,40 @@ class ApplicationWindow(QMainWindow):
             if (self.message_level == 0):
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
+                logging.error(self.message_to_display)
             elif (self.message_level == 1):
                 self.ui.status_bar.setStyleSheet(
                     "color: black; background-color: yellow; border-radius:25px;border-color: yellow;border-width: 1px;border-style: solid;")
+                logging.warning(self.message_to_display)
             else:
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
+                logging.info(self.message_to_display)
             self.ui.status_bar.setVisible(True)
 
     @pyqtSlot()
     def reporting_handling(self):
-        if(not self.reporting_queue.empty()):
+        if (not self.reporting_queue.empty()):
             self.reporting_event = self.reporting_queue.get()
             self.reporting_cat = self.reporting_event.cat
             self.reporting_message = self.reporting_event.message
-            if(self.sms_reporting and self.report_door_opened and self.reporting_cat == 0):
+            if (self.sms_reporting and self.report_door_opened and self.reporting_cat == 0):
                 self.send_sms_using_config_file(self.reporting_message)
-            elif(self.sms_reporting and self.report_emergency_called and self.reporting_cat == 1):
+            elif (self.sms_reporting and self.report_emergency_called and self.reporting_cat == 1):
                 self.send_sms_using_config_file(self.reporting_message)
-            elif(self.sms_reporting and self.report_naloxone_destroyed and self.reporting_cat == 2):
+            elif (self.sms_reporting and self.report_naloxone_destroyed and self.reporting_cat == 2):
                 self.send_sms_using_config_file(self.reporting_message)
-            elif(self.sms_reporting and self.report_settings_changed and self.reporting_cat == 3):
+            elif (self.sms_reporting and self.report_settings_changed and self.reporting_cat == 3):
                 self.send_sms_using_config_file(self.reporting_message)
-            elif(self.sms_reporting and self.report_low_balance and self.reporting_cat == 4):
+            elif (self.sms_reporting and self.report_low_balance and self.reporting_cat == 4):
                 self.send_sms_using_config_file(self.reporting_message)
+            logging.info(self.reporting_message)
 
     @pyqtSlot()
     def daily_reporting(self):
-        if(self.naloxone_destroyed):
+        if (self.naloxone_destroyed):
             self.reporting_queue.put(EventItem(2, "Naloxone Destroyed"))
-        if(self.low_account_balance):
+        if (self.low_account_balance):
             self.reporting_queue.put(
                 EventItem(4, "Low Twilio Account Balance"))
 
@@ -1287,6 +1300,7 @@ class ApplicationWindow(QMainWindow):
         self.destroy_io_worker()
         self.destroy_alarm_worker()
         self.destroy_countdown_worker()
+        logging.info("exit program.")
         self.close()
 
 
@@ -1306,16 +1320,18 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    if(len(sys.argv) == 1):
-        print(sys.argv[0])
+    logging.basicConfig(filename="naloxone_safety_kit.log", encoding="utf-8",
+                        level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    if (len(sys.argv) == 1):
+        logging.debug(sys.argv[0])
         RASPBERRY = True
-    elif(len(sys.argv) >= 2):
-        if(sys.argv[1] == 'D'):
+    elif (len(sys.argv) >= 2):
+        if (sys.argv[1] == 'D'):
             RASPBERRY = False
         else:
             RASPBERRY = True
-    print("DEBUG MODE: " + str(not RASPBERRY))
-    if(RASPBERRY):
+    logging.debug("DEBUG MODE: " + str(not RASPBERRY))
+    if (RASPBERRY):
         from gpiozero import CPUTemperature
         import RPi.GPIO as GPIO
         import Adafruit_DHT as dht
