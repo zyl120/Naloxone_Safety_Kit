@@ -1007,8 +1007,16 @@ class ApplicationWindow(QMainWindow):
         else:
             self.ui.wait_icon.setVisible(False)
         if (self.status_queue.empty()):
-            self.ui.time_label.setVisible(True)
-            self.ui.status_bar.setVisible(False)
+            if(self.naloxone_destroyed):
+                # only show when status queue is empty
+                self.ui.time_label.setVisible(False)
+                self.ui.status_bar.setVisible(True)
+                self.ui.status_bar.setText("Naloxone Destroyed. DO NOT USE!")
+                self.ui.status_bar.setStyleSheet(
+                    "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
+            else:
+                self.ui.time_label.setVisible(True)
+                self.ui.status_bar.setVisible(False)
         else:
             self.ui.time_label.setVisible(False)
             msg = self.status_queue.get()
