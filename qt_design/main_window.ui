@@ -81,7 +81,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -997,10 +997,7 @@ Admin</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QTabWidget::tab-bar {
-alignment: center;
-}
-QTabWidget::pane{
+           <string notr="true">QTabWidget::pane{
 border-radius: 0px;
 border-color:rgb(50,50,50);
 border-width: 0px;
@@ -1061,83 +1058,263 @@ color: white;
            <attribute name="title">
             <string/>
            </attribute>
-           <layout class="QHBoxLayout" name="horizontalLayout_27">
+           <layout class="QVBoxLayout" name="verticalLayout_49">
             <item>
-             <widget class="QPushButton" name="unlockSettingsPushButton">
-              <property name="minimumSize">
+             <spacer name="verticalSpacer_17">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
                <size>
-                <width>200</width>
-                <height>50</height>
+                <width>20</width>
+                <height>40</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>16</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-              </property>
-              <property name="text">
-               <string>Unlock Settings</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../main/res/unlock.png</normaloff>../main/res/unlock.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
-              </property>
-             </widget>
+             </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="lockSettingsPushButton">
-              <property name="minimumSize">
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QPushButton" name="lockSettingsPushButton">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+</string>
+                </property>
+                <property name="text">
+                 <string>Lock Settings</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>../main/res/lock.png</normaloff>../main/res/lock.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="unlockSettingsPushButton">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
+</string>
+                </property>
+                <property name="text">
+                 <string>Unlock Settings</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>../main/res/unlock.png</normaloff>../main/res/unlock.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_16">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
                <size>
-                <width>200</width>
-                <height>50</height>
+                <width>20</width>
+                <height>40</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>16</pointsize>
-                <bold>false</bold>
-               </font>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
+               <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
               </property>
-              <property name="text">
-               <string>Lock Settings</string>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
               </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../main/res/lock.png</normaloff>../main/res/lock.png</iconset>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
-              <property name="iconSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
-              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_50">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="font">
+                    <font>
+                     <pointsize>16</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:white</string>
+                   </property>
+                   <property name="text">
+                    <string>&amp;Brightness</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>brightness_slider</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="brightness_label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>60</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>16</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: white; border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                   </property>
+                   <property name="text">
+                    <string>100%</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSlider" name="brightness_slider">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>380</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>380</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid rgb(50,50,50);
+    border-radius: 3px;
+    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: rgb(50,50,50);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background-color:white;
+    border: 1px solid white;
+    width: 30px;
+    border-radius: 3px;
+}</string>
+                   </property>
+                   <property name="minimum">
+                    <number>10</number>
+                   </property>
+                   <property name="maximum">
+                    <number>100</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>10</number>
+                   </property>
+                   <property name="value">
+                    <number>100</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="tickPosition">
+                    <enum>QSlider::NoTicks</enum>
+                   </property>
+                   <property name="tickInterval">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
@@ -1694,8 +1871,8 @@ QScrollBar::sub-line:vertical {
            <attribute name="title">
             <string/>
            </attribute>
-           <layout class="QGridLayout" name="gridLayout_8">
-            <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_20">
+            <item>
              <widget class="QScrollArea" name="call_scroll_area">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2818,8 +2995,8 @@ QSlider::handle:horizontal {
            <attribute name="title">
             <string/>
            </attribute>
-           <layout class="QGridLayout" name="gridLayout_9">
-            <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_45">
+            <item>
              <widget class="QScrollArea" name="admin_scroll_area">
               <property name="styleSheet">
                <string notr="true">QScrollBar {
@@ -3821,7 +3998,7 @@ color:white;
         <item>
          <widget class="QFrame" name="frame_3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -3944,7 +4121,7 @@ color:white;
           <item>
            <widget class="QFrame" name="paramedic_frame">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -4124,7 +4301,7 @@ color:white;
           <item>
            <widget class="QFrame" name="admin_only_frame">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -4216,7 +4393,7 @@ color:white;
         <item>
          <widget class="QFrame" name="frame_6">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -5661,8 +5838,6 @@ border-color: rgb(50,50,50);}</string>
  </widget>
  <tabstops>
   <tabstop>settingsTab</tabstop>
-  <tabstop>unlockSettingsPushButton</tabstop>
-  <tabstop>lockSettingsPushButton</tabstop>
   <tabstop>naloxone_scroll_area</tabstop>
   <tabstop>temperatureSlider</tabstop>
   <tabstop>naloxoneExpirationDateEdit</tabstop>
@@ -5718,8 +5893,8 @@ border-color: rgb(50,50,50);}</string>
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>473</x>
-     <y>75</y>
+     <x>566</x>
+     <y>72</y>
     </hint>
     <hint type="destinationlabel">
      <x>693</x>

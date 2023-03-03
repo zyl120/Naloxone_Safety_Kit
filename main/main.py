@@ -361,6 +361,7 @@ class ApplicationWindow(QMainWindow):
             self.update_current_threshold_temperature)
         self.ui.voice_volume_slider.valueChanged.connect(
             self.update_voice_volume)
+        self.ui.brightness_slider.valueChanged.connect(self.update_brightness)
         self.ui.callTestPushButton.clicked.connect(
             self.call_test_pushbutton_clicked)
         self.ui.smsTestPushButton.clicked.connect(
@@ -1235,6 +1236,14 @@ class ApplicationWindow(QMainWindow):
             self.ui.fanSpeedLineEdit.setText(" ".join([str(pwm), "RPM"]))
 
     @pyqtSlot(int)
+    def update_brightness(self, value):
+        self.ui.brightness_label.setText("".join([str(value), "%"]))
+        if(RASPBERRY):
+            backlight = Backlight()
+            backlight.brightness = value
+
+
+    @pyqtSlot(int)
     def update_voice_volume(self, value):
         self.ui.voice_volume_label.setText("".join([str(value), "%"]))
 
@@ -1342,5 +1351,6 @@ if __name__ == "__main__":
         from gpiozero import CPUTemperature
         import RPi.GPIO as GPIO
         import Adafruit_DHT as dht
+        from rpi_backlight import Backlight
 
     gui_manager()

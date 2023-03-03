@@ -46,7 +46,7 @@ if __name__ == "__main__":
     else:
         print("apt installation completes successfully")
 
-    pip_list = ["twilio", "qrcode", "Adafruit-DHT", "gtts", "phonenumbers"]
+    pip_list = ["twilio", "qrcode", "Adafruit-DHT", "gtts", "phonenumbers", "rpi-backlight"]
     for pip_pkg in pip_list:
         print("Installing {} using pip...".format(pip_pkg))
         try:
@@ -57,6 +57,14 @@ if __name__ == "__main__":
                 pip_pkg, str(e)))
         else:
             print("{} installed successfully".format(pip_pkg))
+    
+    print("Update udev rule to allow screen brightness change...")
+    try:
+        os.system("echo 'SUBSYSTEM==\"backlight\",RUN+=\"/bin/chmod 666 /sys/class/backlight/%k/brightness /sys/class/backlight/%k/bl_power\"' | sudo tee -a /etc/udev/rules.d/backlight-permissions.rules")
+    except Exception as e:
+        sys.exit("Failed to update udev rule")
+    else:
+        print("udev rule updated.")
 
     print("Probing QT_PREFIX_PATH...")
     from PyQt5.QtCore import QLibraryInfo
