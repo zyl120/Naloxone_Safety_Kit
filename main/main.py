@@ -15,6 +15,7 @@ from random import choice
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
+from rpi_backlight import Backlight
 import logging
 
 DOOR_PIN = 17
@@ -340,6 +341,7 @@ class ApplicationWindow(QMainWindow):
         self.io_queue = Queue()
         self.message_to_display = str()
         self.message_level = 0
+        self.backlight = Backlight()
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.showFullScreen()
@@ -408,6 +410,9 @@ class ApplicationWindow(QMainWindow):
             self.ui.power_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
         QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
+
+        self.ui.brightness_slider.setValue(self.backlight.brightness)
+        self.ui.brightness_slider.setValue(100)
 
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
@@ -1238,9 +1243,7 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot(int)
     def update_brightness(self, value):
         self.ui.brightness_label.setText("".join([str(value), "%"]))
-        if(RASPBERRY):
-            backlight = Backlight()
-            backlight.brightness = value
+        self.backlight.brightness = value
 
 
     @pyqtSlot(int)
@@ -1351,6 +1354,6 @@ if __name__ == "__main__":
         from gpiozero import CPUTemperature
         import RPi.GPIO as GPIO
         import Adafruit_DHT as dht
-        from rpi_backlight import Backlight
+
 
     gui_manager()
