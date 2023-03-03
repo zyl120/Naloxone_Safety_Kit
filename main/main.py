@@ -16,13 +16,15 @@ from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from rpi_backlight import Backlight
+from gpiozero import CPUTemperature
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 import logging
 
 DOOR_PIN = 17
 DHT_PIN = 27
 FAN_PIN = 12
 RESET_PIN = 22
-RASPBERRY = True
 
 
 @dataclass(order=True)
@@ -46,6 +48,7 @@ class NotificationItem:
 class IOItem:
     disarmed: bool
     max_temp: int
+    fan_enabled: bool
     fan_threshold_temp: int
     expiration_date: QDate
 
@@ -125,9 +128,9 @@ class IOWorker(QThread):
         self.initialized = False
 
     def read_naloxone_sensor(self):
-        _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
-        self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
-        # self.temperature = 77
+        #_, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
+        #self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
+        self.naloxone_temp = 77
 
     def calculate_pwm(self):
         list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
@@ -166,6 +169,7 @@ class IOWorker(QThread):
                 config = self.in_queue.get()
                 self.disarmed = config.disarmed
                 self.max_temp = config.max_temp
+                self.fan_enabled = config.fan_enabled
                 self.fan_threshold_temp = config.fan_threshold_temp
                 self.expiration_date = config.expiration_date
                 self.naloxone_counter = 9
@@ -174,11 +178,15 @@ class IOWorker(QThread):
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
                 self.read_cpu_sensor()
-                self.calculate_pwm()
+                if(self.fan_enabled):
+                    self.calculate_pwm()
+                else:
+                    self.fan_pwm = 0
                 self.update_temperature.emit(
                     self.naloxone_temp, self.cpu_temp, self.fan_pwm, self.naloxone_temp > self.max_temp)
                 self.naloxone_counter = 0
-            self.send_pwm()
+            if(self.fan_enabled):
+                self.send_pwm()
             self.read_door_sensor()
             if (self.door_opened and not self.disarmed):  # if door opened and the switch is armed
                 self.go_to_door_open_signal.emit()
@@ -320,6 +328,7 @@ class ApplicationWindow(QMainWindow):
         self.reporting_message = str()
         self.reporting_item = None
         self.max_temp = 0
+        self.fan_enabled = True
         self.fan_threshold_temp = 0
         self.admin_passcode = str()
         self.naloxone_passcode = str()
@@ -468,8 +477,6 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
-        if (not RASPBERRY):
-            return
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
         self.io_worker.update_door.connect(self.update_door_ui)
@@ -676,6 +683,9 @@ class ApplicationWindow(QMainWindow):
             else:
                 self.ui.paramedic_frame.setVisible(True)
                 self.ui.admin_only_frame.setVisible(False)
+            self.fan_enabled = (
+                config["power_management"]["enable_active_cooling"] == "True"
+            )
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
             self.ui.alarm_message_lineedit.setText(
@@ -699,9 +709,8 @@ class ApplicationWindow(QMainWindow):
             admin_qrcode_pixmap = QPixmap(
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
-
             self.io_queue.put(IOItem(
-                False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+                    False, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
 
@@ -935,7 +944,7 @@ class ApplicationWindow(QMainWindow):
         self.send_notification(1, "Door Sensor OFF")
         self.disarmed = True
         self.io_queue.put(IOItem(
-            True, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+            True, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
         logging.info("door sensor disarmed.")
 
     def arm_door_sensor(self):
@@ -943,7 +952,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.disarmPushButton.setVisible(True)
         self.disarmed = False
         self.io_queue.put(IOItem(
-            False, self.max_temp, self.fan_threshold_temp, self.naloxone_expiration_date))
+            False, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
         logging.info("door sensor armed.")
 
     def reset_to_default(self):
@@ -1326,19 +1335,4 @@ def gui_manager():
 if __name__ == "__main__":
     logging.basicConfig(filename="naloxone_safety_kit.log", encoding="utf-8",
                         level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-    if (len(sys.argv) == 1):
-        logging.debug(sys.argv[0])
-        RASPBERRY = True
-    elif (len(sys.argv) >= 2):
-        if (sys.argv[1] == 'D'):
-            RASPBERRY = False
-        else:
-            RASPBERRY = True
-    logging.debug("DEBUG MODE: " + str(not RASPBERRY))
-    if (RASPBERRY):
-        from gpiozero import CPUTemperature
-        import RPi.GPIO as GPIO
-        import Adafruit_DHT as dht
-
-
     gui_manager()
