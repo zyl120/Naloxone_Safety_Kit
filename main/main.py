@@ -409,8 +409,8 @@ class ApplicationWindow(QMainWindow):
         QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
 
-        self.ui.brightness_slider.setValue(self.backlight.brightness)
-        self.ui.brightness_slider.setValue(100)
+        # self.ui.brightness_slider.setValue(self.backlight.brightness)
+        # self.ui.brightness_slider.setValue(100)
 
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
@@ -1233,9 +1233,7 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot(int)
     def update_brightness(self, value):
         self.ui.brightness_label.setText("".join([str(value), "%"]))
-        if(RASPBERRY):
-            backlight = Backlight()
-            backlight.brightness = value
+        self.backlight.brightness = value
 
 
     @pyqtSlot(int)
