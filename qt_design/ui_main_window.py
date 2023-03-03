@@ -1260,6 +1260,7 @@ class Ui_door_close_main_window(object):
 "    width: 30px;\n"
 "    border-radius: 3px;\n"
 "}")
+        self.brightness_slider.setMinimum(10)
         self.brightness_slider.setMaximum(100)
         self.brightness_slider.setProperty("value", 100)
         self.brightness_slider.setOrientation(QtCore.Qt.Horizontal)
