@@ -340,7 +340,6 @@ class ApplicationWindow(QMainWindow):
         self.message_to_display = str()
         self.message_level = 0
         self.backlight = Backlight()
-        self.brightness = 0
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.showFullScreen()
@@ -1237,7 +1236,6 @@ class ApplicationWindow(QMainWindow):
         if(RASPBERRY):
             backlight = Backlight()
             backlight.brightness = value
-            self.brightness = value
 
 
     @pyqtSlot(int)
