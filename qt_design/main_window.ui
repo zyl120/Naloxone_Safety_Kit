@@ -997,7 +997,10 @@ Admin</string>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QTabWidget::pane{
+           <string notr="true">QTabWidget::tab-bar {
+alignment: center;
+}
+QTabWidget::pane{
 border-radius: 0px;
 border-color:rgb(50,50,50);
 border-width: 0px;
@@ -1033,7 +1036,7 @@ color: white;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>5</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1178,144 +1181,6 @@ color: white;
                </size>
               </property>
              </spacer>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">.QFrame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_50">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_13">
-                 <item>
-                  <widget class="QLabel" name="label_3">
-                   <property name="font">
-                    <font>
-                     <pointsize>16</pointsize>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">color:white</string>
-                   </property>
-                   <property name="text">
-                    <string>&amp;Brightness</string>
-                   </property>
-                   <property name="buddy">
-                    <cstring>brightness_slider</cstring>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="brightness_label">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>60</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>16</pointsize>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">color: white; border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
-                   </property>
-                   <property name="text">
-                    <string>100%</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSlider" name="brightness_slider">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>380</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>380</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QSlider::groove:horizontal {
-    border: 1px solid rgb(50,50,50);
-    border-radius: 3px;
-    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
-    background: rgb(50,50,50);
-    margin: 2px 0;
-}
-
-QSlider::handle:horizontal {
-    background-color:white;
-    border: 1px solid white;
-    width: 30px;
-    border-radius: 3px;
-}</string>
-                   </property>
-                   <property name="minimum">
-                    <number>10</number>
-                   </property>
-                   <property name="maximum">
-                    <number>100</number>
-                   </property>
-                   <property name="singleStep">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="tickPosition">
-                    <enum>QSlider::NoTicks</enum>
-                   </property>
-                   <property name="tickInterval">
-                    <number>0</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
             </item>
            </layout>
           </widget>
@@ -2536,223 +2401,6 @@ QScrollBar::sub-line:vertical {
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_22" stretch="0,0,0">
                 <item>
-                 <widget class="QFrame" name="frame_10">
-                  <property name="styleSheet">
-                   <string notr="true">QWidget#frame_10{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_13">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_34">
-                     <item>
-                      <widget class="QLabel" name="enablePowerSavingLabel">
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">color:white</string>
-                       </property>
-                       <property name="text">
-                        <string>Enable Power &amp;Saving</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                       </property>
-                       <property name="buddy">
-                        <cstring>enablePowerSavingCheckBox</cstring>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_35">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="enablePowerSavingCheckBox">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="layoutDirection">
-                        <enum>Qt::RightToLeft</enum>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">QCheckBox::indicator{
-border-color:rgb(50,50,50);border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25}
-QCheckBox::indicator:unchecked{
-background-color : rgb(50,50,50);}
-QCheckBox::indicator:checked{
-background-color : white;}
-QCheckBox{
-color:white;
-}
-</string>
-                       </property>
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="Line" name="line_5">
-                     <property name="styleSheet">
-                      <string notr="true">color:rgb(50,50,50)</string>
-                     </property>
-                     <property name="frameShadow">
-                      <enum>QFrame::Plain</enum>
-                     </property>
-                     <property name="lineWidth">
-                      <number>1</number>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_23">
-                     <item>
-                      <widget class="QLabel" name="activeHoursLabel">
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">color:white</string>
-                       </property>
-                       <property name="text">
-                        <string>&amp;Active Hours</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                       </property>
-                       <property name="buddy">
-                        <cstring>startTimeEdit</cstring>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_34">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QTimeEdit" name="startTimeEdit">
-                       <property name="minimumSize">
-                        <size>
-                         <width>140</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-                       </property>
-                       <property name="calendarPopup">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="activeHoursColon">
-                       <property name="minimumSize">
-                        <size>
-                         <width>25</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>16</width>
-                         <height>16777215</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <pointsize>18</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">color:white</string>
-                       </property>
-                       <property name="text">
-                        <string>to</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QTimeEdit" name="endTimeEdit">
-                       <property name="minimumSize">
-                        <size>
-                         <width>140</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;
-</string>
-                       </property>
-                       <property name="calendarPopup">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QFrame" name="frame_11">
                   <property name="styleSheet">
                    <string notr="true">QWidget#frame_11{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
@@ -2957,6 +2605,130 @@ QSlider::handle:horizontal {
                        </property>
                        <property name="sliderPosition">
                         <number>176</number>
+                       </property>
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_4">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_4{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_51">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_25">
+                     <item>
+                      <widget class="QLabel" name="label_4">
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">color:white</string>
+                       </property>
+                       <property name="text">
+                        <string>Brightness</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_3">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="brightness_label">
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>60</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">color: white; border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;</string>
+                       </property>
+                       <property name="text">
+                        <string>100%</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QSlider" name="brightness_slider">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>380</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>380</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid rgb(50,50,50);
+    border-radius: 3px;
+    height: 30px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: rgb(50,50,50);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background-color:white;
+    border: 1px solid white;
+    width: 30px;
+    border-radius: 3px;
+}</string>
+                       </property>
+                       <property name="maximum">
+                        <number>100</number>
+                       </property>
+                       <property name="value">
+                        <number>100</number>
                        </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
@@ -5854,9 +5626,6 @@ border-color: rgb(50,50,50);}</string>
   <tabstop>voice_volume_slider</tabstop>
   <tabstop>test_alarm_pushbutton</tabstop>
   <tabstop>power_scroll_area</tabstop>
-  <tabstop>enablePowerSavingCheckBox</tabstop>
-  <tabstop>startTimeEdit</tabstop>
-  <tabstop>endTimeEdit</tabstop>
   <tabstop>enableActiveCoolingCheckBox</tabstop>
   <tabstop>fan_temperature_slider</tabstop>
   <tabstop>admin_scroll_area</tabstop>

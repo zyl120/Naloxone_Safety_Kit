@@ -331,8 +331,6 @@ class ApplicationWindow(QMainWindow):
         self.to_phone_number = str()
         self.message = str()
         self.naloxone_expiration_date = QDate().currentDate()
-        self.active_hour_start = QTime(8, 0, 0)
-        self.active_hour_end = QTime(18, 0, 0)
         self.alarm_message = str()
         self.voice_volume = 20
         self.status_queue = PriorityQueue()
@@ -342,6 +340,7 @@ class ApplicationWindow(QMainWindow):
         self.message_to_display = str()
         self.message_level = 0
         self.backlight = Backlight()
+        self.brightness = 0
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.showFullScreen()
@@ -568,6 +567,8 @@ class ApplicationWindow(QMainWindow):
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
             self.ui.fan_temperature_slider.setValue(
                 int(config["power_management"]["threshold_temperature"]))
+            self.ui.brightness_slider.setValue(
+                int(config["power_management"]["brightness"]))
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
             self.ui.naloxonePasscodeLineEdit.setText(
                 config["admin"]["naloxone_passcode"])
@@ -587,10 +588,6 @@ class ApplicationWindow(QMainWindow):
                 config["admin"]["report_low_account_balance"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
-            self.ui.startTimeEdit.setTime(self.active_hour_start)
-            self.ui.endTimeEdit.setTime(self.active_hour_end)
-            self.ui.enablePowerSavingCheckBox.setChecked(
-                config["power_management"]["enable_power_saving"] == "True")
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
             self.ui.alarm_message_lineedit.setText(
@@ -636,6 +633,8 @@ class ApplicationWindow(QMainWindow):
                 config["naloxone_info"]["absolute_maximum_temperature"])
             self.fan_threshold_temp = int(
                 config["power_management"]["threshold_temperature"])
+            self.ui.brightness_slider.setValue(
+                int(config["power_management"]["brightness"]))
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
             self.admin_passcode = config["admin"]["passcode"]
             self.ui.naloxonePasscodeLineEdit.setText(
@@ -679,14 +678,6 @@ class ApplicationWindow(QMainWindow):
             else:
                 self.ui.paramedic_frame.setVisible(True)
                 self.ui.admin_only_frame.setVisible(False)
-            self.active_hour_start = QTime.fromString(
-                config["power_management"]["active_hours_start_at"], "hh:mm")
-            self.ui.startTimeEdit.setTime(self.active_hour_start)
-            self.active_hour_end = QTime.fromString(
-                config["power_management"]["active_hours_end_at"], "hh:mm")
-            self.ui.endTimeEdit.setTime(self.active_hour_end)
-            self.ui.enablePowerSavingCheckBox.setChecked(
-                config["power_management"]["enable_power_saving"] == "True")
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
             self.ui.alarm_message_lineedit.setText(
@@ -1243,7 +1234,10 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot(int)
     def update_brightness(self, value):
         self.ui.brightness_label.setText("".join([str(value), "%"]))
-        self.backlight.brightness = value
+        if(RASPBERRY):
+            backlight = Backlight()
+            backlight.brightness = value
+            self.brightness = value
 
 
     @pyqtSlot(int)
@@ -1262,8 +1256,6 @@ class ApplicationWindow(QMainWindow):
 
     def save_config_file(self):
         # save the config file
-        self.active_hour_start = self.ui.startTimeEdit.time()
-        self.active_hour_end = self.ui.endTimeEdit.time()
         config = ConfigParser()
         config["twilio"] = {
             "twilio_sid": self.ui.twilioSIDLineEdit.text(),
@@ -1294,9 +1286,7 @@ class ApplicationWindow(QMainWindow):
         config["power_management"] = {
             "enable_active_cooling": self.ui.enableActiveCoolingCheckBox.isChecked(),
             "threshold_temperature": self.ui.fan_temperature_slider.value(),
-            "enable_power_saving": self.ui.enablePowerSavingCheckBox.isChecked(),
-            "active_hours_start_at": self.active_hour_start.toString("hh:mm"),
-            "active_hours_end_at": self.active_hour_end.toString("hh:mm")
+            "brightness": self.ui.brightness_slider.value()
         }
         config["alarm"] = {
             "alarm_message": self.ui.alarm_message_lineedit.text(),
