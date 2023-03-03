@@ -409,8 +409,7 @@ class ApplicationWindow(QMainWindow):
         QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
 
-        # self.ui.brightness_slider.setValue(self.backlight.brightness)
-        # self.ui.brightness_slider.setValue(100)
+        self.ui.brightness_slider.setValue(self.backlight.brightness)
 
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
