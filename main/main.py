@@ -127,7 +127,8 @@ class IOWorker(QThread):
         self.initialized = False
 
     def read_naloxone_sensor(self):
-        _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
+        #_, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
+        self.naloxone_temp = 77
         if(self.naloxone_temp is None):
             self.naloxone_temp = 0
         self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
