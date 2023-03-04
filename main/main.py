@@ -352,6 +352,7 @@ class ApplicationWindow(QMainWindow):
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.showFullScreen()
+        self.setCursor(Qt.BlankCursor)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.disarm_door_sensor)
         self.ui.armPushButton.clicked.connect(self.arm_door_sensor)
