@@ -201,7 +201,9 @@ class IOWorker(QThread):
             sleep(1)
 
 class MediaCreator(QThread):
+    media_created = pyqtSignal()
     def __init__(self, alarm_message, message_queue):
+        super(MediaCreator, self).__init__()
         self.alarm_message = alarm_message
         self.message_queue = message_queue
     
@@ -209,6 +211,7 @@ class MediaCreator(QThread):
         self.tts = gTTS(self.alarm_message, lang="en")
         self.tts.save("res/alarm.mp3")
         self.message_queue.put(NotificationItem(4, "Alarm File Generated."))
+        self.media_created.emit()
 
 
 class AlarmWorker(QThread):
