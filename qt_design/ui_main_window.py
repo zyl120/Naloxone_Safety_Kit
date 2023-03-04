@@ -513,8 +513,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.lockSettingsPushButton.setFont(font)
-        self.lockSettingsPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"")
+        self.lockSettingsPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../main/res/lock.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lockSettingsPushButton.setIcon(icon)
@@ -533,8 +533,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.unlockSettingsPushButton.setFont(font)
-        self.unlockSettingsPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"")
+        self.unlockSettingsPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("../main/res/unlock.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.unlockSettingsPushButton.setIcon(icon1)
@@ -1066,10 +1066,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.test_alarm_pushbutton.setFont(font)
-        self.test_alarm_pushbutton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"\n"
-"\n"
-"")
+        self.test_alarm_pushbutton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.test_alarm_pushbutton.setObjectName("test_alarm_pushbutton")
         self.horizontalLayout_38.addWidget(self.test_alarm_pushbutton)
         self.verticalLayout_26.addLayout(self.horizontalLayout_38)
@@ -1305,7 +1303,7 @@ class Ui_door_close_main_window(object):
         self.admin_scroll_area.setWidgetResizable(True)
         self.admin_scroll_area.setObjectName("admin_scroll_area")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 696, 711))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -335, 696, 711))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_39 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_39.setObjectName("verticalLayout_39")
@@ -1452,10 +1450,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.callTestPushButton.setFont(font)
-        self.callTestPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"\n"
-"\n"
-"")
+        self.callTestPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.callTestPushButton.setObjectName("callTestPushButton")
         self.horizontalLayout_33.addWidget(self.callTestPushButton)
         self.smsTestPushButton = QtWidgets.QPushButton(self.frame_14)
@@ -1464,10 +1460,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.smsTestPushButton.setFont(font)
-        self.smsTestPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"\n"
-"\n"
-"")
+        self.smsTestPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.smsTestPushButton.setObjectName("smsTestPushButton")
         self.horizontalLayout_33.addWidget(self.smsTestPushButton)
         self.verticalLayout_17.addLayout(self.horizontalLayout_33)
@@ -1660,10 +1654,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.armPushButton.setFont(font)
-        self.armPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"\n"
-"\n"
-"")
+        self.armPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.armPushButton.setObjectName("armPushButton")
         self.horizontalLayout_19.addWidget(self.armPushButton)
         self.disarmPushButton = QtWidgets.QPushButton(self.frame_19)
@@ -1674,10 +1666,8 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.disarmPushButton.setFont(font)
         self.disarmPushButton.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.disarmPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"\n"
-"\n"
-"")
+        self.disarmPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.disarmPushButton.setObjectName("disarmPushButton")
         self.horizontalLayout_19.addWidget(self.disarmPushButton)
         self.verticalLayout_23.addLayout(self.horizontalLayout_19)
@@ -1708,8 +1698,8 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.exitPushButton.setFont(font)
         self.exitPushButton.setAutoFillBackground(False)
-        self.exitPushButton.setStyleSheet("color: white; background-color: red; border-radius:15px;border-color: red;border-width: 1px;border-style: solid;\n"
-"")
+        self.exitPushButton.setStyleSheet("QPushButton{color: white; background-color: red; border-radius:15px;border-color: red;border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(128,0,0); border-radius:15px;border-color: rgb(128,0, 0);border-width: 1px;border-style: solid;}")
         self.exitPushButton.setObjectName("exitPushButton")
         self.horizontalLayout_20.addWidget(self.exitPushButton)
         self.verticalLayout_28.addLayout(self.horizontalLayout_20)
@@ -1776,8 +1766,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.passcodeEnterPushButton.setFont(font)
-        self.passcodeEnterPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"")
+        self.passcodeEnterPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.passcodeEnterPushButton.setIcon(icon1)
         self.passcodeEnterPushButton.setIconSize(QtCore.QSize(32, 32))
         self.passcodeEnterPushButton.setObjectName("passcodeEnterPushButton")
@@ -1831,8 +1821,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.get_passcode_button.setFont(font)
-        self.get_passcode_button.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"")
+        self.get_passcode_button.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon9 = QtGui.QIcon()
         icon9.addPixmap(QtGui.QPixmap("../main/res/get_passcode.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.get_passcode_button.setIcon(icon9)
@@ -1845,8 +1835,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.notify_admin_button.setFont(font)
-        self.notify_admin_button.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"")
+        self.notify_admin_button.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon10 = QtGui.QIcon()
         icon10.addPixmap(QtGui.QPixmap("../main/res/notify.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.notify_admin_button.setIcon(icon10)
@@ -1889,8 +1879,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.notify_admin_button_3.setFont(font)
-        self.notify_admin_button_3.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"")
+        self.notify_admin_button_3.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.notify_admin_button_3.setIcon(icon10)
         self.notify_admin_button_3.setIconSize(QtCore.QSize(32, 32))
         self.notify_admin_button_3.setObjectName("notify_admin_button_3")
@@ -1930,8 +1920,8 @@ class Ui_door_close_main_window(object):
         font = QtGui.QFont()
         font.setPointSize(16)
         self.forgotPasswordPushButton.setFont(font)
-        self.forgotPasswordPushButton.setStyleSheet("color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;\n"
-"")
+        self.forgotPasswordPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon11 = QtGui.QIcon()
         icon11.addPixmap(QtGui.QPixmap("../main/res/forgot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.forgotPasswordPushButton.setIcon(icon11)
@@ -2029,7 +2019,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.stopCountdownPushButton.setFont(font)
-        self.stopCountdownPushButton.setStyleSheet("color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
+        self.stopCountdownPushButton.setStyleSheet("QPushButton{color:white;border-radius: 40px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color:white;border-radius: 40px;background-color:rgb(25,25,25);border-color:rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon12 = QtGui.QIcon()
         icon12.addPixmap(QtGui.QPixmap("../main/res/stop_sign.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.stopCountdownPushButton.setIcon(icon12)
@@ -2085,7 +2076,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(28)
         font.setBold(True)
         self.call911NowPushButton.setFont(font)
-        self.call911NowPushButton.setStyleSheet("color: white; background-color: red; border-radius:40px;border-color:red;border-width: 1px;border-style: solid;\n"
+        self.call911NowPushButton.setStyleSheet("QPushButton{color: white; background-color: red; border-radius:40px;border-color:red;border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(128,0,0); border-radius:40px;border-color:rgb(128,0,0);border-width: 1px;border-style: solid;}\n"
 "")
         icon13 = QtGui.QIcon()
         icon13.addPixmap(QtGui.QPixmap("../main/res/phone_call.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -2192,7 +2184,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.alarmMutePushButton.setFont(font)
-        self.alarmMutePushButton.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
+        self.alarmMutePushButton.setStyleSheet("QPushButton{color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color:white;border-radius: 35px;background-color:rgb(25,25,25);border-color:rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon14 = QtGui.QIcon()
         icon14.addPixmap(QtGui.QPixmap("../main/res/mute.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.alarmMutePushButton.setIcon(icon14)
@@ -2211,7 +2204,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.replace_naloxone_button_2.setFont(font)
-        self.replace_naloxone_button_2.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
+        self.replace_naloxone_button_2.setStyleSheet("QPushButton{color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color:white;border-radius: 35px;background-color:rgb(25,25,25);border-color:rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon15 = QtGui.QIcon()
         icon15.addPixmap(QtGui.QPixmap("../main/res/exchange.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.replace_naloxone_button_2.setIcon(icon15)
@@ -2230,7 +2224,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.notify_admin_button_2.setFont(font)
-        self.notify_admin_button_2.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
+        self.notify_admin_button_2.setStyleSheet("QPushButton{color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color:white;border-radius: 35px;background-color:rgb(25,25,25);border-color:rgb(25,25,25);border-width: 1px;border-style: solid;}")
         self.notify_admin_button_2.setIcon(icon10)
         self.notify_admin_button_2.setIconSize(QtCore.QSize(48, 48))
         self.notify_admin_button_2.setFlat(False)
@@ -2248,7 +2243,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         font.setBold(False)
         self.doorOpenResetPushButton.setFont(font)
-        self.doorOpenResetPushButton.setStyleSheet("color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;")
+        self.doorOpenResetPushButton.setStyleSheet("QPushButton{color:white;border-radius: 35px;background-color:rgb(50,50,50);border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color:white;border-radius: 35px;background-color:rgb(25,25,25);border-color:rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon16 = QtGui.QIcon()
         icon16.addPixmap(QtGui.QPixmap("../main/res/reset.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.doorOpenResetPushButton.setIcon(icon16)
@@ -2385,7 +2381,8 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.backPushButton.setFont(font)
         self.backPushButton.setAutoFillBackground(False)
-        self.backPushButton.setStyleSheet("QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}")
+        self.backPushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon21 = QtGui.QIcon()
         icon21.addPixmap(QtGui.QPixmap("../main/res/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.backPushButton.setIcon(icon21)
@@ -2545,7 +2542,7 @@ class Ui_door_close_main_window(object):
 
         self.retranslateUi(door_close_main_window)
         self.stackedWidget.setCurrentIndex(2)
-        self.settingsTab.setCurrentIndex(5)
+        self.settingsTab.setCurrentIndex(6)
         self.passcodeEnterLineEdit.returnPressed.connect(self.passcodeEnterPushButton.click) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(door_close_main_window)
         door_close_main_window.setTabOrder(self.settingsTab, self.naloxone_scroll_area)
