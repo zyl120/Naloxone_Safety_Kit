@@ -1036,7 +1036,7 @@ color: white;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>4</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2255,9 +2255,9 @@ QSlider::handle:horizontal {
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_18">
+                 <widget class="QFrame" name="frame_2">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_18{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_2{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -2265,11 +2265,11 @@ QSlider::handle:horizontal {
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_26">
+                  <layout class="QVBoxLayout" name="verticalLayout_13">
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_38">
+                    <layout class="QHBoxLayout" name="horizontalLayout_13">
                      <item>
-                      <widget class="QLabel" name="label_24">
+                      <widget class="QLabel" name="label_3">
                        <property name="font">
                         <font>
                          <pointsize>16</pointsize>
@@ -2279,15 +2279,12 @@ QSlider::handle:horizontal {
                         <string notr="true">color:white</string>
                        </property>
                        <property name="text">
-                        <string>&amp;Test Alarm</string>
-                       </property>
-                       <property name="buddy">
-                        <cstring>test_alarm_pushbutton</cstring>
+                        <string>Generate Alarm File</string>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <spacer name="horizontalSpacer_38">
+                      <spacer name="horizontalSpacer_4">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
@@ -2300,7 +2297,13 @@ QSlider::handle:horizontal {
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QPushButton" name="test_alarm_pushbutton">
+                      <widget class="QPushButton" name="generate_pushbutton">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
                        <property name="minimumSize">
                         <size>
                          <width>140</width>
@@ -2323,7 +2326,41 @@ QSlider::handle:horizontal {
 QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}</string>
                        </property>
                        <property name="text">
-                        <string>Test</string>
+                        <string>Generate</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="test_alarm_pushbutton">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}</string>
+                       </property>
+                       <property name="text">
+                        <string>Play</string>
                        </property>
                       </widget>
                      </item>
@@ -2806,9 +2843,9 @@ QScrollBar::sub-line:vertical {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-335</y>
+                 <y>0</y>
                  <width>696</width>
-                 <height>711</height>
+                 <height>726</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -2952,6 +2989,19 @@ QScrollBar::sub-line:vertical {
                       </widget>
                      </item>
                     </layout>
+                   </item>
+                   <item>
+                    <widget class="Line" name="line_5">
+                     <property name="styleSheet">
+                      <string notr="true">color:rgb(50,50,50)</string>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                    </widget>
                    </item>
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_39">
@@ -5625,7 +5675,6 @@ QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius
   <tabstop>alarm_scroll_area</tabstop>
   <tabstop>alarm_message_lineedit</tabstop>
   <tabstop>voice_volume_slider</tabstop>
-  <tabstop>test_alarm_pushbutton</tabstop>
   <tabstop>power_scroll_area</tabstop>
   <tabstop>enableActiveCoolingCheckBox</tabstop>
   <tabstop>fan_temperature_slider</tabstop>

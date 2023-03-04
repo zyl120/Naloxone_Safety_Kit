@@ -201,14 +201,14 @@ class IOWorker(QThread):
             sleep(1)
 
 class MediaCreator(QThread):
-    media_complete = pyqtSignal()
-    def __init__(self, alarm_message):
+    def __init__(self, alarm_message, message_queue):
         self.alarm_message = alarm_message
+        self.message_queue = message_queue
     
     def run(self):
         self.tts = gTTS(self.alarm_message, lang="en")
         self.tts.save("res/alarm.mp3")
-        self.media_complete.emit()
+        self.message_queue.put(NotificationItem(4, "Alarm File Generated."))
 
 
 class AlarmWorker(QThread):
@@ -400,6 +400,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.notify_admin_button.clicked.connect(self.notify_admin)
         self.ui.notify_admin_button_2.clicked.connect(self.notify_admin)
         self.ui.notify_admin_button_3.clicked.connect(self.notify_admin)
+        self.ui.generate_pushbutton.clicked.connect(self.generate_alarm_file)
         self.ui.get_passcode_button.clicked.connect(
             self.get_passcode_button_pressed)
         self.ui.paramedic_phone_number_lineedit.textChanged.connect(
@@ -537,7 +538,7 @@ class ApplicationWindow(QMainWindow):
 
     def create_media_creator(self, alarm_message):
         self.destroy_media_creator()
-        self.media_creator = MediaCreator(alarm_message)
+        self.media_creator = MediaCreator(alarm_message, self.status_queue)
         self.media_creator.start()
 
     def destroy_alarm_worker(self):
