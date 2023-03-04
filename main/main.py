@@ -11,7 +11,6 @@ from ui_main_window import Ui_door_close_main_window
 from time import sleep
 from qrcode import QRCode
 from qrcode.constants import ERROR_CORRECT_M
-from random import choice
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
@@ -201,15 +200,22 @@ class IOWorker(QThread):
                 break
             sleep(1)
 
-
-class AlarmWorker(QThread):
-    def __init__(self, alarm_message, voice_volume, loop):
-        super(AlarmWorker, self).__init__()
+class MediaCreator(QThread):
+    media_complete = pyqtSignal()
+    def __init__(self, alarm_message):
         self.alarm_message = alarm_message
-        self.voice_volume = voice_volume
-        self.loop = loop
+    
+    def run(self):
         self.tts = gTTS(self.alarm_message, lang="en")
         self.tts.save("res/alarm.mp3")
+        self.media_complete.emit()
+
+
+class AlarmWorker(QThread):
+    def __init__(self, voice_volume, loop):
+        super(AlarmWorker, self).__init__()
+        self.voice_volume = voice_volume
+        self.loop = loop
         os.system("pactl set-sink-volume 0 {}%".format(self.voice_volume))
         logging.debug("alarm thread go.")
 
@@ -432,6 +438,7 @@ class ApplicationWindow(QMainWindow):
         self.io_worker = None
         self.alarm_worker = None
         self.countdown_worker = None
+        self.media_creator = None
         self.create_io_worker()
         self.create_twilio_worker()
         self.twilio_worker.emergency_call_status.connect(
@@ -522,16 +529,26 @@ class ApplicationWindow(QMainWindow):
             self.update_server_ui)
         self.network_worker.start()
 
+    def destroy_media_creator(self):
+        if (self.media_creator is not None):
+            self.media_creator.quit()
+            self.media_creator.requestInterruption()
+            self.media_creator.wait()
+
+    def create_media_creator(self, alarm_message):
+        self.destroy_media_creator()
+        self.media_creator = MediaCreator(alarm_message)
+        self.media_creator.start()
+
     def destroy_alarm_worker(self):
         if (self.alarm_worker is not None):
             self.alarm_worker.quit()
             self.alarm_worker.requestInterruption()
             self.alarm_worker.wait()
 
-    def create_alarm_worker(self, alarm_message, voice_volume, loop):
+    def create_alarm_worker(self, voice_volume, loop):
         self.destroy_alarm_worker()
-        self.alarm_worker = AlarmWorker(
-            alarm_message, voice_volume, loop)
+        self.alarm_worker = AlarmWorker(voice_volume, loop)
         self.alarm_worker.start()
 
     def destroy_countdown_worker(self):
@@ -1118,12 +1135,15 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def test_tts_engine(self):
-        self.create_alarm_worker(self.ui.alarm_message_lineedit.text(
-        ), self.ui.voice_volume_slider.value(), False)
+        self.create_alarm_worker(self.ui.voice_volume_slider.value(), False)
+
+    @pyqtSlot()
+    def generate_alarm_file(self):
+        self.create_media_creator(self.ui.alarm_message_lineedit.text())
 
     @pyqtSlot()
     def speak_now(self):
-        self.create_alarm_worker(self.alarm_message, self.voice_volume, True)
+        self.create_alarm_worker(self.voice_volume, True)
         self.ui.alarmStatusLabel.setText("Speaking")
         self.ui.alarmMutePushButton.setVisible(True)
 
