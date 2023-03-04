@@ -134,17 +134,20 @@ class IOWorker(QThread):
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.initialized = False
+        logging.info("IO init.")
 
     def read_naloxone_sensor(self):
         #_, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
         try:
             self.naloxone_temp = self.dhtDevice.temperature
         except Exception:
-            self.naloxone_temp = 77
+            self.naloxone_temp = 32
             return
         else:
-        #self.naloxone_temp = 77
-            self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
+            if(self.naloxone_temp is not None):
+                self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
+            else:
+                self.naloxone_temp = 32
         
 
     def calculate_pwm(self):
@@ -377,7 +380,7 @@ class ApplicationWindow(QMainWindow):
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.showFullScreen()
-        self.setCursor(Qt.BlankCursor)
+        #self.setCursor(Qt.BlankCursor)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.disarm_door_sensor)
         self.ui.armPushButton.clicked.connect(self.arm_door_sensor)
@@ -1379,5 +1382,6 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    logging.disable(logging.CRITICAL) # turn off all loggings
+    #logging.disable(logging.CRITICAL) # turn off all loggings
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
     gui_manager()
