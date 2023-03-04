@@ -1072,7 +1072,8 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         self.generate_pushbutton.setFont(font)
         self.generate_pushbutton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
-"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}\n"
+"QPushButton:disabled{color: white; background-color: black; border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}")
         self.generate_pushbutton.setObjectName("generate_pushbutton")
         self.horizontalLayout_13.addWidget(self.generate_pushbutton)
         self.test_alarm_pushbutton = QtWidgets.QPushButton(self.frame_2)
