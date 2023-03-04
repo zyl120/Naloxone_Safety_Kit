@@ -128,16 +128,19 @@ class IOWorker(QThread):
         self.initialized = False
 
     def read_naloxone_sensor(self):
-        #_, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
-        #self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
-        self.naloxone_temp = 77
+        _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
+        if(self.naloxone_temp is None):
+            self.naloxone_temp = 0
+        self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
+        
 
     def calculate_pwm(self):
-        list1 = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
         if (self.cpu_temp < self.fan_threshold_temp):
             self.fan_pwm = 0
+        elif(self.cpu_temp >= 212):
+            self.fan_pwm = 100
         else:
-            self.fan_pwm = choice(list1)
+            self.fan_pwm = int((100.0 / (212 - self.fan_threshold_temp)) * (self.cpu_temp -  self.fan_threshold_temp))
 
     def send_pwm(self):
         return
@@ -740,7 +743,6 @@ class ApplicationWindow(QMainWindow):
             self.disarm_door_sensor()
 
         else:
-            self.send_notification(4, "Config Reloaded")
             self.ui.homePushButton.setVisible(True)
             self.ui.dashboardPushButton.setVisible(True)
             self.arm_door_sensor()
@@ -1015,16 +1017,13 @@ class ApplicationWindow(QMainWindow):
         if (self.status_queue.empty()):
             if(self.naloxone_destroyed):
                 # only show when status queue is empty
-                self.ui.time_label.setVisible(False)
                 self.ui.status_bar.setVisible(True)
                 self.ui.status_bar.setText("Naloxone Destroyed. DO NOT USE!")
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
             else:
-                self.ui.time_label.setVisible(True)
                 self.ui.status_bar.setVisible(False)
         else:
-            self.ui.time_label.setVisible(False)
             msg = self.status_queue.get()
             self.message_level = msg.priority
             self.message_to_display = msg.message
@@ -1237,7 +1236,7 @@ class ApplicationWindow(QMainWindow):
             self.ui.fanSpeedLineEdit.setText("OFF")
         else:
             self.ui.fan_icon.setVisible(True)
-            self.ui.fanSpeedLineEdit.setText(" ".join([str(pwm), "RPM"]))
+            self.ui.fanSpeedLineEdit.setText(" ".join([str(int(pwm / 100.0 * 7000)), "RPM"]))
 
     @pyqtSlot(int)
     def update_brightness(self, value):
@@ -1315,6 +1314,7 @@ class ApplicationWindow(QMainWindow):
         self.destroy_alarm_worker()
         self.destroy_countdown_worker()
         logging.info("exit program.")
+        logging.shutdown()
         self.close()
 
 
@@ -1334,6 +1334,5 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="naloxone_safety_kit.log", encoding="utf-8",
-                        level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    logging.disable(logging.CRITICAL) # turn off all loggings
     gui_manager()
