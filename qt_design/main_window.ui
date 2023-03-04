@@ -5233,7 +5233,8 @@ border-color: rgb(50,50,50);}</string>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton:enabled{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+          <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+QPushButton:pressed{color: white; background-color: rgb(10,10,10); border-radius:25px;border-color: rgb(10,10,10);border-width: 1px;border-style: solid;}</string>
          </property>
          <property name="text">
           <string>Save</string>
