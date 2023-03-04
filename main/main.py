@@ -741,7 +741,7 @@ class ApplicationWindow(QMainWindow):
 
         except Exception as e:
             logging.error(e)
-            self.send_notification(0, "Failed to load config file")
+            self.send_notification(0, "Config File Missing")
             self.send_notification(4, "Enter OOBE Mode")
             self.ui.unlock_icon.setVisible(True)
             self.ui.unlockSettingsPushButton.setVisible(False)
@@ -1039,7 +1039,7 @@ class ApplicationWindow(QMainWindow):
             if(self.naloxone_destroyed):
                 # only show when status queue is empty
                 self.ui.status_bar.setVisible(True)
-                self.ui.status_bar.setText("Naloxone Destroyed. DO NOT USE!")
+                self.ui.status_bar.setText("Naloxone Destroyed")
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
             else:
@@ -1149,7 +1149,7 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot()
     def alarm_file_generated(self):
         self.ui.generate_pushbutton.setEnabled(True)
-        self.send_notification(4, "Alarm Generated.")
+        self.send_notification(4, "Alarm Generated")
 
 
     @pyqtSlot()
