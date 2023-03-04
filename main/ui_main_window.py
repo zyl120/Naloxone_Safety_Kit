@@ -2365,7 +2365,7 @@ class Ui_door_close_main_window(object):
         font.setBold(False)
         self.saveToFilePushButton.setFont(font)
         self.saveToFilePushButton.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
-"QPushButton:pressed{color: white; background-color: rgb(10,10,10); border-radius:25px;border-color: rgb(10,10,10);border-width: 1px;border-style: solid;}")
+"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
         icon20 = QtGui.QIcon()
         icon20.addPixmap(QtGui.QPixmap("../main/res/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.saveToFilePushButton.setIcon(icon20)
