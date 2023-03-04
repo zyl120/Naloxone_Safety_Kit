@@ -10,7 +10,7 @@ if __name__ == "__main__":
     print("Checking OS...")
     with subprocess.Popen(["uname", "-o"], stdout=subprocess.PIPE) as process:
         output = process.communicate()[0].decode("utf-8").rstrip()
-        if(output != "GNU/Linux"):
+        if (output != "GNU/Linux"):
             sys.exit("Wrong OS Type, exit.")
 
     username = input("Enter your user name: ")
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     cache.update()
     cache.open()
 
-    pkg_name_list = ["python3-pyqt5", "mpg123", "git", "build-essential", "qtdeclarative5-dev", "libqt5svg5-dev", "qtbase5-private-dev", "qml-module-qtquick-controls2", "qml-module-qtquick-controls", "qml-module-qt-labs-folderlistmodel", "libxcb-composite0-dev", "libxcb-cursor-dev", "libxcb-damage0-dev", "libxcb-dpms0-dev", "libxcb-dri2-0-dev", "libxcb-dri3-dev", "libxcb-ewmh-dev", "libxcb-glx0-dev", "libxcb-icccm4-dev", "libxcb-image0-dev", "libxcb-imdkit-dev", "libxcb-keysyms1-dev", "libxcb-present-dev", "libxcb-randr0-dev",
+    pkg_name_list = ["libgpiod2", "python3-pyqt5", "mpg123", "git", "build-essential", "qtdeclarative5-dev", "libqt5svg5-dev", "qtbase5-private-dev", "qml-module-qtquick-controls2", "qml-module-qtquick-controls", "qml-module-qt-labs-folderlistmodel", "libxcb-composite0-dev", "libxcb-cursor-dev", "libxcb-damage0-dev", "libxcb-dpms0-dev", "libxcb-dri2-0-dev", "libxcb-dri3-dev", "libxcb-ewmh-dev", "libxcb-glx0-dev", "libxcb-icccm4-dev", "libxcb-image0-dev", "libxcb-imdkit-dev", "libxcb-keysyms1-dev", "libxcb-present-dev", "libxcb-randr0-dev",
                      "libxcb-record0-dev", "libxcb-render-util0-dev", "libxcb-render0-dev", "libxcb-res0-dev", "libxcb-screensaver0-dev", "libxcb-shape0-dev", "libxcb-shm0-dev", "libxcb-sync-dev", "libxcb-util-dev", "libxcb-util0-dev", "libxcb-xf86dri0-dev", "libxcb-xfixes0-dev", "libxcb-xinerama0-dev", "libxcb-xinput-dev", "libxcb-xkb-dev", "libxcb-xrm-dev", "libxcb-xtest0-dev", "libxcb-xv0-dev", "libxcb-xvmc0-dev", "libxcb1-dev", "libx11-xcb-dev", "libglu1-mesa-dev", "libxrender-dev", "libxi-dev", "libxkbcommon-dev", "libxkbcommon-x11-dev"]
     for pkg_name in pkg_name_list:
         pkg = cache[pkg_name]
@@ -46,7 +46,8 @@ if __name__ == "__main__":
     else:
         print("apt installation completes successfully")
 
-    pip_list = ["twilio", "qrcode", "Adafruit-DHT", "gtts", "phonenumbers", "rpi-backlight"]
+    pip_list = ["twilio", "qrcode", "adafruit-python-shell",
+                "adafruit-circuitpython-dht", "gtts", "phonenumbers", "rpi-backlight"]
     for pip_pkg in pip_list:
         print("Installing {} using pip...".format(pip_pkg))
         try:
@@ -57,7 +58,7 @@ if __name__ == "__main__":
                 pip_pkg, str(e)))
         else:
             print("{} installed successfully".format(pip_pkg))
-    
+
     print("Update udev rule to allow screen brightness change...")
     try:
         os.system("echo 'SUBSYSTEM==\"backlight\",RUN+=\"/bin/chmod 666 /sys/class/backlight/%k/brightness /sys/class/backlight/%k/bl_power\"' | sudo tee -a /etc/udev/rules.d/backlight-permissions.rules")
@@ -148,7 +149,8 @@ if __name__ == "__main__":
         "Type=idle\n",
         "Restart=on-failure\n",
         "User={}\n".format(username),
-        "ExecStart=/usr/bin/python {}/main.py\n\n".format(os.getcwd() + "/Naloxone_Safety_Kit/main"),
+        "ExecStart=/usr/bin/python {}/main.py\n\n".format(
+            os.getcwd() + "/Naloxone_Safety_Kit/main"),
         "[Install]\n",
         "WantedBy=graphical.target"]
 

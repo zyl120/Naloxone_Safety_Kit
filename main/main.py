@@ -16,14 +16,17 @@ from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from rpi_backlight import Backlight
 from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+# import RPi.GPIO as GPIO
+# import Adafruit_DHT as dht
+import adafruit_dht
 import logging
+import board
+import digitalio
 
-DOOR_PIN = 17
-DHT_PIN = 27
-FAN_PIN = 12
-RESET_PIN = 22
+#DOOR_PIN = 17
+#DHT_PIN = 27
+#FAN_PIN = 12
+#RESET_PIN = 22
 
 
 @dataclass(order=True)
@@ -119,19 +122,29 @@ class IOWorker(QThread):
 
     def __init__(self, in_queue):
         super(IOWorker, self).__init__()
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(DOOR_PIN, GPIO.IN)
-
+        # GPIO.setmode(GPIO.BCM)
+        # GPIO.setup(DOOR_PIN, GPIO.IN)
+        self.door_sensor = digitalio.DigitalInOut(board.D17)
+        self.door_sensor.direction = digitalio.Direction.INPUT
+        self.door_sensor.pull = digitalio.Pull.UP
+        self.reset_sensor = digitalio.DigitalInOut(board.D22)
+        self.reset_sensor.direction = digitalio.Direction.INPUT
+        self.reset_sensor.pull = digitalio.Pull.UP
+        self.dhtDevice = adafruit_dht.DHT22(board.D27)
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.initialized = False
 
     def read_naloxone_sensor(self):
         #_, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
-        self.naloxone_temp = 77
-        if(self.naloxone_temp is None):
-            self.naloxone_temp = 0
-        self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
+        try:
+            self.naloxone_temp = self.dhtDevice.temperature
+        except Exception:
+            self.naloxone_temp = 77
+            return
+        else:
+        #self.naloxone_temp = 77
+            self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
         
 
     def calculate_pwm(self):
@@ -152,7 +165,8 @@ class IOWorker(QThread):
     def read_door_sensor(self):
         # self.door_opened = False
         # return
-        if GPIO.input(DOOR_PIN):
+        #if GPIO.input(DOOR_PIN):
+        if self.door_sensor.value:
             self.door_opened = True
         else:
             self.door_opened = False
