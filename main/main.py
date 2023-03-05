@@ -16,15 +16,14 @@ from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from rpi_backlight import Backlight
 from gpiozero import CPUTemperature
-import adafruit_dht
+import RPi.GPIO as GPIO
+import Adafruit_DHT as dht
 import logging
-import board
-import digitalio
 
-#DOOR_PIN = 17
-#DHT_PIN = 27
-#FAN_PIN = 12
-#RESET_PIN = 22
+DOOR_PIN = 17
+DHT_PIN = 27
+FAN_PIN = 12
+RESET_PIN = 22
 
 
 @dataclass(order=True)
@@ -120,40 +119,28 @@ class IOWorker(QThread):
 
     def __init__(self, in_queue):
         super(IOWorker, self).__init__()
-        # GPIO.setmode(GPIO.BCM)
-        # GPIO.setup(DOOR_PIN, GPIO.IN)
-        self.door_sensor = digitalio.DigitalInOut(board.D17)
-        self.door_sensor.direction = digitalio.Direction.INPUT
-        self.door_sensor.pull = digitalio.Pull.UP
-        self.reset_sensor = digitalio.DigitalInOut(board.D22)
-        self.reset_sensor.direction = digitalio.Direction.INPUT
-        self.reset_sensor.pull = digitalio.Pull.UP
-        self.dhtDevice = adafruit_dht.DHT22(board.D27)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(DOOR_PIN, GPIO.IN)
+        GPIO.setup(RESET_PIN, GPIO.IN)
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.worker_initialized = False
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
-        try:
-            self.naloxone_temp = self.dhtDevice.temperature
-        except Exception:
-            self.naloxone_temp = 32
-            return
-        else:
-            if(self.naloxone_temp is not None):
-                self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
-            else:
-                self.naloxone_temp = 32
-        
+        _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
+        if (self.naloxone_temp is None):
+            self.naloxone_temp = 0
+        self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
 
     def calculate_pwm(self):
         if (self.cpu_temp < self.fan_threshold_temp):
             self.fan_pwm = 0
-        elif(self.cpu_temp >= 212):
+        elif (self.cpu_temp >= 212):
             self.fan_pwm = 100
         else:
-            self.fan_pwm = int((100.0 / (212 - self.fan_threshold_temp)) * (self.cpu_temp -  self.fan_threshold_temp))
+            self.fan_pwm = int((100.0 / (212 - self.fan_threshold_temp))
+                               * (self.cpu_temp - self.fan_threshold_temp))
 
     def send_pwm(self):
         return
@@ -162,7 +149,7 @@ class IOWorker(QThread):
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
 
     def read_door_sensor(self):
-        if self.door_sensor.value:
+        if GPIO.input(DOOR_PIN):
             self.door_opened = True
         else:
             self.door_opened = False
@@ -191,14 +178,14 @@ class IOWorker(QThread):
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
                 self.read_cpu_sensor()
-                if(self.fan_enabled):
+                if (self.fan_enabled):
                     self.calculate_pwm()
                 else:
                     self.fan_pwm = 0
                 self.update_temperature.emit(
                     self.naloxone_temp, self.cpu_temp, self.fan_pwm, self.naloxone_temp > self.max_temp)
                 self.naloxone_counter = 0
-            if(self.fan_enabled):
+            if (self.fan_enabled):
                 self.send_pwm()
             self.read_door_sensor()
             if (self.door_opened and not self.disarmed):  # if door opened and the switch is armed
@@ -211,12 +198,14 @@ class IOWorker(QThread):
                 break
             sleep(1)
 
+
 class MediaCreator(QThread):
     media_created = pyqtSignal()
+
     def __init__(self, alarm_message):
         super(MediaCreator, self).__init__()
         self.alarm_message = alarm_message
-    
+
     def run(self):
         self.tts = gTTS(self.alarm_message, lang="en")
         self.tts.save("res/alarm.mp3")
@@ -375,7 +364,7 @@ class ApplicationWindow(QMainWindow):
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
         self.showFullScreen()
-        #self.setCursor(Qt.BlankCursor)
+        # self.setCursor(Qt.BlankCursor)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.disarm_door_sensor)
         self.ui.armPushButton.clicked.connect(self.arm_door_sensor)
@@ -747,7 +736,7 @@ class ApplicationWindow(QMainWindow):
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
             self.io_queue.put(IOItem(
-            self.disarmed, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
+                self.disarmed, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
 
@@ -777,10 +766,10 @@ class ApplicationWindow(QMainWindow):
 
         else:
             logging.debug("self.initialized: " + str(self.initialized))
-            if(not self.emergency_mode):
+            if (not self.emergency_mode):
                 self.ui.homePushButton.setVisible(True)
                 self.ui.dashboardPushButton.setVisible(True)
-            if(not self.initialized):
+            if (not self.initialized):
                 logging.debug("sensor armed")
                 self.arm_door_sensor()
             self.initialized = True
@@ -1055,12 +1044,12 @@ class ApplicationWindow(QMainWindow):
         else:
             self.ui.wait_icon.setVisible(False)
         if (self.status_queue.empty()):
-            if(not self.initialized):
+            if (not self.initialized):
                 self.ui.status_bar.setVisible(True)
                 self.ui.status_bar.setText("Initial Setup")
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-            elif(self.naloxone_destroyed):
+            elif (self.naloxone_destroyed):
                 # only show when status queue is empty
                 self.ui.status_bar.setVisible(True)
                 self.ui.status_bar.setText("Naloxone Destroyed")
@@ -1169,12 +1158,11 @@ class ApplicationWindow(QMainWindow):
     def generate_alarm_file(self):
         self.create_media_creator(self.ui.alarm_message_lineedit.text())
         self.ui.generate_pushbutton.setEnabled(False)
-    
+
     @pyqtSlot()
     def alarm_file_generated(self):
         self.ui.generate_pushbutton.setEnabled(True)
         self.send_notification(4, "Alarm Generated")
-
 
     @pyqtSlot()
     def speak_now(self):
@@ -1293,13 +1281,13 @@ class ApplicationWindow(QMainWindow):
             self.ui.fanSpeedLineEdit.setText("OFF")
         else:
             self.ui.fan_icon.setVisible(True)
-            self.ui.fanSpeedLineEdit.setText(" ".join([str(int(pwm / 100.0 * 7000)), "RPM"]))
+            self.ui.fanSpeedLineEdit.setText(
+                " ".join([str(int(pwm / 100.0 * 7000)), "RPM"]))
 
     @pyqtSlot(int)
     def update_brightness(self, value):
         self.ui.brightness_label.setText("".join([str(value), "%"]))
         self.backlight.brightness = value
-
 
     @pyqtSlot(int)
     def update_voice_volume(self, value):
@@ -1391,6 +1379,7 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    #logging.disable(logging.CRITICAL) # turn off all loggings
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+    # logging.disable(logging.CRITICAL) # turn off all loggings
+    logging.basicConfig(format='%(levelname)s:%(message)s',
+                        level=logging.DEBUG)
     gui_manager()
