@@ -16,8 +16,6 @@ from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
 from rpi_backlight import Backlight
 from gpiozero import CPUTemperature
-# import RPi.GPIO as GPIO
-# import Adafruit_DHT as dht
 import adafruit_dht
 import logging
 import board
@@ -137,7 +135,6 @@ class IOWorker(QThread):
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
-        #_, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
         try:
             self.naloxone_temp = self.dhtDevice.temperature
         except Exception:
@@ -163,12 +160,8 @@ class IOWorker(QThread):
 
     def read_cpu_sensor(self):
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
-        # self.cpu_temp = 100
 
     def read_door_sensor(self):
-        # self.door_opened = False
-        # return
-        #if GPIO.input(DOOR_PIN):
         if self.door_sensor.value:
             self.door_opened = True
         else:
@@ -345,6 +338,7 @@ class ApplicationWindow(QMainWindow):
         self.naloxone_destroyed = False
         self.low_account_balance = False
         self.door_opened = False
+        self.emergency_mode = False
         self.disarmed = False
         self.sms_reporting = False
         self.report_door_opened = False
@@ -781,9 +775,10 @@ class ApplicationWindow(QMainWindow):
             self.disarm_door_sensor()
 
         else:
-            self.ui.homePushButton.setVisible(True)
-            self.ui.dashboardPushButton.setVisible(True)
-            self.arm_door_sensor()
+            if(not self.emergency_mode):
+                self.ui.homePushButton.setVisible(True)
+                self.ui.dashboardPushButton.setVisible(True)
+                self.arm_door_sensor()
 
     def lock_settings(self):
         # lock the whole setting page.
@@ -876,6 +871,7 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer.stop()
         if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
             # Only go to the door open page when the user is not changing settings.
+            self.emergency_mode = True
             self.reporting_queue.put(EventItem(0, "Door Opened"))
             self.ui.doorOpenResetPushButton.setVisible(False)
             self.ui.homePushButton.setVisible(False)
@@ -1002,6 +998,7 @@ class ApplicationWindow(QMainWindow):
             self.send_notification(1, "Close Door First")
         else:
             self.goto_home()
+            self.emergency_mode = False
             self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.homePushButton.setVisible(True)
             self.ui.dashboardPushButton.setVisible(True)
@@ -1382,6 +1379,6 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    #logging.disable(logging.CRITICAL) # turn off all loggings
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+    logging.disable(logging.CRITICAL) # turn off all loggings
+    #logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
     gui_manager()
