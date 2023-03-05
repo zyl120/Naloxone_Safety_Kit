@@ -1370,8 +1370,7 @@ def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     # enable highdpi scaling
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps,
-                              True)  # use highdpi icons
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # use highdpi icons
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
@@ -1384,5 +1383,5 @@ def gui_manager():
 if __name__ == "__main__":
     logging.disable(logging.CRITICAL) # turn off all loggings
     # logging.basicConfig(format='%(levelname)s:%(message)s',
-                        level=logging.DEBUG)
+    #                    level=logging.DEBUG)
     gui_manager()
