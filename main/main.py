@@ -122,9 +122,12 @@ class IOWorker(QThread):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(DOOR_PIN, GPIO.IN)
         GPIO.setup(RESET_PIN, GPIO.IN)
+        GPIO.setup(FAN_PIN, GPIO.OUT)
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.worker_initialized = False
+        self.fan_gpio = GPIO.PWM(FAN_PIN, 10000)
+        self.fan_gpio.start(0)
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
@@ -143,7 +146,7 @@ class IOWorker(QThread):
                                * (self.cpu_temp - self.fan_threshold_temp))
 
     def send_pwm(self):
-        return
+        self.fan_gpio.ChangeDutyCycle(self.fan_pwm)
 
     def read_cpu_sensor(self):
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
@@ -1379,7 +1382,7 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    # logging.disable(logging.CRITICAL) # turn off all loggings
-    logging.basicConfig(format='%(levelname)s:%(message)s',
+    logging.disable(logging.CRITICAL) # turn off all loggings
+    # logging.basicConfig(format='%(levelname)s:%(message)s',
                         level=logging.DEBUG)
     gui_manager()
