@@ -131,7 +131,7 @@ class IOWorker(QThread):
         self.dhtDevice = adafruit_dht.DHT22(board.D27)
         self.naloxone_counter = 9
         self.in_queue = in_queue
-        self.initialized = False
+        self.worker_initialized = False
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
@@ -178,7 +178,7 @@ class IOWorker(QThread):
         while True:
             if (self.isInterruptionRequested()):
                 break
-            if (not self.initialized or not self.in_queue.empty()):
+            if (not self.worker_initialized or not self.in_queue.empty()):
                 config = self.in_queue.get()
                 self.disarmed = config.disarmed
                 self.max_temp = config.max_temp
@@ -186,7 +186,7 @@ class IOWorker(QThread):
                 self.fan_threshold_temp = config.fan_threshold_temp
                 self.expiration_date = config.expiration_date
                 self.naloxone_counter = 9
-                self.initialized = True
+                self.worker_initialized = True
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
                 self.read_naloxone_sensor()
@@ -335,6 +335,7 @@ class TwilioWorker(QThread):
 class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
+        self.initialized = False
         self.naloxone_destroyed = False
         self.low_account_balance = False
         self.door_opened = False
@@ -745,15 +746,13 @@ class ApplicationWindow(QMainWindow):
             admin_qrcode_pixmap = QPixmap(
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
-            self.io_queue.put(IOItem(
-                    False, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
 
         except Exception as e:
             logging.error(e)
+            self.initialized = False
             self.send_notification(0, "Config File Missing")
-            self.send_notification(4, "Enter OOBE Mode")
             self.ui.unlock_icon.setVisible(True)
             self.ui.unlockSettingsPushButton.setVisible(False)
             self.ui.lockSettingsPushButton.setVisible(True)
@@ -775,10 +774,14 @@ class ApplicationWindow(QMainWindow):
             self.disarm_door_sensor()
 
         else:
+            logging.debug("self.initialized: " + str(self.initialized))
             if(not self.emergency_mode):
                 self.ui.homePushButton.setVisible(True)
                 self.ui.dashboardPushButton.setVisible(True)
+            if(not self.initialized):
+                logging.debug("sensor armed")
                 self.arm_door_sensor()
+            self.initialized = True
 
     def lock_settings(self):
         # lock the whole setting page.
@@ -1050,7 +1053,12 @@ class ApplicationWindow(QMainWindow):
         else:
             self.ui.wait_icon.setVisible(False)
         if (self.status_queue.empty()):
-            if(self.naloxone_destroyed):
+            if(not self.initialized):
+                self.ui.status_bar.setVisible(True)
+                self.ui.status_bar.setText("Initial Setup")
+                self.ui.status_bar.setStyleSheet(
+                    "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
+            elif(self.naloxone_destroyed):
                 # only show when status queue is empty
                 self.ui.status_bar.setVisible(True)
                 self.ui.status_bar.setText("Naloxone Destroyed")
@@ -1212,6 +1220,7 @@ class ApplicationWindow(QMainWindow):
                 QTime().currentTime().toString("h:mm AP"))
             self.reporting_queue.put(
                 EventItem(1, "Emergency Call Placed Successfully"))
+            self.stop_alarm()
         else:
             self.ui.emergencyCallStatusLabel.setText("Failed")
             self.reporting_queue.put(EventItem(1, "Emergency Call Failed"))
@@ -1220,6 +1229,7 @@ class ApplicationWindow(QMainWindow):
     @pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
         # Update the door ui of the main window.
+        logging.debug("{} {}".format(str(door), str(armed)))
         if (not door):
             self.ui.doorClosedLineEdit.setText("Closed")
             self.ui.doorOpenLabel.setText("Closed")
@@ -1379,6 +1389,6 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    logging.disable(logging.CRITICAL) # turn off all loggings
-    #logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+    #logging.disable(logging.CRITICAL) # turn off all loggings
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
     gui_manager()
