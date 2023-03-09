@@ -131,10 +131,15 @@ class IOWorker(QThread):
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
-        _, self.naloxone_temp = dht.read_retry(dht.DHT22, DHT_PIN)
-        if (self.naloxone_temp is None):
+        try:
+            _, self.naloxone_temp = dht.read(dht.DHT22, DHT_PIN)
+        except Exception:
             self.naloxone_temp = 0
-        self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
+        else:
+            if (self.naloxone_temp is None):
+                self.naloxone_temp = 0
+        finally:
+            self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
 
     def calculate_pwm(self):
         if (self.cpu_temp < self.fan_threshold_temp):
