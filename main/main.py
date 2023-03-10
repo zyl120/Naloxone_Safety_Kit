@@ -121,18 +121,14 @@ class IOWorker(QThread):
 
     def __init__(self, in_queue):
         super(IOWorker, self).__init__()
-        self.door_sensor = digitalio.DigitalInOut(board.D17)
-        self.door_sensor.direction = digitalio.Direction.INPUT
-        self.door_sensor.pull = digitalio.Pull.UP
-        self.reset_sensor = digitalio.DigitalInOut(board.D22)
-        self.reset_sensor.direction = digitalio.Direction.INPUT
-        self.reset_sensor.pull = digitalio.Pull.UP
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(FAN_PIN, GPIO.OUT)
+        GPIO.setup(DOOR_PIN, GPIO.IN)
+        GPIO.setup(RESET_PIN, GPIO.IN)
         self.dhtDevice = adafruit_dht.DHT22(board.D27)
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.worker_initialized = False
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(FAN_PIN, GPIO.OUT)
         self.fan_gpio = GPIO.PWM(FAN_PIN, 10000)
         self.fan_gpio.start(0)
         logging.info("IO init.")
@@ -164,7 +160,7 @@ class IOWorker(QThread):
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
 
     def read_door_sensor(self):
-        if self.door_sensor.value:
+        if GPIO.input(DOOR_PIN):
             self.door_opened = True
         else:
             self.door_opened = False
