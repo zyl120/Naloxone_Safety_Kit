@@ -17,7 +17,9 @@ from dataclasses import dataclass, field
 from rpi_backlight import Backlight
 from gpiozero import CPUTemperature
 import RPi.GPIO as GPIO
-import Adafruit_DHT as dht
+import adafruit_dht
+import board
+import digitalio
 import logging
 
 DOOR_PIN = 17
@@ -121,8 +123,13 @@ class IOWorker(QThread):
         super(IOWorker, self).__init__()
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(DOOR_PIN, GPIO.IN)
-        GPIO.setup(RESET_PIN, GPIO.IN)
-        GPIO.setup(FAN_PIN, GPIO.OUT)
+        self.door_sensor = digitalio.DigitalInOut(board.D17)
+        self.door_sensor.direction = digitalio.Direction.INPUT
+        self.door_sensor.pull = digitalio.Pull.UP
+        self.reset_sensor = digitalio.DigitalInOut(board.D22)
+        self.reset_sensor.direction = digitalio.Direction.INPUT
+        self.reset_sensor.pull = digitalio.Pull.UP
+        self.dhtDevice = adafruit_dht.DHT22(board.D27)
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.worker_initialized = False
@@ -132,7 +139,7 @@ class IOWorker(QThread):
 
     def read_naloxone_sensor(self):
         try:
-            _, self.naloxone_temp = dht.read(dht.DHT22, DHT_PIN)
+            self.naloxone_temp = self.dhtDevice.temperature
         except Exception:
             self.naloxone_temp = 0
         else:
@@ -157,7 +164,7 @@ class IOWorker(QThread):
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
 
     def read_door_sensor(self):
-        if GPIO.input(DOOR_PIN):
+        if self.door_sensor.value:
             self.door_opened = True
         else:
             self.door_opened = False
