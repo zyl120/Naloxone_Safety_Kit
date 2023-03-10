@@ -131,36 +131,36 @@ if __name__ == "__main__":
     else:
         print("Moving Files Successfully")
 
-    print("Changing to home directory")
-    os.chdir(os.path.expanduser("~"+username))
+    # print("Changing to home directory")
+    # os.chdir(os.path.expanduser("~"+username))
 
-    print("Cloning Software from GitHub")
-    clone = "git clone https://github.com/zyl120/Naloxone_Safety_Kit"
-    os.system(clone)
-    print("The software is license under LGPL-3. Please read the license before using.")
+    # print("Cloning Software from GitHub")
+    # clone = "git clone https://github.com/zyl120/Naloxone_Safety_Kit"
+    # os.system(clone)
+    # print("The software is license under LGPL-3. Please read the license before using.")
 
-    print("Creating systemd service file")
-    L = [
-        "[Unit]\n",
-        "Description=Internet-Based Naloxone Safety Kit\n",
-        "After=network.target\n\n",
-        "[Service]\n",
-        "Type=idle\n",
-        "Restart=on-failure\n",
-        "User={}\n".format(username),
-        "ExecStart=/usr/bin/python {}/main.py\n\n".format(
-            os.getcwd() + "/Naloxone_Safety_Kit/main"),
-        "[Install]\n",
-        "WantedBy=graphical.target"]
+    # print("Creating systemd service file")
+    # L = [
+    #     "[Unit]\n",
+    #     "Description=Internet-Based Naloxone Safety Kit\n",
+    #     "After=network.target\n\n",
+    #     "[Service]\n",
+    #     "Type=idle\n",
+    #     "Restart=on-failure\n",
+    #     "User={}\n".format(username),
+    #     "ExecStart=/usr/bin/python {}/main.py\n\n".format(
+    #         os.getcwd() + "/Naloxone_Safety_Kit/main"),
+    #     "[Install]\n",
+    #     "WantedBy=graphical.target"]
 
-    with open("/etc/systemd/system/naloxone_safety_kit.service", "w") as s_file:
-        s_file.writelines(L)
+    # with open("/etc/systemd/system/naloxone_safety_kit.service", "w") as s_file:
+    #     s_file.writelines(L)
 
-    print("Enabling Service")
-    os.system("systemctl enable naloxone_safety_kit.service")
+    # print("Enabling Service")
+    # os.system("systemctl enable naloxone_safety_kit.service")
 
-    print("Starting Service")
-    os.system("systemctl start naloxone_safety_kit.service")
+    # print("Starting Service")
+    # os.system("systemctl start naloxone_safety_kit.service")
 
     print("Install Successfully")
     sys.exit(0)
