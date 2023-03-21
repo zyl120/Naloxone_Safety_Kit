@@ -84,7 +84,8 @@ class helpDialog(QDialog):
         super().__init__()
 
         self.text_edit = QTextEdit(self)
-        self.text_edit.setStyleSheet("QScrollBar {background: rgb(50,50,50);border-radius: 5px;border-color:rgb(50,50,50);width:10}QScrollBar::handle:vertical{background-color: rgb(65,65,65);border-radius: 5px;}QScrollBar::add-line:vertical {border: none;background: none;}QScrollBar::sub-line:vertical {border: none;background: none;}QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}")
+        self.text_edit.setStyleSheet("QTextEdit{color:white;}QScrollBar{background: rgb(50,50,50);border-radius: 5px;border-color:rgb(50,50,50);width:10}QScrollBar::handle:vertical{background-color: rgb(65,65,65);border-radius: 5px;}QScrollBar::add-line:vertical {border: none;background: none;}QScrollBar::sub-line:vertical {border: none;background: none;}QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}")
+        self.text_edit.setDisabled(True)
         help_file = QFile(path)
         if not help_file.open(QIODevice.ReadOnly):
             return
@@ -96,6 +97,7 @@ class helpDialog(QDialog):
 
         ok_button = QPushButton("OK", self)
         ok_button.clicked.connect(self.accept)
+        ok_button.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;width: 100px;height: 50px;}")
 
         layout = QVBoxLayout(self)
         button_layout = QHBoxLayout()
@@ -105,7 +107,8 @@ class helpDialog(QDialog):
         layout.addLayout(button_layout)
 
         self.setWindowTitle("Help!")
-        self.setStyleSheet("background-color:black;QScrollBar {background: rgb(50,50,50);border-radius: 5px;border-color:rgb(50,50,50);width:10}QScrollBar::handle:vertical{background-color: rgb(65,65,65);border-radius: 5px;}QScrollBar::add-line:vertical {border: none;background: none;}QScrollBar::sub-line:vertical {border: none;background: none;}QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}QPushButton::Indicator{width: 100px;height: 50px;}")
+        self.setStyleSheet("background-color:black;")
+        self.showFullScreen()
 
 
 class CountDownWorker(QThread):
@@ -160,18 +163,21 @@ class IOWorker(QThread):
         self.worker_initialized = False
         self.fan_gpio = GPIO.PWM(FAN_PIN, 10000)
         self.fan_gpio.start(0)
+        self.naloxone_temp_c = 0
+        self.naloxone_temp_f = 32
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
+        self.old_naloxone_temp_c = self.naloxone_temp_c
         try:
-            self.naloxone_temp = self.dhtDevice.temperature
+            self.naloxone_temp_c = self.dhtDevice.temperature
         except Exception:
-            self.naloxone_temp = 0
+            self.naloxone_temp_c = self.old_naloxone_temp_c
         else:
-            if (self.naloxone_temp is None):
-                self.naloxone_temp = 0
+            if (self.naloxone_temp_c is None):
+                self.naloxone_temp_c = self.old_naloxone_temp_c
         finally:
-            self.naloxone_temp = int(self.naloxone_temp * 1.8 + 32)
+            self.naloxone_temp_f =  int(self.naloxone_temp_c * 1.8 + 32)
 
     def calculate_pwm(self):
         if (self.cpu_temp < self.fan_threshold_temp):
@@ -199,7 +205,7 @@ class IOWorker(QThread):
         return today > self.expiration_date
 
     def is_overheat(self):
-        return self.max_temp < self.naloxone_temp
+        return self.max_temp < self.naloxone_temp_f
 
     def run(self):
         while True:
@@ -223,7 +229,7 @@ class IOWorker(QThread):
                 else:
                     self.fan_pwm = 0
                 self.update_temperature.emit(
-                    self.naloxone_temp, self.cpu_temp, self.fan_pwm, self.naloxone_temp > self.max_temp)
+                    self.naloxone_temp_f, self.cpu_temp, self.fan_pwm, self.naloxone_temp_f > self.max_temp)
                 self.naloxone_counter = 0
             if (self.fan_enabled):
                 self.send_pwm()
@@ -1390,22 +1396,14 @@ class ApplicationWindow(QMainWindow):
         self.load_settings()
 
     def show_help(self):
-        self.msg_box = QMessageBox()
-        self.msg_box.setIcon(QMessageBox.Information)
-        self.msg_box.setWindowTitle("Help")
-        self.msg_box.setStandardButtons(QMessageBox.Ok)
         if (self.ui.stackedWidget.currentIndex() == 0):
             logging.debug("home page")
-            self.msg_box.setText(
-                "This is the home page.\nYou can find the admin contact information by scanning the QR code.")
-            self.msg_box.setStyleSheet("background-color:black")
-            self.msg_box.show()
+            dialog = helpDialog("../user_manual/gui_manual/HomePage.md")
+            dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 1):
             logging.debug("dashboard page")
-            self.msg_box.setText(
-                "This is the dashboard page.\nYou can find the system status here.")
-            self.msg_box.setStyleSheet("background-color:black")
-            self.msg_box.show()
+            dialog = helpDialog("../user_manual/gui_manual/DashboardPage.md")
+            dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 0):
             logging.debug("security page")
             dialog = helpDialog("../user_manual/gui_manual/SecurityPage.md")
@@ -1439,6 +1437,11 @@ class ApplicationWindow(QMainWindow):
             dialog = helpDialog(
                 "../user_manual/gui_manual/lock_screen_manual.md")
             dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 4):
+            logging.debug("door open page")
+            dialog = helpDialog(
+                "../user_manual/gui_manual/DoorOpenPage.md")
+            dialog.exec_()
 
     def exit_program(self):
         self.network_timer.stop()
@@ -1470,7 +1473,7 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    # logging.disable(logging.CRITICAL) # turn off all loggings
-    logging.basicConfig(format='%(levelname)s:%(message)s',
-                        level=logging.DEBUG)
+    logging.disable(logging.CRITICAL) # turn off all loggings
+    #logging.basicConfig(format='%(levelname)s:%(message)s',
+    #                    level=logging.DEBUG)
     gui_manager()
