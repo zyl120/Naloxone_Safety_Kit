@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication
-from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QTime, QDateTime, QTimer, Qt
+from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication, QMessageBox, QDialog, QTextEdit, QPushButton, QVBoxLayout, QHBoxLayout
+from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QTime, QDateTime, QTimer, Qt, QFile, QTextStream, QIODevice
 from PyQt5.QtGui import QPixmap, QGuiApplication, QRegion
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
@@ -77,6 +77,35 @@ def handleVisibleChanged():
                 r.moveTop(int(keyboard.property("y")))
                 w.setMask(QRegion(r))
                 return
+
+
+class helpDialog(QDialog):
+    def __init__(self, path):
+        super().__init__()
+
+        self.text_edit = QTextEdit(self)
+        self.text_edit.setStyleSheet("QScrollBar {background: rgb(50,50,50);border-radius: 5px;border-color:rgb(50,50,50);width:10}QScrollBar::handle:vertical{background-color: rgb(65,65,65);border-radius: 5px;}QScrollBar::add-line:vertical {border: none;background: none;}QScrollBar::sub-line:vertical {border: none;background: none;}QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}")
+        help_file = QFile(path)
+        if not help_file.open(QIODevice.ReadOnly):
+            return
+        stream = QTextStream(help_file)
+        self.text_edit.setMarkdown(stream.readAll())
+        self.text_edit.setReadOnly(True)
+        QScroller.grabGesture(
+            self.text_edit.viewport(), QScroller.LeftMouseButtonGesture)
+
+        ok_button = QPushButton("OK", self)
+        ok_button.clicked.connect(self.accept)
+
+        layout = QVBoxLayout(self)
+        button_layout = QHBoxLayout()
+        button_layout.addStretch()
+        button_layout.addWidget(ok_button)
+        layout.addWidget(self.text_edit)
+        layout.addLayout(button_layout)
+
+        self.setWindowTitle("Help!")
+        self.setStyleSheet("background-color:black;QScrollBar {background: rgb(50,50,50);border-radius: 5px;border-color:rgb(50,50,50);width:10}QScrollBar::handle:vertical{background-color: rgb(65,65,65);border-radius: 5px;}QScrollBar::add-line:vertical {border: none;background: none;}QScrollBar::sub-line:vertical {border: none;background: none;}QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}QPushButton::Indicator{width: 100px;height: 50px;}")
 
 
 class CountDownWorker(QThread):
@@ -388,6 +417,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.lockSettingsPushButton.clicked.connect(self.lock_settings)
         self.ui.lockSettingsPushButton.setVisible(False)
         self.ui.saveToFilePushButton.clicked.connect(self.save_config_file)
+        self.ui.help_pushbutton.clicked.connect(self.show_help)
         self.ui.temperatureSlider.valueChanged.connect(
             self.update_current_max_temperature)
         self.ui.fan_temperature_slider.valueChanged.connect(
@@ -1359,6 +1389,57 @@ class ApplicationWindow(QMainWindow):
         self.send_notification(4, "Settings Saved")
         self.load_settings()
 
+    def show_help(self):
+        self.msg_box = QMessageBox()
+        self.msg_box.setIcon(QMessageBox.Information)
+        self.msg_box.setWindowTitle("Help")
+        self.msg_box.setStandardButtons(QMessageBox.Ok)
+        if (self.ui.stackedWidget.currentIndex() == 0):
+            logging.debug("home page")
+            self.msg_box.setText(
+                "This is the home page.\nYou can find the admin contact information by scanning the QR code.")
+            self.msg_box.setStyleSheet("background-color:black")
+            self.msg_box.show()
+        elif (self.ui.stackedWidget.currentIndex() == 1):
+            logging.debug("dashboard page")
+            self.msg_box.setText(
+                "This is the dashboard page.\nYou can find the system status here.")
+            self.msg_box.setStyleSheet("background-color:black")
+            self.msg_box.show()
+        elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 0):
+            logging.debug("security page")
+            dialog = helpDialog("../user_manual/gui_manual/SecurityPage.md")
+            dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 1):
+            logging.debug("naloxone page")
+            dialog = helpDialog("../user_manual/gui_manual/NaloxonePage.md")
+            dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 2):
+            logging.debug("twilio page")
+            dialog = helpDialog("../user_manual/gui_manual/TwilioPage.md")
+            dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 3):
+            logging.debug("emergency page")
+            dialog = helpDialog("../user_manual/gui_manual/EmergencyPage.md")
+            dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 4):
+            logging.debug("alarm page")
+            dialog = helpDialog("../user_manual/gui_manual/AlarmPage.md")
+            dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 5):
+            logging.debug("power page")
+            dialog = helpDialog("../user_manual/gui_manual/PowerPage.md")
+            dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 6):
+            logging.debug("admin page")
+            dialog = helpDialog("../user_manual/gui_manual/AdminPage.md")
+            dialog.exec_()
+        elif (self.ui.stackedWidget.currentIndex() == 3):
+            logging.debug("lock screen page")
+            dialog = helpDialog(
+                "../user_manual/gui_manual/lock_screen_manual.md")
+            dialog.exec_()
+
     def exit_program(self):
         self.network_timer.stop()
         self.status_bar_timer.stop()
@@ -1378,7 +1459,7 @@ def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     # enable highdpi scaling
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # use highdpi icons
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     QGuiApplication.inputMethod().visibleChanged.connect(handleVisibleChanged)
@@ -1389,7 +1470,7 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    logging.disable(logging.CRITICAL) # turn off all loggings
-    # logging.basicConfig(format='%(levelname)s:%(message)s',
-    #                    level=logging.DEBUG)
+    # logging.disable(logging.CRITICAL) # turn off all loggings
+    logging.basicConfig(format='%(levelname)s:%(message)s',
+                        level=logging.DEBUG)
     gui_manager()
