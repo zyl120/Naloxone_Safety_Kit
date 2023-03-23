@@ -369,7 +369,7 @@ class TwilioWorker(QThread):
 class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
-        self.image_index = 0
+        self.image_index = 1
         self.initialized = False
         self.naloxone_destroyed = False
         self.low_account_balance = False
@@ -465,7 +465,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.twilioSIDLineEdit.textChanged.connect(
             self.twilio_sid_validator)
         self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.jpg) 0 0 0 0 stretch stretch}")
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
 
         QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
         ), QScroller.LeftMouseButtonGesture)
@@ -1454,15 +1454,15 @@ class ApplicationWindow(QMainWindow):
     def change_image(self):
         if(self.image_index == 1):
             self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.jpg) 0 0 0 0 stretch stretch}")
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
             self.image_index = 2
         elif (self.image_index == 2):
             self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_2.jpg) 0 0 0 0 stretch stretch}")
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_2.png) 0 0 0 0 stretch stretch}")
             self.image_index = 3
         else:
             self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_3.jpg) 0 0 0 0 stretch stretch}")
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_3.png) 0 0 0 0 stretch stretch}")
             self.image_index = 1
 
     def exit_program(self):
