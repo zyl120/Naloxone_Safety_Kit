@@ -406,6 +406,7 @@ class ApplicationWindow(QMainWindow):
         self.io_queue = Queue()
         self.message_to_display = str()
         self.message_level = 0
+        self.help_dialog = None
         self.backlight = Backlight()
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
@@ -912,6 +913,8 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer.stop()
         if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
             # Only go to the door open page when the user is not changing settings.
+            if(self.help_dialog is not None):
+                self.help_dialog.close()
             self.emergency_mode = True
             self.reporting_queue.put(EventItem(0, "Door Opened"))
             self.ui.doorOpenResetPushButton.setVisible(False)
@@ -1398,50 +1401,50 @@ class ApplicationWindow(QMainWindow):
     def show_help(self):
         if (self.ui.stackedWidget.currentIndex() == 0):
             logging.debug("home page")
-            dialog = helpDialog("../user_manual/gui_manual/HomePage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/HomePage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 1):
             logging.debug("dashboard page")
-            dialog = helpDialog("../user_manual/gui_manual/DashboardPage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/DashboardPage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 0):
             logging.debug("security page")
-            dialog = helpDialog("../user_manual/gui_manual/SecurityPage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/SecurityPage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 1):
             logging.debug("naloxone page")
-            dialog = helpDialog("../user_manual/gui_manual/NaloxonePage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/NaloxonePage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 2):
             logging.debug("twilio page")
-            dialog = helpDialog("../user_manual/gui_manual/TwilioPage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/TwilioPage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 3):
             logging.debug("emergency page")
-            dialog = helpDialog("../user_manual/gui_manual/EmergencyPage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/EmergencyPage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 4):
             logging.debug("alarm page")
-            dialog = helpDialog("../user_manual/gui_manual/AlarmPage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/AlarmPage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 5):
             logging.debug("power page")
-            dialog = helpDialog("../user_manual/gui_manual/PowerPage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/PowerPage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 6):
             logging.debug("admin page")
-            dialog = helpDialog("../user_manual/gui_manual/AdminPage.md")
-            dialog.exec_()
+            self.help_dialog = helpDialog("../user_manual/gui_manual/AdminPage.md")
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 3):
             logging.debug("lock screen page")
-            dialog = helpDialog(
+            self.help_dialog = helpDialog(
                 "../user_manual/gui_manual/lock_screen_manual.md")
-            dialog.exec_()
+            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 4):
             logging.debug("door open page")
-            dialog = helpDialog(
+            self.help_dialog = helpDialog(
                 "../user_manual/gui_manual/DoorOpenPage.md")
-            dialog.exec_()
+            self.help_dialog.exec_()
 
     def exit_program(self):
         self.network_timer.stop()
