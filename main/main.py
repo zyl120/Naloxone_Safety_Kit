@@ -231,8 +231,7 @@ class IOWorker(QThread):
                 self.update_temperature.emit(
                     self.naloxone_temp_f, self.cpu_temp, self.fan_pwm, self.naloxone_temp_f > self.max_temp)
                 self.naloxone_counter = 0
-            if (self.fan_enabled):
-                self.send_pwm()
+            self.send_pwm()
             self.read_door_sensor()
             if (self.door_opened and not self.disarmed):  # if door opened and the switch is armed
                 self.go_to_door_open_signal.emit()
@@ -706,6 +705,7 @@ class ApplicationWindow(QMainWindow):
                 self.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
+            self.naloxone_destroyed = False
             self.ui.fan_temperature_slider.setValue(
                 int(config["power_management"]["threshold_temperature"]))
             self.max_temp = int(
@@ -1290,7 +1290,7 @@ class ApplicationWindow(QMainWindow):
         # update the naloxone of the main window.
         self.ui.naloxoneExpirationDateLineEdit.setText(
             naloxone_expiration_date.toString("MMM dd, yy"))
-        if (naloxone_good):
+        if (naloxone_good and not self.naloxone_destroyed):
             self.naloxone_destroyed = False
             self.ui.naloxone_destroyed_icon.setVisible(False)
             self.ui.naloxoneStatusLineEdit.setText("OK")
