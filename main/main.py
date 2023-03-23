@@ -369,6 +369,7 @@ class TwilioWorker(QThread):
 class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
+        self.image_index = 0
         self.initialized = False
         self.naloxone_destroyed = False
         self.low_account_balance = False
@@ -464,7 +465,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.twilioSIDLineEdit.textChanged.connect(
             self.twilio_sid_validator)
         self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/background.jpg) 0 0 0 0 stretch stretch}")
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.jpg) 0 0 0 0 stretch stretch}")
 
         QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
         ), QScroller.LeftMouseButtonGesture)
@@ -515,6 +516,10 @@ class ApplicationWindow(QMainWindow):
         self.daily_reporting_timer = QTimer()
         self.daily_reporting_timer.timeout.connect(self.daily_reporting)
         self.daily_reporting_timer.start(86400000)
+
+        self.image_change_timer = QTimer()
+        self.image_change_timer.timeout.connect(self.change_image)
+        self.image_change_timer.start(10000)
 
         self.goto_home()
         self.lock_settings()
@@ -1445,6 +1450,20 @@ class ApplicationWindow(QMainWindow):
             self.help_dialog = helpDialog(
                 "../user_manual/gui_manual/DoorOpenPage.md")
             self.help_dialog.exec_()
+
+    def change_image(self):
+        if(self.image_index == 1):
+            self.ui.home_frame.setStyleSheet(
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.jpg) 0 0 0 0 stretch stretch}")
+            self.image_index = 2
+        elif (self.image_index == 2):
+            self.ui.home_frame.setStyleSheet(
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_2.jpg) 0 0 0 0 stretch stretch}")
+            self.image_index = 3
+        else:
+            self.ui.home_frame.setStyleSheet(
+            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_3.jpg) 0 0 0 0 stretch stretch}")
+            self.image_index = 1
 
     def exit_program(self):
         self.network_timer.stop()
