@@ -466,6 +466,7 @@ class ApplicationWindow(QMainWindow):
             self.twilio_sid_validator)
         self.ui.home_frame.setStyleSheet(
             "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
+        self.ui.home_text.setText("Safe medication use is key.")
 
         QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
         ), QScroller.LeftMouseButtonGesture)
@@ -1455,14 +1456,17 @@ class ApplicationWindow(QMainWindow):
         if(self.image_index == 1):
             self.ui.home_frame.setStyleSheet(
             "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
+            self.ui.home_text.setText("Safe medication use is key.")
             self.image_index = 2
         elif (self.image_index == 2):
             self.ui.home_frame.setStyleSheet(
             "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_2.png) 0 0 0 0 stretch stretch}")
+            self.ui.home_text.setText("Recovery is possible.")
             self.image_index = 3
         else:
             self.ui.home_frame.setStyleSheet(
             "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_3.png) 0 0 0 0 stretch stretch}")
+            self.ui.home_text.setText("Reach out for help.")
             self.image_index = 1
 
     def exit_program(self):
