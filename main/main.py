@@ -97,7 +97,7 @@ class helpDialog(QDialog):
 
         ok_button = QPushButton("OK", self)
         ok_button.clicked.connect(self.accept)
-        ok_button.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;width: 100px;height: 50px;}")
+        ok_button.setStyleSheet("QPushButton{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;width: 100px;height: 50px;}QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}")
 
         layout = QVBoxLayout(self)
         button_layout = QHBoxLayout()

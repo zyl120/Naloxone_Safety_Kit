@@ -2387,7 +2387,7 @@ class Ui_door_close_main_window(object):
         font.setPointSize(16)
         self.help_pushbutton.setFont(font)
         self.help_pushbutton.setStyleSheet("QPushButton{color: white; background-color: black; border-radius:25px;border-color: black;border-width: 1px;border-style: solid;}\n"
-"QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:25px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}\n"
+"QPushButton:pressed{color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}\n"
 "")
         self.help_pushbutton.setText("")
         icon20 = QtGui.QIcon()
