@@ -177,7 +177,7 @@ class IOWorker(QThread):
             if (self.naloxone_temp_c is None):
                 self.naloxone_temp_c = self.old_naloxone_temp_c
         finally:
-            self.naloxone_temp_f =  int(self.naloxone_temp_c * 1.8 + 32)
+            self.naloxone_temp_f = int(self.naloxone_temp_c * 1.8 + 32)
 
     def calculate_pwm(self):
         if (self.cpu_temp < self.fan_threshold_temp):
@@ -919,7 +919,7 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer.stop()
         if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
             # Only go to the door open page when the user is not changing settings.
-            if(self.help_dialog is not None):
+            if (self.help_dialog is not None):
                 self.help_dialog.close()
             self.emergency_mode = True
             self.reporting_queue.put(EventItem(0, "Door Opened"))
@@ -1310,20 +1310,21 @@ class ApplicationWindow(QMainWindow):
         # update the server of the main window
         self.ui.serverCheckLineEdit.setText(
             server_check_time.toString("h:mm AP"))
+        self.ui.accountBalanceLineEdit.setText(
+            " ".join([str(round(balance, 2)), currency]))
         if (server):
             self.ui.no_connection_icon.setVisible(False)
             self.ui.serverStatusLineEdit.setText("ONLINE")
+            if (balance < 5):
+                self.low_account_balance = True
+                self.ui.low_charge_icon.setVisible(True)
+            else:
+                self.low_account_balance = False
+                self.ui.low_charge_icon.setVisible(False)
         else:
             self.ui.no_connection_icon.setVisible(True)
-            self.ui.serverStatusLineEdit.setText("OFFLINE")
-        self.ui.accountBalanceLineEdit.setText(
-            " ".join([str(round(balance, 2)), currency]))
-        if (balance < 5):
-            self.low_account_balance = True
-            self.ui.low_charge_icon.setVisible(True)
-        else:
-            self.low_account_balance = False
             self.ui.low_charge_icon.setVisible(False)
+            self.ui.serverStatusLineEdit.setText("OFFLINE")
 
     @pyqtSlot(int, int, int, bool)
     def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
@@ -1407,39 +1408,48 @@ class ApplicationWindow(QMainWindow):
     def show_help(self):
         if (self.ui.stackedWidget.currentIndex() == 0):
             logging.debug("home page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/HomePage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/HomePage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 1):
             logging.debug("dashboard page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/DashboardPage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/DashboardPage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 0):
             logging.debug("security page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/SecurityPage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/SecurityPage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 1):
             logging.debug("naloxone page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/NaloxonePage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/NaloxonePage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 2):
             logging.debug("twilio page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/TwilioPage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/TwilioPage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 3):
             logging.debug("emergency page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/EmergencyPage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/EmergencyPage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 4):
             logging.debug("alarm page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/AlarmPage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/AlarmPage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 5):
             logging.debug("power page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/PowerPage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/PowerPage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 6):
             logging.debug("admin page")
-            self.help_dialog = helpDialog("../user_manual/gui_manual/AdminPage.md")
+            self.help_dialog = helpDialog(
+                "../user_manual/gui_manual/AdminPage.md")
             self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 3):
             logging.debug("lock screen page")
@@ -1453,19 +1463,19 @@ class ApplicationWindow(QMainWindow):
             self.help_dialog.exec_()
 
     def change_image(self):
-        if(self.image_index == 1):
+        if (self.image_index == 1):
             self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
+                "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
             self.ui.home_text.setText("Safe medication use is key.")
             self.image_index = 2
         elif (self.image_index == 2):
             self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_2.png) 0 0 0 0 stretch stretch}")
+                "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_2.png) 0 0 0 0 stretch stretch}")
             self.ui.home_text.setText("Recovery is possible.")
             self.image_index = 3
         else:
             self.ui.home_frame.setStyleSheet(
-            "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_3.png) 0 0 0 0 stretch stretch}")
+                "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_3.png) 0 0 0 0 stretch stretch}")
             self.ui.home_text.setText("Reach out for help.")
             self.image_index = 1
 
@@ -1499,7 +1509,7 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    logging.disable(logging.CRITICAL) # turn off all loggings
-    #logging.basicConfig(format='%(levelname)s:%(message)s',
+    logging.disable(logging.CRITICAL)  # turn off all loggings
+    # logging.basicConfig(format='%(levelname)s:%(message)s',
     #                    level=logging.DEBUG)
     gui_manager()
