@@ -240,6 +240,8 @@ class IOWorker(QThread):
                 not self.is_overheat() and not self.is_expiry(), self.expiration_date)
 
             if (self.isInterruptionRequested()):
+                self.dhtDevice.exit()
+                GPIO.cleanup()
                 break
             sleep(1)
 
