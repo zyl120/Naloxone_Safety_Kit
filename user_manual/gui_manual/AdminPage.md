@@ -22,7 +22,7 @@ This is the phone number of the admin. By providing this, the admin can receive 
 
 You can test the emergency calling during the setup process by pressing the "Call" or "SMS" button. This will send a phone call or an SMS to the admin with the message that the emergency service will hear.
 
-## Enable SMS Report
+## Enable SMS Reporting
 
 By enabling this option, the admin can receive status updates of the device via SMS. Some SMS notifications, such as the passcode retrieval request by paramedics, cannot be disabled.
 
