@@ -789,6 +789,7 @@ class ApplicationWindow(QMainWindow):
             admin_qrcode_pixmap = QPixmap(
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
+            self.ui.admin_qrcode_2.setPixmap(admin_qrcode_pixmap)
             self.io_queue.put(IOItem(
                 self.disarmed, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
