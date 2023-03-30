@@ -14,12 +14,12 @@ from qrcode.constants import ERROR_CORRECT_M
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
-from rpi_backlight import Backlight
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import adafruit_dht
-import board
-import digitalio
+# from rpi_backlight import Backlight
+# from gpiozero import CPUTemperature
+# import RPi.GPIO as GPIO
+# import adafruit_dht
+# import board
+# import digitalio
 import logging
 
 DOOR_PIN = 17
@@ -407,10 +407,10 @@ class ApplicationWindow(QMainWindow):
         self.message_to_display = str()
         self.message_level = 0
         self.help_dialog = None
-        self.backlight = Backlight()
+        #self.backlight = Backlight()
         self.ui = Ui_door_close_main_window()
         self.ui.setupUi(self)
-        self.showFullScreen()
+        #self.showFullScreen()
         # self.setCursor(Qt.BlankCursor)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.disarm_door_sensor)
@@ -481,7 +481,7 @@ class ApplicationWindow(QMainWindow):
         QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
 
-        self.ui.brightness_slider.setValue(self.backlight.brightness)
+       # self.ui.brightness_slider.setValue(self.backlight.brightness)
 
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
@@ -545,6 +545,7 @@ class ApplicationWindow(QMainWindow):
             self.io_worker.wait()
 
     def create_io_worker(self):
+        return
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
         self.io_worker.update_door.connect(self.update_door_ui)
