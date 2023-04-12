@@ -23,8 +23,8 @@ import digitalio
 import logging
 
 DOOR_PIN = 17
-DHT_PIN = 27
-FAN_PIN = 12
+DHT_PIN = 6
+FAN_PIN = 18
 RESET_PIN = 22
 
 
@@ -157,7 +157,7 @@ class IOWorker(QThread):
         GPIO.setup(FAN_PIN, GPIO.OUT)
         GPIO.setup(DOOR_PIN, GPIO.IN)
         GPIO.setup(RESET_PIN, GPIO.IN)
-        self.dhtDevice = adafruit_dht.DHT22(board.D27)
+        self.dhtDevice = adafruit_dht.DHT22(board.D6)
         self.naloxone_counter = 9
         self.in_queue = in_queue
         self.worker_initialized = False
