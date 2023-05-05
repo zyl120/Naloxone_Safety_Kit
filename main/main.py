@@ -22,6 +22,7 @@ import board
 import digitalio
 import logging
 
+# Define the gpio pins for the raspberry pi.
 DOOR_PIN = 17
 DHT_PIN = 6
 FAN_PIN = 18
@@ -30,6 +31,9 @@ RESET_PIN = 22
 
 @dataclass(order=True)
 class RequestItem:
+    """
+    Used for twilio queue to send requests
+    """
     priority: int
     request_type: str = field(compare=False)
     destination_number: str = field(compare=False)
@@ -41,12 +45,18 @@ class RequestItem:
 
 @dataclass(order=True)
 class NotificationItem:
+    """
+    Used for notification queue to show notifications on taskbar
+    """
     priority: int
     message: str = field(compare=False)
 
 
 @dataclass
 class IOItem:
+    """
+    Used for io queue to change settings on runtime
+    """
     disarmed: bool
     max_temp: int
     fan_enabled: bool
@@ -56,17 +66,23 @@ class IOItem:
 
 @dataclass
 class EventItem:
-    # [0] report_door_opened
-    # [1] report_emergency_called
-    # [2] report_naloxone_destroyed
-    # [3] report_settings_changed
-    # [4] report_low_balance
+    """
+    Used for sending sms message to admin
+    [0] report_door_opened
+    [1] report_emergency_called
+    [2] report_naloxone_destroyed
+    [3] report_settings_changed
+    [4] report_low_balance
+    """
     cat: int
     message: str
 
 
 def handleVisibleChanged():
-    # control the position of the virtual keyboard
+    """
+    Used to show windows when virtual keyboard is up.
+    control the position of the virtual keyboard
+    """
     if not QGuiApplication.inputMethod().isVisible():
         return
     for w in QGuiApplication.allWindows():
@@ -80,6 +96,10 @@ def handleVisibleChanged():
 
 
 class helpDialog(QDialog):
+    """
+    Used as the full screen window when the user tapping the help button
+    """
+
     def __init__(self, path):
         super().__init__()
 
@@ -112,31 +132,42 @@ class helpDialog(QDialog):
 
 
 class CountDownWorker(QThread):
+    """
+    Used to do countdown when the user open the door
+    """
     # Used to record the countdown time before calling the emergency
     # signal to indicate end of countdown time.
     time_end_signal = pyqtSignal()
-    # signal to indicate the change of countdown time.
+    # signal to indicate the change of countdown time. Also send the current
+    # countdown as well.
     time_changed_signal = pyqtSignal(int)
 
     def __init__(self, time_in_sec):
+        """
+        initializing the thread.
+
+        :param time_in_sec: the time length for the countdown.
+        """
         super(CountDownWorker, self).__init__()
         self.countdown_time_in_sec = time_in_sec
         self.time_in_sec = time_in_sec
 
     def run(self):
         while (self.time_in_sec >= 0):
+            # Checks whether the thread is asked to be interrupted.
             if (self.isInterruptionRequested()):
                 logging.debug("countdown timer terminated")
                 self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
             self.time_changed_signal.emit(self.time_in_sec)
-            self.time_in_sec = self.time_in_sec - 1
+            self.time_in_sec = self.time_in_sec - 1  # decrement the time
             if (self.isInterruptionRequested()):
                 logging.debug("countdown timer terminated")
                 self.time_changed_signal.emit(self.countdown_time_in_sec)
                 break
             sleep(1)
 
+        # when countdown expired, send another signal
         if (self.time_in_sec == -1):
             self.time_end_signal.emit()
 
@@ -146,13 +177,23 @@ class CountDownWorker(QThread):
 
 
 class IOWorker(QThread):
-    update_door = pyqtSignal(bool, bool)
-    update_temperature = pyqtSignal(int, int, int, bool)
-    update_naloxone = pyqtSignal(bool, QDate)
-    go_to_door_open_signal = pyqtSignal()
+    """
+    The thread used to monitor the readings of all sensors
+    """
+    update_door = pyqtSignal(bool, bool)  # update door signal
+    update_temperature = pyqtSignal(
+        int, int, int, bool)  # update temperature signal
+    update_naloxone = pyqtSignal(bool, QDate)  # update naloxone signal
+    go_to_door_open_signal = pyqtSignal()  # send to change to door open window
 
     def __init__(self, in_queue):
+        """
+        initialization for the io thread
+
+        :param in_queue: the io queue used to change the io settings on runtime.
+        """
         super(IOWorker, self).__init__()
+        # Change the GPIO settings
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(FAN_PIN, GPIO.OUT)
         GPIO.setup(DOOR_PIN, GPIO.IN)
@@ -168,6 +209,7 @@ class IOWorker(QThread):
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
+        # Read the temperature sensor to determine the naloxone temperature.
         self.old_naloxone_temp_c = self.naloxone_temp_c
         try:
             self.naloxone_temp_c = self.dhtDevice.temperature
@@ -178,41 +220,55 @@ class IOWorker(QThread):
                 self.naloxone_temp_c = self.old_naloxone_temp_c
         finally:
             self.naloxone_temp_f = int(self.naloxone_temp_c * 1.8 + 32)
+            # change the naloxone temperature from degrees C to degrees F.
 
     def calculate_pwm(self):
+        # Adjust the fan speed by using PWM.
         if (self.cpu_temp < self.fan_threshold_temp):
+            # the minimum temperature to turn on the fan is determined by the
+            # fan_threshold_temp.
             self.fan_pwm = 0
         elif (self.cpu_temp >= 212):
+            # hardcoded max temperature for cpu is 212 degrees F.
             self.fan_pwm = 100
         else:
             self.fan_pwm = int((100.0 / (212 - self.fan_threshold_temp))
                                * (self.cpu_temp - self.fan_threshold_temp))
 
     def send_pwm(self):
+        # Send the PWM to the fan pin to change the fan speed.
         self.fan_gpio.ChangeDutyCycle(self.fan_pwm)
 
     def read_cpu_sensor(self):
+        # Read the cpu temperature sensor.
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
 
     def read_door_sensor(self):
+        # Read the door sensor.
         if GPIO.input(DOOR_PIN):
             self.door_opened = True
         else:
             self.door_opened = False
 
     def is_expiry(self):
+        # Determine whether the naloxone has expired.
+        # Used QDate from Qt because it is simpler.
         today = QDate().currentDate()
         return today > self.expiration_date
 
     def is_overheat(self):
+        # Determine whether the naloxone temperature is higher than the max_temp.
         return self.max_temp < self.naloxone_temp_f
 
     def run(self):
+        # Read the sensors by order.
         while True:
             if (self.isInterruptionRequested()):
+                # If the thread is asked to be interrupted, break the infinite loop
                 break
             if (not self.worker_initialized or not self.in_queue.empty()):
-                config = self.in_queue.get()
+                # Used to get the settings from the io queue.
+                config = self.in_queue.get()  # blocking
                 self.disarmed = config.disarmed
                 self.max_temp = config.max_temp
                 self.fan_enabled = config.fan_enabled
@@ -222,6 +278,8 @@ class IOWorker(QThread):
                 self.worker_initialized = True
             self.naloxone_counter += 1
             if (self.naloxone_counter == 10):
+                # Only read the naloxone temperature sensor every 10 seconds
+                # Read too frequently will return wrong readings.
                 self.read_naloxone_sensor()
                 self.read_cpu_sensor()
                 if (self.fan_enabled):
@@ -247,23 +305,38 @@ class IOWorker(QThread):
 
 
 class MediaCreator(QThread):
-    media_created = pyqtSignal()
+    # Used to create the alarm mp3 file.
+    media_created = pyqtSignal()  # signal to emit when the media is created.
 
     def __init__(self, alarm_message):
+        """
+        media creator thread initialization
+
+        :param alarm_message: the alarm message in text.
+        """
         super(MediaCreator, self).__init__()
-        self.alarm_message = alarm_message
+        self.alarm_message = alarm_message  # the alarm message in text.
 
     def run(self):
+        # Use google TTS engine to convert the text to speech
         self.tts = gTTS(self.alarm_message, lang="en")
-        self.tts.save("res/alarm.mp3")
+        self.tts.save("res/alarm.mp3")  # save to mp3 file.
         self.media_created.emit()
 
 
 class AlarmWorker(QThread):
+    # Used to play the alarm for one time or continuously.
     def __init__(self, voice_volume, loop):
+        """
+        Alarm worker initialization
+
+        :param voice_volume: the loudness of the alarm.
+        :param loop: whether to loop the alarm forever.
+        """
         super(AlarmWorker, self).__init__()
         self.voice_volume = voice_volume
         self.loop = loop
+        # Set the volume by using pactl.
         os.system("pactl set-sink-volume 0 {}%".format(self.voice_volume))
         logging.debug("alarm thread go.")
 
@@ -285,9 +358,18 @@ class AlarmWorker(QThread):
 
 
 class NetworkWorker(QThread):
+    # The thread to check the network connection
+    # Send the network checking result and remaining account balance to to the GUI thread.
     update_server = pyqtSignal(bool, float, str, QTime)
 
     def __init__(self, twilio_sid, twilio_token):
+        """
+        network worker thread initialization
+
+        :param twilio_sid: The twilio sid provided by Twilio.
+        :param twilio_token: The twilio account token provided by Twilio.
+        These two parameters are used to check the account remaining balance.
+        """
         super(NetworkWorker, self).__init__()
         self.hostname = "www.twilio.com"  # ping twilio directly
         logging.debug("network thread go.")
@@ -297,6 +379,7 @@ class NetworkWorker(QThread):
 
     def run(self):
         try:
+            # Check the network connection using system ping.
             client = Client(self.twilio_sid, self.twilio_token)
             response = os.system(" ".join(["ping -c 1", self.hostname]))
             if (response == 1):
@@ -304,6 +387,7 @@ class NetworkWorker(QThread):
                 self.update_server.emit(
                     False, 0, "USD", self.currentTime.currentTime())
             else:
+                # If the server is connected, get the Twilio account balance.
                 balance = client.api.v2010.balance.fetch().balance
                 currency = client.api.v2010.balance.fetch().currency
                 self.update_server.emit(True, float(
@@ -316,10 +400,17 @@ class NetworkWorker(QThread):
 
 
 class TwilioWorker(QThread):
+    # The Twilio thread is used to handle Twilio phone calling and SMS
     twilio_thread_status = pyqtSignal(int, str)
     emergency_call_status = pyqtSignal(int, str)
 
     def __init__(self, in_queue, out_queue):
+        """
+        Twilio worker initialization
+
+        :param in_queue: the Twilio request queue.
+        :param out_queue: the notification queue.
+        """
         super(TwilioWorker, self).__init__()
         self.in_queue = in_queue
         self.out_queue = out_queue
@@ -331,6 +422,7 @@ class TwilioWorker(QThread):
                 # used to exit the thread
                 break
             if (request.request_type == "call"):
+                # Handle the Twilio calling request.
                 try:
                     client = Client(request.twilio_sid, request.twilio_token)
                     call = client.calls.create(
@@ -348,6 +440,7 @@ class TwilioWorker(QThread):
                     if (request.priority == 0):
                         self.emergency_call_status.emit(0, "Call Delivered")
             else:
+                # Handle the Twilio SMS request.
                 try:
                     client = Client(request.twilio_sid, request.twilio_token)
                     sms = client.messages.create(
@@ -410,7 +503,7 @@ class ApplicationWindow(QMainWindow):
         self.message_level = 0
         self.help_dialog = None
         self.backlight = Backlight()
-        self.ui = Ui_door_close_main_window()
+        self.ui = Ui_door_close_main_window()  # From ui file
         self.ui.setupUi(self)
         self.showFullScreen()
         # self.setCursor(Qt.BlankCursor)
@@ -470,6 +563,7 @@ class ApplicationWindow(QMainWindow):
             "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
         self.ui.home_text.setText("Safe medication use is key.")
 
+        # Used to change the view using the scrollbar for all windows
         QScroller.grabGesture(self.ui.naloxone_scroll_area.viewport(
         ), QScroller.LeftMouseButtonGesture)
         QScroller.grabGesture(
@@ -485,6 +579,7 @@ class ApplicationWindow(QMainWindow):
 
         self.ui.brightness_slider.setValue(self.backlight.brightness)
 
+        # Start timer and thread to handle the GUI update
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
@@ -499,27 +594,33 @@ class ApplicationWindow(QMainWindow):
         self.twilio_worker.emergency_call_status.connect(
             self.update_phone_call_gui)
 
+        # Create network worker timer.
         self.network_timer = QTimer()
         self.network_timer.timeout.connect(self.create_network_worker)
 
+        # Create status bar timer. Used to change displays on the taskbar.
         self.status_bar_timer = QTimer()
         self.status_bar_timer.timeout.connect(self.update_time_status)
         self.update_time_status()
         self.status_bar_timer.start(2000)
 
+        # Create status bar timer. Used to change the GUI to the home screen when staying on the dashboard for 1 minute.
         self.dashboard_timer = QTimer()
         self.dashboard_timer.timeout.connect(self.goto_home)
         self.dashboard_timer.setSingleShot(True)
 
+        # Create SMS reporting timer. This task will report to the admin phone number every 10 seconds.
         self.reporting_timer = QTimer()
         self.reporting_timer.timeout.connect(self.reporting_handling)
         self.reporting_handling()
         self.reporting_timer.start(10000)
 
+        # Create daily SMS reporting timer. This task will report to the admin phone number every day.
         self.daily_reporting_timer = QTimer()
         self.daily_reporting_timer.timeout.connect(self.daily_reporting)
         self.daily_reporting_timer.start(86400000)
 
+        # Create image changing timer. This task will change the image on the home screen every 10 seconds.
         self.image_change_timer = QTimer()
         self.image_change_timer.timeout.connect(self.change_image)
         self.image_change_timer.start(10000)
@@ -529,26 +630,31 @@ class ApplicationWindow(QMainWindow):
         self.load_settings()
 
     def destroy_twilio_worker(self):
+        # Used to destroy the Twilio worker. This should be called when the application exits.
         if (self.twilio_worker is not None):
             self.twilio_worker.quit()
             self.twilio_worker.requestInterruption()
             self.twilio_worker.wait()
 
     def create_twilio_worker(self):
+        # Create Twilio worker thread.
         self.destroy_twilio_worker()
         self.twilio_worker = TwilioWorker(
             self.request_queue, self.status_queue)
         self.twilio_worker.start()
 
     def destroy_io_worker(self):
+        # Used to destroy the IO worker thread. This should be called when the application exits.
         if (self.io_worker is not None):
             self.io_worker.quit()
             self.io_worker.requestInterruption()
             self.io_worker.wait()
 
     def create_io_worker(self):
+        # Used to create the IO worker thread. This should only be called when the settings are valid.
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
+        # Connect the signal to the slot so that when the signal is emit, the slot function is called to run.
         self.io_worker.update_door.connect(self.update_door_ui)
         self.io_worker.go_to_door_open_signal.connect(self.goto_door_open)
         self.io_worker.update_temperature.connect(
@@ -556,21 +662,32 @@ class ApplicationWindow(QMainWindow):
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
         self.io_worker.start()  # will be blocked when no config is sent
 
-    def destroy_call_worker(self):
-        if (self.call_worker is not None):
-            # wait for the call worker to stop. Do not terminate
-            self.call_worker.wait()
-
     def create_call_request(self, number, body, t_sid, t_token, t_number, priority=4):
+        """
+        Used to create call request in the Twilio request queue using the given parameters.
+
+        :param number: the destination phone number
+        :param body: the body of the calling
+        :param t_sid: The twilio sid provided by Twilio.
+        :param t_token: The twilio account token
+        :param t_number: the twilio phone number
+        :param priority: The request priority, default is 4. Highest priority is 0.
+        """
         request = RequestItem(priority, "call", number, body,
                               t_sid, t_token, t_number)
         self.request_queue.put(request)  # blocking
 
-    def destroy_sms_worker(self):
-        if (self.sms_worker is not None):
-            self.sms_worker.wait()
-
     def create_sms_request(self, number, body, t_sid, t_token, t_number, priority=4):
+        """
+        Used to create sms request in the Twilio request queue using the given parameters.
+
+        :param number: the destination phone number
+        :param body: the body of the sms
+        :param t_sid: The twilio sid provided by Twilio.
+        :param t_token: The twilio account token
+        :param t_number: the twilio phone number
+        :param priority: The request priority, default is 4. Highest priority is 0.
+        """
         request = RequestItem(priority, "SMS", number,
                               body, t_sid, t_token, t_number)
         self.request_queue.put(request)  # blocking
@@ -1029,15 +1146,18 @@ class ApplicationWindow(QMainWindow):
         self.send_notification(4, "Call Requested")
 
     def disarm_door_sensor(self):
+        # Communicate with the IO thread to disable the door sensor
         self.ui.disarmPushButton.setVisible(False)
         self.ui.armPushButton.setVisible(True)
+        # show notification on taskbar
         self.send_notification(1, "Door Sensor OFF")
         self.disarmed = True
         self.io_queue.put(IOItem(
-            True, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
+            True, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))  # send request to io queue
         logging.info("door sensor disarmed.")
 
     def arm_door_sensor(self):
+        # Communicate with the IO thread to enable the door sensor
         self.ui.armPushButton.setVisible(False)
         self.ui.disarmPushButton.setVisible(True)
         self.disarmed = False
@@ -1046,10 +1166,11 @@ class ApplicationWindow(QMainWindow):
         logging.info("door sensor armed.")
 
     def reset_to_default(self):
-        # Used to check whether the door is still opened
+        # Used to check whether the door is still opened and door is still armed.
         if (self.door_opened and not self.disarmed):
             self.send_notification(1, "Close Door First")
         else:
+            #
             self.goto_home()
             self.emergency_mode = False
             self.ui.replace_naloxone_button_2.setVisible(False)
@@ -1499,7 +1620,7 @@ class ApplicationWindow(QMainWindow):
 
 def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
-    # enable highdpi scaling
+    # enable high dpi scaling
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)
