@@ -209,7 +209,9 @@ class IOWorker(QThread):
         logging.info("IO init.")
 
     def read_naloxone_sensor(self):
-        # Read the temperature sensor to determine the naloxone temperature.
+        """
+        Read the temperature sensor to determine the naloxone temperature.
+        """
         self.old_naloxone_temp_c = self.naloxone_temp_c
         try:
             self.naloxone_temp_c = self.dhtDevice.temperature
@@ -223,7 +225,9 @@ class IOWorker(QThread):
             # change the naloxone temperature from degrees C to degrees F.
 
     def calculate_pwm(self):
-        # Adjust the fan speed by using PWM.
+        """
+        Adjust the fan speed by using PWM.
+        """
         if (self.cpu_temp < self.fan_threshold_temp):
             # the minimum temperature to turn on the fan is determined by the
             # fan_threshold_temp.
@@ -236,32 +240,44 @@ class IOWorker(QThread):
                                * (self.cpu_temp - self.fan_threshold_temp))
 
     def send_pwm(self):
-        # Send the PWM to the fan pin to change the fan speed.
+        """
+        Send the PWM to the fan pin to change the fan speed.
+        """
         self.fan_gpio.ChangeDutyCycle(self.fan_pwm)
 
     def read_cpu_sensor(self):
-        # Read the cpu temperature sensor.
+        """
+        Read the cpu temperature sensor.
+        """
         self.cpu_temp = int(CPUTemperature().temperature * 1.8 + 32)
 
     def read_door_sensor(self):
-        # Read the door sensor.
+        """
+        Read the door sensor.
+        """
         if GPIO.input(DOOR_PIN):
             self.door_opened = True
         else:
             self.door_opened = False
 
     def is_expiry(self):
-        # Determine whether the naloxone has expired.
+        """
+        Determine whether the naloxone has expired.
+        """
         # Used QDate from Qt because it is simpler.
         today = QDate().currentDate()
         return today > self.expiration_date
 
     def is_overheat(self):
-        # Determine whether the naloxone temperature is higher than the max_temp.
+        """
+        Determine whether the naloxone temperature is higher than the max_temp.
+        """
         return self.max_temp < self.naloxone_temp_f
 
     def run(self):
-        # Read the sensors by order.
+        """
+        Read the sensors by order.
+        """
         while True:
             if (self.isInterruptionRequested()):
                 # If the thread is asked to be interrupted, break the infinite loop
@@ -305,7 +321,9 @@ class IOWorker(QThread):
 
 
 class MediaCreator(QThread):
-    # Used to create the alarm mp3 file.
+    """
+    Used to create the alarm mp3 file.
+    """
     media_created = pyqtSignal()  # signal to emit when the media is created.
 
     def __init__(self, alarm_message):
@@ -325,7 +343,9 @@ class MediaCreator(QThread):
 
 
 class AlarmWorker(QThread):
-    # Used to play the alarm for one time or continuously.
+    """
+    Used to play the alarm for one time or continuously.
+    """
     def __init__(self, voice_volume, loop):
         """
         Alarm worker initialization
@@ -358,8 +378,10 @@ class AlarmWorker(QThread):
 
 
 class NetworkWorker(QThread):
-    # The thread to check the network connection
-    # Send the network checking result and remaining account balance to to the GUI thread.
+    """
+    The thread to check the network connection
+    Send the network checking result and remaining account balance to to the GUI thread.
+    """
     update_server = pyqtSignal(bool, float, str, QTime)
 
     def __init__(self, twilio_sid, twilio_token):
@@ -400,7 +422,9 @@ class NetworkWorker(QThread):
 
 
 class TwilioWorker(QThread):
-    # The Twilio thread is used to handle Twilio phone calling and SMS
+    """
+    The Twilio thread is used to handle Twilio phone calling and SMS
+    """
     twilio_thread_status = pyqtSignal(int, str)
     emergency_call_status = pyqtSignal(int, str)
 
@@ -506,7 +530,6 @@ class ApplicationWindow(QMainWindow):
         self.ui = Ui_door_close_main_window()  # From ui file
         self.ui.setupUi(self)
         self.showFullScreen()
-        # self.setCursor(Qt.BlankCursor)
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.disarm_door_sensor)
         self.ui.armPushButton.clicked.connect(self.arm_door_sensor)
@@ -630,28 +653,36 @@ class ApplicationWindow(QMainWindow):
         self.load_settings()
 
     def destroy_twilio_worker(self):
-        # Used to destroy the Twilio worker. This should be called when the application exits.
+        """
+        Used to destroy the Twilio worker. This should be called when the application exits.
+        """
         if (self.twilio_worker is not None):
             self.twilio_worker.quit()
             self.twilio_worker.requestInterruption()
             self.twilio_worker.wait()
 
     def create_twilio_worker(self):
-        # Create Twilio worker thread.
+        """
+        Create Twilio worker thread.
+        """
         self.destroy_twilio_worker()
         self.twilio_worker = TwilioWorker(
             self.request_queue, self.status_queue)
         self.twilio_worker.start()
 
     def destroy_io_worker(self):
-        # Used to destroy the IO worker thread. This should be called when the application exits.
+        """
+        Used to destroy the IO worker thread. This should be called when the application exits.
+        """
         if (self.io_worker is not None):
             self.io_worker.quit()
             self.io_worker.requestInterruption()
             self.io_worker.wait()
 
     def create_io_worker(self):
-        # Used to create the IO worker thread. This should only be called when the settings are valid.
+        """
+        Used to create the IO worker thread. This should only be called when the settings are valid.
+        """
         self.destroy_io_worker()
         self.io_worker = IOWorker(self.io_queue)
         # Connect the signal to the slot so that when the signal is emit, the slot function is called to run.
@@ -666,11 +697,11 @@ class ApplicationWindow(QMainWindow):
         """
         Used to create call request in the Twilio request queue using the given parameters.
 
-        :param number: the destination phone number
-        :param body: the body of the calling
+        :param number: The destination phone number
+        :param body: The body of the calling
         :param t_sid: The twilio sid provided by Twilio.
         :param t_token: The twilio account token
-        :param t_number: the twilio phone number
+        :param t_number: The twilio phone number
         :param priority: The request priority, default is 4. Highest priority is 0.
         """
         request = RequestItem(priority, "call", number, body,
@@ -681,11 +712,11 @@ class ApplicationWindow(QMainWindow):
         """
         Used to create sms request in the Twilio request queue using the given parameters.
 
-        :param number: the destination phone number
-        :param body: the body of the sms
+        :param number: The destination phone number
+        :param body: The body of the sms
         :param t_sid: The twilio sid provided by Twilio.
         :param t_token: The twilio account token
-        :param t_number: the twilio phone number
+        :param t_number: The twilio phone number
         :param priority: The request priority, default is 4. Highest priority is 0.
         """
         request = RequestItem(priority, "SMS", number,
@@ -748,6 +779,10 @@ class ApplicationWindow(QMainWindow):
         self.status_queue.put(NotificationItem(priority, message))  # blocking
 
     def load_settings_ui(self):
+        """
+        Only changes the displayed settings on the GUI.
+        This function will not change the settings stored in memory.
+        """
         try:
             # Load the settings from the conf file, will not handle exceptions.
             # Should be used when it is absolutely safe to do so.
@@ -803,7 +838,9 @@ class ApplicationWindow(QMainWindow):
             return
 
     def load_settings(self):
-        # load the settings from the conf file.
+        """
+        Load the settings from the conf file.
+        """
         try:
             config = ConfigParser()
             config.read("safety_kit.conf")
@@ -894,6 +931,7 @@ class ApplicationWindow(QMainWindow):
                 int(config["alarm"]["voice_volume"]))
             self.voice_volume = int(config["alarm"]["voice_volume"])
 
+            # Generate the admin qr code to be displayed on the main page and the settings page.
             admin_qr_code = QRCode(
                 version=None,
                 error_correction=ERROR_CORRECT_M,
@@ -909,6 +947,8 @@ class ApplicationWindow(QMainWindow):
                 "res/admin_qrcode.png").scaledToWidth(100).scaledToHeight(100)
             self.ui.admin_qrcode.setPixmap(admin_qrcode_pixmap)
             self.ui.admin_qrcode_2.setPixmap(admin_qrcode_pixmap)
+
+            # Change the io settings by giving a new request.
             self.io_queue.put(IOItem(
                 self.disarmed, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
@@ -949,7 +989,9 @@ class ApplicationWindow(QMainWindow):
             self.initialized = True
 
     def lock_settings(self):
-        # lock the whole setting page.
+        """
+        lock the whole setting page.
+        """
         self.ui.unlock_icon.setVisible(False)
         self.ui.unlockSettingsPushButton.setVisible(True)
         self.ui.lockSettingsPushButton.setVisible(False)
@@ -964,6 +1006,9 @@ class ApplicationWindow(QMainWindow):
         self.ui.settingsTab.setTabVisible(6, False)
 
     def unlock_naloxone_settings(self):
+        """
+        Only unlock the naloxone settings.
+        """
         self.ui.unlock_icon.setVisible(True)
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
@@ -979,7 +1024,9 @@ class ApplicationWindow(QMainWindow):
         self.ui.settingsTab.setCurrentIndex(1)
 
     def unlock_all_settings(self):
-        # unlock the whole setting page. Should only be called after the user enter the correct passcode.
+        """
+        Unlock the whole setting page. Should only be called after the user enter the correct passcode.
+        """
         self.ui.unlock_icon.setVisible(True)
         self.ui.unlockSettingsPushButton.setVisible(False)
         self.ui.lockSettingsPushButton.setVisible(True)
@@ -995,11 +1042,14 @@ class ApplicationWindow(QMainWindow):
         self.ui.settingsTab.setCurrentIndex(1)
 
     def check_passcode(self):
-        # First read from the conf file
-        # return values:
-        # 0: wrong passcode
-        # 1: unlock all settings
-        # 2: unlock naloxone settings
+        """
+        First read from the conf file
+        
+        :return:
+        0: wrong passcode
+        1: unlock all settings
+        2: unlock naloxone settings
+        """
         if (self.admin_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.admin_passcode):
             logging.debug("admin passcode detected.")
             return 1
@@ -1013,9 +1063,12 @@ class ApplicationWindow(QMainWindow):
             return 0
 
     def check_passcode_unlock_settings(self):
+        """
+        Determine the correct behavior using the return values from the check_passcode function.
+        """
         passcode_check_result = self.check_passcode()
         if (passcode_check_result == 1):
-            # If passcode is correct, unlock the settings
+            # If admin passcode is correct, unlock the settings
             self.goto_settings()
             self.unlock_all_settings()
 
@@ -1028,6 +1081,9 @@ class ApplicationWindow(QMainWindow):
             self.lock_settings()
 
     def lock_unlock_settings(self):
+        """
+        Determine whether to go to the passcode page depending on whether the passcode has been set.
+        """
         if (self.admin_passcode == str()):
             self.unlock_all_settings()
         else:
@@ -1035,6 +1091,9 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def goto_door_open(self):
+        """
+        Go to the door open page.
+        """
         logging.debug("door opened.")
         self.dashboard_timer.stop()
         if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
@@ -1056,6 +1115,9 @@ class ApplicationWindow(QMainWindow):
             self.create_countdown_worker(10)
 
     def back_pushbutton_pushed(self):
+        """
+        Goes back to the door open page when the device is in emergency mode and the user is in the settings page.
+        """
         self.ui.settingsPushButton.setChecked(False)
         self.ui.settingsPushButton.setEnabled(True)
         self.ui.backPushButton.setVisible(False)
@@ -1063,12 +1125,18 @@ class ApplicationWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(4)
 
     def goto_passcode(self):
+        """
+        Change the GUI to the passcode page when the user presses the unlock settings button.
+        """
         self.ui.passcodeEnterLineEdit.clear()
         self.ui.paramedic_phone_number_lineedit.clear()
         self.ui.passcodeEnterLabel.setText("Enter Passcode")
         self.ui.stackedWidget.setCurrentIndex(3)
 
     def goto_settings(self):
+        """
+        Change the GUI to the settings page when the user presses the icon.
+        """
         self.dashboard_timer.stop()
         self.ui.homePushButton.setChecked(False)
         self.ui.dashboardPushButton.setChecked(False)
@@ -1083,6 +1151,9 @@ class ApplicationWindow(QMainWindow):
             self.unlock_all_settings()
 
     def goto_dashboard(self):
+        """
+        Change the GUI to the dashboard page when the user presses the icon.
+        """
         self.ui.homePushButton.setChecked(False)
         self.ui.dashboardPushButton.setChecked(True)
         self.ui.settingsPushButton.setChecked(False)
@@ -1093,6 +1164,9 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer.start(60000)
 
     def goto_home(self):
+        """
+        Change the GUI to the home page when the user presses the icon.
+        """
         self.dashboard_timer.stop()
         self.ui.homePushButton.setChecked(True)
         self.ui.dashboardPushButton.setChecked(False)
@@ -1102,12 +1176,18 @@ class ApplicationWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def send_sms_using_config_file(self, msg):
-        # Used to contact the admin via the info in the conf file
+        """
+        Used to contact the admin via the info in the conf file
+        """
         self.create_sms_request(self.admin_phone_number, " ".join(
             ["The naloxone safety box at", self.address, "sent the following information:", msg]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_notification(4, "SMS Requested")
 
     def call_911_using_config_file(self):
+        """
+        Use the config file to call emergency service.
+        """
+
         loop = "0"
         voice = "woman"
 
@@ -1122,7 +1202,9 @@ class ApplicationWindow(QMainWindow):
         self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
-        # Use the info on the setting page to make sms test.
+        """
+        Use the info on the setting page to make sms test.
+        """
         phone_number = self.ui.adminPhoneNumberLineEdit.text()
         t_sid = self.ui.twilioSIDLineEdit.text()
         t_token = self.ui.twilioTokenLineEdit.text()
@@ -1133,7 +1215,9 @@ class ApplicationWindow(QMainWindow):
         self.send_notification(4, "SMS Requested")
 
     def call_test_pushbutton_clicked(self):
-        # Use the info on the setting page to make phone call test
+        """
+        Use the info on the setting page to make phone call test
+        """
         phone_number = self.ui.adminPhoneNumberLineEdit.text()
         t_sid = self.ui.twilioSIDLineEdit.text()
         t_token = self.ui.twilioTokenLineEdit.text()
@@ -1146,7 +1230,9 @@ class ApplicationWindow(QMainWindow):
         self.send_notification(4, "Call Requested")
 
     def disarm_door_sensor(self):
-        # Communicate with the IO thread to disable the door sensor
+        """
+        Communicate with the IO thread to disable the door sensor
+        """
         self.ui.disarmPushButton.setVisible(False)
         self.ui.armPushButton.setVisible(True)
         # show notification on taskbar
@@ -1157,7 +1243,9 @@ class ApplicationWindow(QMainWindow):
         logging.info("door sensor disarmed.")
 
     def arm_door_sensor(self):
-        # Communicate with the IO thread to enable the door sensor
+        """
+        Communicate with the IO thread to enable the door sensor
+        """
         self.ui.armPushButton.setVisible(False)
         self.ui.disarmPushButton.setVisible(True)
         self.disarmed = False
@@ -1166,11 +1254,12 @@ class ApplicationWindow(QMainWindow):
         logging.info("door sensor armed.")
 
     def reset_to_default(self):
-        # Used to check whether the door is still opened and door is still armed.
+        """
+        Used to check whether the door is still opened and door is still armed.
+        """
         if (self.door_opened and not self.disarmed):
             self.send_notification(1, "Close Door First")
         else:
-            #
             self.goto_home()
             self.emergency_mode = False
             self.ui.replace_naloxone_button_2.setVisible(False)
@@ -1193,7 +1282,9 @@ class ApplicationWindow(QMainWindow):
             self.send_notification(4, "System Reset")
 
     def stop_countdown_button_pushed(self):
-        # Stop the countdown timer by stop it.
+        """
+        Stop the countdown timer by stop the thread.
+        """
         self.ui.settingsPushButton.setVisible(True)
         self.ui.alarmFrame.setVisible(True)
         self.ui.doorOpenResetPushButton.setVisible(True)
@@ -1209,13 +1300,17 @@ class ApplicationWindow(QMainWindow):
         self.destroy_countdown_worker()
 
     def forgot_password_button_pushed(self):
-        # when the forgot password button is pushed, use the conf file to send
-        # the passcode
+        """
+        When the forgot password button is pushed, use the conf file to send the passcode.
+        """
         self.send_sms_using_config_file(
             " ".join(["Passcode is ", self.admin_passcode]))
 
     @pyqtSlot()
     def update_time_status(self):
+        """
+        Change the task bar time and notifications.
+        """
         time = QDateTime()
         self.ui.time_label.setText(
             time.currentDateTime().toString("h:mm AP"))
@@ -1258,6 +1353,9 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def reporting_handling(self):
+        """
+        Determine whether to send the SMS depending on the admin preferences.
+        """
         if (not self.reporting_queue.empty()):
             self.reporting_event = self.reporting_queue.get()
             self.reporting_cat = self.reporting_event.cat
@@ -1276,6 +1374,10 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def daily_reporting(self):
+        """
+        Send the SMS to the admin daily.
+        It does not guarantee that the message will be delivered as the admin can choose not to receive SMS
+        """
         if (self.naloxone_destroyed):
             self.reporting_queue.put(EventItem(2, "Naloxone Destroyed"))
         if (self.low_account_balance):
@@ -1284,7 +1386,9 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def twilio_sid_validator(self):
-        result = False
+        """
+        Used to verify whether the Twilio SID is valid.
+        """
         if (self.sender().text() == str()):
             self.sender().setStyleSheet(
                 "color: white; background-color: rgb(50,50,50); border-radius:3px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
@@ -1297,6 +1401,9 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def phone_number_validator(self):
+        """
+        Used to verify that whether a phone number is valid.
+        """
         result = False
         if (self.sender().text() == str()):
             self.sender().setStyleSheet(
@@ -1321,6 +1428,10 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def get_passcode_button_pressed(self):
+        """
+        Send the passcode to the paramedics phone number.
+        Also send the paramedic's phone number to the admin.
+        """
         self.create_sms_request(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
             ["The passcode is", self.naloxone_passcode]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
         self.send_sms_using_config_file("Passcode retrieved. The phone number is {}".format(
@@ -1328,36 +1439,58 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot()
     def notify_admin(self):
+        """
+        Send the SMS to the admin to notify them that the paramedics has arrived.
+        """
         self.send_sms_using_config_file("Paramedics arrived!")
 
     @pyqtSlot()
     def test_tts_engine(self):
+        """
+        Say the alarm message by saying the alarm once.
+        """
         self.create_alarm_worker(self.ui.voice_volume_slider.value(), False)
 
     @pyqtSlot()
     def generate_alarm_file(self):
+        """
+        Change the GUI to disable multiple alarm file generation.
+        Create a separate thread to handle the generation.
+        """
         self.create_media_creator(self.ui.alarm_message_lineedit.text())
         self.ui.generate_pushbutton.setEnabled(False)
 
     @pyqtSlot()
     def alarm_file_generated(self):
+        """
+        Change the GUI when the alarm file has been generated.
+        """
         self.ui.generate_pushbutton.setEnabled(True)
         self.send_notification(4, "Alarm Generated")
 
     @pyqtSlot()
     def speak_now(self):
+        """
+        Used to say the alarm when the emergency phone call has failed.
+        """
         self.create_alarm_worker(self.voice_volume, True)
         self.ui.alarmStatusLabel.setText("Speaking")
         self.ui.alarmMutePushButton.setVisible(True)
 
     @pyqtSlot()
     def stop_alarm(self):
+        """
+        Stop the alarm by killing the alarm thread.
+        """
         self.destroy_alarm_worker()
         self.ui.alarmStatusLabel.setText("Muted")
         self.ui.alarmMutePushButton.setVisible(False)
 
     @pyqtSlot()
     def call_emergency_now(self):
+        """
+        Used to call the emergency service.
+        """
         if (self.ui.stopCountdownPushButton.isVisible()):
             self.ui.stopCountdownPushButton.setVisible(False)
             self.destroy_countdown_worker()
@@ -1374,7 +1507,11 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(int)
     def update_emergency_call_countdown(self, sec):
-        # Used to update the GUI for the countdown time.
+        """
+        Used to update the GUI for the countdown time.
+
+        :param sec: The current countdown remaining time.
+        """
         self.ui.emergencyCallCountdownLabel.setText(
             "".join(["T-", str(sec), "s"]))
         if (not self.door_opened):
@@ -1384,6 +1521,13 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(int, str)
     def update_phone_call_gui(self, priority, message):
+        """
+        Update the phone call status ui. This function is only applied to emergency phone calls.
+        The emergency phone call is identified by the priority.
+
+        :param priority: The priority of the phone call.
+        :param message: The message to be displayed.
+        """
         if (priority == 0 and message == "Call Delivered"):
             self.ui.emergencyCallStatusLabel.setText("Successful")
             self.ui.emergencyCallLastCallLabel.setText(
@@ -1398,7 +1542,12 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
-        # Update the door ui of the main window.
+        """
+        Update the door ui of the main window.
+
+        :param door: Whether the door has been opened.
+        :param armed: Whether the door sensor has been armed.
+        """
         logging.debug("{} {}".format(str(door), str(armed)))
         if (not door):
             self.ui.doorClosedLineEdit.setText("Closed")
@@ -1417,7 +1566,12 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(bool, QDate)
     def update_naloxone_ui(self, naloxone_good, naloxone_expiration_date):
-        # update the naloxone of the main window.
+        """
+        Update the naloxone of the main window.
+
+        :param naloxone_good: Whether the naloxone has been destroyed by overheat or expiration.
+        :param naloxone_expiration_date: The naloxone expiration date
+        """
         self.ui.naloxoneExpirationDateLineEdit.setText(
             naloxone_expiration_date.toString("MMM dd, yy"))
         if (naloxone_good and not self.naloxone_destroyed):
@@ -1431,7 +1585,14 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(bool, float, str, QTime)
     def update_server_ui(self, server, balance, currency, server_check_time):
-        # update the server of the main window
+        """
+        Update the server of the main window
+
+        :param server: Whether the Twilio server can be reached.
+        :param balance: The current account balance.
+        :param currency: The currency type for the account balance.
+        :param server_check_time: The last check time of the server status.
+        """
         self.ui.serverCheckLineEdit.setText(
             server_check_time.toString("h:mm AP"))
         self.ui.accountBalanceLineEdit.setText(
@@ -1452,7 +1613,14 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(int, int, int, bool)
     def update_temperature_ui(self, temperature, cpu_temperature, pwm, over_temperature):
-        # update the temperature of the main window.
+        """
+        Update the temperature of the main window.
+
+        :param temperature: The current naloxone temperature.
+        :param cpu_temperature: The current CPU temperature.
+        :param pwm: The current pwm of the CPU fan.
+        :param over_temperature: Whether the naloxone temperature exceeds the max allowed temperature.
+        """
         self.ui.temperatureLineEdit.setText(
             "".join([str(temperature), "℉"]))
         self.ui.cpuTemperatureLineEdit.setText(
@@ -1467,25 +1635,37 @@ class ApplicationWindow(QMainWindow):
 
     @pyqtSlot(int)
     def update_brightness(self, value):
+        """
+        Used to update the displayed screen brightness when the user used the slider on the settings page.
+        """
         self.ui.brightness_label.setText("".join([str(value), "%"]))
         self.backlight.brightness = value
 
     @pyqtSlot(int)
     def update_voice_volume(self, value):
+        """
+        Used to update the voice volume when the user used the slider on the setting page.
+        """
         self.ui.voice_volume_label.setText("".join([str(value), "%"]))
 
     @pyqtSlot(int)
     def update_current_max_temperature(self, value):
-        # Used to update the current temperature selection when the user uses
-        # the slider on the setting page.
+        """
+        Used to update the current temperature selection when the user uses the slider on the setting page.
+        """
         self.ui.CurrentTemperatureLabel.setText("".join([str(value), "℉"]))
 
     @pyqtSlot(int)
     def update_current_threshold_temperature(self, value):
+        """
+        Used to update the displayed CPU fan threshold temperature in the settings.
+        """
         self.ui.current_fan_temperature.setText("".join([str(value), "℉"]))
 
     def save_config_file(self):
-        # save the config file
+        """
+        Save the config file
+        """
         config = ConfigParser()
         config["twilio"] = {
             "twilio_sid": self.ui.twilioSIDLineEdit.text(),
@@ -1522,14 +1702,20 @@ class ApplicationWindow(QMainWindow):
             "alarm_message": self.ui.alarm_message_lineedit.text(),
             "voice_volume": self.ui.voice_volume_slider.value()
         }
+        # Write to a file called "safety_kit.conf"
         with open("safety_kit.conf", "w") as configfile:
             config.write(configfile)
         if (self.ui.enableSMSCheckBox.isChecked() and self.ui.reportSettingsChangedCheckBox.isChecked()):
             self.send_sms_using_config_file("Settings Changed")
+        # Send a notification to the task bar.
         self.send_notification(4, "Settings Saved")
-        self.load_settings()
+        self.load_settings()  # load the settings after saving.
 
     def show_help(self):
+        """
+        This function is used to show the helps
+        It will read the markdown file depending on the page when the help button is pressed.
+        """
         if (self.ui.stackedWidget.currentIndex() == 0):
             logging.debug("home page")
             self.help_dialog = helpDialog(
@@ -1587,6 +1773,10 @@ class ApplicationWindow(QMainWindow):
             self.help_dialog.exec_()
 
     def change_image(self):
+        """
+        This function is used to change the image on the home screen
+        The user can change the file name to put their own images on the home screen.
+        """
         if (self.image_index == 1):
             self.ui.home_frame.setStyleSheet(
                 "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
@@ -1604,10 +1794,14 @@ class ApplicationWindow(QMainWindow):
             self.image_index = 1
 
     def exit_program(self):
-        self.network_timer.stop()
-        self.status_bar_timer.stop()
+        """
+        Call to exit the program.
+        """
+        self.network_timer.stop()  # stop the network timer
+        self.status_bar_timer.stop()  # stop the status bar updater
         self.request_queue.put(RequestItem(
-            0, "exit", str(), str(), str(), str(), str()))
+            0, "exit", str(), str(), str(), str(), str()))  # stop the io thread
+        # stop all other threads
         self.destroy_twilio_worker()
         self.destroy_network_worker()
         self.destroy_io_worker()
