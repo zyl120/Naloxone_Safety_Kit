@@ -2,33 +2,17 @@
 
 ## Introduction
 
-The United States is currently facing an opioid epidemic, with an increasing number of people dying every year due to opioid overdoses. Naloxone is a life-saving drug that can be administered to overdose victims, but it takes time for emergency services to arrive after 911 has been called, which can often be too late. This has led to a need for publicly accessible naloxone to be made available, which is where the proposal for a naloxone safety kit comes in.
-
-The proposed kit aims to provide safe, reliable, and temperature-controlled storage of publicly accessible naloxone, which, when opened, will automatically dial 911 and request medical emergency services. The kit could help minimize deaths due to opioid overdoses by reducing the time it takes for emergency services to reach overdose victims.
-
-Traditionally, naloxone is given in the form of intramuscular injection by professionals. However, in 2015, the first naloxone nasal spray, the Narcan Nasal Spray, was approved by the FDA, making it easier for anyone to provide first aid in case of an overdose. Some organizations, like NaloxBox, have introduced naloxone safety kits to the market after the approval of the nasal spray. However, these kits cannot call emergency services automatically when opened, instead triggering a siren. Moreover, their price is too high to be deployed massively, with each kit costing around $250 to $300 without naloxone.
-
-An internet-connected enclosure for a naloxone safety kit will solve these problems, automatically dialing 911 when opened to report the location of the incident. Such a device will be of lifesaving practical utility in places where recreational drugs are consumed, and the enclosure will be designed to be an artistic reminder of the opioid epidemic. The proposed kit aims to reduce the cost of the whole safety kit while achieving these improvements.
+Our team seeks to address the ongoing opioid epidemic in the United States by designing and fabricating a highly-functional Internet-based naloxone safety kit. The safety kit will provide publicly accessible naloxone, so it is easily accessible in emergency situations. Additionally, the safety kit is designed to automatically call 911 when opened using the Twilio VoIP service. This will reduce the amount of time required for individuals experiencing an opioid overdose to receive medical attention. The kit is wall-mountable, so it can be deployed in almost any space. The safety kit features a sleek and intuitive touchscreen display with labeled buttons and menus for easy navigation. A printed circuit board (PCB) is used to act as an IO hub, connecting the temperature sensor, door sensor, and built-in speakers. The device is designed to store the naloxone at the optimal temperature range to ensure maximum shelf life. This is accomplished by utilizing a temperature sensor and power-efficient fan. The team utilized laser cutting to fabricate the majority of the enclosure. Locking and mounting mechanisms were also manufactured using FDM 3D printing. When the door is opened during a network outage, the device will sound an alarm. Comprehensive software settings are provided, giving users full control over the device, including access to a passcode screen that allows only authorized personnel to modify the settings. Our project offers a potential solution to reduce the number of opioid overdose deaths and improve public health and safety. Using our CAD models, circuit diagrams, source code, and instructions provided for replication, it will be easy and straightforward for others to replicate and deploy safety kits of their own.
 
 ## Structure
 
 - The "main" folder contains the Python program and the converted Qt UI file.
 - The "qt_design" folder contain the Qt creator used in designing the graphical user interface. The .ui file is converted using pyuic5 so that it can be read and used by the Python program. 
+- The "scripts" folder contains installation script and systemd unit file.
 
 ## Quick Start Guide
 
-1. First download the source code in the "main" folder and copy it to a directory on Raspberry Pi.
-2. Wire the circuit according to the installation guide
-3. Use the installation script "install.py" to download and deploy the software on the Raspberry Pi automatically.
-4. Run the main program using
-        
-        python3 main.py
-5. On first start, the program will ask the user to enter configurations. Ensure that all fields in the settings are filled by valid values before apply the changes. It could be difficult to change the values if the wrong values are used.
-6. After applying the changes, the software is up and will continuously monitor the door sensor. 
-
-## Google Drive Link
-
-- Resources: https://docs.google.com/document/d/13WMD5f2MbXh9dzYhwJVPuzVx4vYvntCq/edit?usp=sharing&ouid=102268516998582210648&rtpof=true&sd=true
+Follow the instructions listed in the "Full Version.pdf" located in the "user_manual" folder.
 
 ## Credits
 - Icons in the software come from <a target="_blank" href="https://icons8.com">Icons8</a>

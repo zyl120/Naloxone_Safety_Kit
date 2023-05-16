@@ -1,0 +1,18 @@
+[Unit]
+Description=Safety Kit
+After=multi-user.target
+
+[Service]
+User=username
+Group=usergroup
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/username/.Xauthority
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=QT_QPA_PLATFORMTHEME=qt5ct
+WorkingDirectory=/home/username/Documents/Naloxone_Safety_Kit/main
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/bin/python3 main.py
+
+[Install]
+WantedBy=graphical.target
