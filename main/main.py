@@ -668,6 +668,7 @@ class ApplicationWindow(QMainWindow):
         self.destroy_twilio_worker()
         self.twilio_worker = TwilioWorker(
             self.request_queue, self.status_queue)
+        self.twilio_worker.setPriority(QThread.HighPriority)
         self.twilio_worker.start()
 
     def destroy_io_worker(self):
@@ -691,6 +692,7 @@ class ApplicationWindow(QMainWindow):
         self.io_worker.update_temperature.connect(
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
+        self.io_worker.setPriority(QThread.HighPriority)
         self.io_worker.start()  # will be blocked when no config is sent
 
     def create_call_request(self, number, body, t_sid, t_token, t_number, priority=4):
@@ -734,6 +736,7 @@ class ApplicationWindow(QMainWindow):
         self.network_worker = NetworkWorker(self.twilio_sid, self.twilio_token)
         self.network_worker.update_server.connect(
             self.update_server_ui)
+        self.network_worker.setPriority(QThread.LowPriority)
         self.network_worker.start()
 
     def destroy_media_creator(self):
@@ -746,6 +749,7 @@ class ApplicationWindow(QMainWindow):
         self.destroy_media_creator()
         self.media_creator = MediaCreator(alarm_message)
         self.media_creator.media_created.connect(self.alarm_file_generated)
+        self.media_creator.setPriority(QThread.NormalPriority)
         self.media_creator.start()
 
     def destroy_alarm_worker(self):
@@ -757,6 +761,7 @@ class ApplicationWindow(QMainWindow):
     def create_alarm_worker(self, voice_volume, loop):
         self.destroy_alarm_worker()
         self.alarm_worker = AlarmWorker(voice_volume, loop)
+        self.alarm_worker.setPriority(QThread.HighPriority)
         self.alarm_worker.start()
 
     def destroy_countdown_worker(self):
@@ -773,6 +778,7 @@ class ApplicationWindow(QMainWindow):
             self.update_emergency_call_countdown)
         self.countdown_worker.time_end_signal.connect(
             self.call_emergency_now)
+        self.countdown_worker.setPriority(QThread.HighPriority)
         self.countdown_worker.start()
 
     def send_notification(self, priority, message):
