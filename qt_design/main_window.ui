@@ -1036,7 +1036,7 @@ color: white;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>4</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2166,9 +2166,9 @@ QScrollBar::sub-line:vertical {
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
                 <item>
-                 <widget class="QFrame" name="frame_16">
+                 <widget class="QFrame" name="frame_10">
                   <property name="styleSheet">
-                   <string notr="true">QWidget#frame_16{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                   <string notr="true">QWidget#frame_10{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
                   </property>
                   <property name="frameShape">
                    <enum>QFrame::StyledPanel</enum>
@@ -2176,7 +2176,124 @@ QScrollBar::sub-line:vertical {
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                  <layout class="QHBoxLayout" name="horizontalLayout_23">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_26">
+                     <item>
+                      <widget class="QLabel" name="alarm_source_label">
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">color:white</string>
+                       </property>
+                       <property name="text">
+                        <string>Alarm Source</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_18">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="instr_radio_button">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QRadioButton {
+        color:white;
+}
+QRadioButton:indicator{
+border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25
+}
+QRadioButton::indicator:checked {
+        background-color: white;
+}
+QRadioButton::indicator:unchecked {
+        background-color: rgb(50,50,50);
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Nasal Spray Usage Instruction</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="custom_radio_button">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QRadioButton {
+        color:white;
+}
+QRadioButton:indicator{
+border-width: 1px; border-radius:3px;border-style: solid;height:25;width:25
+}
+QRadioButton::indicator:checked {
+        background-color: white;
+}
+QRadioButton::indicator:unchecked {
+        background-color: rgb(50,50,50);
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Custom</string>
+                       </property>
+                       <property name="checked">
+                        <bool>false</bool>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_2">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_2{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_13">
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_31">
                      <item>
@@ -2190,7 +2307,7 @@ QScrollBar::sub-line:vertical {
                         <string notr="true">color:white</string>
                        </property>
                        <property name="text">
-                        <string>Alarm &amp;Message</string>
+                        <string>Custom &amp;Message</string>
                        </property>
                        <property name="buddy">
                         <cstring>alarm_message_lineedit</cstring>
@@ -2246,6 +2363,122 @@ QScrollBar::sub-line:vertical {
                      </property>
                     </widget>
                    </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_13">
+                     <item>
+                      <widget class="QLabel" name="label_3">
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">color:white</string>
+                       </property>
+                       <property name="text">
+                        <string>Generate Custom Alarm File</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_4">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="generate_pushbutton">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}
+QPushButton:disabled{color: white; background-color: black; border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                       </property>
+                       <property name="text">
+                        <string>Generate</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="test_alarm_pushbutton">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>140</width>
+                         <height>30</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
+QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}</string>
+                       </property>
+                       <property name="text">
+                        <string>Play</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_16">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_16{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_6">
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_47">
                      <item>
@@ -2352,122 +2585,6 @@ QSlider::handle:horizontal {
                        </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QFrame" name="frame_2">
-                  <property name="styleSheet">
-                   <string notr="true">QWidget#frame_2{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_13">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_13">
-                     <item>
-                      <widget class="QLabel" name="label_3">
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">color:white</string>
-                       </property>
-                       <property name="text">
-                        <string>Generate Alarm File</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_4">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="generate_pushbutton">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>140</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>140</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
-QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}
-QPushButton:disabled{color: white; background-color: black; border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
-                       </property>
-                       <property name="text">
-                        <string>Generate</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="test_alarm_pushbutton">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>140</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>140</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <pointsize>16</pointsize>
-                        </font>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">QPushButton{color: white; background-color: rgb(50,50,50); border-radius:15px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;}
-QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius:15px;border-color: rgb(25,25,25);border-width: 1px;border-style: solid;}</string>
-                       </property>
-                       <property name="text">
-                        <string>Play</string>
                        </property>
                       </widget>
                      </item>
