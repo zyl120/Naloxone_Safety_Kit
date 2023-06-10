@@ -995,7 +995,6 @@ class ApplicationWindow(QMainWindow):
             self.disarm_door_sensor()
 
         else:
-            logging.debug("self.initialized: " + str(self.initialized))
             if (not self.emergency_mode):
                 self.ui.homePushButton.setVisible(True)
                 self.ui.dashboardPushButton.setVisible(True)
@@ -1003,6 +1002,7 @@ class ApplicationWindow(QMainWindow):
                 logging.debug("sensor armed")
                 self.arm_door_sensor()
             self.initialized = True
+            logging.debug("self.initialized: " + str(self.initialized))
 
     def lock_settings(self):
         """
@@ -1020,6 +1020,7 @@ class ApplicationWindow(QMainWindow):
         self.ui.settingsTab.setTabVisible(4, False)
         self.ui.settingsTab.setTabVisible(5, False)
         self.ui.settingsTab.setTabVisible(6, False)
+        logging.debug("Settings Locked.")
 
     def unlock_naloxone_settings(self):
         """
