@@ -410,8 +410,10 @@ class NetworkWorker(QThread):
                     False, 0, "USD", self.currentTime.currentTime())
             else:
                 # If the server is connected, get the Twilio account balance.
-                balance = client.api.v2010.balance.fetch().balance
-                currency = client.api.v2010.balance.fetch().currency
+                logging.info("Attempt to get Twilio balance.")
+                balance = client.api.v2010.account.balance.fetch().balance
+                currency = client.api.v2010.account.balance.fetch().currency
+                logging.info("balance="+balance+".")
                 self.update_server.emit(True, float(
                     balance), currency, self.currentTime.currentTime())
                 logging.info("Twilio account balance updated.")
@@ -668,8 +670,8 @@ class ApplicationWindow(QMainWindow):
         self.destroy_twilio_worker()
         self.twilio_worker = TwilioWorker(
             self.request_queue, self.status_queue)
-        self.twilio_worker.setPriority(QThread.HighPriority)
         self.twilio_worker.start()
+        self.twilio_worker.setPriority(QThread.HighPriority)
 
     def destroy_io_worker(self):
         """
@@ -692,8 +694,8 @@ class ApplicationWindow(QMainWindow):
         self.io_worker.update_temperature.connect(
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
-        self.io_worker.setPriority(QThread.HighPriority)
         self.io_worker.start()  # will be blocked when no config is sent
+        self.io_worker.setPriority(QThread.HighPriority)
 
     def create_call_request(self, number, body, t_sid, t_token, t_number, priority=4):
         """
@@ -736,8 +738,8 @@ class ApplicationWindow(QMainWindow):
         self.network_worker = NetworkWorker(self.twilio_sid, self.twilio_token)
         self.network_worker.update_server.connect(
             self.update_server_ui)
-        self.network_worker.setPriority(QThread.LowPriority)
         self.network_worker.start()
+        self.network_worker.setPriority(QThread.LowPriority)
 
     def destroy_media_creator(self):
         if (self.media_creator is not None):
@@ -749,8 +751,8 @@ class ApplicationWindow(QMainWindow):
         self.destroy_media_creator()
         self.media_creator = MediaCreator(alarm_message)
         self.media_creator.media_created.connect(self.alarm_file_generated)
-        self.media_creator.setPriority(QThread.NormalPriority)
         self.media_creator.start()
+        self.media_creator.setPriority(QThread.NormalPriority)
 
     def destroy_alarm_worker(self):
         if (self.alarm_worker is not None):
@@ -761,8 +763,8 @@ class ApplicationWindow(QMainWindow):
     def create_alarm_worker(self, voice_volume, loop):
         self.destroy_alarm_worker()
         self.alarm_worker = AlarmWorker(voice_volume, loop)
-        self.alarm_worker.setPriority(QThread.HighPriority)
         self.alarm_worker.start()
+        self.alarm_worker.setPriority(QThread.HighPriority)
 
     def destroy_countdown_worker(self):
         if (self.countdown_worker is not None):
@@ -778,8 +780,8 @@ class ApplicationWindow(QMainWindow):
             self.update_emergency_call_countdown)
         self.countdown_worker.time_end_signal.connect(
             self.call_emergency_now)
-        self.countdown_worker.setPriority(QThread.HighPriority)
         self.countdown_worker.start()
+        self.countdown_worker.setPriority(QThread.HighPriority)
 
     def send_notification(self, priority, message):
         self.status_queue.put(NotificationItem(priority, message))  # blocking
@@ -1833,7 +1835,7 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    logging.disable(logging.CRITICAL)  # turn off all loggings
-    # logging.basicConfig(format='%(levelname)s:%(message)s',
-    #                    level=logging.DEBUG)
+    #logging.disable(logging.CRITICAL)  # turn off all loggings
+    logging.basicConfig(format='%(levelname)s:%(message)s',
+                        level=logging.DEBUG)
     gui_manager()
