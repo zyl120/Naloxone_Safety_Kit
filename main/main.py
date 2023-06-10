@@ -14,13 +14,16 @@ from qrcode.constants import ERROR_CORRECT_M
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
-from rpi_backlight import Backlight
-from gpiozero import CPUTemperature
-import RPi.GPIO as GPIO
-import adafruit_dht
-import board
-import digitalio
 import logging
+
+if __debug__:
+    from rpi_backlight import Backlight
+    from gpiozero import CPUTemperature
+    import RPi.GPIO as GPIO
+    import adafruit_dht
+    import board
+    import digitalio
+
 
 # Define the gpio pins for the raspberry pi.
 DOOR_PIN = 17
@@ -346,6 +349,7 @@ class AlarmWorker(QThread):
     """
     Used to play the alarm for one time or continuously.
     """
+
     def __init__(self, voice_volume, loop):
         """
         Alarm worker initialization
@@ -528,10 +532,12 @@ class ApplicationWindow(QMainWindow):
         self.message_to_display = str()
         self.message_level = 0
         self.help_dialog = None
-        self.backlight = Backlight()
+        if __debug__:
+            self.backlight = Backlight()
         self.ui = Ui_door_close_main_window()  # From ui file
         self.ui.setupUi(self)
-        self.showFullScreen()
+        if __debug__:
+            self.showFullScreen()
         self.ui.exitPushButton.clicked.connect(self.exit_program)
         self.ui.disarmPushButton.clicked.connect(self.disarm_door_sensor)
         self.ui.armPushButton.clicked.connect(self.arm_door_sensor)
@@ -602,7 +608,8 @@ class ApplicationWindow(QMainWindow):
         QScroller.grabGesture(
             self.ui.admin_scroll_area.viewport(), QScroller.LeftMouseButtonGesture)
 
-        self.ui.brightness_slider.setValue(self.backlight.brightness)
+        if __debug__:
+            self.ui.brightness_slider.setValue(self.backlight.brightness)
 
         # Start timer and thread to handle the GUI update
         self.network_timer = QTimer()
@@ -614,7 +621,8 @@ class ApplicationWindow(QMainWindow):
         self.alarm_worker = None
         self.countdown_worker = None
         self.media_creator = None
-        self.create_io_worker()
+        if __debug__:
+            self.create_io_worker()
         self.create_twilio_worker()
         self.twilio_worker.emergency_call_status.connect(
             self.update_phone_call_gui)
@@ -1052,7 +1060,7 @@ class ApplicationWindow(QMainWindow):
     def check_passcode(self):
         """
         First read from the conf file
-        
+
         :return:
         0: wrong passcode
         1: unlock all settings
@@ -1835,7 +1843,11 @@ def gui_manager():
 
 
 if __name__ == "__main__":
-    #logging.disable(logging.CRITICAL)  # turn off all loggings
-    logging.basicConfig(format='%(levelname)s:%(message)s',
-                        level=logging.DEBUG)
+    if __debug__:
+        logging.disable(logging.CRITICAL)  # turn off all loggings
+
+    else:
+        logging.basicConfig(format='%(levelname)s:%(message)s',
+                            level=logging.DEBUG)
+
     gui_manager()
