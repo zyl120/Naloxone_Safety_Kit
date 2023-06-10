@@ -678,8 +678,8 @@ class ApplicationWindow(QMainWindow):
         self.destroy_twilio_worker()
         self.twilio_worker = TwilioWorker(
             self.request_queue, self.status_queue)
-        self.twilio_worker.start()
-        self.twilio_worker.setPriority(QThread.HighPriority)
+        self.twilio_worker.start(QThread.HighPriority)
+        #self.twilio_worker.setPriority()
 
     def destroy_io_worker(self):
         """
@@ -702,8 +702,60 @@ class ApplicationWindow(QMainWindow):
         self.io_worker.update_temperature.connect(
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
-        self.io_worker.start()  # will be blocked when no config is sent
-        self.io_worker.setPriority(QThread.HighPriority)
+        self.io_worker.start(QThread.HighPriority)  # will be blocked when no config is sent
+
+    def destroy_network_worker(self):
+        if (self.network_worker is not None):
+            self.network_worker.quit()
+            self.network_worker.requestInterruption()
+            self.network_worker.wait()
+
+    def create_network_worker(self):
+        self.destroy_network_worker()
+        self.network_worker = NetworkWorker(self.twilio_sid, self.twilio_token)
+        self.network_worker.update_server.connect(
+            self.update_server_ui)
+        self.network_worker.start(QThread.LowestPriority)
+
+    def destroy_media_creator(self):
+        if (self.media_creator is not None):
+            self.media_creator.quit()
+            self.media_creator.requestInterruption()
+            self.media_creator.wait()
+
+    def create_media_creator(self, alarm_message):
+        self.destroy_media_creator()
+        self.media_creator = MediaCreator(alarm_message)
+        self.media_creator.media_created.connect(self.alarm_file_generated)
+        self.media_creator.start(QThread.NormalPriority)
+
+    def destroy_alarm_worker(self):
+        if (self.alarm_worker is not None):
+            self.alarm_worker.quit()
+            self.alarm_worker.requestInterruption()
+            self.alarm_worker.wait()
+
+    def create_alarm_worker(self, voice_volume, loop):
+        self.destroy_alarm_worker()
+        self.alarm_worker = AlarmWorker(voice_volume, loop)
+        self.alarm_worker.start(QThread.HighPriority)
+
+    def destroy_countdown_worker(self):
+        if (self.countdown_worker is not None):
+            self.countdown_worker.quit()
+            self.countdown_worker.requestInterruption()
+            self.countdown_worker.wait()
+
+    def create_countdown_worker(self, time):
+        logging.debug("creating countdown worker...")
+        self.destroy_countdown_worker()
+        self.countdown_worker = CountDownWorker(time)
+        self.countdown_worker.time_changed_signal.connect(
+            self.update_emergency_call_countdown)
+        self.countdown_worker.time_end_signal.connect(
+            self.call_emergency_now)
+        self.countdown_worker.start()
+        self.countdown_worker.setPriority(QThread.HighPriority)
 
     def create_call_request(self, number, body, t_sid, t_token, t_number, priority=4):
         """
@@ -734,62 +786,6 @@ class ApplicationWindow(QMainWindow):
         request = RequestItem(priority, "SMS", number,
                               body, t_sid, t_token, t_number)
         self.request_queue.put(request)  # blocking
-
-    def destroy_network_worker(self):
-        if (self.network_worker is not None):
-            self.network_worker.quit()
-            self.network_worker.requestInterruption()
-            self.network_worker.wait()
-
-    def create_network_worker(self):
-        self.destroy_network_worker()
-        self.network_worker = NetworkWorker(self.twilio_sid, self.twilio_token)
-        self.network_worker.update_server.connect(
-            self.update_server_ui)
-        self.network_worker.start()
-        self.network_worker.setPriority(QThread.LowPriority)
-
-    def destroy_media_creator(self):
-        if (self.media_creator is not None):
-            self.media_creator.quit()
-            self.media_creator.requestInterruption()
-            self.media_creator.wait()
-
-    def create_media_creator(self, alarm_message):
-        self.destroy_media_creator()
-        self.media_creator = MediaCreator(alarm_message)
-        self.media_creator.media_created.connect(self.alarm_file_generated)
-        self.media_creator.start()
-        self.media_creator.setPriority(QThread.NormalPriority)
-
-    def destroy_alarm_worker(self):
-        if (self.alarm_worker is not None):
-            self.alarm_worker.quit()
-            self.alarm_worker.requestInterruption()
-            self.alarm_worker.wait()
-
-    def create_alarm_worker(self, voice_volume, loop):
-        self.destroy_alarm_worker()
-        self.alarm_worker = AlarmWorker(voice_volume, loop)
-        self.alarm_worker.start()
-        self.alarm_worker.setPriority(QThread.HighPriority)
-
-    def destroy_countdown_worker(self):
-        if (self.countdown_worker is not None):
-            self.countdown_worker.quit()
-            self.countdown_worker.requestInterruption()
-            self.countdown_worker.wait()
-
-    def create_countdown_worker(self, time):
-        logging.debug("creating countdown worker...")
-        self.destroy_countdown_worker()
-        self.countdown_worker = CountDownWorker(time)
-        self.countdown_worker.time_changed_signal.connect(
-            self.update_emergency_call_countdown)
-        self.countdown_worker.time_end_signal.connect(
-            self.call_emergency_now)
-        self.countdown_worker.start()
-        self.countdown_worker.setPriority(QThread.HighPriority)
 
     def send_notification(self, priority, message):
         self.status_queue.put(NotificationItem(priority, message))  # blocking
