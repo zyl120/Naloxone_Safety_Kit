@@ -92,6 +92,18 @@ class RuntimeState:
     low_account_balance: bool = False
     door_opened: bool = False
     emergency_mode: bool = False
+    reporting_cat: int = 0
+    reporting_message: str = str()
+    message_to_display: str = str()
+    message_level: int = 0
+    help_dialog: QDialog = None
+
+
+@dataclass
+class ActiveSettings:
+    """
+    Used as a copy of settings in ram
+    """
     disarmed: bool = False
     sms_reporting: bool = False
     report_door_opened: bool = False
@@ -99,8 +111,6 @@ class RuntimeState:
     report_naloxone_destroyed: bool = False
     report_settings_changed: bool = False
     report_low_balance: bool = False
-    reporting_cat: int = 0
-    reporting_message: str = str()
     max_temp: int = 0
     fan_enabled: bool = True
     fan_threshold_temp: int = 0
@@ -114,13 +124,7 @@ class RuntimeState:
     to_phone_number: str = str()
     message: str = str()
     naloxone_expiration_date: QDate = QDate().currentDate()
-    alarm_message: str = str()
     voice_volume: int = 20
-    message_to_display: str = str()
-    message_level: int = 0
-    help_dialog: QDialog = None
-
-
 
 
 def handleVisibleChanged():
@@ -566,15 +570,15 @@ class ApplicationWindow(QMainWindow):
         self.to_phone_number = str()
         self.message = str()
         self.naloxone_expiration_date = QDate().currentDate()
-        self.alarm_message = str()
         self.voice_volume = 20
+        self.message_to_display = str()
+        self.message_level = 0
+        self.help_dialog = None
+
         self.status_queue = PriorityQueue()
         self.request_queue = PriorityQueue()
         self.reporting_queue = Queue()
         self.io_queue = Queue()
-        self.message_to_display = str()
-        self.message_level = 0
-        self.help_dialog = None
         if __debug__:
             self.backlight = Backlight()
         self.ui = Ui_door_close_main_window()  # From ui file
@@ -982,7 +986,6 @@ class ApplicationWindow(QMainWindow):
                 config["power_management"]["enable_active_cooling"] == "True")
             self.ui.alarm_message_lineedit.setText(
                 config["alarm"]["alarm_message"])
-            self.alarm_message = config["alarm"]["alarm_message"]
             self.ui.voice_volume_slider.setValue(
                 int(config["alarm"]["voice_volume"]))
             self.voice_volume = int(config["alarm"]["voice_volume"])
@@ -1042,7 +1045,8 @@ class ApplicationWindow(QMainWindow):
                 logging.debug("sensor armed")
                 self.arm_door_sensor()
             self.runtime_state.initialized = True
-            logging.debug("self.initialized: " + str(self.runtime_state.initialized))
+            logging.debug("self.initialized: " +
+                          str(self.runtime_state.initialized))
 
     def lock_settings(self):
         """
