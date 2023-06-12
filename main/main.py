@@ -410,8 +410,9 @@ class AlarmWorker(QThread):
         self.voice_volume = voice_volume
         self.loop = loop
         self.use_default_alarm = use_default_alarm
+        self.audio_process = None
         # Set the volume by using pactl.
-        os.system("pactl set-sink-volume 0 {}%".format(self.voice_volume))
+        subprocess.run(["pactl", "set-sink-volume", "0", "{}%".format(self.voice_volume)])
         logging.debug("alarm thread go.")
 
     def run(self):
@@ -423,23 +424,33 @@ class AlarmWorker(QThread):
         if (self.loop):
             # loop until stopped by interruption
             while (True):
-                if (self.isInterruptionRequested()):
-                    break
                 logging.debug("playing")
                 if (self.use_default_alarm):
-                    subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
+                    self.audio_process = subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
                 else:
-                    subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
-                if (self.isInterruptionRequested()):
-                    break
+                    self.audio_process = subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
+
+                while(self.audio_process.poll() is None):
+                    if (self.isInterruptionRequested()):
+                        self.stop()
+                    sleep(0.01)
                 sleep(1)
         else:
             logging.debug("saying alarm now.")
             if (self.use_default_alarm):
-                subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
+                self.audio_process = subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
             else:
-                subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
+                self.audio_process = subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
+            while(self.audio_process.poll() is None):
+                if (self.isInterruptionRequested()):
+                    self.stop()
+                sleep(0.01)
             logging.debug("finish")
+    
+    def stop(self):
+        subprocess.run(["pkill", "mpg123"])
+        logging.debug("audio process terminated")
+        self.terminate()
 
 
 class NetworkWorker(QThread):
@@ -764,7 +775,6 @@ class ApplicationWindow(QMainWindow):
         self.media_creator.start(QThread.NormalPriority)
 
     def destroy_alarm_worker(self):
-        os.system("pkill mpg123")
         if (self.alarm_worker is not None):
             self.alarm_worker.quit()
             self.alarm_worker.requestInterruption()
@@ -789,6 +799,7 @@ class ApplicationWindow(QMainWindow):
             self.update_emergency_call_countdown)
         self.countdown_worker.time_end_signal.connect(
             self.call_emergency_now)
+        self.countdown_worker.time_end_signal.connect(self.speak_now)
         self.countdown_worker.start()
         self.countdown_worker.setPriority(QThread.HighPriority)
 
@@ -1600,11 +1611,9 @@ class ApplicationWindow(QMainWindow):
                 QTime().currentTime().toString("h:mm AP"))
             self.reporting_queue.put(
                 EventItem(1, "Emergency Call Placed Successfully"))
-            self.stop_alarm()
         else:
             self.ui.emergencyCallStatusLabel.setText("Failed")
             self.reporting_queue.put(EventItem(1, "Emergency Call Failed"))
-            self.speak_now()
 
     @pyqtSlot(bool, bool)
     def update_door_ui(self, door, armed):
@@ -1867,6 +1876,7 @@ class ApplicationWindow(QMainWindow):
         self.destroy_io_worker()
         self.destroy_alarm_worker()
         self.destroy_countdown_worker()
+        subprocess.run(["pkill", "mpg123"])
         logging.info("exit program.")
         logging.shutdown()
         self.close()
