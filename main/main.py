@@ -412,7 +412,8 @@ class AlarmWorker(QThread):
         self.use_default_alarm = use_default_alarm
         self.audio_process = None
         # Set the volume by using pactl.
-        subprocess.run(["pactl", "set-sink-volume", "0", "{}%".format(self.voice_volume)])
+        subprocess.run(["pactl", "set-sink-volume", "0",
+                       "{}%".format(self.voice_volume)])
         logging.debug("alarm thread go.")
 
     def run(self):
@@ -426,11 +427,13 @@ class AlarmWorker(QThread):
             while (True):
                 logging.debug("playing")
                 if (self.use_default_alarm):
-                    self.audio_process = subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
+                    self.audio_process = subprocess.Popen(
+                        ["mpg123", "-q", "res/default.mp3"])
                 else:
-                    self.audio_process = subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
+                    self.audio_process = subprocess.Popen(
+                        ["mpg123", "-q", "res/alarm.mp3"])
 
-                while(self.audio_process.poll() is None):
+                while (self.audio_process.poll() is None):
                     if (self.isInterruptionRequested()):
                         self.stop()
                     sleep(0.01)
@@ -438,15 +441,17 @@ class AlarmWorker(QThread):
         else:
             logging.debug("saying alarm now.")
             if (self.use_default_alarm):
-                self.audio_process = subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
+                self.audio_process = subprocess.Popen(
+                    ["mpg123", "-q", "res/default.mp3"])
             else:
-                self.audio_process = subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
-            while(self.audio_process.poll() is None):
+                self.audio_process = subprocess.Popen(
+                    ["mpg123", "-q", "res/alarm.mp3"])
+            while (self.audio_process.poll() is None):
                 if (self.isInterruptionRequested()):
                     self.stop()
                 sleep(0.01)
             logging.debug("finish")
-    
+
     def stop(self):
         subprocess.run(["pkill", "mpg123"])
         logging.debug("audio process terminated")
@@ -479,7 +484,11 @@ class NetworkWorker(QThread):
         try:
             # Check the network connection using system ping.
             client = Client(self.twilio_sid, self.twilio_token)
-            response = os.system(" ".join(["ping -c 1", self.hostname]))
+            ping_command = ["ping", "-c", "1", self.hostname]
+            process = subprocess.Popen(
+                ping_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = process.communicate()
+            response = process.returncode
             if (response == 1):
                 logging.error("Internet failed.")
                 self.update_server.emit(
