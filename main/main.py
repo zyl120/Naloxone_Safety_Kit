@@ -542,12 +542,6 @@ class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
         self.runtime_state = RuntimeState()
-        #self.image_index = 1
-        #self.initialized = False
-        #self.naloxone_destroyed = False
-        self.low_account_balance = False
-        self.door_opened = False
-        self.emergency_mode = False
         self.disarmed = False
         self.sms_reporting = False
         self.report_door_opened = False
@@ -555,8 +549,6 @@ class ApplicationWindow(QMainWindow):
         self.report_naloxone_destroyed = False
         self.report_settings_changed = False
         self.report_low_balance = False
-        self.reporting_cat = 0
-        self.reporting_message = str()
         self.max_temp = 0
         self.fan_enabled = True
         self.fan_threshold_temp = 0
@@ -571,9 +563,6 @@ class ApplicationWindow(QMainWindow):
         self.message = str()
         self.naloxone_expiration_date = QDate().currentDate()
         self.voice_volume = 20
-        self.message_to_display = str()
-        self.message_level = 0
-        self.help_dialog = None
 
         self.status_queue = PriorityQueue()
         self.request_queue = PriorityQueue()
@@ -1038,7 +1027,7 @@ class ApplicationWindow(QMainWindow):
             self.disarm_door_sensor()
 
         else:
-            if (not self.emergency_mode):
+            if (not self.runtime_state.emergency_mode):
                 self.ui.homePushButton.setVisible(True)
                 self.ui.dashboardPushButton.setVisible(True)
             if (not self.runtime_state.initialized):
@@ -1159,9 +1148,9 @@ class ApplicationWindow(QMainWindow):
         self.dashboard_timer.stop()
         if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
             # Only go to the door open page when the user is not changing settings.
-            if (self.help_dialog is not None):
-                self.help_dialog.close()
-            self.emergency_mode = True
+            if (self.runtime_state.help_dialog is not None):
+                self.runtime_state.help_dialog.close()
+            self.runtime_state.emergency_mode = True
             self.reporting_queue.put(EventItem(0, "Door Opened"))
             self.ui.doorOpenResetPushButton.setVisible(False)
             self.ui.homePushButton.setVisible(False)
@@ -1318,11 +1307,11 @@ class ApplicationWindow(QMainWindow):
         """
         Used to check whether the door is still opened and door is still armed.
         """
-        if (self.door_opened and not self.disarmed):
+        if (self.runtime_state.door_opened and not self.disarmed):
             self.send_notification(1, "Close Door First")
         else:
             self.goto_home()
-            self.emergency_mode = False
+            self.runtime_state.emergency_mode = False
             self.ui.replace_naloxone_button_2.setVisible(False)
             self.ui.homePushButton.setVisible(True)
             self.ui.dashboardPushButton.setVisible(True)
@@ -1395,21 +1384,21 @@ class ApplicationWindow(QMainWindow):
                 self.ui.status_bar.setVisible(False)
         else:
             msg = self.status_queue.get()
-            self.message_level = msg.priority
-            self.message_to_display = msg.message
-            self.ui.status_bar.setText(self.message_to_display)
-            if (self.message_level == 0):
+            self.runtime_state.message_level = msg.priority
+            self.runtime_state.message_to_display = msg.message
+            self.ui.status_bar.setText(self.runtime_state.message_to_display)
+            if (self.runtime_state.message_level == 0):
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: red; border-radius:25px;border-color: red;border-width: 1px;border-style: solid;")
-                logging.error(self.message_to_display)
-            elif (self.message_level == 1):
+                logging.error(self.runtime_state.message_to_display)
+            elif (self.runtime_state.message_level == 1):
                 self.ui.status_bar.setStyleSheet(
                     "color: black; background-color: yellow; border-radius:25px;border-color: yellow;border-width: 1px;border-style: solid;")
-                logging.warning(self.message_to_display)
+                logging.warning(self.runtime_state.message_to_display)
             else:
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-                logging.info(self.message_to_display)
+                logging.info(self.runtime_state.message_to_display)
             self.ui.status_bar.setVisible(True)
 
     @pyqtSlot()
@@ -1419,19 +1408,24 @@ class ApplicationWindow(QMainWindow):
         """
         if (not self.reporting_queue.empty()):
             self.reporting_event = self.reporting_queue.get()
-            self.reporting_cat = self.reporting_event.cat
-            self.reporting_message = self.reporting_event.message
-            if (self.sms_reporting and self.report_door_opened and self.reporting_cat == 0):
-                self.send_sms_using_config_file(self.reporting_message)
-            elif (self.sms_reporting and self.report_emergency_called and self.reporting_cat == 1):
-                self.send_sms_using_config_file(self.reporting_message)
-            elif (self.sms_reporting and self.report_naloxone_destroyed and self.reporting_cat == 2):
-                self.send_sms_using_config_file(self.reporting_message)
-            elif (self.sms_reporting and self.report_settings_changed and self.reporting_cat == 3):
-                self.send_sms_using_config_file(self.reporting_message)
-            elif (self.sms_reporting and self.report_low_balance and self.reporting_cat == 4):
-                self.send_sms_using_config_file(self.reporting_message)
-            logging.info(self.reporting_message)
+            self.runtime_state.reporting_cat = self.reporting_event.cat
+            self.runtime_state.reporting_message = self.reporting_event.message
+            if (self.sms_reporting and self.report_door_opened and self.runtime_state.reporting_cat == 0):
+                self.send_sms_using_config_file(
+                    self.runtime_state.reporting_message)
+            elif (self.sms_reporting and self.report_emergency_called and self.runtime_state.reporting_cat == 1):
+                self.send_sms_using_config_file(
+                    self.runtime_state.reporting_message)
+            elif (self.sms_reporting and self.report_naloxone_destroyed and self.runtime_state.reporting_cat == 2):
+                self.send_sms_using_config_file(
+                    self.runtime_state.reporting_message)
+            elif (self.sms_reporting and self.report_settings_changed and self.runtime_state.reporting_cat == 3):
+                self.send_sms_using_config_file(
+                    self.runtime_state.reporting_message)
+            elif (self.sms_reporting and self.report_low_balance and self.runtime_state.reporting_cat == 4):
+                self.send_sms_using_config_file(
+                    self.runtime_state.reporting_message)
+            logging.info(self.runtime_state.reporting_message)
 
     @pyqtSlot()
     def daily_reporting(self):
@@ -1441,7 +1435,7 @@ class ApplicationWindow(QMainWindow):
         """
         if (self.runtime_state.naloxone_destroyed):
             self.reporting_queue.put(EventItem(2, "Naloxone Destroyed"))
-        if (self.low_account_balance):
+        if (self.runtime_state.low_account_balance):
             self.reporting_queue.put(
                 EventItem(4, "Low Twilio Account Balance"))
 
@@ -1575,7 +1569,7 @@ class ApplicationWindow(QMainWindow):
         """
         self.ui.emergencyCallCountdownLabel.setText(
             "".join(["T-", str(sec), "s"]))
-        if (not self.door_opened):
+        if (not self.runtime_state.door_opened):
             # when the door is closed within the countdown time, auto reset it.
             self.stop_countdown_button_pushed()
             self.reset_to_default()
@@ -1613,11 +1607,11 @@ class ApplicationWindow(QMainWindow):
         if (not door):
             self.ui.doorClosedLineEdit.setText("Closed")
             self.ui.doorOpenLabel.setText("Closed")
-            self.door_opened = False
+            self.runtime_state.door_opened = False
         else:
             self.ui.doorClosedLineEdit.setText("Open")
             self.ui.doorOpenLabel.setText("Open")
-            self.door_opened = True
+            self.runtime_state.door_opened = True
         if (armed):
             self.ui.door_sensor_icon.setVisible(False)
             self.ui.doorArmedLineEdit.setText("Armed")
@@ -1662,10 +1656,10 @@ class ApplicationWindow(QMainWindow):
             self.ui.no_connection_icon.setVisible(False)
             self.ui.serverStatusLineEdit.setText("ONLINE")
             if (balance < 5):
-                self.low_account_balance = True
+                self.runtime_state.low_account_balance = True
                 self.ui.low_charge_icon.setVisible(True)
             else:
-                self.low_account_balance = False
+                self.runtime_state.low_account_balance = False
                 self.ui.low_charge_icon.setVisible(False)
         else:
             self.ui.no_connection_icon.setVisible(True)
@@ -1780,59 +1774,51 @@ class ApplicationWindow(QMainWindow):
         """
         if (self.ui.stackedWidget.currentIndex() == 0):
             logging.debug("home page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/HomePage.md")
-            self.help_dialog.exec_()
+
         elif (self.ui.stackedWidget.currentIndex() == 1):
             logging.debug("dashboard page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/DashboardPage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 0):
             logging.debug("security page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/SecurityPage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 1):
             logging.debug("naloxone page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/NaloxonePage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 2):
             logging.debug("twilio page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/TwilioPage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 3):
             logging.debug("emergency page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/EmergencyPage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 4):
             logging.debug("alarm page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/AlarmPage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 5):
             logging.debug("power page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/PowerPage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 2 and self.ui.settingsTab.currentIndex() == 6):
             logging.debug("admin page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/AdminPage.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 3):
             logging.debug("lock screen page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/lock_screen_manual.md")
-            self.help_dialog.exec_()
         elif (self.ui.stackedWidget.currentIndex() == 4):
             logging.debug("door open page")
-            self.help_dialog = helpDialog(
+            self.runtime_state.help_dialog = helpDialog(
                 "../user_manual/gui_manual/DoorOpenPage.md")
-            self.help_dialog.exec_()
+
+        self.runtime_state.help_dialog.exec_()
 
     def change_image(self):
         """
