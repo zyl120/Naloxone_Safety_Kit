@@ -5,6 +5,7 @@ from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 import os
 import sys
+import subprocess
 from queue import Queue, PriorityQueue
 from configparser import ConfigParser
 from ui_main_window import Ui_door_close_main_window
@@ -125,6 +126,7 @@ class ActiveSettings:
     message: str = str()
     naloxone_expiration_date: QDate = QDate().currentDate()
     voice_volume: int = 20
+    use_default_alarm: bool = True
 
 
 def handleVisibleChanged():
@@ -397,7 +399,7 @@ class AlarmWorker(QThread):
     Used to play the alarm for one time or continuously.
     """
 
-    def __init__(self, voice_volume, loop):
+    def __init__(self, voice_volume, loop, use_default_alarm):
         """
         Alarm worker initialization
 
@@ -407,24 +409,36 @@ class AlarmWorker(QThread):
         super(AlarmWorker, self).__init__()
         self.voice_volume = voice_volume
         self.loop = loop
+        self.use_default_alarm = use_default_alarm
         # Set the volume by using pactl.
         os.system("pactl set-sink-volume 0 {}%".format(self.voice_volume))
         logging.debug("alarm thread go.")
 
     def run(self):
+        if (self.use_default_alarm):
+            logging.debug("use_default_alarm is True")
+        else:
+            logging.debug("use_default_alarm is False")
+
         if (self.loop):
             # loop until stopped by interruption
             while (True):
                 if (self.isInterruptionRequested()):
                     break
                 logging.debug("playing")
-                os.system("mpg123 -q res/alarm.mp3")
+                if (self.use_default_alarm):
+                    subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
+                else:
+                    subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
                 if (self.isInterruptionRequested()):
                     break
                 sleep(1)
         else:
             logging.debug("saying alarm now.")
-            os.system("mpg123 -q res/alarm.mp3")
+            if (self.use_default_alarm):
+                subprocess.Popen(["mpg123", "-q", "res/default.mp3"])
+            else:
+                subprocess.Popen(["mpg123", "-q", "res/alarm.mp3"])
             logging.debug("finish")
 
 
@@ -589,6 +603,8 @@ class ApplicationWindow(QMainWindow):
             self.forgot_password_button_pushed)
         self.ui.backPushButton.clicked.connect(self.back_pushbutton_pushed)
         self.ui.alarmMutePushButton.clicked.connect(self.stop_alarm)
+        self.ui.stop_test_alarm_pushbutton.clicked.connect(
+            self.destroy_alarm_worker)
         self.ui.test_alarm_pushbutton.clicked.connect(self.test_tts_engine)
         self.ui.notify_admin_button.clicked.connect(self.notify_admin)
         self.ui.notify_admin_button_2.clicked.connect(self.notify_admin)
@@ -748,14 +764,15 @@ class ApplicationWindow(QMainWindow):
         self.media_creator.start(QThread.NormalPriority)
 
     def destroy_alarm_worker(self):
+        os.system("pkill mpg123")
         if (self.alarm_worker is not None):
             self.alarm_worker.quit()
             self.alarm_worker.requestInterruption()
             self.alarm_worker.wait()
 
-    def create_alarm_worker(self, voice_volume, loop):
+    def create_alarm_worker(self, voice_volume, loop, use_default_alarm):
         self.destroy_alarm_worker()
-        self.alarm_worker = AlarmWorker(voice_volume, loop)
+        self.alarm_worker = AlarmWorker(voice_volume, loop, use_default_alarm)
         self.alarm_worker.start(QThread.HighPriority)
 
     def destroy_countdown_worker(self):
@@ -858,6 +875,10 @@ class ApplicationWindow(QMainWindow):
                 config["admin"]["allow_paramedics"] == "True")
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
+            self.ui.instr_radio_button.setChecked(
+                config["alarm"]["use_default_alarm"] == "True")
+            self.ui.custom_radio_button.setChecked(
+                config["alarm"]["use_default_alarm"] == "False")
             self.ui.alarm_message_lineedit.setText(
                 config["alarm"]["alarm_message"])
             self.ui.voice_volume_slider.setValue(
@@ -954,6 +975,12 @@ class ApplicationWindow(QMainWindow):
             )
             self.ui.enableActiveCoolingCheckBox.setChecked(
                 config["power_management"]["enable_active_cooling"] == "True")
+            self.ui.instr_radio_button.setChecked(
+                config["alarm"]["use_default_alarm"] == "True")
+            self.ui.custom_radio_button.setChecked(
+                config["alarm"]["use_default_alarm"] == "False")
+            self.active_settings.use_default_alarm = (
+                config["alarm"]["use_default_alarm"] == "True")
             self.ui.alarm_message_lineedit.setText(
                 config["alarm"]["alarm_message"])
             self.ui.voice_volume_slider.setValue(
@@ -1486,7 +1513,8 @@ class ApplicationWindow(QMainWindow):
         """
         Say the alarm message by saying the alarm once.
         """
-        self.create_alarm_worker(self.ui.voice_volume_slider.value(), False)
+        self.create_alarm_worker(self.ui.voice_volume_slider.value(
+        ), False, self.ui.instr_radio_button.isChecked())
 
     @pyqtSlot()
     def generate_alarm_file(self):
@@ -1510,7 +1538,8 @@ class ApplicationWindow(QMainWindow):
         """
         Used to say the alarm when the emergency phone call has failed.
         """
-        self.create_alarm_worker(self.active_settings.voice_volume, True)
+        self.create_alarm_worker(
+            self.active_settings.voice_volume, True, self.active_settings.use_default_alarm)
         self.ui.alarmStatusLabel.setText("Speaking")
         self.ui.alarmMutePushButton.setVisible(True)
 
@@ -1737,6 +1766,7 @@ class ApplicationWindow(QMainWindow):
             "brightness": self.ui.brightness_slider.value()
         }
         config["alarm"] = {
+            "use_default_alarm": self.ui.instr_radio_button.isChecked(),
             "alarm_message": self.ui.alarm_message_lineedit.text(),
             "voice_volume": self.ui.voice_volume_slider.value()
         }
