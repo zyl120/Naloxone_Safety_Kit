@@ -81,6 +81,48 @@ class EventItem:
     message: str
 
 
+@dataclass
+class RuntimeState:
+    """
+    Used to record all settings and states in the memory for access
+    """
+    image_index: int = 1
+    initialized: bool = False
+    naloxone_destroyed: bool = False
+    low_account_balance: bool = False
+    door_opened: bool = False
+    emergency_mode: bool = False
+    disarmed: bool = False
+    sms_reporting: bool = False
+    report_door_opened: bool = False
+    report_emergency_called: bool = False
+    report_naloxone_destroyed: bool = False
+    report_settings_changed: bool = False
+    report_low_balance: bool = False
+    reporting_cat: int = 0
+    reporting_message: str = str()
+    max_temp: int = 0
+    fan_enabled: bool = True
+    fan_threshold_temp: int = 0
+    admin_passcode: str = str()
+    naloxone_passcode: str = str()
+    twilio_sid: str = str()
+    twilio_token: str = str()
+    twilio_phone_number: str = str()
+    admin_phone_number: str = str()
+    address: str = str()
+    to_phone_number: str = str()
+    message: str = str()
+    naloxone_expiration_date: QDate = QDate().currentDate()
+    alarm_message: str = str()
+    voice_volume: int = 20
+    message_to_display: str = str()
+    message_level: int = 0
+    help_dialog: QDialog = None
+
+
+
+
 def handleVisibleChanged():
     """
     Used to show windows when virtual keyboard is up.
@@ -495,9 +537,10 @@ class TwilioWorker(QThread):
 class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
-        self.image_index = 1
-        self.initialized = False
-        self.naloxone_destroyed = False
+        self.runtime_state = RuntimeState()
+        #self.image_index = 1
+        #self.initialized = False
+        #self.naloxone_destroyed = False
         self.low_account_balance = False
         self.door_opened = False
         self.emergency_mode = False
@@ -510,7 +553,6 @@ class ApplicationWindow(QMainWindow):
         self.report_low_balance = False
         self.reporting_cat = 0
         self.reporting_message = str()
-        self.reporting_item = None
         self.max_temp = 0
         self.fan_enabled = True
         self.fan_threshold_temp = 0
@@ -680,7 +722,7 @@ class ApplicationWindow(QMainWindow):
         self.twilio_worker = TwilioWorker(
             self.request_queue, self.status_queue)
         self.twilio_worker.start(QThread.HighPriority)
-        #self.twilio_worker.setPriority()
+        # self.twilio_worker.setPriority()
 
     def destroy_io_worker(self):
         """
@@ -703,7 +745,8 @@ class ApplicationWindow(QMainWindow):
         self.io_worker.update_temperature.connect(
             self.update_temperature_ui)
         self.io_worker.update_naloxone.connect(self.update_naloxone_ui)
-        self.io_worker.start(QThread.HighPriority)  # will be blocked when no config is sent
+        # will be blocked when no config is sent
+        self.io_worker.start(QThread.HighPriority)
 
     def destroy_network_worker(self):
         if (self.network_worker is not None):
@@ -880,7 +923,7 @@ class ApplicationWindow(QMainWindow):
                 self.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
-            self.naloxone_destroyed = False
+            self.runtime_state.naloxone_destroyed = False
             self.ui.fan_temperature_slider.setValue(
                 int(config["power_management"]["threshold_temperature"]))
             self.max_temp = int(
@@ -969,7 +1012,7 @@ class ApplicationWindow(QMainWindow):
 
         except Exception as e:
             logging.error(e)
-            self.initialized = False
+            self.runtime_state.initialized = False
             self.send_notification(0, "Config File Missing")
             self.ui.unlock_icon.setVisible(True)
             self.ui.unlockSettingsPushButton.setVisible(False)
@@ -995,11 +1038,11 @@ class ApplicationWindow(QMainWindow):
             if (not self.emergency_mode):
                 self.ui.homePushButton.setVisible(True)
                 self.ui.dashboardPushButton.setVisible(True)
-            if (not self.initialized):
+            if (not self.runtime_state.initialized):
                 logging.debug("sensor armed")
                 self.arm_door_sensor()
-            self.initialized = True
-            logging.debug("self.initialized: " + str(self.initialized))
+            self.runtime_state.initialized = True
+            logging.debug("self.initialized: " + str(self.runtime_state.initialized))
 
     def lock_settings(self):
         """
@@ -1333,12 +1376,12 @@ class ApplicationWindow(QMainWindow):
         else:
             self.ui.wait_icon.setVisible(False)
         if (self.status_queue.empty()):
-            if (not self.initialized):
+            if (not self.runtime_state.initialized):
                 self.ui.status_bar.setVisible(True)
                 self.ui.status_bar.setText("Initial Setup")
                 self.ui.status_bar.setStyleSheet(
                     "color: white; background-color: rgb(50,50,50); border-radius:25px;border-color: rgb(50,50,50);border-width: 1px;border-style: solid;")
-            elif (self.naloxone_destroyed):
+            elif (self.runtime_state.naloxone_destroyed):
                 # only show when status queue is empty
                 self.ui.status_bar.setVisible(True)
                 self.ui.status_bar.setText("Naloxone Destroyed")
@@ -1392,7 +1435,7 @@ class ApplicationWindow(QMainWindow):
         Send the SMS to the admin daily.
         It does not guarantee that the message will be delivered as the admin can choose not to receive SMS
         """
-        if (self.naloxone_destroyed):
+        if (self.runtime_state.naloxone_destroyed):
             self.reporting_queue.put(EventItem(2, "Naloxone Destroyed"))
         if (self.low_account_balance):
             self.reporting_queue.put(
@@ -1588,12 +1631,12 @@ class ApplicationWindow(QMainWindow):
         """
         self.ui.naloxoneExpirationDateLineEdit.setText(
             naloxone_expiration_date.toString("MMM dd, yy"))
-        if (naloxone_good and not self.naloxone_destroyed):
-            self.naloxone_destroyed = False
+        if (naloxone_good and not self.runtime_state.naloxone_destroyed):
+            self.runtime_state.naloxone_destroyed = False
             self.ui.naloxone_destroyed_icon.setVisible(False)
             self.ui.naloxoneStatusLineEdit.setText("OK")
         else:
-            self.naloxone_destroyed = True
+            self.runtime_state.naloxone_destroyed = True
             self.ui.naloxone_destroyed_icon.setVisible(True)
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
 
@@ -1792,21 +1835,21 @@ class ApplicationWindow(QMainWindow):
         This function is used to change the image on the home screen
         The user can change the file name to put their own images on the home screen.
         """
-        if (self.image_index == 1):
+        if (self.runtime_state.image_index == 1):
             self.ui.home_frame.setStyleSheet(
                 "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_1.png) 0 0 0 0 stretch stretch}")
             self.ui.home_text.setText("Safe medication use is key.")
-            self.image_index = 2
-        elif (self.image_index == 2):
+            self.runtime_state.image_index = 2
+        elif (self.runtime_state.image_index == 2):
             self.ui.home_frame.setStyleSheet(
                 "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_2.png) 0 0 0 0 stretch stretch}")
             self.ui.home_text.setText("Recovery is possible.")
-            self.image_index = 3
+            self.runtime_state.image_index = 3
         else:
             self.ui.home_frame.setStyleSheet(
                 "QWidget#home_frame{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;border-image:url(res/main_page_3.png) 0 0 0 0 stretch stretch}")
             self.ui.home_text.setText("Reach out for help.")
-            self.image_index = 1
+            self.runtime_state.image_index = 1
 
     def exit_program(self):
         """
