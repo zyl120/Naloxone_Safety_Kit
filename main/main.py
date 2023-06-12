@@ -542,27 +542,7 @@ class ApplicationWindow(QMainWindow):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
         self.runtime_state = RuntimeState()
-        self.disarmed = False
-        self.sms_reporting = False
-        self.report_door_opened = False
-        self.report_emergency_called = False
-        self.report_naloxone_destroyed = False
-        self.report_settings_changed = False
-        self.report_low_balance = False
-        self.max_temp = 0
-        self.fan_enabled = True
-        self.fan_threshold_temp = 0
-        self.admin_passcode = str()
-        self.naloxone_passcode = str()
-        self.twilio_sid = str()
-        self.twilio_token = str()
-        self.twilio_phone_number = str()
-        self.admin_phone_number = str()
-        self.address = str()
-        self.to_phone_number = str()
-        self.message = str()
-        self.naloxone_expiration_date = QDate().currentDate()
-        self.voice_volume = 20
+        self.active_settings = ActiveSettings()
 
         self.status_queue = PriorityQueue()
         self.request_queue = PriorityQueue()
@@ -749,7 +729,8 @@ class ApplicationWindow(QMainWindow):
 
     def create_network_worker(self):
         self.destroy_network_worker()
-        self.network_worker = NetworkWorker(self.twilio_sid, self.twilio_token)
+        self.network_worker = NetworkWorker(
+            self.active_settings.twilio_sid, self.active_settings.twilio_token)
         self.network_worker.update_server.connect(
             self.update_server_ui)
         self.network_worker.start(QThread.LowestPriority)
@@ -849,7 +830,7 @@ class ApplicationWindow(QMainWindow):
             self.ui.emergencyMessageLineEdit.setText(
                 config["emergency_info"]["emergency_message"])
             self.ui.naloxoneExpirationDateEdit.setSelectedDate(
-                self.naloxone_expiration_date)
+                self.active_settings.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
             self.ui.fan_temperature_slider.setValue(
@@ -894,71 +875,71 @@ class ApplicationWindow(QMainWindow):
             config = ConfigParser()
             config.read("safety_kit.conf")
             self.ui.twilioSIDLineEdit.setText(config["twilio"]["twilio_sid"])
-            self.twilio_sid = config["twilio"]["twilio_sid"]
+            self.active_settings.twilio_sid = config["twilio"]["twilio_sid"]
             self.ui.twilioTokenLineEdit.setText(
                 config["twilio"]["twilio_token"])
-            self.twilio_token = config["twilio"]["twilio_token"]
+            self.active_settings.twilio_token = config["twilio"]["twilio_token"]
             self.ui.twilioPhoneNumberLineEdit.setText(
                 config["twilio"]["twilio_phone_number"])
-            self.twilio_phone_number = config["twilio"]["twilio_phone_number"]
+            self.active_settings.twilio_phone_number = config["twilio"]["twilio_phone_number"]
             self.ui.emergencyPhoneNumberLineEdit.setText(
                 config["emergency_info"]["emergency_phone_number"])
-            self.to_phone_number = config["emergency_info"]["emergency_phone_number"]
+            self.active_settings.to_phone_number = config["emergency_info"]["emergency_phone_number"]
             self.ui.emergencyAddressLineEdit.setText(
                 config["emergency_info"]["emergency_address"])
-            self.address = config["emergency_info"]["emergency_address"]
+            self.active_settings.address = config["emergency_info"]["emergency_address"]
             self.ui.emergencyMessageLineEdit.setText(
                 config["emergency_info"]["emergency_message"])
-            self.message = config["emergency_info"]["emergency_message"]
-            self.naloxone_expiration_date = QDate.fromString(
+            self.active_settings.message = config["emergency_info"]["emergency_message"]
+            self.active_settings.naloxone_expiration_date = QDate.fromString(
                 config["naloxone_info"]["naloxone_expiration_date"])
             self.ui.naloxoneExpirationDateEdit.setSelectedDate(
-                self.naloxone_expiration_date)
+                self.active_settings.naloxone_expiration_date)
             self.ui.temperatureSlider.setValue(
                 int(config["naloxone_info"]["absolute_maximum_temperature"]))
             self.runtime_state.naloxone_destroyed = False
             self.ui.fan_temperature_slider.setValue(
                 int(config["power_management"]["threshold_temperature"]))
-            self.max_temp = int(
+            self.active_settings.max_temp = int(
                 config["naloxone_info"]["absolute_maximum_temperature"])
-            self.fan_threshold_temp = int(
+            self.active_settings.fan_threshold_temp = int(
                 config["power_management"]["threshold_temperature"])
             self.ui.brightness_slider.setValue(
                 int(config["power_management"]["brightness"]))
             self.ui.passcodeLineEdit.setText(config["admin"]["passcode"])
-            self.admin_passcode = config["admin"]["passcode"]
+            self.active_settings.admin_passcode = config["admin"]["passcode"]
             self.ui.naloxonePasscodeLineEdit.setText(
                 config["admin"]["naloxone_passcode"])
-            self.naloxone_passcode = config["admin"]["naloxone_passcode"]
+            self.active_settings.naloxone_passcode = config["admin"]["naloxone_passcode"]
             self.ui.adminPhoneNumberLineEdit.setText(
                 config["admin"]["admin_phone_number"])
-            self.admin_phone_number = config["admin"]["admin_phone_number"]
+            self.active_settings.admin_phone_number = config["admin"]["admin_phone_number"]
             self.ui.enableSMSCheckBox.setChecked(
                 config["admin"]["enable_sms"] == "True")
-            self.sms_reporting = (
+            self.active_settings.sms_reporting = (
                 config["admin"]["enable_sms"] == "True")
             self.ui.reportDoorOpenedCheckBox.setChecked(
                 config["admin"]["report_door_opened"] == "True")
-            self.report_door_opened = (
+            self.active_settings.report_door_opened = (
                 config["admin"]["report_door_opened"] == "True")
             self.ui.reportEmergencyCalledCheckBox.setChecked(
                 config["admin"]["report_emergency_called"] == "True")
-            self.report_emergency_called = (
+            self.active_settings.report_emergency_called = (
                 config["admin"]["report_emergency_called"] == "True")
             self.ui.reportNaloxoneDestroyedCheckBox.setChecked(
                 config["admin"]["report_naloxone_destroyed"] == "True")
-            self.report_naloxone_destroyed = (
+            self.active_settings.report_naloxone_destroyed = (
                 config["admin"]["report_naloxone_destroyed"] == "True"
             )
             self.ui.reportSettingsChangedCheckBox.setChecked(
                 config["admin"]["report_settings_changed"] == "True")
-            self.report_settings_changed = (
+            self.active_settings.report_settings_changed = (
                 config["admin"]["report_settings_changed"] == "True"
             )
             self.ui.reportLowAccountBalanceCheckBox.setChecked(
                 config["admin"]["report_low_account_balance"] == "True"
             )
-            self.report_low_balance = (
+            self.active_settings.report_low_balance = (
                 config["admin"]["report_low_account_balance"] == "True")
             self.ui.allowParamedicsCheckBox.setChecked(
                 config["admin"]["allow_paramedics"] == "True")
@@ -968,7 +949,7 @@ class ApplicationWindow(QMainWindow):
             else:
                 self.ui.paramedic_frame.setVisible(True)
                 self.ui.admin_only_frame.setVisible(False)
-            self.fan_enabled = (
+            self.active_settings.fan_enabled = (
                 config["power_management"]["enable_active_cooling"] == "True"
             )
             self.ui.enableActiveCoolingCheckBox.setChecked(
@@ -977,7 +958,8 @@ class ApplicationWindow(QMainWindow):
                 config["alarm"]["alarm_message"])
             self.ui.voice_volume_slider.setValue(
                 int(config["alarm"]["voice_volume"]))
-            self.voice_volume = int(config["alarm"]["voice_volume"])
+            self.active_settings.voice_volume = int(
+                config["alarm"]["voice_volume"])
 
             # Generate the admin qr code to be displayed on the main page and the settings page.
             admin_qr_code = QRCode(
@@ -998,7 +980,7 @@ class ApplicationWindow(QMainWindow):
 
             # Change the io settings by giving a new request.
             self.io_queue.put(IOItem(
-                self.disarmed, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
+                self.active_settings.disarmed, self.active_settings.max_temp, self.active_settings.fan_enabled, self.active_settings.fan_threshold_temp, self.active_settings.naloxone_expiration_date))
             self.create_network_worker()  # initialize the network checker.
             self.network_timer.start(600000)
 
@@ -1100,10 +1082,10 @@ class ApplicationWindow(QMainWindow):
         1: unlock all settings
         2: unlock naloxone settings
         """
-        if (self.admin_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.admin_passcode):
+        if (self.active_settings.admin_passcode == str() or self.ui.passcodeEnterLineEdit.text() == self.active_settings.admin_passcode):
             logging.debug("admin passcode detected.")
             return 1
-        if (self.ui.passcodeEnterLineEdit.text() == self.naloxone_passcode):
+        if (self.ui.passcodeEnterLineEdit.text() == self.active_settings.naloxone_passcode):
             logging.debug("naloxone passcode detected.")
             return 2
         else:
@@ -1134,7 +1116,7 @@ class ApplicationWindow(QMainWindow):
         """
         Determine whether to go to the passcode page depending on whether the passcode has been set.
         """
-        if (self.admin_passcode == str()):
+        if (self.active_settings.admin_passcode == str()):
             self.unlock_all_settings()
         else:
             self.goto_passcode()
@@ -1146,7 +1128,7 @@ class ApplicationWindow(QMainWindow):
         """
         logging.debug("door opened.")
         self.dashboard_timer.stop()
-        if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.disarmed):
+        if ((self.ui.stackedWidget.currentIndex() == 0 or self.ui.stackedWidget.currentIndex() == 1) and not self.active_settings.disarmed):
             # Only go to the door open page when the user is not changing settings.
             if (self.runtime_state.help_dialog is not None):
                 self.runtime_state.help_dialog.close()
@@ -1197,7 +1179,7 @@ class ApplicationWindow(QMainWindow):
             # door open page.
             self.ui.backPushButton.setVisible(True)
         self.ui.stackedWidget.setCurrentIndex(2)
-        if (self.admin_passcode == str()):
+        if (self.active_settings.admin_passcode == str()):
             self.unlock_all_settings()
 
     def goto_dashboard(self):
@@ -1229,8 +1211,8 @@ class ApplicationWindow(QMainWindow):
         """
         Used to contact the admin via the info in the conf file
         """
-        self.create_sms_request(self.admin_phone_number, " ".join(
-            ["The naloxone safety box at", self.address, "sent the following information:", msg]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+        self.create_sms_request(self.active_settings.admin_phone_number, " ".join(
+            ["The naloxone safety box at", self.active_settings.address, "sent the following information:", msg]), self.active_settings.twilio_sid, self.active_settings.twilio_token, self.active_settings.twilio_phone_number)
         self.send_notification(4, "SMS Requested")
 
     def call_911_using_config_file(self):
@@ -1244,11 +1226,11 @@ class ApplicationWindow(QMainWindow):
         # create the response
         response = VoiceResponse()
         response.say("".join(["Someone has overdosed at ",
-                     self.address, ". ", self.message]), voice=voice, loop=loop)
+                     self.active_settings.address, ". ", self.active_settings.message]), voice=voice, loop=loop)
         logging.debug(str(response))
 
-        self.create_call_request(self.to_phone_number, response, self.twilio_sid,
-                                 self.twilio_token, self.twilio_phone_number, 0)
+        self.create_call_request(self.active_settings.to_phone_number, response, self.active_settings.twilio_sid,
+                                 self.active_settings.twilio_token, self.active_settings.twilio_phone_number, 0)
         self.send_notification(0, "911 Requested")
 
     def sms_test_pushbutton_clicked(self):
@@ -1287,9 +1269,9 @@ class ApplicationWindow(QMainWindow):
         self.ui.armPushButton.setVisible(True)
         # show notification on taskbar
         self.send_notification(1, "Door Sensor OFF")
-        self.disarmed = True
+        self.active_settings.disarmed = True
         self.io_queue.put(IOItem(
-            True, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))  # send request to io queue
+            True, self.active_settings.max_temp, self.active_settings.fan_enabled, self.active_settings.fan_threshold_temp, self.active_settings.naloxone_expiration_date))  # send request to io queue
         logging.info("door sensor disarmed.")
 
     def arm_door_sensor(self):
@@ -1298,16 +1280,16 @@ class ApplicationWindow(QMainWindow):
         """
         self.ui.armPushButton.setVisible(False)
         self.ui.disarmPushButton.setVisible(True)
-        self.disarmed = False
+        self.active_settings.disarmed = False
         self.io_queue.put(IOItem(
-            False, self.max_temp, self.fan_enabled, self.fan_threshold_temp, self.naloxone_expiration_date))
+            False, self.active_settings.max_temp, self.active_settings.fan_enabled, self.active_settings.fan_threshold_temp, self.active_settings.naloxone_expiration_date))
         logging.info("door sensor armed.")
 
     def reset_to_default(self):
         """
         Used to check whether the door is still opened and door is still armed.
         """
-        if (self.runtime_state.door_opened and not self.disarmed):
+        if (self.runtime_state.door_opened and not self.active_settings.disarmed):
             self.send_notification(1, "Close Door First")
         else:
             self.goto_home()
@@ -1354,7 +1336,7 @@ class ApplicationWindow(QMainWindow):
         When the forgot password button is pushed, use the conf file to send the passcode.
         """
         self.send_sms_using_config_file(
-            " ".join(["Passcode is ", self.admin_passcode]))
+            " ".join(["Passcode is ", self.active_settings.admin_passcode]))
 
     @pyqtSlot()
     def update_time_status(self):
@@ -1410,19 +1392,19 @@ class ApplicationWindow(QMainWindow):
             self.reporting_event = self.reporting_queue.get()
             self.runtime_state.reporting_cat = self.reporting_event.cat
             self.runtime_state.reporting_message = self.reporting_event.message
-            if (self.sms_reporting and self.report_door_opened and self.runtime_state.reporting_cat == 0):
+            if (self.active_settings.sms_reporting and self.active_settings.report_door_opened and self.runtime_state.reporting_cat == 0):
                 self.send_sms_using_config_file(
                     self.runtime_state.reporting_message)
-            elif (self.sms_reporting and self.report_emergency_called and self.runtime_state.reporting_cat == 1):
+            elif (self.active_settings.sms_reporting and self.active_settings.report_emergency_called and self.runtime_state.reporting_cat == 1):
                 self.send_sms_using_config_file(
                     self.runtime_state.reporting_message)
-            elif (self.sms_reporting and self.report_naloxone_destroyed and self.runtime_state.reporting_cat == 2):
+            elif (self.active_settings.sms_reporting and self.active_settings.report_naloxone_destroyed and self.runtime_state.reporting_cat == 2):
                 self.send_sms_using_config_file(
                     self.runtime_state.reporting_message)
-            elif (self.sms_reporting and self.report_settings_changed and self.runtime_state.reporting_cat == 3):
+            elif (self.active_settings.sms_reporting and self.active_settings.report_settings_changed and self.runtime_state.reporting_cat == 3):
                 self.send_sms_using_config_file(
                     self.runtime_state.reporting_message)
-            elif (self.sms_reporting and self.report_low_balance and self.runtime_state.reporting_cat == 4):
+            elif (self.active_settings.sms_reporting and self.active_settings.report_low_balance and self.runtime_state.reporting_cat == 4):
                 self.send_sms_using_config_file(
                     self.runtime_state.reporting_message)
             logging.info(self.runtime_state.reporting_message)
@@ -1488,7 +1470,7 @@ class ApplicationWindow(QMainWindow):
         Also send the paramedic's phone number to the admin.
         """
         self.create_sms_request(self.ui.paramedic_phone_number_lineedit.text(), " ".join(
-            ["The passcode is", self.naloxone_passcode]), self.twilio_sid, self.twilio_token, self.twilio_phone_number)
+            ["The passcode is", self.active_settings.naloxone_passcode]), self.active_settings.twilio_sid, self.active_settings.twilio_token, self.active_settings.twilio_phone_number)
         self.send_sms_using_config_file("Passcode retrieved. The phone number is {}".format(
             self.ui.paramedic_phone_number_lineedit.text()))
 
@@ -1528,7 +1510,7 @@ class ApplicationWindow(QMainWindow):
         """
         Used to say the alarm when the emergency phone call has failed.
         """
-        self.create_alarm_worker(self.voice_volume, True)
+        self.create_alarm_worker(self.active_settings.voice_volume, True)
         self.ui.alarmStatusLabel.setText("Speaking")
         self.ui.alarmMutePushButton.setVisible(True)
 
