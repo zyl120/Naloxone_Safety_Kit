@@ -1652,7 +1652,8 @@ class ApplicationWindow(QMainWindow):
         Used to update the displayed screen brightness when the user used the slider on the settings page.
         """
         self.ui.brightness_label.setText("".join([str(value), "%"]))
-        self.backlight.brightness = value
+        if __debug__:
+            self.backlight.brightness = value
 
     @pyqtSlot(int)
     def update_voice_volume(self, value):
