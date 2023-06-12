@@ -131,7 +131,8 @@ class helpDialog(QDialog):
 
         self.setWindowTitle("Help!")
         self.setStyleSheet("background-color:black;")
-        self.showFullScreen()
+        if __debug__:
+            self.showFullScreen()
 
 
 class CountDownWorker(QThread):
