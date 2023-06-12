@@ -1,21 +1,23 @@
+import os
+import sys
+import subprocess
+from configparser import ConfigParser
+from queue import Queue, PriorityQueue
+from time import sleep
+import logging
+
 from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication, QMessageBox, QDialog, QTextEdit, QPushButton, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QTime, QDateTime, QTimer, Qt, QFile, QTextStream, QIODevice
 from PyQt5.QtGui import QPixmap, QGuiApplication, QRegion
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
-import os
-import sys
-import subprocess
-from queue import Queue, PriorityQueue
-from configparser import ConfigParser
-from ui_main_window import Ui_door_close_main_window
-from time import sleep
 from qrcode import QRCode
 from qrcode.constants import ERROR_CORRECT_M
 from gtts import gTTS
 from phonenumbers import parse, is_valid_number
 from dataclasses import dataclass, field
-import logging
+
+from ui_main_window import Ui_door_close_main_window
 
 if __debug__:
     from rpi_backlight import Backlight
