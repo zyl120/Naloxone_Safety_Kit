@@ -1036,7 +1036,7 @@ color: white;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>4</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1333,8 +1333,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>710</width>
-                 <height>380</height>
+                 <width>704</width>
+                 <height>374</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1591,8 +1591,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>710</width>
-                 <height>380</height>
+                 <width>704</width>
+                 <height>374</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1887,8 +1887,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>712</width>
-                 <height>382</height>
+                 <width>706</width>
+                 <height>376</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2160,8 +2160,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>710</width>
-                 <height>380</height>
+                 <width>704</width>
+                 <height>374</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2428,6 +2428,53 @@ QPushButton:disabled{color: white; background-color: black; border-radius:15px;b
                        </property>
                       </widget>
                      </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_16">
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#frame_16{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_27">
+                     <item>
+                      <widget class="QLabel" name="label_7">
+                       <property name="font">
+                        <font>
+                         <pointsize>16</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">color:white</string>
+                       </property>
+                       <property name="text">
+                        <string>Play Selected Alarm Audio</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_21">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
                      <item>
                       <widget class="QPushButton" name="test_alarm_pushbutton">
                        <property name="sizePolicy">
@@ -2464,21 +2511,19 @@ QPushButton:pressed{color: white; background-color: rgb(25,25,25); border-radius
                      </item>
                     </layout>
                    </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QFrame" name="frame_16">
-                  <property name="styleSheet">
-                   <string notr="true">QWidget#frame_16{border-radius: 5px;border-color:rgb(50,50,50);border-width: 1px;border-style: solid;}</string>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                   <item>
+                    <widget class="Line" name="line_12">
+                     <property name="styleSheet">
+                      <string notr="true">color:rgb(50,50,50)</string>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                    </widget>
+                   </item>
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_47">
                      <item>
@@ -2654,8 +2699,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>712</width>
-                 <height>380</height>
+                 <width>704</width>
+                 <height>374</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_22" stretch="0,0,0">
@@ -3068,8 +3113,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>702</width>
-                 <height>636</height>
+                 <width>696</width>
+                 <height>726</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_39">
