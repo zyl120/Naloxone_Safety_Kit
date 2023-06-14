@@ -131,23 +131,6 @@ class ActiveSettings:
     use_default_alarm: bool = True
 
 
-def handleVisibleChanged():
-    """
-    Used to show windows when virtual keyboard is up.
-    control the position of the virtual keyboard
-    """
-    if not QGuiApplication.inputMethod().isVisible():
-        return
-    for w in QGuiApplication.allWindows():
-        if w.metaObject().className() == "QtVirtualKeyboard::InputView":
-            keyboard = w.findChild(QObject, "keyboard")
-            if keyboard is not None:
-                r = w.geometry()
-                r.moveTop(int(keyboard.property("y")))
-                w.setMask(QRegion(r))
-                return
-
-
 class helpDialog(QDialog):
     """
     Used as the full screen window when the user tapping the help button
@@ -1896,6 +1879,23 @@ class ApplicationWindow(QMainWindow):
         self.close()
 
 
+def handleVisibleChanged():
+    """
+    Used to show windows when virtual keyboard is up.
+    control the position of the virtual keyboard
+    """
+    if not QGuiApplication.inputMethod().isVisible():
+        return
+    for w in QGuiApplication.allWindows():
+        if w.metaObject().className() == "QtVirtualKeyboard::InputView":
+            keyboard = w.findChild(QObject, "keyboard")
+            if keyboard is not None:
+                r = w.geometry()
+                r.moveTop(int(keyboard.property("y")))
+                w.setMask(QRegion(r))
+                return
+
+
 def gui_manager():
     os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     # enable high dpi scaling
@@ -1915,7 +1915,7 @@ if __name__ == "__main__":
         logging.disable(logging.CRITICAL)  # turn off all loggings
 
     else:
-        logging.basicConfig(format='%(levelname)s:%(message)s',
+        logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s',
                             level=logging.DEBUG)
 
     gui_manager()
