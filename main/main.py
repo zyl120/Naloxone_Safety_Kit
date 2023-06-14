@@ -252,7 +252,8 @@ class IOWorker(QThread):
         self.old_naloxone_temp_c = self.naloxone_temp_c
         try:
             self.naloxone_temp_c = self.dhtDevice.temperature
-        except Exception:
+        except Exception as e:
+            logging.error(e)
             self.naloxone_temp_c = self.old_naloxone_temp_c
         else:
             if (self.naloxone_temp_c is None):
@@ -494,6 +495,7 @@ class NetworkWorker(QThread):
             self.update_server.emit(
                 False, 0, "USD", self.currentTime.currentTime())
             logging.error("Failed to retrieve Twilio account balance.")
+            logging.error(e)
 
 
 class TwilioWorker(QThread):
@@ -892,6 +894,7 @@ class ApplicationWindow(QMainWindow):
             self.ui.voice_volume_slider.setValue(
                 int(config["alarm"]["voice_volume"]))
         except Exception as e:
+            logging.error(e)
             return
         else:
             return
@@ -1484,6 +1487,7 @@ class ApplicationWindow(QMainWindow):
         try:
             z = parse(self.sender().text(), None)
         except Exception as e:
+            logging.error(e)
             if (self.sender().text() == "911"):
                 result = True
             else:
