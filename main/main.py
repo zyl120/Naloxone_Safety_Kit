@@ -414,8 +414,11 @@ class AlarmWorker(QThread):
         self.use_default_alarm = use_default_alarm
         self.audio_process = None
         # Set the volume by using pactl.
-        subprocess.run(["pactl", "set-sink-volume", "0",
-                       "{}%".format(self.voice_volume)])
+        try:
+            subprocess.run(["pactl", "set-sink-volume", "0",
+                            "{}%".format(self.voice_volume)])
+        except Exception as e:
+            logging.error(e)
         logging.debug("alarm thread go.")
 
     def run(self):
