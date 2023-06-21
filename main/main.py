@@ -413,7 +413,7 @@ class AlarmWorker(QThread):
 
         if (self.loop):
             # loop until stopped by interruption
-            while (True):
+            while (not self.isInterruptionRequested()):
                 logging.debug("playing")
                 if (self.use_default_alarm):
                     self.audio_process = subprocess.Popen(
@@ -424,9 +424,9 @@ class AlarmWorker(QThread):
 
                 while (self.audio_process.poll() is None):
                     if (self.isInterruptionRequested()):
-                        self.stop()
-                    sleep(0.01)
-                sleep(1)
+                        self.audio_process.terminate()
+                        self.audio_process.wait()
+                        break
         else:
             logging.debug("saying alarm now.")
             if (self.use_default_alarm):
@@ -437,14 +437,10 @@ class AlarmWorker(QThread):
                     ["mpg123", "-q", "res/alarm.mp3"])
             while (self.audio_process.poll() is None):
                 if (self.isInterruptionRequested()):
-                    self.stop()
-                sleep(0.01)
+                    self.audio_process.terminate()
+                    self.audio_process.wait()
+                    break
             logging.debug("finish")
-
-    def stop(self):
-        subprocess.run(["pkill", "mpg123"])
-        logging.debug("audio process terminated")
-        self.terminate()
 
 
 class NetworkWorker(QThread):
