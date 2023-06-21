@@ -465,6 +465,7 @@ class NetworkWorker(QThread):
         self.currentTime = QTime()
         self.twilio_sid = twilio_sid
         self.twilio_token = twilio_token
+        self.ipaddr = str()
 
     def run(self):
         try:
@@ -484,18 +485,20 @@ class NetworkWorker(QThread):
                 logging.info("get host ip address.")
                 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 s.connect(("8.8.8.8", 80))
-                ipaddr = s.gethostname()[0]
+                self.ipaddr = s.getsockname()[0]
+                s.close()
+                logging.debug("ip addr recorded")
 
                 logging.info("Attempt to get Twilio balance.")
                 balance = client.api.v2010.account.balance.fetch().balance
                 currency = client.api.v2010.account.balance.fetch().currency
                 logging.info("balance="+balance+".")
                 self.update_server.emit(True, float(
-                    balance), currency, self.currentTime.currentTime(), ipaddr)
+                    balance), currency, self.currentTime.currentTime(), self.ipaddr)
                 logging.info("Twilio account balance updated.")
         except Exception as e:
             self.update_server.emit(
-                False, 0, "USD", self.currentTime.currentTime(), ipaddr)
+                False, 0, "USD", self.currentTime.currentTime(), self.ipaddr)
             logging.error("Failed to retrieve Twilio account balance.")
             logging.error(e)
 
@@ -1661,7 +1664,7 @@ class ApplicationWindow(QMainWindow):
             self.ui.naloxone_destroyed_icon.setVisible(True)
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
 
-    @pyqtSlot(bool, float, str, QTime)
+    @pyqtSlot(bool, float, str, QTime, str)
     def update_server_ui(self, server, balance, currency, server_check_time, ipaddr):
         """
         Update the server of the main window
