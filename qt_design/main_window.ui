@@ -488,7 +488,8 @@ Admin</string>
             <widget class="QLabel" name="ipaddr_label">
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>12</pointsize>
+               <bold>true</bold>
               </font>
              </property>
              <property name="styleSheet">
