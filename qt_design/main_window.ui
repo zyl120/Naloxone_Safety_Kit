@@ -81,7 +81,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="homePage">
        <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,1" columnstretch="1,1">
@@ -478,6 +478,24 @@ Admin</string>
              </property>
              <property name="text">
               <string>N/A</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ipaddr_label">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:white</string>
+             </property>
+             <property name="text">
+              <string>ipaddr_label</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1333,8 +1351,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>704</width>
-                 <height>374</height>
+                 <width>685</width>
+                 <height>336</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1591,8 +1609,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>704</width>
-                 <height>374</height>
+                 <width>714</width>
+                 <height>170</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1887,8 +1905,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>706</width>
-                 <height>376</height>
+                 <width>698</width>
+                 <height>170</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_44">
@@ -2160,8 +2178,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>704</width>
-                 <height>374</height>
+                 <width>710</width>
+                 <height>380</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2733,8 +2751,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>704</width>
-                 <height>374</height>
+                 <width>729</width>
+                 <height>181</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_22" stretch="0,0,0">
@@ -3147,8 +3165,8 @@ QScrollBar::sub-line:vertical {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>696</width>
-                 <height>726</height>
+                 <width>709</width>
+                 <height>636</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_39">

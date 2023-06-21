@@ -5,6 +5,7 @@ from configparser import ConfigParser
 from queue import Queue, PriorityQueue
 from time import sleep
 import logging
+import socket
 
 from PyQt5.QtWidgets import QMainWindow, QScroller, QApplication, QMessageBox, QDialog, QTextEdit, QPushButton, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, QDate, QTime, QDateTime, QTimer, Qt, QFile, QTextStream, QIODevice
@@ -448,7 +449,7 @@ class NetworkWorker(QThread):
     The thread to check the network connection
     Send the network checking result and remaining account balance to to the GUI thread.
     """
-    update_server = pyqtSignal(bool, float, str, QTime)
+    update_server = pyqtSignal(bool, float, str, QTime, str)
 
     def __init__(self, twilio_sid, twilio_token):
         """
@@ -477,19 +478,24 @@ class NetworkWorker(QThread):
             if (response == 1):
                 logging.error("Internet failed.")
                 self.update_server.emit(
-                    False, 0, "USD", self.currentTime.currentTime())
+                    False, 0, "USD", self.currentTime.currentTime(), "-")
             else:
                 # If the server is connected, get the Twilio account balance.
+                logging.info("get host ip address.")
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                s.connect(("8.8.8.8", 80))
+                ipaddr = s.gethostname()[0]
+
                 logging.info("Attempt to get Twilio balance.")
                 balance = client.api.v2010.account.balance.fetch().balance
                 currency = client.api.v2010.account.balance.fetch().currency
                 logging.info("balance="+balance+".")
                 self.update_server.emit(True, float(
-                    balance), currency, self.currentTime.currentTime())
+                    balance), currency, self.currentTime.currentTime(), ipaddr)
                 logging.info("Twilio account balance updated.")
         except Exception as e:
             self.update_server.emit(
-                False, 0, "USD", self.currentTime.currentTime())
+                False, 0, "USD", self.currentTime.currentTime(), ipaddr)
             logging.error("Failed to retrieve Twilio account balance.")
             logging.error(e)
 
@@ -1656,7 +1662,7 @@ class ApplicationWindow(QMainWindow):
             self.ui.naloxoneStatusLineEdit.setText("Destroyed")
 
     @pyqtSlot(bool, float, str, QTime)
-    def update_server_ui(self, server, balance, currency, server_check_time):
+    def update_server_ui(self, server, balance, currency, server_check_time, ipaddr):
         """
         Update the server of the main window
 
@@ -1669,6 +1675,7 @@ class ApplicationWindow(QMainWindow):
             server_check_time.toString("h:mm AP"))
         self.ui.accountBalanceLineEdit.setText(
             " ".join([str(round(balance, 2)), currency]))
+        self.ui.ipaddr_label.setText(ipaddr)
         if (server):
             self.ui.no_connection_icon.setVisible(False)
             self.ui.serverStatusLineEdit.setText("ONLINE")
